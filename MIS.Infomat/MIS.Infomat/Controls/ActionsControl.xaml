@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="MIS.Infomat.Controls.ActionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MIS.Infomat.Controls"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="1024" d:DesignWidth="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" Background="#FF8F0606" />
+        <Grid Grid.Column="1">
+            <Image VerticalAlignment="Top" StretchDirection="DownOnly" Margin="10,25" Height="400" Source="/Content/Logo.png" />
+            <Label Content="2020 &#x00A9; Дерягин В." Foreground="#FFAF0808" FontSize="30" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        </Grid>
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+            <Button x:Name="timesButton" Margin="50, 10" Style="{StaticResource DefaultButton}" Click="TimesButton_Click">
+                <TextBlock Text="Записаться на приём" FontSize="60" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10, 25" />
+            </Button>
+            <Button x:Name="visitsButton" Margin="50, 10" Style="{StaticResource DefaultButton}" Click="VisitsButton_Click">
+                <TextBlock Text="Получить выписанный талон" FontSize="60" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10, 25" />
+            </Button>
+            <Button x:Name="dispanserizationButton" Margin="50, 10" Style="{StaticResource DefaultButton}" Click="DispanserizationButton_Click">
+                <TextBlock Text="Диспансеризация" FontSize="60" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10, 25" />
+            </Button>
+            <Button x:Name="prevButton" Margin="50, 10" Style="{StaticResource DefaultButton}" Click="PrevButton_Click">
+                <TextBlock Text="Назад" FontSize="60" TextAlignment="Center" FontFamily="Georgia" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10, 25" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

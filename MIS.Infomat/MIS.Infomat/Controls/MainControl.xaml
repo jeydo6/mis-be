@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="MIS.Infomat.Controls.MainControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MIS.Infomat.Controls"
+             mc:Ignorable="d" 
+             MouseUp="UserControl_MouseUp"
+             d:DesignHeight="1024" d:DesignWidth="1280">
+    <Grid>
+        <Border Background="Transparent"/>
+        <Grid>
+            <Image VerticalAlignment="Center" Height="512" Margin="10,25" Source="/Content/Logo.png" />
+        </Grid>
+    </Grid>
+</UserControl>

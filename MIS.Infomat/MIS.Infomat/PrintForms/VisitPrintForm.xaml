@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="MIS.Infomat.PrintForms.VisitPrintForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:local="clr-namespace:MIS.Infomat.PrintForms"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="360">
+    <Viewbox>
+        <StackPanel Margin="25, 10">
+            <TextBlock Text="Поликлиника № 3" FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="Запись на приём" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">
+                <Run Text="Дата: " />
+                <Run FontWeight="Bold" Text="{Binding BeginDateTime, StringFormat={}{0:dd MMMM yyyy г.}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" />
+                <LineBreak />
+                <Run Text="Время: " />
+                <Run FontWeight="Bold" Text="{Binding BeginDateTime, StringFormat={}{0:H:mm}}" />
+            </TextBlock>
+            <TextBlock Text="Пациент: " FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding PatientCode}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding PatientName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="Врач:" FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DoctorName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">
+                <Run Text="Кабинет: " />
+                <Run FontWeight="Bold" Text="{Binding RoomCode}" />
+                <LineBreak />
+                <Run Text="Этаж: " />
+                <Run FontWeight="Bold" Text="{Binding RoomFlat}" />
+            </TextBlock>
+            <TextBlock Text="Пожалуйста, не опаздывайте!" FontSize="12" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+        </StackPanel>
+    </Viewbox>
+</UserControl>
