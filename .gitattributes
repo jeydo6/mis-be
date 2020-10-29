@@ -63,6 +63,6 @@
 #*.RTF   diff=astextplain
 
 ###############################################################################
-# Example of a `.gitattributes` file which reclassifies `.sql` files as TSQL:
+# Reclassify `.sql` files as TSQL
 ###############################################################################
 *.sql   linguist-language=TSQL
