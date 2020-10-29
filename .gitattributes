@@ -65,4 +65,4 @@
 ###############################################################################
 # Example of a `.gitattributes` file which reclassifies `.sql` files as TSQL:
 ###############################################################################
-#*.sql   linguist-language=TSQL
+*.sql   linguist-language=TSQL
