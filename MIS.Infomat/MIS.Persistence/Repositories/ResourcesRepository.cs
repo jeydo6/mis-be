@@ -33,6 +33,11 @@ namespace MIS.Persistence.Repositories
             _db = new SqlConnection(connectionString);
         }
 
+        public ResourcesRepository(IDbConnection db)
+        {
+            _db = db;
+        }
+
         public IEnumerable<Resource> ToList()
         {
             IEnumerable<Resource> resources = _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(

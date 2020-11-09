@@ -34,6 +34,11 @@ namespace MIS.Persistence.Repositories
             _db = new SqlConnection(connectionString);
         }
 
+        public DispanserizationsRepository(IDbConnection db)
+        {
+            _db = db;
+        }
+
         public Int32 Create(Dispanserization item)
         {
             Int32 dispanserizationID = _db.QuerySingleAsync<Int32>(

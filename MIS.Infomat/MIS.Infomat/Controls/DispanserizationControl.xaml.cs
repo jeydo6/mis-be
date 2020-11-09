@@ -86,20 +86,14 @@ namespace MIS.Infomat.Controls
 
                     _printService.Print(
                         new DispanserizationPrintForm(dispanserization)
-                    );
-
-                    _mainWindow.PrevWorkflow<ActionsControl>();
+                    ).Wait();
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex, "При записи на диспансеризацию произошла ошибка");
-
-                    button.IsEnabled = false;
-                    if (button.Content is TextBlock textBlock)
-                    {
-                        textBlock.Foreground = Brushes.DarkGray;
-                    }
                 }
+
+                _mainWindow.PrevWorkflow<ActionsControl>();
             }
         }
 

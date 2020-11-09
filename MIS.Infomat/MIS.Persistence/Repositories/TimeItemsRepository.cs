@@ -33,6 +33,11 @@ namespace MIS.Persistence.Repositories
             _db = new SqlConnection(connectionString);
         }
 
+        public TimeItemsRepository(IDbConnection db)
+        {
+            _db = db;
+        }
+
         public IEnumerable<TimeItem> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
         {
             IEnumerable<TimeItem> timeItems = _db.QueryAsync<TimeItem, Resource, Doctor, Specialty, Room, VisitItem, TimeItem>(

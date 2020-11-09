@@ -34,6 +34,11 @@ namespace MIS.Persistence.Repositories
             _db = new SqlConnection(connectionString);
         }
 
+        public VisitItemsRepository(IDbConnection db)
+        {
+            _db = db;
+        }
+
         public Int32 Create(VisitItem visitItem)
         {
             Int32 visitItemID = _db.QuerySingleAsync<Int32>(

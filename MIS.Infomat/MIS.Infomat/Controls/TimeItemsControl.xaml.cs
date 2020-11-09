@@ -118,16 +118,14 @@ namespace MIS.Infomat.Controls
 
                     _printService.Print(
                         new VisitPrintForm(visitItem)
-                    );
-
-                    _mainWindow.PrevWorkflow<ActionsControl>();
+                    ).Wait();
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex, "При записи на приём произошла ошибка");
-
-                    button.Visibility = Visibility.Collapsed;
                 }
+
+                _mainWindow.PrevWorkflow<ActionsControl>();
             }
         }
 

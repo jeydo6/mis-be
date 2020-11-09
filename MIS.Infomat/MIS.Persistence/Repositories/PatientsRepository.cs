@@ -32,6 +32,11 @@ namespace MIS.Persistence.Repositories
             _db = new SqlConnection(connectionString);
         }
 
+        public PatientsRepository(IDbConnection db)
+        {
+            _db = db;
+        }
+
         public Patient First(String code, DateTime birthDate)
         {
             Patient patient = _db.QueryFirstOrDefaultAsync<Patient>(

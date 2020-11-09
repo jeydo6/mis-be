@@ -21,6 +21,7 @@ using MIS.Application.ViewModels;
 using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
+using Serilog;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,9 +80,16 @@ namespace MIS.Infomat.Controls
         {
             if (e.OriginalSource is Button button && button.DataContext is VisitItemViewModel visitItem)
             {
-                _printService.Print(
-                    new VisitPrintForm(visitItem)
-                );
+                try
+                {
+                    _printService.Print(
+                        new VisitPrintForm(visitItem)
+                    ).Wait();
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "При печати записи на приём произошла ошибка");
+                }
 
                 visitItem.IsEnabled = false;
                 button.Visibility = Visibility.Collapsed;
@@ -92,10 +100,18 @@ namespace MIS.Infomat.Controls
         {
             if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserization)
             {
-                _printService.Print(
-                    new DispanserizationPrintForm(dispanserization)
-                );
+                try
+                {
+                    _printService.Print(
+                        new DispanserizationPrintForm(dispanserization)
+                    ).Wait();
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "При печати диспансеризации произошла ошибка");
+                }
 
+                dispanserization.IsEnabled = false;
                 button.Visibility = Visibility.Collapsed;
             }
         }

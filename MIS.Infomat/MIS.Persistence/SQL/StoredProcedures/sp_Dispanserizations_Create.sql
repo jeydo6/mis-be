@@ -1,7 +1,24 @@
 -- =============================================
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--     http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- =============================================
+ 
+-- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
 -- =============================================
+USE MIS
+GO
+
 CREATE PROCEDURE [dbo].[sp_Dispanserizations_Create]
 	 @patientID INT
 	,@beginDate DATETIME
@@ -25,7 +42,7 @@ BEGIN
 
 		DECLARE @tapGUID UNIQUEIDENTIFIER = NEWID()
 		DECLARE @dispanserizationGUID UNIQUEIDENTIFIER = NEWID()
-		DECLARE @testsGroup UNIQUEIDENTIFIER = NEWID()
+		DECLARE @testsGroupGUID UNIQUEIDENTIFIER = NEWID()
 
 		INSERT INTO
 			[dbo].[hlt_TAP] (
@@ -91,7 +108,7 @@ BEGIN
 				,[Flags]
 			)
 		SELECT
-				0
+			 0
 			,0
 			,p.[MKABID]
 			,0
@@ -320,7 +337,7 @@ BEGIN
 			,''
 			,GETDATE()
 			,0
-			,@testsGroup
+			,@testsGroupGUID
 			,0
 			,p.[DATE_BD]
 			,p.[W]
@@ -427,7 +444,7 @@ BEGIN
 			[dbo].[hlt_HealingRoom] AS r ON ds.[rf_HealingRoomID] = r.[HealingRoomID] INNER JOIN
 			[dbo].[lbr_ResearchType] AS tt ON ds.[HLRCode] = tt.[Code]
 		WHERE
-			tg.[GUID] = @testsGroup
+			tg.[GUID] = @testsGroupGUID
 			AND ds.[rf_HealingRoomID] > 0
 			AND ds.[IsParaclinic] = 1
 			AND ds.[rf_ServiceTypeID] = 2
