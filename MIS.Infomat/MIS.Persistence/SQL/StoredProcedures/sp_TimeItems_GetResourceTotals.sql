@@ -16,7 +16,10 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-19>
 -- =============================================
-USE MIS
+USE [MIS]
+GO
+
+DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_GetResourceTotals]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_GetResourceTotals]
@@ -36,7 +39,7 @@ BEGIN
 		[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID] AND r.[rf_PRVSID] > 0
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
-		AND t.[Begin_Time] > '19000101'
+		AND t.[Begin_Time] >= @beginDate
 		AND t.[FlagAccess] BETWEEN 4 AND 7
 		AND (@specialtyID = 0 OR r.[rf_PRVSID] = @specialtyID)
 		AND r.[InTime] = 1

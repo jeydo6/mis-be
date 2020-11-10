@@ -52,7 +52,9 @@ namespace MIS.Application.Queries
                     TimeSpan beginService = DateTime.Parse(si.BeginTime).TimeOfDay;
                     TimeSpan endService = DateTime.Parse(si.EndTime).TimeOfDay;
 
-                    return timeOfDay >= beginService && timeOfDay < endService;
+                    return dayOfWeek == si.DayOfWeek
+                        && timeOfDay >= beginService
+                        && timeOfDay < endService;
                 });
 
                 return await Task.FromResult(isService);

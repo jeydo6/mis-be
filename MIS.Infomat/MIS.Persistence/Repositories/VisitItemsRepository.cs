@@ -28,27 +28,31 @@ namespace MIS.Persistence.Repositories
     public class VisitItemsRepository : IVisitItemsRepository, IDisposable
     {
         private readonly IDbConnection _db;
+        private readonly IDbTransaction _transaction;
 
         public VisitItemsRepository(String connectionString)
         {
             _db = new SqlConnection(connectionString);
+            _transaction = null;
         }
 
-        public VisitItemsRepository(IDbConnection db)
+        public VisitItemsRepository(IDbTransaction transaction)
         {
-            _db = db;
+            _db = transaction.Connection;
+            _transaction = transaction;
         }
 
-        public Int32 Create(VisitItem visitItem)
+        public Int32 Create(VisitItem item)
         {
             Int32 visitItemID = _db.QuerySingleAsync<Int32>(
                 sql: "[dbo].[sp_VisitItems_Create]",
                 param: new
                 {
-                    patientID = visitItem.PatientID,
-                    timeItemID = visitItem.TimeItemID
+                    patientID = item.PatientID,
+                    timeItemID = item.TimeItemID
                 },
-                commandType: CommandType.StoredProcedure
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return visitItemID;
@@ -58,8 +62,6 @@ namespace MIS.Persistence.Repositories
         {
             VisitItem result = _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
                 sql: "[dbo].[sp_VisitItems_Get]",
-                param: new { visitItemID },
-                commandType: CommandType.StoredProcedure,
                 map: (visitItem, timeItem, resource, doctor, specialty, room) =>
                 {
                     visitItem.TimeItem = timeItem;
@@ -70,7 +72,10 @@ namespace MIS.Persistence.Repositories
                     visitItem.TimeItem.VisitItem = visitItem;
 
                     return visitItem;
-                }
+                },
+                param: new { visitItemID },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result.FirstOrDefault();
 
             return result;
@@ -80,8 +85,6 @@ namespace MIS.Persistence.Repositories
         {
             IEnumerable<VisitItem> visitItems = _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem> (
                 sql: "[dbo].[sp_VisitItems_List]",
-                param: new { beginDate, endDate, patientID },
-                commandType: CommandType.StoredProcedure,
                 map: (visitItem, timeItem, resource, doctor, specialty, room) =>
                 {
                     visitItem.TimeItem = timeItem;
@@ -92,7 +95,10 @@ namespace MIS.Persistence.Repositories
                     visitItem.TimeItem.VisitItem = visitItem;
 
                     return visitItem;
-                }
+                },
+                param: new { beginDate, endDate, patientID },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return visitItems;

@@ -27,22 +27,24 @@ namespace MIS.Persistence.Repositories
     public class ResourcesRepository : IResourcesRepository, IDisposable
     {
         private readonly IDbConnection _db;
+        private readonly IDbTransaction _transaction;
 
         public ResourcesRepository(String connectionString)
         {
             _db = new SqlConnection(connectionString);
+            _transaction = null;
         }
 
-        public ResourcesRepository(IDbConnection db)
+        public ResourcesRepository(IDbTransaction transaction)
         {
-            _db = db;
+            _db = transaction.Connection;
+            _transaction = transaction;
         }
 
         public IEnumerable<Resource> ToList()
         {
             IEnumerable<Resource> resources = _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
                 sql: "[dbo].[sp_Resources_List]",
-                commandType: CommandType.StoredProcedure,
                 map: (resource, doctor, specialty, room) =>
                 {
                     resource.Doctor = doctor;
@@ -50,7 +52,9 @@ namespace MIS.Persistence.Repositories
                     resource.Room = room;
 
                     return resource;
-                }
+                },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return resources;
@@ -60,7 +64,6 @@ namespace MIS.Persistence.Repositories
         {
             IEnumerable<Resource> resources = _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
                 sql: "[dbo].[sp_Resources_GetDispanserizations]",
-                commandType: CommandType.StoredProcedure,
                 map: (resource, doctor, specialty, room) =>
                 {
                     resource.Doctor = doctor;
@@ -68,7 +71,9 @@ namespace MIS.Persistence.Repositories
                     resource.Room = room;
 
                     return resource;
-                }
+                },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return resources;

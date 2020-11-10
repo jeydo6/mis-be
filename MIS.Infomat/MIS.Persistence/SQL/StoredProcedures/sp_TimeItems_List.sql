@@ -16,7 +16,10 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-21>
 -- =============================================
-USE MIS
+USE [MIS]
+GO
+
+DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_List]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_List]
@@ -60,7 +63,7 @@ BEGIN
 		[dbo].[hlt_HealingRoom] AS room ON r.[rf_HealingRoomID] = room.[HealingRoomID] AND r.[rf_HealingRoomID] > 0
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
-		AND t.[Begin_Time] > '19000101'
+		AND t.[Begin_Time] >= @beginDate
 		AND t.[FlagAccess] BETWEEN 4 AND 7
 		AND (@resourceID = 0 OR t.[rf_DocPRVDID] = @resourceID)
 		AND r.[InTime] = 1

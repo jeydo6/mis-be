@@ -16,7 +16,10 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-24>
 -- =============================================
-USE MIS
+USE [MIS]
+GO
+
+DROP PROCEDURE IF EXISTS [dbo].[sp_VisitItems_Create]
 GO
 
 CREATE PROCEDURE [dbo].[sp_VisitItems_Create]

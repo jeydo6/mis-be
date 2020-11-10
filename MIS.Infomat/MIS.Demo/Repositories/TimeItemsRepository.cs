@@ -58,7 +58,8 @@ namespace MIS.Demo.Repositories
                     Date = g.Key.Date,
                     TimesCount = g.Count(),
                     VisitsCount = g.Count(ti => ti.VisitItem != null)
-                });
+                })
+                .ToList();
         }
 
         public IEnumerable<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
@@ -73,7 +74,8 @@ namespace MIS.Demo.Repositories
                     Date = g.Key.Date,
                     TimesCount = g.Count(),
                     VisitsCount = g.Count(ti => ti.VisitItem != null)
-                });
+                })
+                .ToList();
         }
     }
 }

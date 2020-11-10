@@ -19,6 +19,9 @@
 USE MIS
 GO
 
+DROP PROCEDURE IF EXISTS [dbo].[sp_Dispanserizations_Create]
+GO
+
 CREATE PROCEDURE [dbo].[sp_Dispanserizations_Create]
 	 @patientID INT
 	,@beginDate DATETIME
@@ -27,7 +30,8 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF NOT EXISTS (
+	IF NOT EXISTS
+	(
 		SELECT
 			*
 		FROM
@@ -38,8 +42,6 @@ BEGIN
 			AND YEAR(d.[dateDispBeg]) = YEAR(@beginDate)
 	)
 	BEGIN
-		BEGIN TRANSACTION
-
 		DECLARE @tapGUID UNIQUEIDENTIFIER = NEWID()
 		DECLARE @dispanserizationGUID UNIQUEIDENTIFIER = NEWID()
 		DECLARE @testsGroupGUID UNIQUEIDENTIFIER = NEWID()
@@ -324,7 +326,7 @@ BEGIN
 				,[rf_TAPID]
 			)
 		SELECT
-				0
+			 0
 			,0
 			,''
 			,0
@@ -533,37 +535,7 @@ BEGIN
 		WHERE
 			tap.[UGUID] = @tapGUID
 
-		DECLARE @expectedCount INT
-		DECLARE @actualCount INT
-		SELECT
-			@expectedCount = COUNT(*)
-		FROM
-			[dbo].[dd_DDService] AS ds
-		WHERE
-			ds.[rf_HealingRoomID] > 0
-			AND ds.[IsParaclinic] = 1
-			AND ds.[rf_ServiceTypeID] = 2
-		SELECT
-			@actualCount = COUNT(*)
-		FROM
-			[dbo].[hlt_DoctorVisitTable] AS v INNER JOIN
-			[dbo].[hlt_TAP] AS t ON v.rf_TAPID = t.TAPID
-		WHERE
-			t.[UGUID] = @tapGUID
-
-		IF (@actualCount = @expectedCount)
-		BEGIN
-			;COMMIT TRANSACTION
-
-			SELECT CAST(IDENT_CURRENT('[dbo].[dd_DDForm]') AS INT) AS [ID]
-		END
-		ELSE
-		BEGIN
-			;ROLLBACK TRANSACTION
-
-			SET @msg = 'Expected count of visits: ''' + CAST(@expectedCount AS VARCHAR(1)) + ''', actual count: ''' + CAST(@actualCount AS VARCHAR(1)) + ''''
-			;THROW 51000, @msg, 16
-		END
+		SELECT CAST(IDENT_CURRENT('[dbo].[dd_DDForm]') AS INT) AS [ID]
 	END
 	ELSE
 	BEGIN

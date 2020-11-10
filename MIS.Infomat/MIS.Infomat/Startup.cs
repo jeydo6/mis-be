@@ -63,7 +63,7 @@ namespace MIS.Infomat
 
         private IServiceCollection ConfigureLive(IServiceCollection services)
         {
-            services.AddTransient<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 3, 15)));
+            services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
 
             services.AddTransient<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
@@ -76,10 +76,10 @@ namespace MIS.Infomat
 
         private IServiceCollection ConfigureDemo(IServiceCollection services)
         {
-            DefaultDateTimeProvider dateTimeProvider = new DefaultDateTimeProvider(new DateTime(2018, 3, 15));
+            CurrentDateTimeProvider dateTimeProvider = new CurrentDateTimeProvider();
             DemoDataContext dataContext = new DemoDataContext(dateTimeProvider);
 
-            services.AddTransient<IDateTimeProvider, DefaultDateTimeProvider>(sp => dateTimeProvider);
+            services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
             services.AddTransient<IPatientsRepository, Demo.PatientsRepository>(sp => new Demo.PatientsRepository(dateTimeProvider, dataContext));
             services.AddTransient<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
             services.AddTransient<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));

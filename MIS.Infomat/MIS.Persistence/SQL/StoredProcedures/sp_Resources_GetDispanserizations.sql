@@ -19,6 +19,9 @@
 USE [MIS]
 GO
 
+DROP PROCEDURE IF EXISTS [dbo].[sp_Resources_GetDispanserizations]
+GO
+
 CREATE PROCEDURE [dbo].[sp_Resources_GetDispanserizations]
 AS
 BEGIN

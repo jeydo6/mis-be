@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIS.Demo", "MIS.Demo\MIS.De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIS.Application", "MIS.Application\MIS.Application.csproj", "{533F0F81-C78B-4457-8E1E-1B33FBBD4148}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIS.Tests", "MIS.Tests\MIS.Tests.csproj", "{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{533F0F81-C78B-4457-8E1E-1B33FBBD4148}.Demo|Any CPU.Build.0 = Debug|Any CPU
 		{533F0F81-C78B-4457-8E1E-1B33FBBD4148}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533F0F81-C78B-4457-8E1E-1B33FBBD4148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}.Demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}.Demo|Any CPU.Build.0 = Debug|Any CPU
+		{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

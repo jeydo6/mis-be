@@ -28,15 +28,18 @@ namespace MIS.Persistence.Repositories
     public class DispanserizationsRepository : IDispanserizationsRepository, IDisposable
     {
         private readonly IDbConnection _db;
+        private readonly IDbTransaction _transaction;
 
         public DispanserizationsRepository(String connectionString)
         {
             _db = new SqlConnection(connectionString);
+            _transaction = null;
         }
 
-        public DispanserizationsRepository(IDbConnection db)
+        public DispanserizationsRepository(IDbTransaction transaction)
         {
-            _db = db;
+            _db = transaction.Connection;
+            _transaction = transaction;
         }
 
         public Int32 Create(Dispanserization item)
@@ -49,7 +52,8 @@ namespace MIS.Persistence.Repositories
                     beginDate = item.BeginDate,
                     endDate = item.EndDate
                 },
-                commandType: CommandType.StoredProcedure
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return dispanserizationID;
@@ -61,8 +65,6 @@ namespace MIS.Persistence.Repositories
 
             Dispanserization result = _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
                 sql: "[dbo].[sp_Dispanserizations_Get]",
-                param: new { dispanserizationID },
-                commandType: CommandType.StoredProcedure,
                 map: (dispanserization, analysis) =>
                 {
                     if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
@@ -75,7 +77,10 @@ namespace MIS.Persistence.Repositories
                     value.Analyses.Add(analysis);
 
                     return dispanserization;
-                }
+                },
+                param: new { dispanserizationID },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result
             .Distinct()
             .FirstOrDefault();
@@ -89,8 +94,6 @@ namespace MIS.Persistence.Repositories
 
             IEnumerable<Dispanserization> dispanserizations = _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
                 sql: "[dbo].[sp_Dispanserizations_List]",
-                param: new { patientID },
-                commandType: CommandType.StoredProcedure,
                 map: (dispanserization, analysis) =>
                 {
                     if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
@@ -102,7 +105,10 @@ namespace MIS.Persistence.Repositories
 
                     value.Analyses.Add(analysis);
                     return value;
-                }
+                },
+                param: new { patientID },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result
             .Distinct()
             .ToList();

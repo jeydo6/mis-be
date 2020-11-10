@@ -19,6 +19,9 @@
 USE MIS
 GO
 
+DROP PROCEDURE IF EXISTS [dbo].[sp_Patients_Get]
+GO
+
 CREATE PROCEDURE [dbo].[sp_Patients_Get]
 	@patientID INT
 AS

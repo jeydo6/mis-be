@@ -19,6 +19,9 @@
 USE MIS
 GO
 
+DROP PROCEDURE IF EXISTS [dbo].[sp_Dispanserizations_Get]
+GO
+
 CREATE PROCEDURE [dbo].[sp_Dispanserizations_Get]
 	@dispanserizationID INT
 AS

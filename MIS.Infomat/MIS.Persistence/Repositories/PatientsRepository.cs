@@ -26,15 +26,18 @@ namespace MIS.Persistence.Repositories
     public class PatientsRepository : IPatientsRepository, IDisposable
     {
         private readonly IDbConnection _db;
+        private readonly IDbTransaction _transaction;
 
         public PatientsRepository(String connectionString)
         {
             _db = new SqlConnection(connectionString);
+            _transaction = null;
         }
 
-        public PatientsRepository(IDbConnection db)
+        public PatientsRepository(IDbTransaction transaction)
         {
-            _db = db;
+            _db = transaction.Connection;
+            _transaction = transaction;
         }
 
         public Patient First(String code, DateTime birthDate)
@@ -42,7 +45,8 @@ namespace MIS.Persistence.Repositories
             Patient patient = _db.QueryFirstOrDefaultAsync<Patient>(
                 sql: "[dbo].[sp_Patients_First]",
                 param: new { code, birthDate },
-                commandType: CommandType.StoredProcedure
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return patient;
@@ -53,7 +57,8 @@ namespace MIS.Persistence.Repositories
             Patient patient = _db.QueryFirstOrDefaultAsync<Patient>(
                 sql: "[dbo].[sp_Patients_Get]",
                 param: new { patientID },
-                commandType: CommandType.StoredProcedure
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return patient;

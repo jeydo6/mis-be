@@ -19,6 +19,9 @@
 USE MIS
 GO
 
+DROP PROCEDURE IF EXISTS [dbo].[sp_Patients_First]
+GO
+
 CREATE PROCEDURE [dbo].[sp_Patients_First]
 	@code NVARCHAR(8),
 	@birthDate DATETIME

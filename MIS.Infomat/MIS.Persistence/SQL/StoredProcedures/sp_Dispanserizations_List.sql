@@ -19,6 +19,9 @@
 USE MIS
 GO
 
+DROP PROCEDURE IF EXISTS [dbo].[sp_Dispanserizations_List]
+GO
+
 CREATE PROCEDURE [dbo].[sp_Dispanserizations_List]
 	@patientID INT
 AS

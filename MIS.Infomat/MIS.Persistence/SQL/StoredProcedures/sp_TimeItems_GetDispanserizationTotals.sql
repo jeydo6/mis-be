@@ -16,7 +16,10 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-24>
 -- =============================================
-USE MIS
+USE [MIS]
+GO
+
+DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_GetDispanserizationTotals]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_GetDispanserizationTotals]
@@ -40,7 +43,7 @@ BEGIN
 		[dbo].[dd_DDService] AS ds ON r.[rf_HealingRoomID] = ds.[rf_HealingRoomID]
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
-		AND t.[Begin_Time] > '19000101'
+		AND t.[Begin_Time] >= @beginDate
 		AND t.[FlagAccess] BETWEEN 4 AND 7
 		AND r.[InTime] = 1
 		AND ds.[rf_HealingRoomID] > 0

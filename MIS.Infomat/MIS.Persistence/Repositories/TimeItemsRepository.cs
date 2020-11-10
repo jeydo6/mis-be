@@ -27,23 +27,24 @@ namespace MIS.Persistence.Repositories
     public class TimeItemsRepository : ITimeItemsRepository, IDisposable
     {
         private readonly IDbConnection _db;
+        private readonly IDbTransaction _transaction;
 
         public TimeItemsRepository(String connectionString)
         {
             _db = new SqlConnection(connectionString);
+            _transaction = null;
         }
 
-        public TimeItemsRepository(IDbConnection db)
+        public TimeItemsRepository(IDbTransaction transaction)
         {
-            _db = db;
+            _db = transaction.Connection;
+            _transaction = transaction;
         }
 
         public IEnumerable<TimeItem> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
         {
             IEnumerable<TimeItem> timeItems = _db.QueryAsync<TimeItem, Resource, Doctor, Specialty, Room, VisitItem, TimeItem>(
                 sql: "[dbo].[sp_TimeItems_List]",
-                param: new { beginDate, endDate, resourceID },
-                commandType: CommandType.StoredProcedure,
                 map: (timeItem, resource, doctor, specialty, room, visitItem) =>
                 {
                     timeItem.Resource = resource;
@@ -57,7 +58,10 @@ namespace MIS.Persistence.Repositories
                     }
 
                     return timeItem;
-                }
+                },
+                param: new { beginDate, endDate, resourceID },
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return timeItems;
@@ -68,7 +72,8 @@ namespace MIS.Persistence.Repositories
             IEnumerable<TimeItemTotal> totals = _db.QueryAsync<TimeItemTotal>(
                 sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
                 param: new { beginDate, endDate, specialtyID },
-                commandType: CommandType.StoredProcedure
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return totals;
@@ -79,7 +84,8 @@ namespace MIS.Persistence.Repositories
             IEnumerable<TimeItemTotal> totals = _db.QueryAsync<TimeItemTotal>(
                 sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
                 param: new { beginDate, endDate },
-                commandType: CommandType.StoredProcedure
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction
             ).Result;
 
             return totals;

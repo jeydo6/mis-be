@@ -39,23 +39,23 @@ namespace MIS.Demo.Repositories
             _dataContext = dataContext;
         }
 
-        public Int32 Create(VisitItem visitItem)
+        public Int32 Create(VisitItem item)
         {
-            if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == visitItem.TimeItemID) != null)
+            if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == item.TimeItemID) != null)
             {
                 throw new Exception("Visit item already exists!");
             }
 
-            visitItem.TimeItem = _dataContext.TimeItems.FirstOrDefault(ti => ti.ID == visitItem.TimeItemID);
-            visitItem.TimeItem.VisitItem = visitItem;
+            item.TimeItem = _dataContext.TimeItems.FirstOrDefault(ti => ti.ID == item.TimeItemID);
+            item.TimeItem.VisitItem = item;
 
-            visitItem.Patient = _dataContext.Patients.FirstOrDefault(p => p.ID == visitItem.PatientID);
+            item.Patient = _dataContext.Patients.FirstOrDefault(p => p.ID == item.PatientID);
 
-            visitItem.ID = _dataContext.VisitItems.Count > 0 ? _dataContext.VisitItems.Max(vi => vi.ID) + 1 : 1;
+            item.ID = _dataContext.VisitItems.Count > 0 ? _dataContext.VisitItems.Max(vi => vi.ID) + 1 : 1;
 
-            _dataContext.VisitItems.Add(visitItem);
+            _dataContext.VisitItems.Add(item);
 
-            return visitItem.ID;
+            return item.ID;
         }
 
         public VisitItem Get(Int32 visitItemID)

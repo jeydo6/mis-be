@@ -22,7 +22,7 @@ namespace MIS.Domain.Repositories
 {
     public interface IVisitItemsRepository
     {
-        Int32 Create(VisitItem visitItem);
+        Int32 Create(VisitItem item);
 
         VisitItem Get(Int32 visitItemID);
 
