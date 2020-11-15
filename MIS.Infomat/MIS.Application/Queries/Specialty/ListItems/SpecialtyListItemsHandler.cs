@@ -100,18 +100,17 @@ namespace MIS.Application.Queries
 
                 if (dispanserization != null)
                 {
-                    dispanserizationViewModel.IsEnabled = true;
                     dispanserizationViewModel.Resources
                         .Select(ri =>
                         {
-                            ri.Dates = ri.Dates.Except(
-                                ri.Dates.Where(di => di.Date < dispanserization.BeginDate)
-                            ).ToList();
-                            ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled);
+                            ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate);
+                            ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled) && ri.Dates.All(di => !di.IsBlocked);
+                            ri.IsBlocked = ri.Dates.Any(di => di.IsBlocked);
 
                             return ri;
                         })
                         .ToList();
+                    dispanserizationViewModel.IsEnabled = dispanserizationViewModel.Resources.Any(ri => ri.IsEnabled);
                 }
                 else
                 {

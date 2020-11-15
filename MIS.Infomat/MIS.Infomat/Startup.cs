@@ -14,16 +14,15 @@
  */
 #endregion
 
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Demo.DataContexts;
+using MIS.Domain.Configs;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
-using MIS.Infomat.Services;
-using System;
-using MIS.Demo.DataContexts;
-using MediatR;
 using MIS.Domain.Services;
-using MIS.Domain.Configs;
+using MIS.Infomat.Services;
 
 namespace MIS.Infomat
 {

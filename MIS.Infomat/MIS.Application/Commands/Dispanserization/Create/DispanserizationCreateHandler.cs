@@ -56,7 +56,7 @@ namespace MIS.Application.Commands
             DispanserizationViewModel viewModel = new DispanserizationViewModel
             {
                 BeginDate = dispanserization.BeginDate,
-                Today = _dateTimeProvider.Now.Date,
+                Now = _dateTimeProvider.Now,
                 PatientCode = request.PatientCode,
                 PatientName = request.PatientName,
                 IsClosed = dispanserization.IsClosed,

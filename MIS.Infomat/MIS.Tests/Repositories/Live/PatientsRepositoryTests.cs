@@ -4,7 +4,6 @@ using MIS.Persistence.Repositories;
 using MIS.Tests.Fixtures.Live;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace MIS.Tests.Repositories.Live

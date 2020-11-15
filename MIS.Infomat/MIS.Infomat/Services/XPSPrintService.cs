@@ -36,34 +36,34 @@ namespace MIS.Infomat.Services
                     PrintQueue pq = ps.DefaultPrintQueue;
                     PageMediaSize pageMediaSize = pq.UserPrintTicket.PageMediaSize;
 
-                    FixedDocument doc = new FixedDocument();
+                    FixedDocument document = new FixedDocument();
 
                     if (pageMediaSize.Width.HasValue && pageMediaSize.Height.HasValue)
                     {
-                        doc.DocumentPaginator.PageSize = new Size(pageMediaSize.Width.Value, pageMediaSize.Height.Value);
+                        document.DocumentPaginator.PageSize = new Size(pageMediaSize.Width.Value, pageMediaSize.Height.Value);
                     }
-
-                    FixedPage page = new FixedPage()
-                    {
-                        Width = doc.DocumentPaginator.PageSize.Width,
-                        Height = doc.DocumentPaginator.PageSize.Height,
-                        HorizontalAlignment = HorizontalAlignment.Center
-                    };
 
                     if (userControl.Content is Viewbox viewBox)
                     {
-                        viewBox.Width = page.Width;
+                        viewBox.Width = document.DocumentPaginator.PageSize.Width;
                     }
+
+                    FixedPage page = new FixedPage
+                    {
+                        Width = document.DocumentPaginator.PageSize.Width,
+                        Height = document.DocumentPaginator.PageSize.Height,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    };
 
                     page.Children.Add(userControl);
 
-                    doc.Pages.Add(new PageContent
+                    document.Pages.Add(new PageContent
                     {
                         Child = page
                     });
 
                     XpsDocumentWriter xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
-                    xpsdw.Write(doc.DocumentPaginator);
+                    xpsdw.Write(document.DocumentPaginator);
                 }
             }
 

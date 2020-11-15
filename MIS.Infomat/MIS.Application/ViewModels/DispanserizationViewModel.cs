@@ -23,7 +23,7 @@ namespace MIS.Application.ViewModels
     {
         public DateTime BeginDate { get; set; }
 
-        public DateTime Today { get; set; }
+        public DateTime Now { get; set; }
 
         public String PatientCode { get; set; }
 
