@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_VisitItems_Get]
+IF OBJECT_ID('[dbo].[sp_VisitItems_Get]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_VisitItems_Get]
 GO
 
 CREATE PROCEDURE [dbo].[sp_VisitItems_Get]

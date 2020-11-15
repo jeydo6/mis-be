@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_Patients_Create]
+IF OBJECT_ID('[dbo].[sp_Patients_Create]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Patients_Create]
 GO
 
 CREATE PROCEDURE [dbo].[sp_Patients_Create]
@@ -32,15 +33,15 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF NOT EXISTS
+	IF
 	(
 		SELECT
-			*
+			COUNT(*)
 		FROM
 			[dbo].[hlt_MKAB] AS p
 		WHERE
 			p.[NUM] = @code
-	)
+	) > 0
 	BEGIN
         INSERT INTO
 	        [dbo].[hlt_MKAB]

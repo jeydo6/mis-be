@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_Resources_GetDispanserizations]
+IF OBJECT_ID('[dbo].[sp_Resources_GetDispanserizations]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Resources_GetDispanserizations]
 GO
 
 CREATE PROCEDURE [dbo].[sp_Resources_GetDispanserizations]

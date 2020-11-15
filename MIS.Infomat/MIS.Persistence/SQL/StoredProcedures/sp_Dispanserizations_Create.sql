@@ -19,7 +19,8 @@
 USE MIS
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_Dispanserizations_Create]
+IF OBJECT_ID('[dbo].[sp_Dispanserizations_Create]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Dispanserizations_Create]
 GO
 
 CREATE PROCEDURE [dbo].[sp_Dispanserizations_Create]
@@ -30,17 +31,17 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF NOT EXISTS
+	IF
 	(
 		SELECT
-			*
+			COUNT(*)
 		FROM
 			[dbo].[dd_DDForm] AS d INNER JOIN
 			[dbo].[hlt_MKAB] AS p ON d.[MKABGuid] = p.[UGUID]
 		WHERE
 			p.[MKABID] = @patientID
 			AND YEAR(d.[dateDispBeg]) = YEAR(@beginDate)
-	)
+	) > 0
 	BEGIN
 		DECLARE @tapGUID UNIQUEIDENTIFIER = NEWID()
 		DECLARE @dispanserizationGUID UNIQUEIDENTIFIER = NEWID()

@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_GetDispanserizationTotals]
+IF OBJECT_ID('[dbo].[sp_TimeItems_GetDispanserizationTotals]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_TimeItems_GetDispanserizationTotals]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_GetDispanserizationTotals]

@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_List]
+IF OBJECT_ID('[dbo].[sp_TimeItems_List]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_TimeItems_List]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_List]

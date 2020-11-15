@@ -19,7 +19,8 @@
 USE MIS
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_Patients_Get]
+IF OBJECT_ID('[dbo].[sp_Patients_Get]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Patients_Get]
 GO
 
 CREATE PROCEDURE [dbo].[sp_Patients_Get]

@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_Create]
+IF OBJECT_ID('[dbo].[sp_TimeItems_Create]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_TimeItems_Create]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_Create]
@@ -31,27 +32,27 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF NOT EXISTS
+	IF
 	(
 		SELECT
-			*
+			COUNT(*)
 		FROM
 			[dbo].[hlt_DoctorTimeTable] AS t
 		WHERE
 			t.[rf_DocPRVDID] = @resourceID
 			AND t.[Begin_Time] = @beginDateTime
 			AND t.[End_Time] = @endDateTime
-	)
+	) > 0
 	BEGIN
-		IF NOT EXISTS
+		IF
 		(
 			SELECT
-				*
+				COUNT(*)
 			FROM
 				[dbo].[hlt_DocPRVD] AS r
 			WHERE
 				r.[DocPRVDID] = @resourceID
-		)
+		) > 0
 		BEGIN
 			SET @msg = 'Resource: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''') doesn''t exist'
 			;THROW 51000, @msg, 16

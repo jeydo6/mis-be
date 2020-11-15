@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_Resources_Create]
+IF OBJECT_ID('[dbo].[sp_Resources_Create]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Resources_Create]
 GO
 
 CREATE PROCEDURE [dbo].[sp_Resources_Create]
@@ -38,16 +39,16 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF NOT EXISTS
+	IF
 	(
 		SELECT
-			*
+			COUNT(*)
 		FROM
 			[dbo].[hlt_DocPRVD] AS r
 		WHERE
 			r.[rf_LPUDoctorID] = @doctorID
 			AND r.[rf_HealingRoomID] = @roomID
-	)
+	) > 0
 	BEGIN
 		IF @roomID < 0
 		BEGIN

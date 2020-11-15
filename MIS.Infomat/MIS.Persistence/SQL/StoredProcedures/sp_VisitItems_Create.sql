@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_VisitItems_Create]
+IF OBJECT_ID('[dbo].[sp_VisitItems_Create]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_VisitItems_Create]
 GO
 
 CREATE PROCEDURE [dbo].[sp_VisitItems_Create]
@@ -29,7 +30,7 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF NOT EXISTS (SELECT * FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID)
+	IF (SELECT COUNT(*) FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID) > 0
 	BEGIN
 		INSERT INTO
 			[dbo].[hlt_DoctorVisitTable] (

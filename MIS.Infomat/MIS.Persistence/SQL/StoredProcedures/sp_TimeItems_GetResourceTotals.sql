@@ -19,7 +19,8 @@
 USE [MIS]
 GO
 
-DROP PROCEDURE IF EXISTS [dbo].[sp_TimeItems_GetResourceTotals]
+IF OBJECT_ID('[dbo].[sp_TimeItems_GetResourceTotals]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_TimeItems_GetResourceTotals]
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_GetResourceTotals]
