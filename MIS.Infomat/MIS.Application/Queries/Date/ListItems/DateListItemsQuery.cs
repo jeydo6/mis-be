@@ -20,13 +20,13 @@ using System.Collections.Generic;
 
 namespace MIS.Application.Queries
 {
-    public class DateListItemsQuery : IRequest<IEnumerable<DateItemViewModel>>
-    {
-        public DateListItemsQuery(ResourceViewModel resource)
-        {
-            Resource = resource;
-        }
+	public class DateListItemsQuery : IRequest<IEnumerable<DateItemViewModel>>
+	{
+		public DateListItemsQuery(ResourceViewModel resource)
+		{
+			Resource = resource;
+		}
 
-        public ResourceViewModel Resource { get; }
-    }
+		public ResourceViewModel Resource { get; }
+	}
 }

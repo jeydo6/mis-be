@@ -16,7 +16,8 @@
 
 namespace MIS.Application
 {
-    public class AssemblyMarker
-    {
-    }
+	public class AssemblyMarker
+	{
+		//
+	}
 }

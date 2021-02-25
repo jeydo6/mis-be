@@ -19,11 +19,11 @@ using System;
 
 namespace MIS.Application.Queries
 {
-    public class DateHeaderQuery : IRequest<String>
-    {
-        public DateHeaderQuery()
-        {
-            //
-        }
-    }
+	public class DateHeaderQuery : IRequest<String>
+	{
+		public DateHeaderQuery()
+		{
+			//
+		}
+	}
 }

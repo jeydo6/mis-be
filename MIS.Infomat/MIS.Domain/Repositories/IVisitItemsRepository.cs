@@ -20,12 +20,12 @@ using System.Collections.Generic;
 
 namespace MIS.Domain.Repositories
 {
-    public interface IVisitItemsRepository
-    {
-        Int32 Create(VisitItem item);
+	public interface IVisitItemsRepository
+	{
+		Int32 Create(VisitItem item);
 
-        VisitItem Get(Int32 visitItemID);
+		VisitItem Get(Int32 visitItemID);
 
-        IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0);
-    }
+		IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0);
+	}
 }

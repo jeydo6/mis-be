@@ -25,91 +25,92 @@ using System.Linq;
 
 namespace MIS.Persistence.Repositories
 {
-    public class VisitItemsRepository : IVisitItemsRepository, IDisposable
-    {
-        private readonly IDbConnection _db;
-        private readonly IDbTransaction _transaction;
+	public class VisitItemsRepository : IVisitItemsRepository, IDisposable
+	{
+		private readonly IDbConnection _db;
+		private readonly IDbTransaction _transaction;
 
-        public VisitItemsRepository(String connectionString)
-        {
-            _db = new SqlConnection(connectionString);
-            _transaction = null;
-        }
+		public VisitItemsRepository(String connectionString)
+		{
+			_db = new SqlConnection(connectionString);
+			_transaction = null;
+		}
 
-        public VisitItemsRepository(IDbTransaction transaction)
-        {
-            _db = transaction.Connection;
-            _transaction = transaction;
-        }
+		public VisitItemsRepository(IDbTransaction transaction)
+		{
+			_db = transaction.Connection;
+			_transaction = transaction;
+		}
 
-        public Int32 Create(VisitItem item)
-        {
-            Int32 visitItemID = _db.QuerySingleAsync<Int32>(
-                sql: "[dbo].[sp_VisitItems_Create]",
-                param: new
-                {
-                    patientID = item.PatientID,
-                    timeItemID = item.TimeItemID
-                },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result;
+		public Int32 Create(VisitItem item)
+		{
+			Int32 visitItemID = _db.QuerySingle<Int32>(
+				sql: "[dbo].[sp_VisitItems_Create]",
+				param: new
+				{
+					patientID = item.PatientID,
+					timeItemID = item.TimeItemID
+				},
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			);
 
-            return visitItemID;
-        }
+			return visitItemID;
+		}
 
-        public VisitItem Get(Int32 visitItemID)
-        {
-            VisitItem result = _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
-                sql: "[dbo].[sp_VisitItems_Get]",
-                map: (visitItem, timeItem, resource, doctor, specialty, room) =>
-                {
-                    visitItem.TimeItem = timeItem;
-                    visitItem.TimeItem.Resource = resource;
-                    visitItem.TimeItem.Resource.Doctor = doctor;
-                    visitItem.TimeItem.Resource.Doctor.Specialty = specialty;
-                    visitItem.TimeItem.Resource.Room = room;
-                    visitItem.TimeItem.VisitItem = visitItem;
+		public VisitItem Get(Int32 visitItemID)
+		{
+			VisitItem result = _db.Query<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
+				sql: "[dbo].[sp_VisitItems_Get]",
+				map: (visitItem, timeItem, resource, doctor, specialty, room) =>
+				{
+					visitItem.TimeItem = timeItem;
+					visitItem.TimeItem.Resource = resource;
+					visitItem.TimeItem.Resource.Doctor = doctor;
+					visitItem.TimeItem.Resource.Doctor.Specialty = specialty;
+					visitItem.TimeItem.Resource.Room = room;
+					visitItem.TimeItem.VisitItem = visitItem;
 
-                    return visitItem;
-                },
-                param: new { visitItemID },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result.FirstOrDefault();
+					return visitItem;
+				},
+				param: new { visitItemID },
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			)
+			.FirstOrDefault();
 
-            return result;
-        }
+			return result;
+		}
 
-        public IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
-        {
-            IEnumerable<VisitItem> visitItems = _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem> (
-                sql: "[dbo].[sp_VisitItems_List]",
-                map: (visitItem, timeItem, resource, doctor, specialty, room) =>
-                {
-                    visitItem.TimeItem = timeItem;
-                    visitItem.TimeItem.Resource = resource;
-                    visitItem.TimeItem.Resource.Doctor = doctor;
-                    visitItem.TimeItem.Resource.Doctor.Specialty = specialty;
-                    visitItem.TimeItem.Resource.Room = room;
-                    visitItem.TimeItem.VisitItem = visitItem;
+		public IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
+		{
+			IEnumerable<VisitItem> visitItems = _db.Query<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
+				sql: "[dbo].[sp_VisitItems_List]",
+				map: (visitItem, timeItem, resource, doctor, specialty, room) =>
+				{
+					visitItem.TimeItem = timeItem;
+					visitItem.TimeItem.Resource = resource;
+					visitItem.TimeItem.Resource.Doctor = doctor;
+					visitItem.TimeItem.Resource.Doctor.Specialty = specialty;
+					visitItem.TimeItem.Resource.Room = room;
+					visitItem.TimeItem.VisitItem = visitItem;
 
-                    return visitItem;
-                },
-                param: new { beginDate, endDate, patientID },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result;
+					return visitItem;
+				},
+				param: new { beginDate, endDate, patientID },
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			);
 
-            return visitItems;
-        }
+			return visitItems;
+		}
 
-        public void Dispose()
-        {
-            if (_db != null)
-            {
-                _db.Dispose();
-            }
-        }
-    }
+		public void Dispose()
+		{
+			if (_db != null)
+			{
+				_db.Dispose();
+			}
+		}
+	}
 }

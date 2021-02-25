@@ -15,12 +15,11 @@
 #endregion
 
 using System;
-using System.Threading.Tasks;
 
 namespace MIS.Domain.Services
 {
-    public interface IPrintService
-    {
-        public Task Print(Object obj);
-    }
+	public interface IPrintService
+	{
+		public void Print(Object obj);
+	}
 }

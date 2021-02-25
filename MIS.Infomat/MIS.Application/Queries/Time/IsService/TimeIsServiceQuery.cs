@@ -19,11 +19,11 @@ using System;
 
 namespace MIS.Application.Queries
 {
-    public class TimeIsServiceQuery : IRequest<Boolean>
-    {
-        public TimeIsServiceQuery()
-        {
-            //
-        }
-    }
+	public class TimeIsServiceQuery : IRequest<Boolean>
+	{
+		public TimeIsServiceQuery()
+		{
+			//
+		}
+	}
 }

@@ -26,66 +26,66 @@ using MIS.Infomat.Services;
 
 namespace MIS.Infomat
 {
-    using Demo = Demo.Repositories;
-    using Live = Persistence.Repositories;
+	using Demo = Demo.Repositories;
+	using Live = Persistence.Repositories;
 
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        private IConfiguration Configuration { get; }
+		private IConfiguration Configuration { get; }
 
-        public IServiceCollection ConfigureServices()
-        {
-            IServiceCollection services = new ServiceCollection();
+		public IServiceCollection ConfigureServices()
+		{
+			IServiceCollection services = new ServiceCollection();
 
-            services.Configure<ServiceConfig>(
-                Configuration.GetSection($"{nameof(ServiceConfig)}")
-            );
+			services.Configure<ServiceConfig>(
+				Configuration.GetSection($"{nameof(ServiceConfig)}")
+			);
 
-            services
-                .AddMediatR(typeof(Application.AssemblyMarker));
+			services
+				.AddMediatR(typeof(Application.AssemblyMarker));
 
 #if DEMO
             ConfigureDemo(services);
 #else
-            ConfigureLive(services);
+			ConfigureLive(services);
 #endif
 
-            services.AddSingleton<IPrintService, XPSPrintService>();
+			services.AddSingleton<IPrintService, XPSPrintService>();
 
-            return services;
-        }
+			return services;
+		}
 
-        private IServiceCollection ConfigureLive(IServiceCollection services)
-        {
-            services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
+		private IServiceCollection ConfigureLive(IServiceCollection services)
+		{
+			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
 
-            services.AddTransient<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(Configuration.GetConnectionString("DefaultConnection")));
 
-            return services;
-        }
+			return services;
+		}
 
-        private IServiceCollection ConfigureDemo(IServiceCollection services)
-        {
-            CurrentDateTimeProvider dateTimeProvider = new CurrentDateTimeProvider();
-            DemoDataContext dataContext = new DemoDataContext(dateTimeProvider);
+		private IServiceCollection ConfigureDemo(IServiceCollection services)
+		{
+			CurrentDateTimeProvider dateTimeProvider = new CurrentDateTimeProvider();
+			DemoDataContext dataContext = new DemoDataContext(dateTimeProvider);
 
-            services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
-            services.AddTransient<IPatientsRepository, Demo.PatientsRepository>(sp => new Demo.PatientsRepository(dateTimeProvider, dataContext));
-            services.AddTransient<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
-            services.AddTransient<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));
-            services.AddTransient<IVisitItemsRepository, Demo.VisitItemsRepository>(sp => new Demo.VisitItemsRepository(dateTimeProvider, dataContext));
-            services.AddTransient<IDispanserizationsRepository, Demo.DispanserizationsRepository>(sp => new Demo.DispanserizationsRepository(dateTimeProvider, dataContext));
+			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
+			services.AddTransient<IPatientsRepository, Demo.PatientsRepository>(sp => new Demo.PatientsRepository(dateTimeProvider, dataContext));
+			services.AddTransient<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
+			services.AddTransient<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));
+			services.AddTransient<IVisitItemsRepository, Demo.VisitItemsRepository>(sp => new Demo.VisitItemsRepository(dateTimeProvider, dataContext));
+			services.AddTransient<IDispanserizationsRepository, Demo.DispanserizationsRepository>(sp => new Demo.DispanserizationsRepository(dateTimeProvider, dataContext));
 
-            return services;
-        }
-    }
+			return services;
+		}
+	}
 }

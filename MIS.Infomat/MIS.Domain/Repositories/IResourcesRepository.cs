@@ -19,10 +19,10 @@ using System.Collections.Generic;
 
 namespace MIS.Domain.Repositories
 {
-    public interface IResourcesRepository
-    {
-        IEnumerable<Resource> ToList();
+	public interface IResourcesRepository
+	{
+		IEnumerable<Resource> ToList();
 
-        IEnumerable<Resource> GetDispanserizations();
-    }
+		IEnumerable<Resource> GetDispanserizations();
+	}
 }

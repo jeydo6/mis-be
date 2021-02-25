@@ -17,7 +17,6 @@
 using MIS.Domain.Services;
 using System;
 using System.Printing;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -25,49 +24,47 @@ using System.Windows.Xps;
 
 namespace MIS.Infomat.Services
 {
-    internal class XPSPrintService : IPrintService
-    {
-        public async Task Print(Object obj)
-        {
-            if (obj is UserControl userControl)
-            {
-                using (LocalPrintServer ps = new LocalPrintServer())
-                {
-                    PrintQueue pq = ps.DefaultPrintQueue;
-                    PageMediaSize pageMediaSize = pq.UserPrintTicket.PageMediaSize;
+	internal class XPSPrintService : IPrintService
+	{
+		public void Print(Object obj)
+		{
+			if (obj is UserControl userControl)
+			{
+				using (LocalPrintServer ps = new LocalPrintServer())
+				{
+					PrintQueue pq = ps.DefaultPrintQueue;
+					PageMediaSize pageMediaSize = pq.UserPrintTicket.PageMediaSize;
 
-                    FixedDocument document = new FixedDocument();
+					FixedDocument document = new FixedDocument();
 
-                    if (pageMediaSize.Width.HasValue && pageMediaSize.Height.HasValue)
-                    {
-                        document.DocumentPaginator.PageSize = new Size(pageMediaSize.Width.Value, pageMediaSize.Height.Value);
-                    }
+					if (pageMediaSize.Width.HasValue && pageMediaSize.Height.HasValue)
+					{
+						document.DocumentPaginator.PageSize = new Size(pageMediaSize.Width.Value, pageMediaSize.Height.Value);
+					}
 
-                    if (userControl.Content is Viewbox viewBox)
-                    {
-                        viewBox.Width = document.DocumentPaginator.PageSize.Width;
-                    }
+					if (userControl.Content is Viewbox viewBox)
+					{
+						viewBox.Width = document.DocumentPaginator.PageSize.Width;
+					}
 
-                    FixedPage page = new FixedPage
-                    {
-                        Width = document.DocumentPaginator.PageSize.Width,
-                        Height = document.DocumentPaginator.PageSize.Height,
-                        HorizontalAlignment = HorizontalAlignment.Center
-                    };
+					FixedPage page = new FixedPage
+					{
+						Width = document.DocumentPaginator.PageSize.Width,
+						Height = document.DocumentPaginator.PageSize.Height,
+						HorizontalAlignment = HorizontalAlignment.Center
+					};
 
-                    page.Children.Add(userControl);
+					page.Children.Add(userControl);
 
-                    document.Pages.Add(new PageContent
-                    {
-                        Child = page
-                    });
+					document.Pages.Add(new PageContent
+					{
+						Child = page
+					});
 
-                    XpsDocumentWriter xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
-                    xpsdw.Write(document.DocumentPaginator);
-                }
-            }
-
-            await Task.CompletedTask;
-        }
-    }
+					XpsDocumentWriter xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
+					xpsdw.Write(document.DocumentPaginator);
+				}
+			}
+		}
+	}
 }

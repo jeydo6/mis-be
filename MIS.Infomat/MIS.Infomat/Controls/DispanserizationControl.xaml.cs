@@ -26,80 +26,79 @@ using Serilog;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace MIS.Infomat.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для DispanserizationControl.xaml
-    /// </summary>
-    public partial class DispanserizationControl : UserControl
-    {
-        private readonly PatientViewModel _patient;
+	/// <summary>
+	/// Логика взаимодействия для DispanserizationControl.xaml
+	/// </summary>
+	public partial class DispanserizationControl : UserControl
+	{
+		private readonly PatientViewModel _patient;
 
-        private readonly IMediator _mediator;
-        private readonly IPrintService _printService;
+		private readonly IMediator _mediator;
+		private readonly IPrintService _printService;
 
-        private readonly MainWindow _mainWindow;
+		private readonly MainWindow _mainWindow;
 
-        internal DispanserizationControl()
-        {
-            throw new ArgumentNullException($"Field '{nameof(_patient)}' can't be empty!");
-        }
+		internal DispanserizationControl()
+		{
+			throw new ArgumentNullException($"Field '{nameof(_patient)}' can't be empty!");
+		}
 
-        internal DispanserizationControl(PatientViewModel patient)
-        {
-            _patient = patient;
+		internal DispanserizationControl(PatientViewModel patient)
+		{
+			_patient = patient;
 
-            var app = System.Windows.Application.Current as App;
+			var app = System.Windows.Application.Current as App;
 
-            _mainWindow = app.MainWindow as MainWindow;
+			_mainWindow = app.MainWindow as MainWindow;
 
-            _mediator = app.ServiceProvider.GetService<IMediator>();
-            _printService = app.ServiceProvider.GetService<IPrintService>();
+			_mediator = app.ServiceProvider.GetService<IMediator>();
+			_printService = app.ServiceProvider.GetService<IPrintService>();
 
-            InitializeComponent();
-        }
+			InitializeComponent();
+		}
 
-        private void UserControl_Loaded(Object sender, RoutedEventArgs e)
-        {
-            datesHeader.Content = _mediator.Send(
-                new DateHeaderQuery()
-            ).Result;
+		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		{
+			datesHeader.Content = _mediator.Send(
+				new DateHeaderQuery()
+			).Result;
 
-            datesList.ItemsSource = _mediator.Send(
-                new DispanserizationListItemsQuery()
-            ).Result;
-        }
+			datesList.ItemsSource = _mediator.Send(
+				new DispanserizationListItemsQuery()
+			).Result;
+		}
 
-        private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserizationItem)
-            {
-                try
-                {
-                    DispanserizationViewModel dispanserization = _mediator.Send(
-                        new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.DisplayName)
-                    ).Result;
+		private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserizationItem)
+			{
+				try
+				{
+					DispanserizationViewModel dispanserization = _mediator.Send(
+						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.DisplayName)
+					).Result;
 
-                    _patient.Dispanserizations.Add(dispanserization);
+					_patient.Dispanserizations.Add(dispanserization);
 
-                    _printService.Print(
-                        new DispanserizationPrintForm(dispanserization)
-                    ).Wait();
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "При записи на диспансеризацию произошла ошибка");
-                }
+					_printService.Print(
+						new DispanserizationPrintForm(dispanserization)
+					);
+				}
+				catch (Exception ex)
+				{
+					Log.Error(ex, "При записи на диспансеризацию произошла ошибка");
+				}
 
-                _mainWindow.PrevWorkflow<ActionsControl>();
-            }
-        }
+				_mainWindow.PrevWorkflow<ActionsControl>();
+			}
+		}
 
-        private void PrevButton_Click(Object sender, RoutedEventArgs e)
-        {
-            _mainWindow.PrevWorkflow();
-        }
-    }
+		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		{
+			_mainWindow.PrevWorkflow();
+		}
+	}
 }

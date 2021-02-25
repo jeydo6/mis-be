@@ -20,13 +20,13 @@ using System.Collections.Generic;
 
 namespace MIS.Application.Queries
 {
-    public class SpecialtyListItemsQuery : IRequest<IEnumerable<SpecialtyViewModel>>
-    {
-        public SpecialtyListItemsQuery(PatientViewModel patient)
-        {
-            Patient = patient;
-        }
+	public class SpecialtyListItemsQuery : IRequest<IEnumerable<SpecialtyViewModel>>
+	{
+		public SpecialtyListItemsQuery(PatientViewModel patient)
+		{
+			Patient = patient;
+		}
 
-        public PatientViewModel Patient { get; }
-    }
+		public PatientViewModel Patient { get; }
+	}
 }

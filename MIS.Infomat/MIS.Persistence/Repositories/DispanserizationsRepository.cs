@@ -25,103 +25,103 @@ using System.Linq;
 
 namespace MIS.Persistence.Repositories
 {
-    public class DispanserizationsRepository : IDispanserizationsRepository, IDisposable
-    {
-        private readonly IDbConnection _db;
-        private readonly IDbTransaction _transaction;
+	public class DispanserizationsRepository : IDispanserizationsRepository, IDisposable
+	{
+		private readonly IDbConnection _db;
+		private readonly IDbTransaction _transaction;
 
-        public DispanserizationsRepository(String connectionString)
-        {
-            _db = new SqlConnection(connectionString);
-            _transaction = null;
-        }
+		public DispanserizationsRepository(String connectionString)
+		{
+			_db = new SqlConnection(connectionString);
+			_transaction = null;
+		}
 
-        public DispanserizationsRepository(IDbTransaction transaction)
-        {
-            _db = transaction.Connection;
-            _transaction = transaction;
-        }
+		public DispanserizationsRepository(IDbTransaction transaction)
+		{
+			_db = transaction.Connection;
+			_transaction = transaction;
+		}
 
-        public Int32 Create(Dispanserization item)
-        {
-            Int32 dispanserizationID = _db.QuerySingleAsync<Int32>(
-                sql: "[dbo].[sp_Dispanserizations_Create]",
-                param: new
-                {
-                    patientID = item.PatientID,
-                    beginDate = item.BeginDate,
-                    endDate = item.EndDate
-                },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result;
+		public Int32 Create(Dispanserization item)
+		{
+			Int32 dispanserizationID = _db.QuerySingle<Int32>(
+				sql: "[dbo].[sp_Dispanserizations_Create]",
+				param: new
+				{
+					patientID = item.PatientID,
+					beginDate = item.BeginDate,
+					endDate = item.EndDate
+				},
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			);
 
-            return dispanserizationID;
-        }
+			return dispanserizationID;
+		}
 
-        public Dispanserization Get(Int32 dispanserizationID)
-        {
-            IDictionary<Int32, Dispanserization> keyValues = new Dictionary<Int32, Dispanserization>();
+		public Dispanserization Get(Int32 dispanserizationID)
+		{
+			IDictionary<Int32, Dispanserization> keyValues = new Dictionary<Int32, Dispanserization>();
 
-            Dispanserization result = _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
-                sql: "[dbo].[sp_Dispanserizations_Get]",
-                map: (dispanserization, analysis) =>
-                {
-                    if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
-                    {
-                        value = dispanserization;
-                        value.Analyses = new List<Analysis>();
-                        keyValues.Add(dispanserization.ID, dispanserization);
-                    }
+			Dispanserization result = _db.Query<Dispanserization, Analysis, Dispanserization>(
+				sql: "[dbo].[sp_Dispanserizations_Get]",
+				map: (dispanserization, analysis) =>
+				{
+					if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
+					{
+						value = dispanserization;
+						value.Analyses = new List<Analysis>();
+						keyValues.Add(dispanserization.ID, dispanserization);
+					}
 
-                    value.Analyses.Add(analysis);
+					value.Analyses.Add(analysis);
 
-                    return dispanserization;
-                },
-                param: new { dispanserizationID },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result
-            .Distinct()
-            .FirstOrDefault();
+					return dispanserization;
+				},
+				param: new { dispanserizationID },
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			)
+			.Distinct()
+			.FirstOrDefault();
 
-            return result;
-        }
+			return result;
+		}
 
-        public IEnumerable<Dispanserization> ToList(Int32 patientID)
-        {
-            IDictionary<Int32, Dispanserization> keyValues = new Dictionary<Int32, Dispanserization>();
+		public IEnumerable<Dispanserization> ToList(Int32 patientID)
+		{
+			IDictionary<Int32, Dispanserization> keyValues = new Dictionary<Int32, Dispanserization>();
 
-            IEnumerable<Dispanserization> dispanserizations = _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
-                sql: "[dbo].[sp_Dispanserizations_List]",
-                map: (dispanserization, analysis) =>
-                {
-                    if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
-                    {
-                        value = dispanserization;
-                        value.Analyses = new List<Analysis>();
-                        keyValues.Add(dispanserization.ID, dispanserization);
-                    }
+			IEnumerable<Dispanserization> dispanserizations = _db.Query<Dispanserization, Analysis, Dispanserization>(
+				sql: "[dbo].[sp_Dispanserizations_List]",
+				map: (dispanserization, analysis) =>
+				{
+					if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
+					{
+						value = dispanserization;
+						value.Analyses = new List<Analysis>();
+						keyValues.Add(dispanserization.ID, dispanserization);
+					}
 
-                    value.Analyses.Add(analysis);
-                    return value;
-                },
-                param: new { patientID },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result
-            .Distinct()
-            .ToList();
+					value.Analyses.Add(analysis);
+					return value;
+				},
+				param: new { patientID },
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			)
+			.Distinct()
+			.ToList();
 
-            return dispanserizations;
-        }
+			return dispanserizations;
+		}
 
-        public void Dispose()
-        {
-            if (_db != null)
-            {
-                _db.Dispose();
-            }
-        }
-    }
+		public void Dispose()
+		{
+			if (_db != null)
+			{
+				_db.Dispose();
+			}
+		}
+	}
 }

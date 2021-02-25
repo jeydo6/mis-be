@@ -21,28 +21,28 @@ using System.Windows.Input;
 
 namespace MIS.Infomat.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для MainControl.xaml
-    /// </summary>
-    public partial class MainControl : UserControl
-    {
-        private readonly MainWindow _mainWindow;
+	/// <summary>
+	/// Логика взаимодействия для MainControl.xaml
+	/// </summary>
+	public partial class MainControl : UserControl
+	{
+		private readonly MainWindow _mainWindow;
 
-        internal MainControl()
-        {
-            var app = System.Windows.Application.Current as App;
+		internal MainControl()
+		{
+			var app = System.Windows.Application.Current as App;
 
-            _mainWindow = app.MainWindow as MainWindow;
+			_mainWindow = app.MainWindow as MainWindow;
 
-            InitializeComponent();
-        }
+			InitializeComponent();
+		}
 
-        private void UserControl_MouseUp(Object sender, MouseButtonEventArgs e)
-        {
-            if (!_mainWindow.IsServiceTime)
-            {
-                _mainWindow.NextWorkflow(new PatientControl(), isRemember: false);
-            }
-        }
-    }
+		private void UserControl_MouseUp(Object sender, MouseButtonEventArgs e)
+		{
+			if (!_mainWindow.IsServiceTime)
+			{
+				_mainWindow.NextWorkflow(new PatientControl(), isRemember: false);
+			}
+		}
+	}
 }

@@ -25,51 +25,51 @@ using System.Linq;
 
 namespace MIS.Demo.Repositories
 {
-    public class VisitItemsRepository : IVisitItemsRepository
-    {
-        private readonly DemoDataContext _dataContext;
-        private readonly IDateTimeProvider _dateTimeProvider;
+	public class VisitItemsRepository : IVisitItemsRepository
+	{
+		private readonly DemoDataContext _dataContext;
+		private readonly IDateTimeProvider _dateTimeProvider;
 
-        public VisitItemsRepository(
-            IDateTimeProvider dateTimeProvider,
-            DemoDataContext dataContext
-        )
-        {
-            _dateTimeProvider = dateTimeProvider;
-            _dataContext = dataContext;
-        }
+		public VisitItemsRepository(
+			IDateTimeProvider dateTimeProvider,
+			DemoDataContext dataContext
+		)
+		{
+			_dateTimeProvider = dateTimeProvider;
+			_dataContext = dataContext;
+		}
 
-        public Int32 Create(VisitItem item)
-        {
-            if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == item.TimeItemID) != null)
-            {
-                throw new Exception("Visit item already exists!");
-            }
+		public Int32 Create(VisitItem item)
+		{
+			if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == item.TimeItemID) != null)
+			{
+				throw new Exception("Visit item already exists!");
+			}
 
-            item.TimeItem = _dataContext.TimeItems.FirstOrDefault(ti => ti.ID == item.TimeItemID);
-            item.TimeItem.VisitItem = item;
+			item.TimeItem = _dataContext.TimeItems.FirstOrDefault(ti => ti.ID == item.TimeItemID);
+			item.TimeItem.VisitItem = item;
 
-            item.Patient = _dataContext.Patients.FirstOrDefault(p => p.ID == item.PatientID);
+			item.Patient = _dataContext.Patients.FirstOrDefault(p => p.ID == item.PatientID);
 
-            item.ID = _dataContext.VisitItems.Count > 0 ? _dataContext.VisitItems.Max(vi => vi.ID) + 1 : 1;
+			item.ID = _dataContext.VisitItems.Count > 0 ? _dataContext.VisitItems.Max(vi => vi.ID) + 1 : 1;
 
-            _dataContext.VisitItems.Add(item);
+			_dataContext.VisitItems.Add(item);
 
-            return item.ID;
-        }
+			return item.ID;
+		}
 
-        public VisitItem Get(Int32 visitItemID)
-        {
-            return _dataContext.VisitItems
-                .FirstOrDefault(vi => vi.ID == visitItemID);
-        }
+		public VisitItem Get(Int32 visitItemID)
+		{
+			return _dataContext.VisitItems
+				.FirstOrDefault(vi => vi.ID == visitItemID);
+		}
 
-        public IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
-        {
-            return _dataContext.VisitItems
-                .Where(vi => vi.TimeItem.Resource.Doctor.Specialty.ID > 0)
-                .Where(vi => vi.TimeItem.Date >= beginDate && vi.TimeItem.Date <= endDate && (patientID == 0 || vi.PatientID == patientID))
-                .ToList();
-        }
-    }
+		public IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
+		{
+			return _dataContext.VisitItems
+				.Where(vi => vi.TimeItem.Resource.Doctor.Specialty.ID > 0)
+				.Where(vi => vi.TimeItem.Date >= beginDate && vi.TimeItem.Date <= endDate && (patientID == 0 || vi.PatientID == patientID))
+				.ToList();
+		}
+	}
 }

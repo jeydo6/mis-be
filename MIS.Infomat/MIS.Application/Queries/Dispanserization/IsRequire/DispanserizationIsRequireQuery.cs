@@ -20,13 +20,13 @@ using System;
 
 namespace MIS.Application.Queries
 {
-    public class DispanserizationIsRequireQuery : IRequest<Boolean>
-    {
-        public DispanserizationIsRequireQuery(PatientViewModel patient)
-        {
-            Patient = patient;
-        }
+	public class DispanserizationIsRequireQuery : IRequest<Boolean>
+	{
+		public DispanserizationIsRequireQuery(PatientViewModel patient)
+		{
+			Patient = patient;
+		}
 
-        public PatientViewModel Patient { get; }
-    }
+		public PatientViewModel Patient { get; }
+	}
 }

@@ -27,124 +27,124 @@ using System.Windows.Media;
 
 namespace MIS.Infomat.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для PatientControl.xaml
-    /// </summary>
-    public partial class PatientControl : UserControl
-    {
-        private readonly MainWindow _mainWindow;
+	/// <summary>
+	/// Логика взаимодействия для PatientControl.xaml
+	/// </summary>
+	public partial class PatientControl : UserControl
+	{
+		private readonly MainWindow _mainWindow;
 
-        private readonly IMediator _mediator;
+		private readonly IMediator _mediator;
 
-        internal PatientControl()
-        {
-            var app = System.Windows.Application.Current as App;
+		internal PatientControl()
+		{
+			var app = System.Windows.Application.Current as App;
 
-            _mainWindow = app.MainWindow as MainWindow;
+			_mainWindow = app.MainWindow as MainWindow;
 
-            _mediator = app.ServiceProvider.GetService<IMediator>();
+			_mediator = app.ServiceProvider.GetService<IMediator>();
 
-            InitializeComponent();
-        }
+			InitializeComponent();
+		}
 
-        private void UserControl_Loaded(Object sender, RoutedEventArgs e)
-        {
-            numberTextBox.Focus();
-        }
+		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		{
+			numberTextBox.Focus();
+		}
 
-        private void InputButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (Keyboard.FocusedElement is TextBox textBox && e.OriginalSource is Button button && button.Content is TextBlock buttonContent)
-            {
-                textBox.Text = textBox.Text.Trim();
+		private void InputButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (Keyboard.FocusedElement is TextBox textBox && e.OriginalSource is Button button && button.Content is TextBlock buttonContent)
+			{
+				textBox.Text = textBox.Text.Trim();
 
-                if (textBox.Text.Length < textBox.MaxLength)
-                {
-                    textBox.AppendText(buttonContent.Text);
-                    textBox.CaretIndex = textBox.Text.Length;
-                }
+				if (textBox.Text.Length < textBox.MaxLength)
+				{
+					textBox.AppendText(buttonContent.Text);
+					textBox.CaretIndex = textBox.Text.Length;
+				}
 
-                if (textBox == numberTextBox && textBox.Text.Length == textBox.MaxLength)
-                {
-                    birthdateTextBox.Focus();
-                }
-            }
+				if (textBox == numberTextBox && textBox.Text.Length == textBox.MaxLength)
+				{
+					birthdateTextBox.Focus();
+				}
+			}
 
-            _mainWindow.ResetTimer();
-        }
+			_mainWindow.ResetTimer();
+		}
 
-        private void RemoveButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (Keyboard.FocusedElement is TextBox textBox && e.OriginalSource is Button button && button.Content is TextBlock buttonContent)
-            {
-                textBox.Text = textBox.Text.Trim();
+		private void RemoveButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (Keyboard.FocusedElement is TextBox textBox && e.OriginalSource is Button button && button.Content is TextBlock buttonContent)
+			{
+				textBox.Text = textBox.Text.Trim();
 
-                if (textBox.Text.Length > 0)
-                {
-                    textBox.Text = textBox.Text[0..^1];
-                    textBox.CaretIndex = textBox.Text.Length;
-                }
-            }
+				if (textBox.Text.Length > 0)
+				{
+					textBox.Text = textBox.Text[0..^1];
+					textBox.CaretIndex = textBox.Text.Length;
+				}
+			}
 
-            _mainWindow.ResetTimer();
-        }
+			_mainWindow.ResetTimer();
+		}
 
-        private void PrevButton_Click(Object sender, RoutedEventArgs e)
-        {
-            _mainWindow.PrevWorkflow();
-        }
+		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		{
+			_mainWindow.PrevWorkflow();
+		}
 
-        private void NextButton_Click(Object sender, RoutedEventArgs e)
-        {
-            Boolean numberValidation;
-            if (String.IsNullOrEmpty(numberTextBox.Text))
-            {
-                numberValidation = false;
-            }
-            else if (numberTextBox.Text.Length != numberTextBox.MaxLength)
-            {
-                numberValidation = false;
-            }
-            else
-            {
-                numberValidation = true;
-            }
+		private void NextButton_Click(Object sender, RoutedEventArgs e)
+		{
+			Boolean numberValidation;
+			if (String.IsNullOrEmpty(numberTextBox.Text))
+			{
+				numberValidation = false;
+			}
+			else if (numberTextBox.Text.Length != numberTextBox.MaxLength)
+			{
+				numberValidation = false;
+			}
+			else
+			{
+				numberValidation = true;
+			}
 
-            Boolean birthdateValidation;
-            if (String.IsNullOrEmpty(birthdateTextBox.Text))
-            {
-                birthdateValidation = false;
-            }
-            else if (birthdateTextBox.Text.Length != birthdateTextBox.MaxLength)
-            {
-                birthdateValidation = false;
-            }
-            else
-            {
-                birthdateValidation = true;
-            }
+			Boolean birthdateValidation;
+			if (String.IsNullOrEmpty(birthdateTextBox.Text))
+			{
+				birthdateValidation = false;
+			}
+			else if (birthdateTextBox.Text.Length != birthdateTextBox.MaxLength)
+			{
+				birthdateValidation = false;
+			}
+			else
+			{
+				birthdateValidation = true;
+			}
 
-            if (numberValidation && birthdateValidation)
-            {
-                PatientViewModel patient = _mediator.Send(new PatientFirstQuery(
-                        numberTextBox.Text,
-                        new DateTime(Int32.Parse(birthdateTextBox.Text), 1, 1)
-                    )
-                ).Result;
+			if (numberValidation && birthdateValidation)
+			{
+				PatientViewModel patient = _mediator.Send(new PatientFirstQuery(
+						numberTextBox.Text,
+						new DateTime(Int32.Parse(birthdateTextBox.Text), 1, 1)
+					)
+				).Result;
 
-                if (patient != null)
-                {
-                    _mainWindow.NextWorkflow(new ActionsControl(patient));
-                }
-                else
-                {
-                    numberValidation = false;
-                    birthdateValidation = false;
-                }
-            }
+				if (patient != null)
+				{
+					_mainWindow.NextWorkflow(new ActionsControl(patient));
+				}
+				else
+				{
+					numberValidation = false;
+					birthdateValidation = false;
+				}
+			}
 
-            numberTextBox.Foreground = numberValidation ? Brushes.Black : Brushes.Red;
-            birthdateTextBox.Foreground = birthdateValidation ? Brushes.Black : Brushes.Red;
-        }
-    }
+			numberTextBox.Foreground = numberValidation ? Brushes.Black : Brushes.Red;
+			birthdateTextBox.Foreground = birthdateValidation ? Brushes.Black : Brushes.Red;
+		}
+	}
 }

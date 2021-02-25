@@ -29,112 +29,112 @@ using System.Windows.Media;
 
 namespace MIS.Infomat.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для VisitsControl.xaml
-    /// </summary>
-    public partial class VisitItemsControl : UserControl
-    {
-        private readonly PatientViewModel _patient;
+	/// <summary>
+	/// Логика взаимодействия для VisitsControl.xaml
+	/// </summary>
+	public partial class VisitItemsControl : UserControl
+	{
+		private readonly PatientViewModel _patient;
 
-        private readonly MainWindow _mainWindow;
+		private readonly MainWindow _mainWindow;
 
-        private readonly IMediator _mediator;
-        private readonly IPrintService _printService;
+		private readonly IMediator _mediator;
+		private readonly IPrintService _printService;
 
-        internal VisitItemsControl()
-        {
-            throw new ArgumentNullException($"Field '{nameof(_patient)}' can't be empty!");
-        }
+		internal VisitItemsControl()
+		{
+			throw new ArgumentNullException($"Field '{nameof(_patient)}' can't be empty!");
+		}
 
-        internal VisitItemsControl(PatientViewModel patient)
-        {
-            _patient = patient;
+		internal VisitItemsControl(PatientViewModel patient)
+		{
+			_patient = patient;
 
-            var app = System.Windows.Application.Current as App;
+			var app = System.Windows.Application.Current as App;
 
-            _mainWindow = app.MainWindow as MainWindow;
+			_mainWindow = app.MainWindow as MainWindow;
 
-            _mediator = app.ServiceProvider.GetService<IMediator>();
-            _printService = app.ServiceProvider.GetService<IPrintService>();
+			_mediator = app.ServiceProvider.GetService<IMediator>();
+			_printService = app.ServiceProvider.GetService<IPrintService>();
 
-            InitializeComponent();
-        }
+			InitializeComponent();
+		}
 
-        private void UserControl_Loaded(Object sender, RoutedEventArgs e)
-        {
-            list.ItemsSource = _mediator.Send(
-                new VisitListItemsQuery(_patient)
-            ).Result;
+		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		{
+			list.ItemsSource = _mediator.Send(
+				new VisitListItemsQuery(_patient)
+			).Result;
 
-            dispanserizationButton.DataContext = _mediator.Send(
-                new DispanserizationLastQuery(_patient)
-            ).Result;
+			dispanserizationButton.DataContext = _mediator.Send(
+				new DispanserizationLastQuery(_patient)
+			).Result;
 
-            //if (dispanserizationButton.DataContext != null)
-            //{
-            //    dispanserizationButton.Visibility = Visibility.Visible;
-            //}
-        }
+			//if (dispanserizationButton.DataContext != null)
+			//{
+			//    dispanserizationButton.Visibility = Visibility.Visible;
+			//}
+		}
 
-        private void VisitItemButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (e.OriginalSource is Button button && button.DataContext is VisitItemViewModel visitItem)
-            {
-                try
-                {
-                    _printService.Print(
-                        new VisitPrintForm(visitItem)
-                    ).Wait();
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "При печати записи на приём произошла ошибка");
-                }
+		private void VisitItemButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (e.OriginalSource is Button button && button.DataContext is VisitItemViewModel visitItem)
+			{
+				try
+				{
+					_printService.Print(
+						new VisitPrintForm(visitItem)
+					);
+				}
+				catch (Exception ex)
+				{
+					Log.Error(ex, "При печати записи на приём произошла ошибка");
+				}
 
-                visitItem.IsEnabled = false;
-                button.Visibility = Visibility.Collapsed;
-            }
-        }
+				visitItem.IsEnabled = false;
+				button.Visibility = Visibility.Collapsed;
+			}
+		}
 
-        private void DispanserizationButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserization)
-            {
-                try
-                {
-                    _printService.Print(
-                        new DispanserizationPrintForm(dispanserization)
-                    ).Wait();
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "При печати диспансеризации произошла ошибка");
-                }
+		private void DispanserizationButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserization)
+			{
+				try
+				{
+					_printService.Print(
+						new DispanserizationPrintForm(dispanserization)
+					);
+				}
+				catch (Exception ex)
+				{
+					Log.Error(ex, "При печати диспансеризации произошла ошибка");
+				}
 
-                dispanserization.IsEnabled = false;
-                button.Visibility = Visibility.Collapsed;
-            }
-        }
+				dispanserization.IsEnabled = false;
+				button.Visibility = Visibility.Collapsed;
+			}
+		}
 
-        private void UpButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
-            {
-                scrollViewer.LineUp();
-            }
-        }
+		private void UpButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
+			{
+				scrollViewer.LineUp();
+			}
+		}
 
-        private void DownButton_Click(Object sender, RoutedEventArgs e)
-        {
-            if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
-            {
-                scrollViewer.LineDown();
-            }
-        }
+		private void DownButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
+			{
+				scrollViewer.LineDown();
+			}
+		}
 
-        private void PrevButton_Click(Object sender, RoutedEventArgs e)
-        {
-            _mainWindow.PrevWorkflow();
-        }
-    }
+		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		{
+			_mainWindow.PrevWorkflow();
+		}
+	}
 }

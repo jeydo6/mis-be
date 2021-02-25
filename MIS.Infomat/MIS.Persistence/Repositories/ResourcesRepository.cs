@@ -24,67 +24,67 @@ using System.Data;
 
 namespace MIS.Persistence.Repositories
 {
-    public class ResourcesRepository : IResourcesRepository, IDisposable
-    {
-        private readonly IDbConnection _db;
-        private readonly IDbTransaction _transaction;
+	public class ResourcesRepository : IResourcesRepository, IDisposable
+	{
+		private readonly IDbConnection _db;
+		private readonly IDbTransaction _transaction;
 
-        public ResourcesRepository(String connectionString)
-        {
-            _db = new SqlConnection(connectionString);
-            _transaction = null;
-        }
+		public ResourcesRepository(String connectionString)
+		{
+			_db = new SqlConnection(connectionString);
+			_transaction = null;
+		}
 
-        public ResourcesRepository(IDbTransaction transaction)
-        {
-            _db = transaction.Connection;
-            _transaction = transaction;
-        }
+		public ResourcesRepository(IDbTransaction transaction)
+		{
+			_db = transaction.Connection;
+			_transaction = transaction;
+		}
 
-        public IEnumerable<Resource> ToList()
-        {
-            IEnumerable<Resource> resources = _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
-                sql: "[dbo].[sp_Resources_List]",
-                map: (resource, doctor, specialty, room) =>
-                {
-                    resource.Doctor = doctor;
-                    resource.Doctor.Specialty = specialty;
-                    resource.Room = room;
+		public IEnumerable<Resource> ToList()
+		{
+			IEnumerable<Resource> resources = _db.Query<Resource, Doctor, Specialty, Room, Resource>(
+				sql: "[dbo].[sp_Resources_List]",
+				map: (resource, doctor, specialty, room) =>
+				{
+					resource.Doctor = doctor;
+					resource.Doctor.Specialty = specialty;
+					resource.Room = room;
 
-                    return resource;
-                },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result;
+					return resource;
+				},
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			);
 
-            return resources;
-        }
+			return resources;
+		}
 
-        public IEnumerable<Resource> GetDispanserizations()
-        {
-            IEnumerable<Resource> resources = _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
-                sql: "[dbo].[sp_Resources_GetDispanserizations]",
-                map: (resource, doctor, specialty, room) =>
-                {
-                    resource.Doctor = doctor;
-                    resource.Doctor.Specialty = specialty;
-                    resource.Room = room;
+		public IEnumerable<Resource> GetDispanserizations()
+		{
+			IEnumerable<Resource> resources = _db.Query<Resource, Doctor, Specialty, Room, Resource>(
+				sql: "[dbo].[sp_Resources_GetDispanserizations]",
+				map: (resource, doctor, specialty, room) =>
+				{
+					resource.Doctor = doctor;
+					resource.Doctor.Specialty = specialty;
+					resource.Room = room;
 
-                    return resource;
-                },
-                commandType: CommandType.StoredProcedure,
-                transaction: _transaction
-            ).Result;
+					return resource;
+				},
+				commandType: CommandType.StoredProcedure,
+				transaction: _transaction
+			);
 
-            return resources;
-        }
+			return resources;
+		}
 
-        public void Dispose()
-        {
-            if (_db != null)
-            {
-                _db.Dispose();
-            }
-        }
-    }
+		public void Dispose()
+		{
+			if (_db != null)
+			{
+				_db.Dispose();
+			}
+		}
+	}
 }

@@ -1,15 +1,14 @@
 ﻿<Window x:Class="MIS.Infomat.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MIS.Infomat.Windows"
         mc:Ignorable="d"
         Title="Главное окно" Height="1024" Width="1280"
         Background="#FFE8DED8"
         WindowStyle="None" WindowState="Maximized" WindowStartupLocation="CenterScreen" Cursor="None"
         KeyUp="Window_KeyUp" MouseUp="Window_MouseUp">
-    <Viewbox>
-        <Grid Name="workflow" Height="1024" Width="1280" />
-    </Viewbox>
+	<Viewbox>
+		<Grid Name="workflow" Height="1024" Width="1280" />
+	</Viewbox>
 </Window>
