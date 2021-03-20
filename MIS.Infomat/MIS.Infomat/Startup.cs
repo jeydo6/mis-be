@@ -17,8 +17,8 @@
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Configs;
 using MIS.Demo.DataContexts;
-using MIS.Domain.Configs;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Domain.Services;
@@ -50,7 +50,7 @@ namespace MIS.Infomat
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
 #if DEMO
-            ConfigureDemo(services);
+			ConfigureDemo(services);
 #else
 			ConfigureLive(services);
 #endif

@@ -16,7 +16,7 @@
 
 using MediatR;
 using Microsoft.Extensions.Options;
-using MIS.Domain.Configs;
+using MIS.Application.Configs;
 using MIS.Domain.Providers;
 using System;
 using System.Linq;

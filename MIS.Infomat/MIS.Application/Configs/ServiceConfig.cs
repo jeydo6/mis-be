@@ -16,7 +16,7 @@
 
 using System;
 
-namespace MIS.Domain.Configs
+namespace MIS.Application.Configs
 {
 	public class ServiceConfig
 	{
