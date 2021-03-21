@@ -58,10 +58,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Controls\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\MIS.Application\MIS.Application.csproj" />
 	  <ProjectReference Include="..\MIS.Domain\MIS.Domain.csproj" />
 	  <ProjectReference Include="..\MIS.Persistence\MIS.Persistence.csproj" />
