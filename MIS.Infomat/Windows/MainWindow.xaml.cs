@@ -38,6 +38,8 @@ namespace MIS.Infomat.Windows
 
 		private readonly Stack<UserControl> _path;
 
+		private Boolean _serviceMode = false;
+
 		public MainWindow()
 		{
 			var app = System.Windows.Application.Current as App;
@@ -138,13 +140,17 @@ namespace MIS.Infomat.Windows
 		{
 			if (e.Key == Key.F11)
 			{
-				if (Cursor == Cursors.None)
+				_serviceMode = !_serviceMode;
+
+				if (_serviceMode)
 				{
 					Cursor = Cursors.Arrow;
+					WindowStyle = WindowStyle.SingleBorderWindow;
 				}
 				else
 				{
 					Cursor = Cursors.None;
+					WindowStyle = WindowStyle.None;
 				}
 			}
 
