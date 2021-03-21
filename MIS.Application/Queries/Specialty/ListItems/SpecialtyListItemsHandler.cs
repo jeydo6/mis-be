@@ -60,7 +60,7 @@ namespace MIS.Application.Queries
 				{
 					Date = t.Date,
 					IsEnabled = (t.TimesCount - t.VisitsCount) > 0,
-					IsBlocked = g.Count() > 0,
+					IsBlocked = g.Any(),
 					ResourceID = t.ResourceID
 				})
 				.OrderBy(di => di.Date)
@@ -100,16 +100,12 @@ namespace MIS.Application.Queries
 
 				if (dispanserization != null)
 				{
-					dispanserizationViewModel.Resources
-						.Select(ri =>
-						{
-							ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate);
-							ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled) && ri.Dates.All(di => !di.IsBlocked);
-							ri.IsBlocked = ri.Dates.Any(di => di.IsBlocked);
-
-							return ri;
-						})
-						.ToList();
+					foreach (var ri in dispanserizationViewModel.Resources)
+					{
+						ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate);
+						ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled) && ri.Dates.All(di => !di.IsBlocked);
+						ri.IsBlocked = ri.Dates.Any(di => di.IsBlocked);
+					}
 					dispanserizationViewModel.IsEnabled = dispanserizationViewModel.Resources.Any(ri => ri.IsEnabled);
 				}
 				else
