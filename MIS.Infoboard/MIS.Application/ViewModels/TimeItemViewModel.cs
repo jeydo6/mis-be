@@ -14,18 +14,16 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
 using System;
-using System.Collections.Generic;
 
-namespace MIS.Domain.Repositories
+namespace MIS.Application.ViewModels
 {
-	public interface IDispanserizationsRepository
+	public class TimeItemViewModel
 	{
-		Int32 Create(Dispanserization dispanserization);
+		public DateTime DateTime { get; set; }
 
-		Dispanserization Get(Int32 dispanserizationID);
+		public Boolean IsEnabled { get; set; }
 
-		IEnumerable<Dispanserization> ToList(Int32 patientID);
+		public Int32 TimeItemID { get; set; }
 	}
 }

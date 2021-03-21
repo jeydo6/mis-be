@@ -14,15 +14,19 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
-using System;
+using MediatR;
+using MIS.Application.ViewModels;
+using System.Collections.Generic;
 
-namespace MIS.Domain.Repositories
+namespace MIS.Application.Queries
 {
-	public interface IPatientsRepository
+	public class VisitListItemsQuery : IRequest<IEnumerable<VisitItemViewModel>>
 	{
-		Patient First(String code, DateTime birthDate);
+		public VisitListItemsQuery(PatientViewModel patient)
+		{
+			Patient = patient;
+		}
 
-		Patient Get(Int32 patientID);
+		public PatientViewModel Patient { get; }
 	}
 }
