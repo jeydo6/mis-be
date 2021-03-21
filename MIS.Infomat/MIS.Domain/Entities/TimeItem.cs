@@ -18,7 +18,7 @@ using System;
 
 namespace MIS.Domain.Entities
 {
-	public record TimeItem
+	public class TimeItem
 	{
 		public Int32 ID { get; set; }
 

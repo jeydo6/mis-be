@@ -18,7 +18,7 @@ using System;
 
 namespace MIS.Domain.Entities
 {
-	public record Resource
+	public class Resource
 	{
 		public Int32 ID { get; set; }
 

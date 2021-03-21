@@ -18,7 +18,7 @@ using System;
 
 namespace MIS.Domain.Entities
 {
-	public record Specialty
+	public class Specialty
 	{
 		public Int32 ID { get; set; }
 

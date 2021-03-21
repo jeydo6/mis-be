@@ -19,7 +19,7 @@ using System.Text;
 
 namespace MIS.Domain.Entities
 {
-	public record Doctor
+	public class Doctor
 	{
 		public Int32 ID { get; set; }
 

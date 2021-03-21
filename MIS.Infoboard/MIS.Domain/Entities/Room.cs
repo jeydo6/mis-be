@@ -18,7 +18,7 @@ using System;
 
 namespace MIS.Domain.Entities
 {
-	public record Room
+	public class Room
 	{
 		public Int32 ID { get; set; }
 

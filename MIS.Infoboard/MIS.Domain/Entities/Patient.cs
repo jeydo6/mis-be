@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace MIS.Domain.Entities
 {
-	public record Patient
+	public class Patient
 	{
 		public Patient()
 		{

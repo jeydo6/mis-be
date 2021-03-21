@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace MIS.Domain.Entities
 {
-	public record Dispanserization
+	public class Dispanserization
 	{
 		public Int32 ID { get; set; }
 
