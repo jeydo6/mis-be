@@ -36,8 +36,8 @@ namespace MIS.Application.Queries
 
 		public async Task<Boolean> Handle(DispanserizationIsRequireQuery request, CancellationToken cancellationToken)
 		{
-			Boolean isRequire = request.Patient.Dispanserizations
-				.Count(d => d.BeginDate.Year == _dateTimeProvider.Now.Year) == 0;
+			Boolean isRequire = !request.Patient.Dispanserizations
+				.Any(d => d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
 			return await Task.FromResult(isRequire);
 		}
