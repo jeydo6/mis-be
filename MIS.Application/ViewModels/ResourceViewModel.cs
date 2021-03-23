@@ -23,6 +23,8 @@ namespace MIS.Application.ViewModels
 	{
 		public String ResourceName { get; set; }
 
+		public Int32 Count { get; set; }
+
 		public Boolean IsEnabled { get; set; }
 
 		public Boolean IsBlocked { get; set; }

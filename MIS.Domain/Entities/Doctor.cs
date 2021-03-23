@@ -35,7 +35,7 @@ namespace MIS.Domain.Entities
 		{
 			get
 			{
-				StringBuilder sb = new StringBuilder();
+				var sb = new StringBuilder();
 
 				if (!String.IsNullOrEmpty(LastName))
 				{

@@ -51,7 +51,9 @@ namespace MIS.Infoboard
 
 		private IServiceCollection ConfigureLive(IServiceCollection services)
 		{
-			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
+			//services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
+
+			services.AddTransient<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 15)));
 
 			services.AddTransient<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));

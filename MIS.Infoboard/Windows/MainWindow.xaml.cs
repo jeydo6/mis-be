@@ -14,8 +14,6 @@
  */
 #endregion
 
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using MIS.Infoboard.Controls;
 using System;
 using System.Windows;
@@ -29,17 +27,13 @@ namespace MIS.Infoboard.Windows
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private readonly IMediator _mediator;
-
 		private Boolean _serviceMode = false;
 
 		public MainWindow()
 		{
-			var app = System.Windows.Application.Current as App;
-
-			_mediator = app.ServiceProvider.GetService<IMediator>();
-
 			InitializeComponent();
+
+			MainWorkflow();
 		}
 
 		public void NextWorkflow(UserControl userControl, Boolean isRemember = true)

@@ -23,6 +23,8 @@ namespace MIS.Application.ViewModels
 	{
 		public String SpecialtyName { get; set; }
 
+		public Int32 Count { get; set; }
+
 		public Boolean IsEnabled { get; set; }
 
 		public IEnumerable<ResourceViewModel> Resources { get; set; }

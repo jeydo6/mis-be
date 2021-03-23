@@ -46,19 +46,23 @@ namespace MIS.Application.Queries
 
 		public async Task<IEnumerable<SpecialtyViewModel>> Handle(SpecialtyListItemsQuery request, CancellationToken cancellationToken)
 		{
+			IEnumerable<VisitItemViewModel> visitItems = request.Patient != null ? request.Patient.VisitItems
+				.ToList() : new List<VisitItemViewModel>();
+
+			IEnumerable<DispanserizationViewModel> dispanserizations = request.Patient != null ? request.Patient.Dispanserizations
+				.ToList() : new List<DispanserizationViewModel>();
+
 			DateTime beginDate = _dateTimeProvider.Now.Date;
 			DateTime endDate = _dateTimeProvider.Now.Date.AddDays(28);
 
 			IEnumerable<Resource> resources = _resources.ToList();
-			IEnumerable<TimeItemTotal> totals = _timeItems.GetResourceTotals(beginDate, endDate);
+			IEnumerable<TimeItemTotal> resourceTotals = _timeItems.GetResourceTotals(beginDate, endDate);
 
-			IEnumerable<VisitItemViewModel> visitItems = request.Patient.VisitItems
-				.ToList();
-
-			IEnumerable<DateItemViewModel> dateItems = totals
+			IEnumerable<DateItemViewModel> dateItems = resourceTotals
 				.GroupJoin(visitItems, t => t.ResourceID, g => g.ResourceID, (t, g) => new DateItemViewModel
 				{
 					Date = t.Date,
+					Count = t.TimesCount - t.VisitsCount,
 					IsEnabled = (t.TimesCount - t.VisitsCount) > 0,
 					IsBlocked = g.Any(),
 					ResourceID = t.ResourceID
@@ -70,6 +74,7 @@ namespace MIS.Application.Queries
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
 				{
 					ResourceName = r.Doctor.DisplayName,
+					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(di => di.IsEnabled) && g.All(di => !di.IsBlocked),
 					IsBlocked = g.Any(di => di.IsBlocked),
 					ResourceID = r.ID,
@@ -79,42 +84,43 @@ namespace MIS.Application.Queries
 				.OrderBy(ri => ri.ResourceName)
 				.ToList();
 
-			ICollection<SpecialtyViewModel> viewModels = resources
-				.GroupBy(r => r.Doctor.Specialty)
+			ICollection<SpecialtyViewModel> specialtyItems = resources
+				.GroupBy(r => new { r.Doctor.Specialty.ID, r.Doctor.Specialty.Name })
 				.Select(g => g.Key)
 				.GroupJoin(resourceItems, s => s.ID, g => g.SpecialtyID, (s, g) => new SpecialtyViewModel
 				{
 					SpecialtyName = s.Name,
-					Resources = g,
-					IsEnabled = g.Any(ri => ri.IsEnabled) && g.All(ri => !ri.IsBlocked)
+					Count = g.Sum(di => di.Count),
+					IsEnabled = g.Any(ri => ri.IsEnabled) && g.All(ri => !ri.IsBlocked),
+					Resources = g
 				})
 				.OrderBy(si => si.SpecialtyName)
 				.ToList();
 
-			SpecialtyViewModel dispanserizationViewModel = viewModels.FirstOrDefault(s => s.SpecialtyName == "Диспансеризация");
-			if (dispanserizationViewModel != null)
+			SpecialtyViewModel dispanserizationSpecialtyItem = specialtyItems.FirstOrDefault(s => s.SpecialtyName == "Диспансеризация");
+			if (dispanserizationSpecialtyItem != null)
 			{
-				DispanserizationViewModel dispanserization = request.Patient.Dispanserizations
+				DispanserizationViewModel dispanserization = dispanserizations
 					.OrderBy(d => d.BeginDate)
 					.LastOrDefault(d => !d.IsClosed && d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
 				if (dispanserization != null)
 				{
-					foreach (var ri in dispanserizationViewModel.Resources)
+					foreach (var ri in dispanserizationSpecialtyItem.Resources)
 					{
 						ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate);
 						ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled) && ri.Dates.All(di => !di.IsBlocked);
 						ri.IsBlocked = ri.Dates.Any(di => di.IsBlocked);
 					}
-					dispanserizationViewModel.IsEnabled = dispanserizationViewModel.Resources.Any(ri => ri.IsEnabled);
+					dispanserizationSpecialtyItem.IsEnabled = dispanserizationSpecialtyItem.Resources.Any(ri => ri.IsEnabled);
 				}
 				else
 				{
-					viewModels.Remove(dispanserizationViewModel);
+					specialtyItems.Remove(dispanserizationSpecialtyItem);
 				}
 			}
 
-			return await Task.FromResult(viewModels);
+			return await Task.FromResult(specialtyItems);
 		}
 	}
 }

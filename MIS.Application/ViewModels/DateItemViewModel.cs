@@ -23,6 +23,8 @@ namespace MIS.Application.ViewModels
 	{
 		public DateTime Date { get; set; }
 
+		public Int32 Count { get; set; }
+
 		public Boolean IsEnabled { get; set; }
 
 		public Boolean IsBlocked { get; set; }
