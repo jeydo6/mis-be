@@ -64,4 +64,11 @@
 	  <ProjectReference Include="..\MIS.Persistence\MIS.Persistence.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Page Update="Resources\ConvertersDictionary.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
+
 </Project>

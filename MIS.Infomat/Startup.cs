@@ -49,6 +49,9 @@ namespace MIS.Infomat
 			services
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
+			services
+				.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
+
 #if DEMO
 			ConfigureDemo(services);
 #else
@@ -62,8 +65,6 @@ namespace MIS.Infomat
 
 		private IServiceCollection ConfigureLive(IServiceCollection services)
 		{
-			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
-
 			services.AddTransient<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
@@ -78,7 +79,6 @@ namespace MIS.Infomat
 			var dateTimeProvider = new CurrentDateTimeProvider();
 			var dataContext = new DemoDataContext(dateTimeProvider);
 
-			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
 			services.AddTransient<IPatientsRepository, Demo.PatientsRepository>(sp => new Demo.PatientsRepository(dateTimeProvider, dataContext));
 			services.AddTransient<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
 			services.AddTransient<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));

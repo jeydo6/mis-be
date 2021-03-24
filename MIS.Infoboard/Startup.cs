@@ -42,6 +42,9 @@ namespace MIS.Infoboard
 			services
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
+			services
+				.AddTransient<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
+
 #if DEMO
 			ConfigureDemo(services);
 #else
@@ -55,8 +58,6 @@ namespace MIS.Infoboard
 		{
 			//services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
 
-			services.AddTransient<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 15)));
-
 			services.AddTransient<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
@@ -68,8 +69,6 @@ namespace MIS.Infoboard
 		{
 			var dateTimeProvider = new CurrentDateTimeProvider();
 			var dataContext = new DemoDataContext(dateTimeProvider);
-
-			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
 
 			services.AddTransient<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
 			services.AddTransient<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));
