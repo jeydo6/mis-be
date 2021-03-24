@@ -127,13 +127,13 @@ namespace MIS.Infomat.Windows
 			NextWorkflow(new MainControl(), isRemember: false);
 		}
 
-		private void TimerTick(Object sender, EventArgs e)
+		private async void TimerTick(Object sender, EventArgs e)
 		{
 			MainWorkflow();
 
-			IsServiceTime = _mediator.Send(
+			IsServiceTime = await _mediator.Send(
 				new TimeIsServiceQuery()
-			).Result;
+			);
 		}
 
 		private void Window_KeyUp(Object sender, KeyEventArgs e)

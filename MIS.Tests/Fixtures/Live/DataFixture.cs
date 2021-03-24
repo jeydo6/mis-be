@@ -99,7 +99,7 @@ namespace MIS.Tests.Fixtures.Live
 
 		private Int32 CreateDispanserization(Dispanserization item)
 		{
-			Int32 dispanserizationID = Transaction.Connection.QuerySingleAsync<Int32>(
+			Int32 dispanserizationID = Transaction.Connection.QuerySingle<Int32>(
 				sql: "[dbo].[sp_Dispanserizations_Create]",
 				param: new
 				{
@@ -109,14 +109,14 @@ namespace MIS.Tests.Fixtures.Live
 				},
 				commandType: CommandType.StoredProcedure,
 				transaction: Transaction
-			).Result;
+			);
 
 			return dispanserizationID;
 		}
 
 		private Int32 CreatePatient(Patient item)
 		{
-			Int32 patientID = Transaction.Connection.QuerySingleAsync<Int32>(
+			Int32 patientID = Transaction.Connection.QuerySingle<Int32>(
 				sql: "[dbo].[sp_Patients_Create]",
 				param: new
 				{
@@ -128,14 +128,14 @@ namespace MIS.Tests.Fixtures.Live
 				},
 				commandType: CommandType.StoredProcedure,
 				transaction: Transaction
-			).Result;
+			);
 
 			return patientID;
 		}
 
 		private Int32 CreateResource(Resource item)
 		{
-			Int32 resourceID = Transaction.Connection.QuerySingleAsync<Int32>(
+			Int32 resourceID = Transaction.Connection.QuerySingle<Int32>(
 				sql: "[dbo].[sp_Resources_Create]",
 				param: new
 				{
@@ -153,14 +153,14 @@ namespace MIS.Tests.Fixtures.Live
 				},
 				commandType: CommandType.StoredProcedure,
 				transaction: Transaction
-			).Result;
+			);
 
 			return resourceID;
 		}
 
 		private Int32 CreateTimeItem(TimeItem item)
 		{
-			Int32 timeItemID = Transaction.Connection.QuerySingleAsync<Int32>(
+			Int32 timeItemID = Transaction.Connection.QuerySingle<Int32>(
 				sql: "[dbo].[sp_TimeItems_Create]",
 				param: new
 				{
@@ -171,14 +171,14 @@ namespace MIS.Tests.Fixtures.Live
 				},
 				commandType: CommandType.StoredProcedure,
 				transaction: Transaction
-			).Result;
+			);
 
 			return timeItemID;
 		}
 
 		private Int32 CreateVisitItem(VisitItem item)
 		{
-			Int32 visitItemID = Transaction.Connection.QuerySingleAsync<Int32>(
+			Int32 visitItemID = Transaction.Connection.QuerySingle<Int32>(
 				sql: "[dbo].[sp_VisitItems_Create]",
 				param: new
 				{
@@ -187,7 +187,7 @@ namespace MIS.Tests.Fixtures.Live
 				},
 				commandType: CommandType.StoredProcedure,
 				transaction: Transaction
-			).Result;
+			);
 
 			return visitItemID;
 		}

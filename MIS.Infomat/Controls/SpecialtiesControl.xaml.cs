@@ -55,11 +55,11 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			list.ItemsSource = _mediator.Send(
+			list.ItemsSource = await _mediator.Send(
 				new SpecialtyListItemsQuery(_patient)
-			).Result;
+			);
 		}
 
 		private void ListItemButton_Click(Object sender, RoutedEventArgs e)

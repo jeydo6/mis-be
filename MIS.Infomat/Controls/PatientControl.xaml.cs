@@ -94,7 +94,7 @@ namespace MIS.Infomat.Controls
 			_mainWindow.PrevWorkflow();
 		}
 
-		private void NextButton_Click(Object sender, RoutedEventArgs e)
+		private async void NextButton_Click(Object sender, RoutedEventArgs e)
 		{
 			Boolean numberValidation;
 			if (String.IsNullOrEmpty(numberTextBox.Text))
@@ -126,11 +126,11 @@ namespace MIS.Infomat.Controls
 
 			if (numberValidation && birthdateValidation)
 			{
-				PatientViewModel patient = _mediator.Send(new PatientFirstQuery(
+				PatientViewModel patient = await _mediator.Send(new PatientFirstQuery(
 						numberTextBox.Text,
 						new DateTime(Int32.Parse(birthdateTextBox.Text), 1, 1)
 					)
-				).Result;
+				);
 
 				if (patient != null)
 				{

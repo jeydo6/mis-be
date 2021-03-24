@@ -60,15 +60,15 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			list.ItemsSource = _mediator.Send(
+			list.ItemsSource = await _mediator.Send(
 				new VisitListItemsQuery(_patient)
-			).Result;
+			);
 
-			dispanserizationButton.DataContext = _mediator.Send(
+			dispanserizationButton.DataContext = await _mediator.Send(
 				new DispanserizationLastQuery(_patient)
-			).Result;
+			);
 
 			//if (dispanserizationButton.DataContext != null)
 			//{

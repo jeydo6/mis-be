@@ -60,26 +60,26 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			datesHeader.Content = _mediator.Send(
+			datesHeader.Content = await _mediator.Send(
 				new DateHeaderQuery()
-			).Result;
+			);
 
-			datesList.ItemsSource = _mediator.Send(
+			datesList.ItemsSource = await _mediator.Send(
 				new DispanserizationListItemsQuery()
-			).Result;
+			);
 		}
 
-		private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
+		private async void DateListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserizationItem)
 			{
 				try
 				{
-					DispanserizationViewModel dispanserization = _mediator.Send(
+					DispanserizationViewModel dispanserization = await _mediator.Send(
 						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.DisplayName)
-					).Result;
+					);
 
 					_patient.Dispanserizations.Add(dispanserization);
 

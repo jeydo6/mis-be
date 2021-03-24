@@ -64,26 +64,26 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			datesHeader.Content = _mediator.Send(
+			datesHeader.Content = await _mediator.Send(
 				new DateHeaderQuery()
-			).Result;
+			);
 
-			datesList.ItemsSource = _mediator.Send(
+			datesList.ItemsSource = await _mediator.Send(
 				new DateListItemsQuery(_resource)
-			).Result;
+			);
 		}
 
-		private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
+		private async void DateListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is DateItemViewModel dateItem)
 			{
 				if (dateItem.Times == null)
 				{
-					dateItem.Times = _mediator.Send(
+					dateItem.Times = await _mediator.Send(
 						new TimeListItemsQuery(dateItem.Date, _resource.ResourceID)
-					).Result;
+					);
 
 					dateItem.IsEnabled = dateItem.Times.Any(ti => ti.IsEnabled);
 				}
@@ -104,15 +104,15 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void TimeListItemButton_Click(Object sender, RoutedEventArgs e)
+		private async void TimeListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is TimeItemViewModel timeItem)
 			{
 				try
 				{
-					VisitItemViewModel visitItem = _mediator.Send(
+					VisitItemViewModel visitItem = await _mediator.Send(
 						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.DisplayName)
-					).Result;
+					);
 
 					_patient.VisitItems.Add(visitItem);
 

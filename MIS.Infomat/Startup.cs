@@ -73,10 +73,10 @@ namespace MIS.Infomat
 			return services;
 		}
 
-		private IServiceCollection ConfigureDemo(IServiceCollection services)
+		private static IServiceCollection ConfigureDemo(IServiceCollection services)
 		{
-			CurrentDateTimeProvider dateTimeProvider = new CurrentDateTimeProvider();
-			DemoDataContext dataContext = new DemoDataContext(dateTimeProvider);
+			var dateTimeProvider = new CurrentDateTimeProvider();
+			var dataContext = new DemoDataContext(dateTimeProvider);
 
 			services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
 			services.AddTransient<IPatientsRepository, Demo.PatientsRepository>(sp => new Demo.PatientsRepository(dateTimeProvider, dataContext));

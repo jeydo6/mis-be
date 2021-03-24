@@ -54,11 +54,11 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			Boolean dispanserizationIsRequire = _mediator.Send(
+			Boolean dispanserizationIsRequire = await _mediator.Send(
 				new DispanserizationIsRequireQuery(_patient)
-			).Result;
+			);
 
 			dispanserizationButton.Visibility = dispanserizationIsRequire ? Visibility.Visible : Visibility.Collapsed;
 		}
