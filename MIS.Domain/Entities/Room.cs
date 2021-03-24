@@ -24,6 +24,19 @@ namespace MIS.Domain.Entities
 
 		public String Code { get; set; }
 
+		public String DisplayCode
+		{
+			get
+			{
+				if (!String.IsNullOrEmpty(Code))
+				{
+					return $"{Code} каб.";
+				}
+
+				return "";
+			}
+		}
+
 		public Int32 Flat { get; set; }
 	}
 }

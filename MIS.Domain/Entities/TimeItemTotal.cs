@@ -24,6 +24,10 @@ namespace MIS.Domain.Entities
 
 		public DateTime Date { get; set; }
 
+		public DateTime BeginTime { get; set; }
+
+		public DateTime EndTime { get; set; }
+
 		public Int32 TimesCount { get; set; }
 
 		public Int32 VisitsCount { get; set; }

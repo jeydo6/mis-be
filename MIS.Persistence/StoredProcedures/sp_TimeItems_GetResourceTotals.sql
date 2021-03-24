@@ -32,6 +32,8 @@ BEGIN
 	SELECT
 		 t.[rf_DocPRVDID] AS [ResourceID]
 		,t.[Date] AS [Date]
+		,MIN(t.[Begin_Time]) AS [BeginTime]
+		,MAX(t.[End_Time]) AS [EndTime]
 		,COUNT(t.[DoctorTimeTableID]) AS [TimesCount]
 		,COUNT(v.[DoctorVisitTableID]) AS [VisitsCount]
 	FROM

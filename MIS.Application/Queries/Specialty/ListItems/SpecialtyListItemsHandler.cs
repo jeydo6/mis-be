@@ -62,6 +62,8 @@ namespace MIS.Application.Queries
 				.GroupJoin(visitItems, t => t.ResourceID, g => g.ResourceID, (t, g) => new DateItemViewModel
 				{
 					Date = t.Date,
+					BeginTime = t.BeginTime,
+					EndTime = t.EndTime,
 					Count = t.TimesCount - t.VisitsCount,
 					IsEnabled = (t.TimesCount - t.VisitsCount) > 0,
 					IsBlocked = g.Any(),
@@ -74,6 +76,7 @@ namespace MIS.Application.Queries
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
 				{
 					ResourceName = r.Doctor.DisplayName,
+					RoomCode = r.Room.DisplayCode,
 					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(di => di.IsEnabled) && g.All(di => !di.IsBlocked),
 					IsBlocked = g.Any(di => di.IsBlocked),

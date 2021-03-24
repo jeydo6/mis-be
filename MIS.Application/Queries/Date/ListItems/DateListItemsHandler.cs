@@ -40,7 +40,7 @@ namespace MIS.Application.Queries
 		{
 			IEnumerable<DateItemViewModel> viewModels = null;
 
-			if (request.Resource.Dates != null && request.Resource.Dates.Count() > 0)
+			if (request.Resource.Dates != null && request.Resource.Dates.Any())
 			{
 				DateTime beginDate = _dateTimeProvider.Now.Date;
 				Int32 beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
