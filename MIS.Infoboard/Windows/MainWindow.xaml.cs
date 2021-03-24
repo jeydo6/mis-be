@@ -33,10 +33,10 @@ namespace MIS.Infoboard.Windows
 		{
 			InitializeComponent();
 
-			MainWorkflow();
+			NextWorkflow(new SpecialtiesControl());
 		}
 
-		public void NextWorkflow(UserControl userControl, Boolean isRemember = true)
+		public void NextWorkflow(UserControl userControl)
 		{
 			if (userControl != null)
 			{
@@ -47,7 +47,7 @@ namespace MIS.Infoboard.Windows
 
 		public void MainWorkflow()
 		{
-			NextWorkflow(new MainControl(), isRemember: false);
+			NextWorkflow(new MainControl());
 		}
 
 		private void Window_KeyUp(Object sender, KeyEventArgs e)

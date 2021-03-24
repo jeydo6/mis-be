@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="MIS.Infoboard.Controls.SpecialtiesControl"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:viewModels="clr-namespace:MIS.Application.ViewModels;assembly=MIS.Application"
+			 mc:Ignorable="d"
+			 d:DesignHeight="1024" d:DesignWidth="1280"
+			 Loaded="UserControl_Loaded">
+	<Grid Margin="0, 25">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+			<ItemsControl.Template>
+				<ControlTemplate>
+					<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True">
+						<ItemsPresenter />
+					</ScrollViewer>
+				</ControlTemplate>
+			</ItemsControl.Template>
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel VerticalAlignment="Center" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Label Margin="25, 10" IsEnabled="{Binding IsEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" >
+						<TextBlock Text="{Binding SpecialtyName}" FontSize="60" FontFamily="Georgia" Margin="10, 25" />
+					</Label>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+			<d:ItemsControl.ItemsSource>
+				<x:Array Type="{x:Type viewModels:SpecialtyViewModel}">
+					<viewModels:SpecialtyViewModel SpecialtyName="Specialty # 1" IsEnabled="True" />
+					<viewModels:SpecialtyViewModel SpecialtyName="Specialty # 2" />
+				</x:Array>
+			</d:ItemsControl.ItemsSource>
+		</ItemsControl>
+	</Grid>
+</UserControl>
