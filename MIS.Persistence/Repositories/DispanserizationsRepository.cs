@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MIS.Persistence.Repositories
 {
@@ -42,9 +43,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public Int32 Create(Dispanserization item)
+		public async Task<Int32> Create(Dispanserization item)
 		{
-			Int32 dispanserizationID = _db.QuerySingle<Int32>(
+			Int32 dispanserizationID = await _db.QuerySingleAsync<Int32>(
 				sql: "[dbo].[sp_Dispanserizations_Create]",
 				param: new
 				{
@@ -59,11 +60,11 @@ namespace MIS.Persistence.Repositories
 			return dispanserizationID;
 		}
 
-		public Dispanserization Get(Int32 dispanserizationID)
+		public async Task<Dispanserization> Get(Int32 dispanserizationID)
 		{
-			IDictionary<Int32, Dispanserization> keyValues = new Dictionary<Int32, Dispanserization>();
+			var keyValues = new Dictionary<Int32, Dispanserization>();
 
-			Dispanserization result = _db.Query<Dispanserization, Analysis, Dispanserization>(
+			var result = await _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
 				map: (dispanserization, analysis) =>
 				{
@@ -81,18 +82,18 @@ namespace MIS.Persistence.Repositories
 				param: new { dispanserizationID },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
-			)
-			.Distinct()
-			.FirstOrDefault();
+			);
 
-			return result;
+			return result
+				.Distinct()
+				.FirstOrDefault();
 		}
 
-		public IEnumerable<Dispanserization> ToList(Int32 patientID)
+		public async Task<List<Dispanserization>> ToList(Int32 patientID)
 		{
-			IDictionary<Int32, Dispanserization> keyValues = new Dictionary<Int32, Dispanserization>();
+			var keyValues = new Dictionary<Int32, Dispanserization>();
 
-			IEnumerable<Dispanserization> dispanserizations = _db.Query<Dispanserization, Analysis, Dispanserization>(
+			var result = await _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_List]",
 				map: (dispanserization, analysis) =>
 				{
@@ -109,11 +110,11 @@ namespace MIS.Persistence.Repositories
 				param: new { patientID },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
-			)
-			.Distinct()
-			.ToList();
+			);
 
-			return dispanserizations;
+			return result
+				.Distinct()
+				.AsList();
 		}
 
 		public void Dispose()

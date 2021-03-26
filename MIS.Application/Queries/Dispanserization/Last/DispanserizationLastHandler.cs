@@ -36,11 +36,11 @@ namespace MIS.Application.Queries
 
 		public async Task<DispanserizationViewModel> Handle(DispanserizationLastQuery request, CancellationToken cancellationToken)
 		{
-			DispanserizationViewModel viewModel = request.Patient.Dispanserizations
+			var result = request.Patient.Dispanserizations
 				.OrderBy(d => d.BeginDate)
 				.LastOrDefault(d => !d.IsClosed && d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
-			return await Task.FromResult(viewModel);
+			return await Task.FromResult(result);
 		}
 	}
 }

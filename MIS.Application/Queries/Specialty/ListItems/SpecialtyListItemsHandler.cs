@@ -46,19 +46,19 @@ namespace MIS.Application.Queries
 
 		public async Task<IEnumerable<SpecialtyViewModel>> Handle(SpecialtyListItemsQuery request, CancellationToken cancellationToken)
 		{
-			IEnumerable<VisitItemViewModel> visitItems = request.Patient != null ? request.Patient.VisitItems
+			var visitItems = request.Patient != null ? request.Patient.VisitItems
 				.ToList() : new List<VisitItemViewModel>();
 
-			IEnumerable<DispanserizationViewModel> dispanserizations = request.Patient != null ? request.Patient.Dispanserizations
+			var dispanserizations = request.Patient != null ? request.Patient.Dispanserizations
 				.ToList() : new List<DispanserizationViewModel>();
 
-			DateTime beginDate = _dateTimeProvider.Now.Date;
-			DateTime endDate = _dateTimeProvider.Now.Date.AddDays(28);
+			var beginDate = _dateTimeProvider.Now.Date;
+			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
 
-			IEnumerable<Resource> resources = _resources.ToList();
-			IEnumerable<TimeItemTotal> resourceTotals = _timeItems.GetResourceTotals(beginDate, endDate);
+			var resources = await _resources.ToList();
+			var resourceTotals = await _timeItems.GetResourceTotals(beginDate, endDate);
 
-			IEnumerable<DateItemViewModel> dateItems = resourceTotals
+			var dateItems = resourceTotals
 				.GroupJoin(visitItems, t => t.ResourceID, g => g.ResourceID, (t, g) => new DateItemViewModel
 				{
 					Date = t.Date,
@@ -72,7 +72,7 @@ namespace MIS.Application.Queries
 				.OrderBy(di => di.Date)
 				.ToList();
 
-			IEnumerable<ResourceViewModel> resourceItems = resources
+			var resourceItems = resources
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
 				{
 					ResourceName = r.Doctor.DisplayName,
@@ -87,7 +87,7 @@ namespace MIS.Application.Queries
 				.OrderBy(ri => ri.ResourceName)
 				.ToList();
 
-			ICollection<SpecialtyViewModel> specialtyItems = resources
+			var specialtyItems = resources
 				.GroupBy(r => new { r.Doctor.Specialty.ID, r.Doctor.Specialty.Name })
 				.Select(g => g.Key)
 				.GroupJoin(resourceItems, s => s.ID, g => g.SpecialtyID, (s, g) => new SpecialtyViewModel
@@ -100,10 +100,10 @@ namespace MIS.Application.Queries
 				.OrderBy(si => si.SpecialtyName)
 				.ToList();
 
-			SpecialtyViewModel dispanserizationSpecialtyItem = specialtyItems.FirstOrDefault(s => s.SpecialtyName == "Диспансеризация");
+			var dispanserizationSpecialtyItem = specialtyItems.FirstOrDefault(s => s.SpecialtyName == "Диспансеризация");
 			if (dispanserizationSpecialtyItem != null)
 			{
-				DispanserizationViewModel dispanserization = dispanserizations
+				var dispanserization = dispanserizations
 					.OrderBy(d => d.BeginDate)
 					.LastOrDefault(d => !d.IsClosed && d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
@@ -123,7 +123,7 @@ namespace MIS.Application.Queries
 				}
 			}
 
-			return await Task.FromResult(specialtyItems);
+			return specialtyItems;
 		}
 	}
 }

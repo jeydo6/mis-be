@@ -1,6 +1,7 @@
 ﻿using MIS.Domain.Repositories;
 using MIS.Persistence.Repositories;
 using MIS.Tests.Fixtures.Live;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MIS.Tests.Repositories.Live
@@ -15,17 +16,17 @@ namespace MIS.Tests.Repositories.Live
 		}
 
 		[Fact]
-		public void ToList_Ok()
+		public async Task ToList_Ok()
 		{
-			var actualResult = _resources.ToList();
+			var actualResult = await _resources.ToList();
 
 			Assert.NotEmpty(actualResult);
 		}
 
 		[Fact]
-		public void GetDispanserizations_Ok()
+		public async Task GetDispanserizations_Ok()
 		{
-			var actualResult = _resources.GetDispanserizations();
+			var actualResult = await _resources.GetDispanserizations();
 
 			Assert.NotEmpty(actualResult);
 		}

@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MIS.Persistence.Repositories
 {
@@ -42,9 +43,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public Int32 Create(VisitItem item)
+		public async Task<Int32> Create(VisitItem item)
 		{
-			Int32 visitItemID = _db.QuerySingle<Int32>(
+			var result = await _db.QuerySingleAsync<Int32>(
 				sql: "[dbo].[sp_VisitItems_Create]",
 				param: new
 				{
@@ -55,12 +56,12 @@ namespace MIS.Persistence.Repositories
 				transaction: _transaction
 			);
 
-			return visitItemID;
+			return result;
 		}
 
-		public VisitItem Get(Int32 visitItemID)
+		public async Task<VisitItem> Get(Int32 visitItemID)
 		{
-			VisitItem result = _db.Query<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
+			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_Get]",
 				map: (visitItem, timeItem, resource, doctor, specialty, room) =>
 				{
@@ -76,15 +77,15 @@ namespace MIS.Persistence.Repositories
 				param: new { visitItemID },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
-			)
-			.FirstOrDefault();
+			);
 
-			return result;
+			return result
+				.FirstOrDefault();
 		}
 
-		public IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
+		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
 		{
-			IEnumerable<VisitItem> visitItems = _db.Query<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
+			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_List]",
 				map: (visitItem, timeItem, resource, doctor, specialty, room) =>
 				{
@@ -102,7 +103,8 @@ namespace MIS.Persistence.Repositories
 				transaction: _transaction
 			);
 
-			return visitItems;
+			return result
+				.AsList();
 		}
 
 		public void Dispose()

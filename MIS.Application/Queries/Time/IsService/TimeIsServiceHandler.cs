@@ -44,10 +44,10 @@ namespace MIS.Application.Queries
 		{
 			if (_serviceIntervals != null)
 			{
-				DayOfWeek dayOfWeek = _dateTimeProvider.Now.Date.DayOfWeek;
-				TimeSpan timeOfDay = _dateTimeProvider.Now.TimeOfDay;
+				var dayOfWeek = _dateTimeProvider.Now.Date.DayOfWeek;
+				var timeOfDay = _dateTimeProvider.Now.TimeOfDay;
 
-				Boolean isService = _serviceIntervals.Any(si =>
+				var result = _serviceIntervals.Any(si =>
 				{
 					TimeSpan beginService = DateTime.Parse(si.BeginTime).TimeOfDay;
 					TimeSpan endService = DateTime.Parse(si.EndTime).TimeOfDay;
@@ -57,7 +57,7 @@ namespace MIS.Application.Queries
 						&& timeOfDay < endService;
 				});
 
-				return await Task.FromResult(isService);
+				return await Task.FromResult(result);
 			}
 
 			return false;

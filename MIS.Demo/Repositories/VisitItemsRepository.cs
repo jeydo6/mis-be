@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MIS.Demo.Repositories
 {
@@ -39,7 +40,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public Int32 Create(VisitItem item)
+		public async Task<Int32> Create(VisitItem item)
 		{
 			if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == item.TimeItemID) != null)
 			{
@@ -55,21 +56,27 @@ namespace MIS.Demo.Repositories
 
 			_dataContext.VisitItems.Add(item);
 
-			return item.ID;
+			var result = item.ID;
+
+			return await Task.FromResult(result);
 		}
 
-		public VisitItem Get(Int32 visitItemID)
+		public async Task<VisitItem> Get(Int32 visitItemID)
 		{
-			return _dataContext.VisitItems
+			var result = _dataContext.VisitItems
 				.FirstOrDefault(vi => vi.ID == visitItemID);
+
+			return await Task.FromResult(result);
 		}
 
-		public IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
+		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
 		{
-			return _dataContext.VisitItems
+			var result = _dataContext.VisitItems
 				.Where(vi => vi.TimeItem.Resource.Doctor.Specialty.ID > 0)
 				.Where(vi => vi.TimeItem.Date >= beginDate && vi.TimeItem.Date <= endDate && (patientID == 0 || vi.PatientID == patientID))
 				.ToList();
+
+			return await Task.FromResult(result);
 		}
 	}
 }

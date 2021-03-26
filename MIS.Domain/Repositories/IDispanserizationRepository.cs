@@ -17,15 +17,16 @@
 using MIS.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IDispanserizationsRepository
 	{
-		Int32 Create(Dispanserization dispanserization);
+		Task<Int32> Create(Dispanserization dispanserization);
 
-		Dispanserization Get(Int32 dispanserizationID);
+		Task<Dispanserization> Get(Int32 dispanserizationID);
 
-		IEnumerable<Dispanserization> ToList(Int32 patientID);
+		Task<List<Dispanserization>> ToList(Int32 patientID);
 	}
 }

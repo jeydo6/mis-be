@@ -4,6 +4,7 @@ using MIS.Persistence.Repositories;
 using MIS.Tests.Fixtures.Live;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MIS.Tests.Repositories.Live
@@ -18,9 +19,9 @@ namespace MIS.Tests.Repositories.Live
 		}
 
 		[Fact]
-		public void First_Ok()
+		public async Task First_Ok()
 		{
-			var actualResult = _patients.First("30000000", new DateTime(1980, 1, 1));
+			var actualResult = await _patients.First("30000000", new DateTime(1980, 1, 1));
 			var expectedResult = new Patient
 			{
 				Code = "30000000",
@@ -53,11 +54,11 @@ namespace MIS.Tests.Repositories.Live
 		}
 
 		[Fact]
-		public void Get_Ok()
+		public async Task Get_Ok()
 		{
-			var patientID = _patients.First("30000000", new DateTime(1980, 1, 1)).ID;
+			var patient = await _patients.First("30000000", new DateTime(1980, 1, 1));
 
-			var actualResult = _patients.Get(patientID);
+			var actualResult = await _patients.Get(patient.ID);
 			var expectedResult = new Patient
 			{
 				ID = actualResult.ID,
@@ -73,7 +74,7 @@ namespace MIS.Tests.Repositories.Live
 			Assert.Equal(
 				new
 				{
-					ID = patientID,
+					patient.ID,
 					expectedResult.Code,
 					expectedResult.FirstName,
 					expectedResult.MiddleName,

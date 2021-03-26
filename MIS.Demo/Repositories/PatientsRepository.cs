@@ -20,6 +20,7 @@ using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MIS.Demo.Repositories
 {
@@ -37,16 +38,21 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public Patient First(String code, DateTime birthDate)
+
+		public async Task<Patient> First(String code, DateTime birthDate)
 		{
-			return _dataContext.Patients
+			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.Code == code && s.BirthDate == birthDate);
+
+			return await Task.FromResult(result);
 		}
 
-		public Patient Get(Int32 patientID)
+		public async Task<Patient> Get(Int32 patientID)
 		{
-			return _dataContext.Patients
+			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.ID == patientID);
+
+			return await Task.FromResult(result);
 		}
 
 	}

@@ -21,6 +21,7 @@ using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace MIS.Persistence.Repositories
 {
@@ -41,9 +42,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public IEnumerable<Resource> ToList()
+		public async Task<List<Resource>> ToList()
 		{
-			IEnumerable<Resource> resources = _db.Query<Resource, Doctor, Specialty, Room, Resource>(
+			var result = await _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_List]",
 				map: (resource, doctor, specialty, room) =>
 				{
@@ -57,12 +58,13 @@ namespace MIS.Persistence.Repositories
 				transaction: _transaction
 			);
 
-			return resources;
+			return result
+				.AsList();
 		}
 
-		public IEnumerable<Resource> GetDispanserizations()
+		public async Task<List<Resource>> GetDispanserizations()
 		{
-			IEnumerable<Resource> resources = _db.Query<Resource, Doctor, Specialty, Room, Resource>(
+			IEnumerable<Resource> result = await _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_GetDispanserizations]",
 				map: (resource, doctor, specialty, room) =>
 				{
@@ -76,7 +78,8 @@ namespace MIS.Persistence.Repositories
 				transaction: _transaction
 			);
 
-			return resources;
+			return result
+				.AsList();
 		}
 
 		public void Dispose()

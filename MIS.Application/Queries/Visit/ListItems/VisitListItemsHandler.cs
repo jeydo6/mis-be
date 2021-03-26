@@ -27,11 +27,11 @@ namespace MIS.Application.Queries
 	{
 		public async Task<IEnumerable<VisitItemViewModel>> Handle(VisitListItemsQuery request, CancellationToken cancellationToken)
 		{
-			IEnumerable<VisitItemViewModel> visitItems = request.Patient.VisitItems
+			var result = request.Patient.VisitItems
 				.OrderBy(v => v.BeginDateTime)
 				.ToList();
 
-			return await Task.FromResult(visitItems);
+			return await Task.FromResult(result);
 		}
 	}
 }

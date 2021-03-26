@@ -20,6 +20,7 @@ using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace MIS.Persistence.Repositories
 {
@@ -40,28 +41,28 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public Patient First(String code, DateTime birthDate)
+		public async Task<Patient> First(String code, DateTime birthDate)
 		{
-			Patient patient = _db.QueryFirstOrDefault<Patient>(
+			var result = await _db.QueryFirstOrDefaultAsync<Patient>(
 				sql: "[dbo].[sp_Patients_First]",
 				param: new { code, birthDate },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
 			);
 
-			return patient;
+			return result;
 		}
 
-		public Patient Get(Int32 patientID)
+		public async Task<Patient> Get(Int32 patientID)
 		{
-			Patient patient = _db.QueryFirstOrDefault<Patient>(
+			var result = await _db.QueryFirstOrDefaultAsync<Patient>(
 				sql: "[dbo].[sp_Patients_Get]",
 				param: new { patientID },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
 			);
 
-			return patient;
+			return result;
 		}
 
 		public void Dispose()

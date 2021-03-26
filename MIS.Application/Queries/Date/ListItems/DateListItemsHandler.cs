@@ -38,23 +38,21 @@ namespace MIS.Application.Queries
 
 		public async Task<IEnumerable<DateItemViewModel>> Handle(DateListItemsQuery request, CancellationToken cancellationToken)
 		{
-			IEnumerable<DateItemViewModel> viewModels = null;
+			var beginDate = _dateTimeProvider.Now.Date;
+			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
+
+			var result = Enumerable
+				.Range(1 - beginDayOfWeek, 35)
+				.Select(i => new DateItemViewModel
+				{
+					Date = beginDate.AddDays(i),
+					ResourceID = request.Resource.ResourceID
+				})
+				.ToList();
 
 			if (request.Resource.Dates != null && request.Resource.Dates.Any())
 			{
-				DateTime beginDate = _dateTimeProvider.Now.Date;
-				Int32 beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
-
-				viewModels = Enumerable
-					.Range(1 - beginDayOfWeek, 35)
-					.Select(i => new DateItemViewModel
-					{
-						Date = beginDate.AddDays(i),
-						ResourceID = request.Resource.ResourceID
-					})
-					.ToList();
-
-				viewModels
+				var joined = result
 					.Join(request.Resource.Dates, di => di.Date, d => d.Date, (di, d) =>
 					{
 						di.IsEnabled = d.IsEnabled;
@@ -64,7 +62,7 @@ namespace MIS.Application.Queries
 					.ToList();
 			}
 
-			return await Task.FromResult(viewModels);
+			return await Task.FromResult(result);
 		}
 	}
 }

@@ -16,7 +16,6 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using MIS.Domain.Entities;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
@@ -47,36 +46,33 @@ namespace MIS.Application.Queries
 
 		public async Task<IEnumerable<DispanserizationViewModel>> Handle(DispanserizationListItemsQuery request, CancellationToken cancellationToken)
 		{
-			DateTime beginDate = _dateTimeProvider.Now.Date;
-			DateTime endDate = _dateTimeProvider.Now.Date.AddDays(28);
+			var beginDate = _dateTimeProvider.Now.Date;
+			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
+			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
 
-			Int32 resourcesCount = _resources.GetDispanserizations().Count();
-			IEnumerable<TimeItemTotal> totals = _timeItems.GetDispanserizationTotals(beginDate, endDate);
+			var result = Enumerable
+				.Range(1 - beginDayOfWeek, 35)
+				.Select(i => new DispanserizationViewModel
+				{
+					BeginDate = beginDate.AddDays(i)
+				})
+				.ToList();
 
-			IEnumerable<DispanserizationViewModel> dispanserizationItems = totals
+			var resources = await _resources.GetDispanserizations();
+			var totals = await _timeItems.GetDispanserizationTotals(beginDate, endDate);
+
+			var dispanserizationItems = totals
 				.GroupBy(t => t.Date)
 				.Select(g => new DispanserizationViewModel
 				{
 					BeginDate = g.Key,
-					IsEnabled = g.Count() == resourcesCount
+					IsEnabled = g.Count() == resources.Count
 				})
 				.ToList();
 
-			IEnumerable<DispanserizationViewModel> viewModels = null;
-
-			if (dispanserizationItems != null && dispanserizationItems.Count() > 0)
+			if (dispanserizationItems != null && dispanserizationItems.Any())
 			{
-				Int32 beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
-
-				viewModels = Enumerable
-					.Range(1 - beginDayOfWeek, 35)
-					.Select(i => new DispanserizationViewModel
-					{
-						BeginDate = beginDate.AddDays(i)
-					})
-					.ToList();
-
-				viewModels
+				var joined = result
 					.Join(dispanserizationItems, di => di.BeginDate, d => d.BeginDate, (di, d) =>
 					{
 						di.IsEnabled = d.IsEnabled;
@@ -86,7 +82,7 @@ namespace MIS.Application.Queries
 					.ToList();
 			}
 
-			return await Task.FromResult(viewModels);
+			return result;
 		}
 	}
 }

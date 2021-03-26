@@ -20,6 +20,7 @@ using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MIS.Demo.Repositories
 {
@@ -37,18 +38,22 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public IEnumerable<Resource> ToList()
+		public async Task<List<Resource>> ToList()
 		{
-			return _dataContext.Resources
+			var result = _dataContext.Resources
 				.Where(r => r.Doctor.Specialty.ID > 0)
 				.ToList();
+
+			return await Task.FromResult(result);
 		}
 
-		public IEnumerable<Resource> GetDispanserizations()
+		public async Task<List<Resource>> GetDispanserizations()
 		{
-			return _dataContext.Resources
+			var result = _dataContext.Resources
 				.Where(r => r.Doctor.Specialty.ID == 0)
 				.ToList();
+
+			return await Task.FromResult(result);
 		}
 	}
 }

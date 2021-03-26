@@ -15,31 +15,18 @@
 #endregion
 
 using MediatR;
-using MIS.Domain.Providers;
+using MIS.Application.ViewModels;
 using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class DispanserizationIsRequireHandler : IRequestHandler<DispanserizationIsRequireQuery, Boolean>
+	public class DispanserizationIsRequiredQuery : IRequest<Boolean>
 	{
-		private readonly IDateTimeProvider _dateTimeProvider;
-
-		public DispanserizationIsRequireHandler(
-			IDateTimeProvider dateTimeProvider
-		)
+		public DispanserizationIsRequiredQuery(PatientViewModel patient)
 		{
-			_dateTimeProvider = dateTimeProvider;
+			Patient = patient;
 		}
 
-		public async Task<Boolean> Handle(DispanserizationIsRequireQuery request, CancellationToken cancellationToken)
-		{
-			Boolean isRequire = !request.Patient.Dispanserizations
-				.Any(d => d.BeginDate.Year == _dateTimeProvider.Now.Year);
-
-			return await Task.FromResult(isRequire);
-		}
+		public PatientViewModel Patient { get; }
 	}
 }

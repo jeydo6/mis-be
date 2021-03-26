@@ -17,15 +17,16 @@
 using MIS.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IVisitItemsRepository
 	{
-		Int32 Create(VisitItem item);
+		Task<Int32> Create(VisitItem item);
 
-		VisitItem Get(Int32 visitItemID);
+		Task<VisitItem> Get(Int32 visitItemID);
 
-		IEnumerable<VisitItem> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0);
+		Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0);
 	}
 }

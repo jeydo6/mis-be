@@ -18,7 +18,6 @@ using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,17 +36,17 @@ namespace MIS.Application.Commands
 
 		public async Task<VisitItemViewModel> Handle(VisitCreateCommand request, CancellationToken cancellationToken)
 		{
-			VisitItem visitItem = new VisitItem
+			var visitItem = new VisitItem
 			{
 				TimeItemID = request.TimeItemID,
 				PatientID = request.PatientID
 			};
 
-			Int32 visitItemID = _visitItems.Create(visitItem);
+			var visitItemID = await _visitItems.Create(visitItem);
 
-			visitItem = _visitItems.Get(visitItemID);
+			visitItem = await _visitItems.Get(visitItemID);
 
-			VisitItemViewModel viewModel = new VisitItemViewModel
+			var result = new VisitItemViewModel
 			{
 				BeginDateTime = visitItem.TimeItem.BeginDateTime,
 				PatientCode = request.PatientCode,
@@ -60,7 +59,7 @@ namespace MIS.Application.Commands
 				ResourceID = visitItem.TimeItem.ResourceID
 			};
 
-			return await Task.FromResult(viewModel);
+			return result;
 		}
 	}
 }

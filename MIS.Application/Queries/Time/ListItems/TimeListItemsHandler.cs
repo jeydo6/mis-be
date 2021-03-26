@@ -41,8 +41,10 @@ namespace MIS.Application.Queries
 
 		public async Task<IEnumerable<TimeItemViewModel>> Handle(TimeListItemsQuery request, CancellationToken cancellationToken)
 		{
-			IEnumerable<TimeItemViewModel> viewModels = _timeItems
-				.ToList(request.Date, request.Date, request.ResourceID)
+			var timeItems = await _timeItems
+				.ToList(request.Date, request.Date, request.ResourceID);
+
+			var result = timeItems
 				.Where(t => t.BeginDateTime > _dateTimeProvider.Now)
 				.Select(t => new TimeItemViewModel
 				{
@@ -54,7 +56,7 @@ namespace MIS.Application.Queries
 				.Take(28)
 				.ToList();
 
-			return await Task.FromResult(viewModels);
+			return result;
 		}
 	}
 }

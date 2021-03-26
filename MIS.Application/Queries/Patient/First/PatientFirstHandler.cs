@@ -48,25 +48,23 @@ namespace MIS.Application.Queries
 
 		public async Task<PatientViewModel> Handle(PatientFirstQuery request, CancellationToken cancellationToken)
 		{
-			Patient patient = _patients.First(request.Code, request.BirthDate);
+			var patient = await _patients.First(request.Code, request.BirthDate);
 
 			if (patient == null)
 			{
 				return null;
 			}
 
-			DateTime beginDate = _dateTimeProvider.Now.Date;
-			DateTime endDate = _dateTimeProvider.Now.Date.AddDays(28);
+			var beginDate = _dateTimeProvider.Now.Date;
+			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
 
-			patient.VisitItems = _visitItems
-				.ToList(beginDate, endDate, patientID: patient.ID)
-				.ToList();
+			patient.VisitItems = await _visitItems
+				.ToList(beginDate, endDate, patientID: patient.ID);
 
-			patient.Dispanserizations = _dispanserizations
-				.ToList(patient.ID)
-				.ToList();
+			patient.Dispanserizations = await _dispanserizations
+				.ToList(patient.ID);
 
-			PatientViewModel viewModel = new PatientViewModel
+			var result = new PatientViewModel
 			{
 				ID = patient.ID,
 				Code = patient.Code,
@@ -98,7 +96,7 @@ namespace MIS.Application.Queries
 				}).ToList()
 			};
 
-			return await Task.FromResult(viewModel);
+			return result;
 		}
 	}
 }

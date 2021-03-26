@@ -16,13 +16,14 @@
 
 using MIS.Domain.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IPatientsRepository
 	{
-		Patient First(String code, DateTime birthDate);
+		Task<Patient> First(String code, DateTime birthDate);
 
-		Patient Get(Int32 patientID);
+		Task<Patient> Get(Int32 patientID);
 	}
 }

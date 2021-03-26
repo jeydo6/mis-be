@@ -21,6 +21,7 @@ using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace MIS.Persistence.Repositories
 {
@@ -41,9 +42,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public IEnumerable<TimeItem> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
+		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
 		{
-			IEnumerable<TimeItem> timeItems = _db.Query<TimeItem, Resource, Doctor, Specialty, Room, VisitItem, TimeItem>(
+			var result = await _db.QueryAsync<TimeItem, Resource, Doctor, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_List]",
 				map: (timeItem, resource, doctor, specialty, room, visitItem) =>
 				{
@@ -64,31 +65,34 @@ namespace MIS.Persistence.Repositories
 				transaction: _transaction
 			);
 
-			return timeItems;
+			return result
+				.AsList();
 		}
 
-		public IEnumerable<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
+		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
 		{
-			IEnumerable<TimeItemTotal> totals = _db.Query<TimeItemTotal>(
+			var result = await _db.QueryAsync<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
 				param: new { beginDate, endDate, specialtyID },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
 			);
 
-			return totals;
+			return result
+				.AsList();
 		}
 
-		public IEnumerable<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
+		public async Task<List<TimeItemTotal>> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
-			IEnumerable<TimeItemTotal> totals = _db.Query<TimeItemTotal>(
+			var result = await _db.QueryAsync<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
 				param: new { beginDate, endDate },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
 			);
 
-			return totals;
+			return result
+				.AsList();
 		}
 
 		public void Dispose()

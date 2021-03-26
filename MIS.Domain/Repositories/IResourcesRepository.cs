@@ -16,13 +16,14 @@
 
 using MIS.Domain.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IResourcesRepository
 	{
-		IEnumerable<Resource> ToList();
+		Task<List<Resource>> ToList();
 
-		IEnumerable<Resource> GetDispanserizations();
+		Task<List<Resource>> GetDispanserizations();
 	}
 }

@@ -21,6 +21,7 @@ using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MIS.Demo.Repositories
 {
@@ -38,17 +39,19 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public IEnumerable<TimeItem> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
+		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
 		{
-			return _dataContext.TimeItems
+			var result = _dataContext.TimeItems
 				.Where(ti => ti.Resource.Doctor.Specialty.ID > 0)
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (resourceID == 0 || ti.ResourceID == resourceID))
 				.ToList();
+
+			return await Task.FromResult(result);
 		}
 
-		public IEnumerable<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
+		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
 		{
-			return _dataContext.TimeItems
+			var result = _dataContext.TimeItems
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (specialtyID == 0 || ti.Resource.Doctor.SpecialtyID == specialtyID))
 				.Where(ti => ti.Resource.Doctor.Specialty.ID > 0)
 				.GroupBy(ti => new { ti.ResourceID, ti.Date })
@@ -60,11 +63,13 @@ namespace MIS.Demo.Repositories
 					VisitsCount = g.Count(ti => ti.VisitItem != null)
 				})
 				.ToList();
+
+			return await Task.FromResult(result);
 		}
 
-		public IEnumerable<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
+		public async Task<List<TimeItemTotal>> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
-			return _dataContext.TimeItems
+			var result = _dataContext.TimeItems
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate)
 				.Where(ti => ti.Resource.Doctor.Specialty.ID == 0)
 				.GroupBy(ti => new { ti.ResourceID, ti.Date })
@@ -76,6 +81,8 @@ namespace MIS.Demo.Repositories
 					VisitsCount = g.Count(ti => ti.VisitItem != null)
 				})
 				.ToList();
+
+			return await Task.FromResult(result);
 		}
 	}
 }
