@@ -50,16 +50,16 @@ namespace MIS.Infomat
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
 			services
-				.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
+				.AddSingleton<IPrintService, XPSPrintService>();
+
+			services
+				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
 #if DEMO
 			ConfigureDemo(services);
 #else
 			ConfigureLive(services);
 #endif
-
-			services.AddSingleton<IPrintService, XPSPrintService>();
-
 			return services;
 		}
 
