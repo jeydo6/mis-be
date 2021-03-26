@@ -87,6 +87,7 @@ namespace MIS.Persistence.Repositories
 			if (_db != null)
 			{
 				_db.Dispose();
+				GC.SuppressFinalize(this);
 			}
 		}
 	}

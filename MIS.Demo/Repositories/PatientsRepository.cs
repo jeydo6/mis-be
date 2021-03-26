@@ -27,17 +27,14 @@ namespace MIS.Demo.Repositories
 	public class PatientsRepository : IPatientsRepository
 	{
 		private readonly DemoDataContext _dataContext;
-		private readonly IDateTimeProvider _dateTimeProvider;
 
 		public PatientsRepository(
-			IDateTimeProvider dateTimeProvider,
+			IDateTimeProvider _,
 			DemoDataContext dataContext
 		)
 		{
-			_dateTimeProvider = dateTimeProvider;
 			_dataContext = dataContext;
 		}
-
 
 		public async Task<Patient> First(String code, DateTime birthDate)
 		{

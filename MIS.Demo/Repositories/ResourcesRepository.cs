@@ -27,14 +27,12 @@ namespace MIS.Demo.Repositories
 	public class ResourcesRepository : IResourcesRepository
 	{
 		private readonly DemoDataContext _dataContext;
-		private readonly IDateTimeProvider _dateTimeProvider;
 
 		public ResourcesRepository(
-			IDateTimeProvider dateTimeProvider,
+			IDateTimeProvider _,
 			DemoDataContext dataContext
 		)
 		{
-			_dateTimeProvider = dateTimeProvider;
 			_dataContext = dataContext;
 		}
 

@@ -29,14 +29,12 @@ namespace MIS.Demo.Repositories
 	public class VisitItemsRepository : IVisitItemsRepository
 	{
 		private readonly DemoDataContext _dataContext;
-		private readonly IDateTimeProvider _dateTimeProvider;
 
 		public VisitItemsRepository(
-			IDateTimeProvider dateTimeProvider,
+			IDateTimeProvider _,
 			DemoDataContext dataContext
 		)
 		{
-			_dateTimeProvider = dateTimeProvider;
 			_dataContext = dataContext;
 		}
 
