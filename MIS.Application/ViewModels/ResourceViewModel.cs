@@ -35,6 +35,6 @@ namespace MIS.Application.ViewModels
 
 		public Int32 SpecialtyID { get; set; }
 
-		public IEnumerable<DateItemViewModel> Dates { get; set; }
+		public DateItemViewModel[] Dates { get; set; }
 	}
 }

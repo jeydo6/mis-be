@@ -50,15 +50,15 @@ namespace MIS.Demo.Repositories
 				throw new Exception("Dispanserization already exists!");
 			}
 
-			Patient patient = _dataContext.Patients
+			var patient = _dataContext.Patients
 				.FirstOrDefault(p => p.ID == dispanserization.PatientID);
 
-			IEnumerable<Resource> resources = _dataContext.Resources
+			var resources = _dataContext.Resources
 				.Where(r => r.Doctor.Specialty.ID == 0)
 				.ToList();
 
 			dispanserization.Analyses = new List<Analysis>();
-			foreach (Resource resource in resources)
+			foreach (var resource in resources)
 			{
 				dispanserization.Analyses.Add(new Analysis
 				{
@@ -66,12 +66,12 @@ namespace MIS.Demo.Repositories
 					Description = $"{resource.Doctor.DisplayName} в {resource.Room.Code} каб."
 				});
 
-				TimeItem timeItem = _dataContext.TimeItems
+				var timeItem = _dataContext.TimeItems
 					.OrderBy(ti => ti.ResourceID)
 					.ThenBy(ti => ti.BeginDateTime)
 					.FirstOrDefault(ti => ti.ResourceID == resource.ID && ti.VisitItem == null);
 
-				VisitItem visitItem = new VisitItem
+				var visitItem = new VisitItem
 				{
 					ID = _dataContext.VisitItems.Max(vi => vi.ID) + 1,
 					TimeItem = timeItem,

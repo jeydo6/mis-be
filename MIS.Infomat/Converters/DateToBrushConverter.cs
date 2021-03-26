@@ -56,7 +56,7 @@ namespace MIS.Infomat.Converters
 
 		public Object[] ConvertBack(Object value, Type[] targetTypes, Object parameter, CultureInfo culture)
 		{
-			return new DependencyProperty[0];
+			return Array.Empty<DependencyProperty>();
 		}
 	}
 }

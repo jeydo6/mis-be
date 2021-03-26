@@ -16,20 +16,19 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class VisitListItemsHandler : IRequestHandler<VisitListItemsQuery, IEnumerable<VisitItemViewModel>>
+	public class VisitListItemsHandler : IRequestHandler<VisitListItemsQuery, VisitItemViewModel[]>
 	{
-		public async Task<IEnumerable<VisitItemViewModel>> Handle(VisitListItemsQuery request, CancellationToken cancellationToken)
+		public async Task<VisitItemViewModel[]> Handle(VisitListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var result = request.Patient.VisitItems
 				.OrderBy(v => v.BeginDateTime)
-				.ToList();
+				.ToArray();
 
 			return await Task.FromResult(result);
 		}

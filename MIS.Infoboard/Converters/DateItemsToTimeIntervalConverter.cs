@@ -23,7 +23,7 @@ namespace MIS.Infoboard.Converters
 
 		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
 		{
-			if (value is not IEnumerable<DateItemViewModel> dates)
+			if (value is not DateItemViewModel[] dates)
 			{
 				return "нет приёма";
 			}

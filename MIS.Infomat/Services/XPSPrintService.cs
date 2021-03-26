@@ -20,7 +20,6 @@ using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Xps;
 
 namespace MIS.Infomat.Services
 {
@@ -30,12 +29,12 @@ namespace MIS.Infomat.Services
 		{
 			if (obj is UserControl userControl)
 			{
-				using (LocalPrintServer ps = new LocalPrintServer())
+				using (var ps = new LocalPrintServer())
 				{
-					PrintQueue pq = ps.DefaultPrintQueue;
-					PageMediaSize pageMediaSize = pq.UserPrintTicket.PageMediaSize;
+					var pq = ps.DefaultPrintQueue;
+					var pageMediaSize = pq.UserPrintTicket.PageMediaSize;
 
-					FixedDocument document = new FixedDocument();
+					var document = new FixedDocument();
 
 					if (pageMediaSize.Width.HasValue && pageMediaSize.Height.HasValue)
 					{
@@ -47,7 +46,7 @@ namespace MIS.Infomat.Services
 						viewBox.Width = document.DocumentPaginator.PageSize.Width;
 					}
 
-					FixedPage page = new FixedPage
+					var page = new FixedPage
 					{
 						Width = document.DocumentPaginator.PageSize.Width,
 						Height = document.DocumentPaginator.PageSize.Height,
@@ -61,7 +60,7 @@ namespace MIS.Infomat.Services
 						Child = page
 					});
 
-					XpsDocumentWriter xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
+					var xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
 					xpsdw.Write(document.DocumentPaginator);
 				}
 			}

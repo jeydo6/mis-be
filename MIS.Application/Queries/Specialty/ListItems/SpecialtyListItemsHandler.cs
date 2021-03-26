@@ -16,18 +16,16 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using MIS.Domain.Entities;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class SpecialtyListItemsHandler : IRequestHandler<SpecialtyListItemsQuery, IEnumerable<SpecialtyViewModel>>
+	public class SpecialtyListItemsHandler : IRequestHandler<SpecialtyListItemsQuery, SpecialtyViewModel[]>
 	{
 		private readonly IDateTimeProvider _dateTimeProvider;
 		private readonly IResourcesRepository _resources;
@@ -44,13 +42,13 @@ namespace MIS.Application.Queries
 			_timeItems = timeItems;
 		}
 
-		public async Task<IEnumerable<SpecialtyViewModel>> Handle(SpecialtyListItemsQuery request, CancellationToken cancellationToken)
+		public async Task<SpecialtyViewModel[]> Handle(SpecialtyListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var visitItems = request.Patient != null ? request.Patient.VisitItems
-				.ToList() : new List<VisitItemViewModel>();
+				.ToArray() : Array.Empty<VisitItemViewModel>();
 
 			var dispanserizations = request.Patient != null ? request.Patient.Dispanserizations
-				.ToList() : new List<DispanserizationViewModel>();
+				.ToArray() : Array.Empty<DispanserizationViewModel>();
 
 			var beginDate = _dateTimeProvider.Now.Date;
 			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
@@ -70,7 +68,7 @@ namespace MIS.Application.Queries
 					ResourceID = t.ResourceID
 				})
 				.OrderBy(di => di.Date)
-				.ToList();
+				.ToArray();
 
 			var resourceItems = resources
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
@@ -82,10 +80,10 @@ namespace MIS.Application.Queries
 					IsBlocked = g.Any(di => di.IsBlocked),
 					ResourceID = r.ID,
 					SpecialtyID = r.Doctor.SpecialtyID,
-					Dates = g
+					Dates = g.ToArray()
 				})
 				.OrderBy(ri => ri.ResourceName)
-				.ToList();
+				.ToArray();
 
 			var specialtyItems = resources
 				.GroupBy(r => new { r.Doctor.Specialty.ID, r.Doctor.Specialty.Name })
@@ -95,7 +93,7 @@ namespace MIS.Application.Queries
 					SpecialtyName = s.Name,
 					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(ri => ri.IsEnabled) && g.All(ri => !ri.IsBlocked),
-					Resources = g
+					Resources = g.ToArray()
 				})
 				.OrderBy(si => si.SpecialtyName)
 				.ToList();
@@ -111,7 +109,7 @@ namespace MIS.Application.Queries
 				{
 					foreach (var ri in dispanserizationSpecialtyItem.Resources)
 					{
-						ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate);
+						ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate).ToArray();
 						ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled) && ri.Dates.All(di => !di.IsBlocked);
 						ri.IsBlocked = ri.Dates.Any(di => di.IsBlocked);
 					}
@@ -123,7 +121,10 @@ namespace MIS.Application.Queries
 				}
 			}
 
-			return specialtyItems;
+			var result = specialtyItems
+				.ToArray();
+
+			return result;
 		}
 	}
 }

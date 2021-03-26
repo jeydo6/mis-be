@@ -16,11 +16,10 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using System.Collections.Generic;
 
 namespace MIS.Application.Queries
 {
-	public class DateListItemsQuery : IRequest<IEnumerable<DateItemViewModel>>
+	public class DateListItemsQuery : IRequest<DateItemViewModel[]>
 	{
 		public DateListItemsQuery(ResourceViewModel resource)
 		{

@@ -18,14 +18,13 @@ using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class TimeListItemsHandler : IRequestHandler<TimeListItemsQuery, IEnumerable<TimeItemViewModel>>
+	public class TimeListItemsHandler : IRequestHandler<TimeListItemsQuery, TimeItemViewModel[]>
 	{
 		private readonly ITimeItemsRepository _timeItems;
 		private readonly IDateTimeProvider _dateTimeProvider;
@@ -39,7 +38,7 @@ namespace MIS.Application.Queries
 			_timeItems = timeItems;
 		}
 
-		public async Task<IEnumerable<TimeItemViewModel>> Handle(TimeListItemsQuery request, CancellationToken cancellationToken)
+		public async Task<TimeItemViewModel[]> Handle(TimeListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var timeItems = await _timeItems
 				.ToList(request.Date, request.Date, request.ResourceID);
@@ -54,7 +53,7 @@ namespace MIS.Application.Queries
 				})
 				.OrderBy(ti => ti.DateTime)
 				.Take(28)
-				.ToList();
+				.ToArray();
 
 			return result;
 		}

@@ -18,14 +18,13 @@ using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class DateListItemsHandler : IRequestHandler<DateListItemsQuery, IEnumerable<DateItemViewModel>>
+	public class DateListItemsHandler : IRequestHandler<DateListItemsQuery, DateItemViewModel[]>
 	{
 		private readonly IDateTimeProvider _dateTimeProvider;
 
@@ -36,7 +35,7 @@ namespace MIS.Application.Queries
 			_dateTimeProvider = dateTimeProvider;
 		}
 
-		public async Task<IEnumerable<DateItemViewModel>> Handle(DateListItemsQuery request, CancellationToken cancellationToken)
+		public async Task<DateItemViewModel[]> Handle(DateListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
 			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
@@ -48,7 +47,7 @@ namespace MIS.Application.Queries
 					Date = beginDate.AddDays(i),
 					ResourceID = request.Resource.ResourceID
 				})
-				.ToList();
+				.ToArray();
 
 			if (request.Resource.Dates != null && request.Resource.Dates.Any())
 			{
@@ -59,7 +58,7 @@ namespace MIS.Application.Queries
 
 						return di;
 					})
-					.ToList();
+					.ToArray();
 			}
 
 			return await Task.FromResult(result);

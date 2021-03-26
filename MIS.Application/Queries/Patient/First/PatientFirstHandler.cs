@@ -16,10 +16,8 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using MIS.Domain.Entities;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -80,8 +78,8 @@ namespace MIS.Application.Queries
 					PatientName = patient.DisplayName,
 					IsClosed = d.IsClosed,
 					IsEnabled = true,
-					Analyses = d.Analyses.Select(a => a.Description).ToList()
-				}).ToList(),
+					Analyses = d.Analyses.Select(a => a.Description).ToArray()
+				}).ToArray(),
 				VisitItems = patient.VisitItems.Select(vi => new VisitItemViewModel
 				{
 					BeginDateTime = vi.TimeItem.BeginDateTime,
@@ -93,7 +91,7 @@ namespace MIS.Application.Queries
 					RoomFlat = vi.TimeItem.Resource.Room.Flat,
 					IsEnabled = true,
 					ResourceID = vi.TimeItem.ResourceID
-				}).ToList()
+				}).ToArray()
 			};
 
 			return result;

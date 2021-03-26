@@ -19,14 +19,13 @@ using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class DispanserizationListItemsHandler : IRequestHandler<DispanserizationListItemsQuery, IEnumerable<DispanserizationViewModel>>
+	public class DispanserizationListItemsHandler : IRequestHandler<DispanserizationListItemsQuery, DispanserizationViewModel[]>
 	{
 
 		private readonly IDateTimeProvider _dateTimeProvider;
@@ -44,7 +43,7 @@ namespace MIS.Application.Queries
 			_timeItems = timeItems;
 		}
 
-		public async Task<IEnumerable<DispanserizationViewModel>> Handle(DispanserizationListItemsQuery request, CancellationToken cancellationToken)
+		public async Task<DispanserizationViewModel[]> Handle(DispanserizationListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
 			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
@@ -56,7 +55,7 @@ namespace MIS.Application.Queries
 				{
 					BeginDate = beginDate.AddDays(i)
 				})
-				.ToList();
+				.ToArray();
 
 			var resources = await _resources.GetDispanserizations();
 			var totals = await _timeItems.GetDispanserizationTotals(beginDate, endDate);
@@ -68,7 +67,7 @@ namespace MIS.Application.Queries
 					BeginDate = g.Key,
 					IsEnabled = g.Count() == resources.Count
 				})
-				.ToList();
+				.ToArray();
 
 			if (dispanserizationItems != null && dispanserizationItems.Any())
 			{
@@ -79,7 +78,7 @@ namespace MIS.Application.Queries
 
 						return di;
 					})
-					.ToList();
+					.ToArray();
 			}
 
 			return result;

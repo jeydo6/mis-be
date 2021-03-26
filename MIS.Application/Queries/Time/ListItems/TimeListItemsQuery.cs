@@ -17,11 +17,10 @@
 using MediatR;
 using MIS.Application.ViewModels;
 using System;
-using System.Collections.Generic;
 
 namespace MIS.Application.Queries
 {
-	public class TimeListItemsQuery : IRequest<IEnumerable<TimeItemViewModel>>
+	public class TimeListItemsQuery : IRequest<TimeItemViewModel[]>
 	{
 		public TimeListItemsQuery(DateTime date, Int32 resourceID)
 		{

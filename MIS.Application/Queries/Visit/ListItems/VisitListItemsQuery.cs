@@ -16,11 +16,10 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using System.Collections.Generic;
 
 namespace MIS.Application.Queries
 {
-	public class VisitListItemsQuery : IRequest<IEnumerable<VisitItemViewModel>>
+	public class VisitListItemsQuery : IRequest<VisitItemViewModel[]>
 	{
 		public VisitListItemsQuery(PatientViewModel patient)
 		{

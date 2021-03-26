@@ -33,6 +33,6 @@ namespace MIS.Application.ViewModels
 
 		public Boolean IsEnabled { get; set; }
 
-		public IEnumerable<String> Analyses { get; set; }
+		public String[] Analyses { get; set; }
 	}
 }

@@ -110,7 +110,7 @@ namespace MIS.Infomat.Controls
 			{
 				try
 				{
-					VisitItemViewModel visitItem = await _mediator.Send(
+					var visitItem = await _mediator.Send(
 						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.DisplayName)
 					);
 

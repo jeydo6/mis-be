@@ -27,6 +27,6 @@ namespace MIS.Application.ViewModels
 
 		public Boolean IsEnabled { get; set; }
 
-		public IEnumerable<ResourceViewModel> Resources { get; set; }
+		public ResourceViewModel[] Resources { get; set; }
 	}
 }

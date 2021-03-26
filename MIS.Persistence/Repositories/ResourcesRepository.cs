@@ -64,7 +64,7 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<List<Resource>> GetDispanserizations()
 		{
-			IEnumerable<Resource> result = await _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
+			var result = await _db.QueryAsync<Resource, Doctor, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_GetDispanserizations]",
 				map: (resource, doctor, specialty, room) =>
 				{

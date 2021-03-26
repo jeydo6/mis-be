@@ -36,14 +36,14 @@ namespace MIS.Application.Queries
 
 		public async Task<String> Handle(DateHeaderQuery request, CancellationToken cancellationToken)
 		{
-			DateTime beginDate = _dateTimeProvider.Now.Date;
-			Int32 beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
+			var beginDate = _dateTimeProvider.Now.Date;
+			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
 
-			DateTime endDate = beginDate.AddDays(1 - beginDayOfWeek + 35);
+			var endDate = beginDate.AddDays(1 - beginDayOfWeek + 35);
 
-			String header = beginDate.Month == endDate.Month ? $"{beginDate:MMMM}" : $"{beginDate:MMMM}/{endDate:MMMM}";
+			var result = beginDate.Month == endDate.Month ? $"{beginDate:MMMM}" : $"{beginDate:MMMM}/{endDate:MMMM}";
 
-			return await Task.FromResult(header);
+			return await Task.FromResult(result);
 		}
 	}
 }

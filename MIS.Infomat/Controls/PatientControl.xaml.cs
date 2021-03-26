@@ -126,7 +126,7 @@ namespace MIS.Infomat.Controls
 
 			if (numberValidation && birthdateValidation)
 			{
-				PatientViewModel patient = await _mediator.Send(new PatientFirstQuery(
+				var patient = await _mediator.Send(new PatientFirstQuery(
 						numberTextBox.Text,
 						new DateTime(Int32.Parse(birthdateTextBox.Text), 1, 1)
 					)

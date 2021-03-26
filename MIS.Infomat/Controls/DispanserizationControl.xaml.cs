@@ -77,7 +77,7 @@ namespace MIS.Infomat.Controls
 			{
 				try
 				{
-					DispanserizationViewModel dispanserization = await _mediator.Send(
+					var dispanserization = await _mediator.Send(
 						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.DisplayName)
 					);
 

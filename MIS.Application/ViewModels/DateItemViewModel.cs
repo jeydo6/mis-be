@@ -35,6 +35,6 @@ namespace MIS.Application.ViewModels
 
 		public Int32 ResourceID { get; set; }
 
-		public IEnumerable<TimeItemViewModel> Times { get; set; }
+		public TimeItemViewModel[] Times { get; set; }
 	}
 }
