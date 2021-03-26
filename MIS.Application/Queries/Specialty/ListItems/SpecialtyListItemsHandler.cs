@@ -93,6 +93,7 @@ namespace MIS.Application.Queries
 					SpecialtyName = s.Name,
 					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(ri => ri.IsEnabled) && g.All(ri => !ri.IsBlocked),
+					SpecialtyID = s.ID,
 					Resources = g.ToArray()
 				})
 				.OrderBy(si => si.SpecialtyName)

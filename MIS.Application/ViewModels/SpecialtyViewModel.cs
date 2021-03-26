@@ -14,12 +14,12 @@
  */
 #endregion
 
+using MIS.Application.Pagination;
 using System;
-using System.Collections.Generic;
 
 namespace MIS.Application.ViewModels
 {
-	public class SpecialtyViewModel
+	public class SpecialtyViewModel : IPaginable<SpecialtyViewModel>
 	{
 		public String SpecialtyName { get; set; }
 
@@ -27,6 +27,38 @@ namespace MIS.Application.ViewModels
 
 		public Boolean IsEnabled { get; set; }
 
+		public Int32 SpecialtyID { get; set; }
+
 		public ResourceViewModel[] Resources { get; set; }
+
+		public (SpecialtyViewModel current, SpecialtyViewModel next) Paginate(ref Int32 length)
+		{
+			if (Resources.Length > length)
+			{
+				SpecialtyViewModel current = new SpecialtyViewModel
+				{
+					SpecialtyID = SpecialtyID,
+					SpecialtyName = SpecialtyName,
+					IsEnabled = IsEnabled,
+					Count = Count,
+					Resources = Resources[..length]
+				};
+
+				SpecialtyViewModel next = new SpecialtyViewModel
+				{
+					SpecialtyID = SpecialtyID,
+					SpecialtyName = SpecialtyName,
+					IsEnabled = IsEnabled,
+					Count = Count,
+					Resources = Resources[length..]
+				};
+
+				length = current.Resources.Length;
+				return (current, next);
+			}
+
+			length = Resources.Length;
+			return (this, null);
+		}
 	}
 }
