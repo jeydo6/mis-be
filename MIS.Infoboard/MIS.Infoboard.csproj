@@ -65,6 +65,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Page Update="Resources\StylesDictionary.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Resources\TemplatesDictionary.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
 	  <Page Update="Resources\ConvertersDictionary.xaml">
 	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 	    <SubType>Designer</SubType>
