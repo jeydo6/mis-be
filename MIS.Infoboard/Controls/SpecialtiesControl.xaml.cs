@@ -6,6 +6,7 @@ using MIS.Application.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace MIS.Infoboard.Controls
 {
@@ -21,6 +22,8 @@ namespace MIS.Infoboard.Controls
 
 		private readonly IMediator _mediator;
 
+		private readonly DispatcherTimer _timer;
+
 		private PageViewModel[] _pages;
 		private Int32 _pageIndex;
 
@@ -29,6 +32,11 @@ namespace MIS.Infoboard.Controls
 			var app = System.Windows.Application.Current as App;
 
 			_mediator = app.ServiceProvider.GetService<IMediator>();
+			_timer = new DispatcherTimer()
+			{
+				Interval = new TimeSpan(0, 0, 3)
+			};
+			_timer.Tick += MoveNext;
 
 			InitializeComponent();
 		}
@@ -42,28 +50,31 @@ namespace MIS.Infoboard.Controls
 			_pages = specialties.GetPages(ActualHeight, _itemHeight, _headerHeight);
 			_pageIndex = -1;
 
-			NextPage();
+			_timer.Start();
 		}
 
 		private void UserControl_KeyUp(Object sender, System.Windows.Input.KeyEventArgs e)
 		{
 			if (e.Key == System.Windows.Input.Key.Right)
 			{
-				NextPage();
-			}
-
-			if (e.Key == System.Windows.Input.Key.Left)
-			{
-				PrevPage();
+				MoveNext(this, e);
 			}
 		}
 
-		private void NextPage()
+		private void MoveNext(Object sender, EventArgs e)
 		{
 			if (_pages.Length == 0)
 			{
 				RaiseEvent(new RoutedEventArgs(_doneEvent));
 				return;
+			}
+
+			if (_pageIndex == -1)
+			{
+				_timer.Interval = new TimeSpan(0, 0, 12);
+
+				header.Visibility = Visibility.Collapsed;
+				list.Visibility = Visibility.Visible;
 			}
 
 			if (_pageIndex >= _pages.Length - 1)
@@ -73,23 +84,7 @@ namespace MIS.Infoboard.Controls
 			}
 
 			var page = _pages[++_pageIndex];
-			list.ItemsSource = page.Objects;
-		}
-
-		private void PrevPage()
-		{
-			if (_pages.Length == 0)
-			{
-				return;
-			}
-
-			if (_pageIndex <= 0)
-			{
-				_pageIndex = _pages.Length;
-			}
-
-			var page = _pages[--_pageIndex];
-			list.ItemsSource = page.Objects;
+			list.ItemsSource = page?.Objects;
 		}
 
 		public event RoutedEventHandler Done

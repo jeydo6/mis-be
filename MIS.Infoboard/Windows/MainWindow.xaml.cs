@@ -33,7 +33,7 @@ namespace MIS.Infoboard.Windows
 		{
 			InitializeComponent();
 
-			MainWorkflow();
+			NextWorkflow(new SpecialtiesControl());
 		}
 
 		public void NextWorkflow(UserControl userControl)

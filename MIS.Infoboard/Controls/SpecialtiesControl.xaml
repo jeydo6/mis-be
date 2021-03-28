@@ -6,7 +6,8 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d"
 			 d:DesignHeight="1024" d:DesignWidth="1280"
-			 Loaded="UserControl_Loaded" KeyUp="UserControl_KeyUp">
+			 Loaded="UserControl_Loaded"
+			 KeyUp="UserControl_KeyUp">
 	<Grid Margin="0, 25">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -15,7 +16,8 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemTemplate="{StaticResource specialtyListItemTemplate}">
+		<TextBlock Name="header" Grid.Row="0" Grid.Column="0" Text="Расписание приёма врачей" FontSize="72" FontFamily="Georgia" HorizontalAlignment="Center" VerticalAlignment="Center" />
+		<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" Visibility="Collapsed" ItemTemplate="{StaticResource specialtyListItemTemplate}">
 			<ItemsControl.Template>
 				<ControlTemplate>
 					<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True">

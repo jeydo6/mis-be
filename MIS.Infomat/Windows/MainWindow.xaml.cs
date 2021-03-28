@@ -69,6 +69,7 @@ namespace MIS.Infomat.Windows
 				_timer.Start();
 			}
 		}
+
 		public void PrevWorkflow()
 		{
 			if (_path.Count > 0)
