@@ -14,13 +14,15 @@ namespace MIS.Infoboard.Controls
 	/// </summary>
 	public partial class SpecialtiesControl : UserControl
 	{
+		private static readonly RoutedEvent _doneEvent = EventManager.RegisterRoutedEvent("Done", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(SpecialtiesControl));
+
 		private static readonly Int32 _headerHeight = 90 + 20;
 		private static readonly Int32 _itemHeight = 80;
 
 		private readonly IMediator _mediator;
 
 		private PageViewModel[] _pages;
-		private Int32 _page;
+		private Int32 _pageIndex;
 
 		public SpecialtiesControl()
 		{
@@ -38,7 +40,7 @@ namespace MIS.Infoboard.Controls
 			);
 
 			_pages = specialties.GetPages(ActualHeight, _itemHeight, _headerHeight);
-			_page = -1;
+			_pageIndex = -1;
 
 			NextPage();
 		}
@@ -58,19 +60,47 @@ namespace MIS.Infoboard.Controls
 
 		private void NextPage()
 		{
-			if (_pages.Length > 0 && _page + 1 < _pages.Length)
+			if (_pages.Length == 0)
 			{
-				var page = _pages[++_page];
-				list.ItemsSource = page.Objects;
+				RaiseEvent(new RoutedEventArgs(_doneEvent));
+				return;
 			}
+
+			if (_pageIndex >= _pages.Length - 1)
+			{
+				RaiseEvent(new RoutedEventArgs(_doneEvent));
+				_pageIndex = -1;
+			}
+
+			var page = _pages[++_pageIndex];
+			list.ItemsSource = page.Objects;
 		}
 
 		private void PrevPage()
 		{
-			if (_pages.Length > 0 && _page > 0)
+			if (_pages.Length == 0)
 			{
-				var page = _pages[--_page];
-				list.ItemsSource = page.Objects;
+				return;
+			}
+
+			if (_pageIndex <= 0)
+			{
+				_pageIndex = _pages.Length;
+			}
+
+			var page = _pages[--_pageIndex];
+			list.ItemsSource = page.Objects;
+		}
+
+		public event RoutedEventHandler Done
+		{
+			add
+			{
+				AddHandler(_doneEvent, value);
+			}
+			remove
+			{
+				RemoveHandler(_doneEvent, value);
 			}
 		}
 	}

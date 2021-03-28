@@ -15,8 +15,7 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemTemplate="{StaticResource specialtiesTemplate}">
-		<!--<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemTemplate="{StaticResource specialtiesTemplate}" ItemContainerStyleSelector="{StaticResource specialtyListItemStyleSelector}">-->
+		<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemTemplate="{StaticResource specialtyListItemTemplate}">
 			<ItemsControl.Template>
 				<ControlTemplate>
 					<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True">
@@ -26,7 +25,7 @@
 			</ItemsControl.Template>
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<StackPanel VerticalAlignment="Center" />
+					<StackPanel VerticalAlignment="Stretch" />
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 		</ItemsControl>

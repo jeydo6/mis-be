@@ -6,7 +6,10 @@
 		mc:Ignorable="d"
         Title="Главное окно" Height="1024" Width="1280"
         Background="#FFE8DED8"
-        WindowStyle="None" WindowState="Maximized" WindowStartupLocation="CenterScreen" Cursor="None"
+        WindowStyle="None"
+		WindowState="Maximized"
+		WindowStartupLocation="CenterScreen"
+		Cursor="None"
         KeyUp="Window_KeyUp">
 	<Viewbox>
 		<Grid Name="workflow" Height="1024" Width="1280" />

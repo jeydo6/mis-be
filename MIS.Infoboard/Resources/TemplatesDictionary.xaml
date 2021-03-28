@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:viewModels="clr-namespace:MIS.Application.ViewModels;assembly=MIS.Application">
-	<DataTemplate x:Key="resourcesTemplate" DataType="{x:Type viewModels:ResourceViewModel}">
+	<DataTemplate x:Key="resourceListItemTemplate" DataType="{x:Type viewModels:ResourceViewModel}">
 		<Border BorderThickness="0,1,0,0" Style="{Binding ., Converter={StaticResource resourceListItemStyleConverter}, ConverterParameter=Light, Mode=OneTime}">
 			<Grid>
 				<Grid.RowDefinitions>
@@ -24,7 +24,7 @@
 		</Border>
 	</DataTemplate>
 
-	<DataTemplate x:Key="specialtiesTemplate" DataType="{x:Type viewModels:SpecialtyViewModel}">
+	<DataTemplate x:Key="specialtyListItemTemplate" DataType="{x:Type viewModels:SpecialtyViewModel}">
 		<Border BorderThickness="2" CornerRadius="8, 8, 0, 0" Margin="0, 10" Style="{Binding ., Converter={StaticResource specialtyListItemStyleConverter}, ConverterParameter=Dark, Mode=OneTime}">
 			<Grid>
 				<Grid.RowDefinitions>
@@ -36,8 +36,8 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Row="0" Text="{Binding SpecialtyName}" FontSize="60" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="Wrap" />
-				
-				<ItemsControl Grid.Row="1" ItemsSource="{Binding Resources}" ItemTemplate="{StaticResource resourcesTemplate}">
+
+				<ItemsControl Grid.Row="1" ItemsSource="{Binding Resources}" ItemTemplate="{StaticResource resourceListItemTemplate}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel VerticalAlignment="Center" />

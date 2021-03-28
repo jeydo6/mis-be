@@ -17,9 +17,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Infoboard.Windows;
-using System;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace MIS.Infoboard.Controls
 {
@@ -39,11 +37,6 @@ namespace MIS.Infoboard.Controls
 			_mainWindow = app.MainWindow as MainWindow;
 
 			InitializeComponent();
-		}
-
-		private void UserControl_MouseUp(Object sender, MouseButtonEventArgs e)
-		{
-			//
 		}
 	}
 }
