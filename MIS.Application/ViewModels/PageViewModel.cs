@@ -10,8 +10,6 @@ namespace MIS.Application.ViewModels
 			Objects = new List<Object>();
 		}
 
-		public Int32 Page { get; set; }
-
 		public ICollection<Object> Objects { get; set; }
 	}
 }

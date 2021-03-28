@@ -1,12 +1,11 @@
-﻿using MIS.Domain.Providers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.ViewModels;
+using MIS.Domain.Providers;
 using System;
 using System.Globalization;
-using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using System.Collections.Generic;
-using MIS.Application.ViewModels;
-using System.Linq;
 
 namespace MIS.Infoboard.Converters
 {

@@ -20,12 +20,13 @@ namespace MIS.Infoboard.Converters
 				return DependencyProperty.UnsetValue;
 			}
 
-			var resourceKey = resource.Count switch
+			var count = resource.Count;
+			var resourceKey = count switch
 			{
-				var count when count > 50 => "success",
-				var count when count > 25 => "warning",
-				var count when count > 0 => "danger",
-				var count when count == 0 => "secondary",
+				> 50 => "success",
+				> 25 => "warning",
+				> 0 => "danger",
+				0 => "secondary",
 				_ => "default"
 			};
 

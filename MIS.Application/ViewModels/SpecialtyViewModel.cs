@@ -14,12 +14,12 @@
  */
 #endregion
 
-using MIS.Application.Pagination;
+using MIS.Application.Interfaces;
 using System;
 
 namespace MIS.Application.ViewModels
 {
-	public class SpecialtyViewModel : IPaginable<SpecialtyViewModel>
+	public class SpecialtyViewModel : ISeparable<SpecialtyViewModel>
 	{
 		public String SpecialtyName { get; set; }
 
@@ -31,7 +31,7 @@ namespace MIS.Application.ViewModels
 
 		public ResourceViewModel[] Resources { get; set; }
 
-		public (SpecialtyViewModel current, SpecialtyViewModel next) Paginate(ref Int32 length)
+		public (SpecialtyViewModel current, SpecialtyViewModel next) Separate(ref Int32 length)
 		{
 			if (Resources.Length > length)
 			{

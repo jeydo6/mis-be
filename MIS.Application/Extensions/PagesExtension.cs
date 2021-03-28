@@ -1,13 +1,14 @@
-﻿using MIS.Application.ViewModels;
+﻿using MIS.Application.Interfaces;
+using MIS.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MIS.Application.Pagination
+namespace MIS.Application.Extensions
 {
-	public static class Pagination
+	public static class PagesExtension
 	{
-		public static PageViewModel[] GetPages<T>(this T[] items, Double maxHeight, Int32 itemHeight, Int32 headerHeight = 0) where T : IPaginable<T>
+		public static PageViewModel[] GetPages<T>(this T[] items, Double maxHeight, Int32 itemHeight, Int32 headerHeight = 0) where T : ISeparable<T>
 		{
 			if (headerHeight + itemHeight > maxHeight)
 			{
@@ -33,7 +34,7 @@ namespace MIS.Application.Pagination
 				var length = (Int32)(maxHeight - pageHeight - headerHeight) / itemHeight;
 
 				var item = stack.Pop();
-				(T current, T next) = item.Paginate(ref length);
+				(T current, T next) = item.Separate(ref length);
 
 				page.Objects.Add(current);
 				pageHeight += headerHeight + itemHeight * length;
