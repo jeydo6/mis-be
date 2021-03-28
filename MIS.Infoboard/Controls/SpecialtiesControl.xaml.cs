@@ -38,6 +38,18 @@ namespace MIS.Infoboard.Controls
 			InitializeComponent();
 		}
 
+		public event RoutedEventHandler Done
+		{
+			add
+			{
+				AddHandler(_doneEvent, value);
+			}
+			remove
+			{
+				RemoveHandler(_doneEvent, value);
+			}
+		}
+
 		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
 			list.ItemsSource = new String[1] { "Расписание приёма врачей" };
@@ -79,18 +91,6 @@ namespace MIS.Infoboard.Controls
 			list.ItemsSource = page?.Objects;
 			list.VerticalAlignment = VerticalAlignment.Stretch;
 			_timer.Interval = new TimeSpan(0, 0, 12);
-		}
-
-		public event RoutedEventHandler Done
-		{
-			add
-			{
-				AddHandler(_doneEvent, value);
-			}
-			remove
-			{
-				RemoveHandler(_doneEvent, value);
-			}
 		}
 	}
 }
