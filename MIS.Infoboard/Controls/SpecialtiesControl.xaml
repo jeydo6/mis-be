@@ -15,7 +15,8 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<ItemsControl Name="list" Grid.Row="0" Grid.Column="0" ItemTemplateSelector="{StaticResource pageListItemTemplateSelector}">
+		<TextBlock Name="header" Text="Расписание приёма врачей" FontSize="72" FontFamily="Georgia" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
+		<ItemsControl Name="list" Visibility="Collapsed" ItemTemplate="{StaticResource specialtyListItemTemplate}">
 			<ItemsControl.Template>
 				<ControlTemplate>
 					<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True" >

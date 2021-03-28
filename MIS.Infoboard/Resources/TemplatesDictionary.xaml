@@ -20,7 +20,7 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ResourceName}" FontSize="48" FontFamily="Georgia" Margin="50, 10, 10, 10" HorizontalAlignment="Left" VerticalAlignment="Center" />
-				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Dates, Converter={StaticResource dateItemsToTimeIntervalConverter}}" FontSize="36" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Dates, Converter={StaticResource dateItemsToTimeIntervalConverter}, Mode=OneTime}" FontSize="36" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Center" VerticalAlignment="Center" />
 				<TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding RoomCode}" FontSize="36" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Center" VerticalAlignment="Center" />
 				<Border Grid.Row="0" Grid.Column="3" BorderBrush="Transparent" CornerRadius="16" Margin="25, 10" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{Binding Converter={StaticResource resourceListItemStyleConverter}, ConverterParameter=Dark, Mode=OneTime}">
 					<TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Count}" FontSize="36" FontFamily="Georgia" Margin="10, 0, 10, 6" />

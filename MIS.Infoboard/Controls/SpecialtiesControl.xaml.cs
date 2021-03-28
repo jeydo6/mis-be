@@ -6,6 +6,7 @@ using MIS.Application.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace MIS.Infoboard.Controls
@@ -32,7 +33,10 @@ namespace MIS.Infoboard.Controls
 			var app = System.Windows.Application.Current as App;
 
 			_mediator = app.ServiceProvider.GetService<IMediator>();
-			_timer = new DispatcherTimer();
+			_timer = new DispatcherTimer
+			{
+				Interval = new TimeSpan(0, 0, 3)
+			};
 			_timer.Tick += MoveNext;
 
 			InitializeComponent();
@@ -52,22 +56,19 @@ namespace MIS.Infoboard.Controls
 
 		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			list.ItemsSource = new String[1] { "Расписание приёма врачей" };
-			list.VerticalAlignment = VerticalAlignment.Center;
-			_timer.Interval = new TimeSpan(0, 0, 3);
-			_timer.Start();
-
 			var specialties = await _mediator.Send(
 				new SpecialtyListItemsQuery(patient: null)
 			);
 
 			_pages = specialties.GetPages(ActualHeight, _itemHeight, _headerHeight);
 			_pageIndex = -1;
+
+			_timer.Start();
 		}
 
-		private void UserControl_KeyUp(Object sender, System.Windows.Input.KeyEventArgs e)
+		private void UserControl_KeyUp(Object sender, KeyEventArgs e)
 		{
-			if (e.Key == System.Windows.Input.Key.Right)
+			if (e.Key == Key.Right)
 			{
 				MoveNext(this, e);
 			}
@@ -75,10 +76,18 @@ namespace MIS.Infoboard.Controls
 
 		private void MoveNext(Object sender, EventArgs e)
 		{
-			if (_pages.Length == 0)
+			if (_pages == null || _pages.Length == 0)
 			{
 				RaiseEvent(new RoutedEventArgs(_doneEvent));
 				return;
+			}
+
+			if (_pageIndex == -1)
+			{
+				_timer.Interval = new TimeSpan(0, 0, 12);
+
+				header.Visibility = Visibility.Collapsed;
+				list.Visibility = Visibility.Visible;
 			}
 
 			if (_pageIndex >= _pages.Length - 1)
@@ -89,8 +98,6 @@ namespace MIS.Infoboard.Controls
 
 			var page = _pages[++_pageIndex];
 			list.ItemsSource = page?.Objects;
-			list.VerticalAlignment = VerticalAlignment.Stretch;
-			_timer.Interval = new TimeSpan(0, 0, 12);
 		}
 	}
 }
