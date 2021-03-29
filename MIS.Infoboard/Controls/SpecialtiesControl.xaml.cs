@@ -66,9 +66,9 @@ namespace MIS.Infoboard.Controls
 			_pageIndex = -1;
 		}
 
-		private void UserControl_KeyUp(Object sender, KeyEventArgs e)
+		private void UserControl_MouseUp(Object sender, MouseButtonEventArgs e)
 		{
-			if (e.Key == Key.Right)
+			if (e.ChangedButton == MouseButton.Left)
 			{
 				MoveNext(this, e);
 			}
@@ -85,9 +85,6 @@ namespace MIS.Infoboard.Controls
 			if (_pageIndex == -1)
 			{
 				_timer.Interval = new TimeSpan(0, 0, 12);
-
-				header.Visibility = Visibility.Collapsed;
-				list.Visibility = Visibility.Visible;
 			}
 
 			if (_pageIndex >= _pages.Length - 1)
@@ -96,8 +93,7 @@ namespace MIS.Infoboard.Controls
 				_pageIndex = -1;
 			}
 
-			var page = _pages[++_pageIndex];
-			list.ItemsSource = page?.Objects;
+			Content = _pages[++_pageIndex];
 		}
 	}
 }

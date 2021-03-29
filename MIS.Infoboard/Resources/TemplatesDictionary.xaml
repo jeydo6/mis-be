@@ -41,15 +41,12 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Row="0" Text="{Binding SpecialtyName}" FontSize="60" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="Wrap" />
-
-				<ItemsControl Grid.Row="1" ItemsSource="{Binding Resources}" ItemTemplate="{StaticResource resourceListItemTemplate}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel VerticalAlignment="Center" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-				</ItemsControl>
+				<ItemsControl Grid.Row="1" ItemsSource="{Binding Resources}" ItemTemplate="{StaticResource resourceListItemTemplate}" />
 			</Grid>
 		</Border>
+	</DataTemplate>
+
+	<DataTemplate x:Key="pageListItemTemplate" DataType="{x:Type viewModels:PageViewModel}">
+		<ItemsControl ItemsSource="{Binding Objects}" ItemTemplateSelector="{DynamicResource pageContentTemplateSelector}" />
 	</DataTemplate>
 </ResourceDictionary>

@@ -6,22 +6,7 @@
 			 mc:Ignorable="d"
 			 d:DesignHeight="1024" d:DesignWidth="1280"
 			 Loaded="UserControl_Loaded"
-			 KeyUp="UserControl_KeyUp">
-	<Grid Margin="0, 25">
-		<TextBlock Name="header" Text="Расписание приёма врачей" FontSize="72" FontFamily="Georgia" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
-		<ItemsControl Name="list" Visibility="Collapsed" ItemTemplate="{StaticResource specialtyListItemTemplate}">
-			<ItemsControl.Template>
-				<ControlTemplate>
-					<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True" >
-						<ItemsPresenter />
-					</ScrollViewer>
-				</ControlTemplate>
-			</ItemsControl.Template>
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<StackPanel />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-		</ItemsControl>
-	</Grid>
+			 MouseUp="UserControl_MouseUp"
+			 ContentTemplateSelector="{StaticResource userControlTemplateSelector}">
+	Расписание приёма врачей
 </UserControl>

@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:templateSelectors="clr-namespace:MIS.Infoboard.TemplateSelectors">
+	<templateSelectors:PageContentTemplateSelector x:Key="pageContentTemplateSelector" />
+	<templateSelectors:UserControlTemplateSelector x:Key="userControlTemplateSelector" />
+</ResourceDictionary>

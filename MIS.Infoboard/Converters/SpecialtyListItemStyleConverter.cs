@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace MIS.Infoboard.Converters
 {
-	public class SpecialtyListItemStyleConverter : IValueConverter
+	internal class SpecialtyListItemStyleConverter : IValueConverter
 	{
 		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
 		{
