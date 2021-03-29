@@ -5,7 +5,7 @@
 	<DataTemplate x:Key="stringListItemTemplate" DataType="{x:Type system:String}">
 		<TextBlock Text="{Binding}" FontSize="72" FontFamily="Georgia" HorizontalAlignment="Center" VerticalAlignment="Center" />
 	</DataTemplate>
-	
+
 	<DataTemplate x:Key="resourceListItemTemplate" DataType="{x:Type viewModels:ResourceViewModel}">
 		<Border BorderThickness="0,1,0,0" Style="{Binding Converter={StaticResource resourceListItemStyleConverter}, ConverterParameter=Light, Mode=OneTime}">
 			<Grid>

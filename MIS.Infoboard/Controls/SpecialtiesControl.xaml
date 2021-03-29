@@ -8,13 +8,6 @@
 			 Loaded="UserControl_Loaded"
 			 KeyUp="UserControl_KeyUp">
 	<Grid Margin="0, 25">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-
 		<TextBlock Name="header" Text="Расписание приёма врачей" FontSize="72" FontFamily="Georgia" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
 		<ItemsControl Name="list" Visibility="Collapsed" ItemTemplate="{StaticResource specialtyListItemTemplate}">
 			<ItemsControl.Template>

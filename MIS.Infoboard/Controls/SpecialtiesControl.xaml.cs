@@ -56,14 +56,14 @@ namespace MIS.Infoboard.Controls
 
 		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
+			_timer.Start();
+
 			var specialties = await _mediator.Send(
 				new SpecialtyListItemsQuery(patient: null)
 			);
 
 			_pages = specialties.GetPages(ActualHeight, _itemHeight, _headerHeight);
 			_pageIndex = -1;
-
-			_timer.Start();
 		}
 
 		private void UserControl_KeyUp(Object sender, KeyEventArgs e)
