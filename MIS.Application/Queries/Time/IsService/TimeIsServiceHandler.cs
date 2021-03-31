@@ -29,25 +29,25 @@ namespace MIS.Application.Queries
 	{
 		private readonly IDateTimeProvider _dateTimeProvider;
 
-		private readonly ServiceInterval[] _serviceIntervals;
+		private readonly SettingsConfig _settingsConfig;
 
 		public TimeIsServiceHandler(
 			IDateTimeProvider dateTimeProvider,
-			IOptionsSnapshot<ServiceConfig> serviceConfigOptions
+			IOptionsSnapshot<SettingsConfig> settingsConfigOptions
 		)
 		{
 			_dateTimeProvider = dateTimeProvider;
-			_serviceIntervals = serviceConfigOptions.Value.ServiceIntervals;
+			_settingsConfig = settingsConfigOptions.Value;
 		}
 
 		public async Task<Boolean> Handle(TimeIsServiceQuery request, CancellationToken cancellationToken)
 		{
-			if (_serviceIntervals != null)
+			if (_settingsConfig != null && _settingsConfig.ServiceIntervals != null)
 			{
 				var dayOfWeek = _dateTimeProvider.Now.Date.DayOfWeek;
 				var timeOfDay = _dateTimeProvider.Now.TimeOfDay;
 
-				var result = _serviceIntervals.Any(si =>
+				var result = _settingsConfig.ServiceIntervals.Any(si =>
 				{
 					TimeSpan beginService = DateTime.Parse(si.BeginTime).TimeOfDay;
 					TimeSpan endService = DateTime.Parse(si.EndTime).TimeOfDay;

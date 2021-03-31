@@ -4,8 +4,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d" 
-             Loaded="UserControl_Loaded"
-             d:DesignHeight="1024" d:DesignWidth="1280">
+			 Loaded="UserControl_Loaded"
+			 d:DesignHeight="1024" d:DesignWidth="1280">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition />
@@ -17,7 +17,7 @@
 		<Border Grid.Column="1" Background="#FF8F0606" />
 		<Grid Grid.Column="1">
 			<Image VerticalAlignment="Top" StretchDirection="DownOnly" Margin="10,25" Height="400" Source="/Content/Logo.png" />
-			<Label Content="2020 &#x00A9; Дерягин В." Foreground="#FFAF0808" FontSize="30" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+			<TextBlock Text="&#x00A9; 2021 Дерягин В." Foreground="#FFAF0808" FontSize="30" FontFamily="Georgia" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
 		</Grid>
 		<StackPanel Grid.Column="0" VerticalAlignment="Center">
 			<Button x:Name="timesButton" Margin="50, 10" Style="{StaticResource DefaultButton}" Click="TimesButton_Click">

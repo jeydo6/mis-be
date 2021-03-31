@@ -17,6 +17,7 @@
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Configs;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
@@ -38,6 +39,10 @@ namespace MIS.Infoboard
 		public IServiceCollection ConfigureServices()
 		{
 			IServiceCollection services = new ServiceCollection();
+
+			services.Configure<SettingsConfig>(
+				Configuration.GetSection($"{nameof(SettingsConfig)}")
+			);
 
 			services
 				.AddMediatR(typeof(Application.AssemblyMarker));

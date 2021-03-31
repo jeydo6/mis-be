@@ -8,7 +8,7 @@ using System.Windows.Threading;
 namespace MIS.Infoboard.Controls
 {
 	/// <summary>
-	/// Логика взаимодействия для SpecialtiesControl.xaml
+	/// Логика взаимодействия для PagesControl.xaml
 	/// </summary>
 	public partial class PagesControl : UserControl
 	{
@@ -21,8 +21,6 @@ namespace MIS.Infoboard.Controls
 
 		public PagesControl()
 		{
-			var app = System.Windows.Application.Current as App;
-
 			_timer = new DispatcherTimer
 			{
 				Interval = TimeSpan.FromTicks(Int32.MaxValue)

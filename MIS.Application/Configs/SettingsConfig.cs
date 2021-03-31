@@ -18,8 +18,10 @@ using System;
 
 namespace MIS.Application.Configs
 {
-	public class ServiceConfig
+	public class SettingsConfig
 	{
+		public String OrganizationName { get; set; }
+
 		public ServiceInterval[] ServiceIntervals { get; set; }
 	}
 

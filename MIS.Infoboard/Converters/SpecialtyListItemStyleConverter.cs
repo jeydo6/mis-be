@@ -1,6 +1,7 @@
 ﻿using MIS.Application.ViewModels;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -24,7 +25,7 @@ namespace MIS.Infoboard.Converters
 			{
 				return DependencyProperty.UnsetValue;
 			}
-			var count = (specialty.Count / specialty.Resources.Length);
+			var count = (Int32)specialty.Resources.Average(r => r.Count);
 			var resourceKey = count switch
 			{
 				> 50 => "success",

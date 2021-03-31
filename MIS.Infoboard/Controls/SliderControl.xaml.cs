@@ -10,7 +10,7 @@ using System.Windows.Controls;
 namespace MIS.Infoboard.Controls
 {
 	/// <summary>
-	/// Логика взаимодействия для MainControl1.xaml
+	/// Логика взаимодействия для SliderControl.xaml
 	/// </summary>
 	public partial class SliderControl : UserControl
 	{
