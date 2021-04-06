@@ -14,12 +14,11 @@
  */
 #endregion
 
-using MIS.Application.Interfaces;
 using System;
 
 namespace MIS.Application.ViewModels
 {
-	public class SpecialtyViewModel : ISeparable<SpecialtyViewModel>
+	public class SpecialtyViewModel
 	{
 		public String SpecialtyName { get; set; }
 
@@ -30,35 +29,5 @@ namespace MIS.Application.ViewModels
 		public Int32 SpecialtyID { get; set; }
 
 		public ResourceViewModel[] Resources { get; set; }
-
-		public (SpecialtyViewModel current, SpecialtyViewModel next) Separate(ref Int32 length)
-		{
-			if (Resources.Length > length)
-			{
-				SpecialtyViewModel current = new SpecialtyViewModel
-				{
-					SpecialtyID = SpecialtyID,
-					SpecialtyName = SpecialtyName,
-					IsEnabled = IsEnabled,
-					Count = Count,
-					Resources = Resources[..length]
-				};
-
-				SpecialtyViewModel next = new SpecialtyViewModel
-				{
-					SpecialtyID = SpecialtyID,
-					SpecialtyName = SpecialtyName,
-					IsEnabled = IsEnabled,
-					Count = Count,
-					Resources = Resources[length..]
-				};
-
-				length = current.Resources.Length;
-				return (current, next);
-			}
-
-			length = Resources.Length;
-			return (this, null);
-		}
 	}
 }

@@ -44,7 +44,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="employeeListItemTemplate" DataType="{x:Type viewModels:EmployeeViewModel}">
-		<Border BorderThickness="0,1,0,0" Style="{StaticResource primaryLightListItem}">
+		<Border BorderThickness="0,1,0,0" Style="{StaticResource secondaryLightListItem}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="3*"/>
@@ -64,7 +64,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="departmentListItemTemplate" DataType="{x:Type viewModels:DepartmentViewModel}">
-		<Border BorderThickness="2" CornerRadius="8, 8, 0, 0" Margin="0, 10" Style="{StaticResource primaryDarkListItem}">
+		<Border BorderThickness="2" CornerRadius="8, 8, 0, 0" Margin="0, 10" Style="{StaticResource secondaryDarkListItem}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />

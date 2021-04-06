@@ -1,5 +1,4 @@
-﻿using MIS.Application.Interfaces;
-using MIS.Application.ViewModels;
+﻿using MIS.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +7,14 @@ namespace MIS.Application.Extensions
 {
 	public static class PagesExtension
 	{
-		public static PageViewModel[] GetPages<T>(this T[] items, Double maxHeight, Int32 itemHeight, Int32 headerHeight = 0) where T : ISeparable<T>
+		public static PageViewModel[] GetPages(this Object[] items, Double maxHeight, Int32 itemHeight, Int32 headerHeight = 0)
 		{
 			if (headerHeight + itemHeight > maxHeight)
 			{
 				return Array.Empty<PageViewModel>();
 			}
 
-			var stack = new Stack<T>(items.Reverse());
+			var stack = new Stack<Object>(items.Reverse());
 			var pages = new List<PageViewModel>();
 
 			var page = new PageViewModel();
@@ -34,10 +33,18 @@ namespace MIS.Application.Extensions
 				var length = (Int32)(maxHeight - pageHeight - headerHeight) / itemHeight;
 
 				var item = stack.Pop();
-				(T current, T next) = item.Separate(ref length);
+				(Object current, Int32 currentLength, Object next) = item switch
+				{
+					SpecialtyViewModel source => Separate(source, length),
+					DepartmentViewModel source => Separate(source, length),
+					_ => (null, 0, null)
+				};
 
-				page.Objects.Add(current);
-				pageHeight += headerHeight + itemHeight * length;
+				if (current != null)
+				{
+					page.Objects.Add(current);
+					pageHeight += headerHeight + itemHeight * currentLength;
+				}
 
 				if (next != null)
 				{
@@ -52,6 +59,56 @@ namespace MIS.Application.Extensions
 
 			return pages
 				.ToArray();
+		}
+
+		private static (Object current, Int32 currentLength, Object next) Separate(SpecialtyViewModel source, Int32 length)
+		{
+			if (source.Resources.Length > length)
+			{
+				SpecialtyViewModel current = new SpecialtyViewModel
+				{
+					SpecialtyID = source.SpecialtyID,
+					SpecialtyName = source.SpecialtyName,
+					IsEnabled = source.IsEnabled,
+					Count = source.Count,
+					Resources = source.Resources[..length]
+				};
+
+				SpecialtyViewModel next = new SpecialtyViewModel
+				{
+					SpecialtyID = source.SpecialtyID,
+					SpecialtyName = source.SpecialtyName,
+					IsEnabled = source.IsEnabled,
+					Count = source.Count,
+					Resources = source.Resources[length..]
+				};
+
+				return (current, current.Resources.Length, next);
+			}
+
+			return (source, source.Resources.Length, null);
+		}
+
+		private static (Object current, Int32 currentLength, Object next) Separate(DepartmentViewModel source, Int32 length)
+		{
+			if (source.Employees.Length > length)
+			{
+				DepartmentViewModel current = new DepartmentViewModel
+				{
+					DepartmentName = source.DepartmentName,
+					Employees = source.Employees[..length]
+				};
+
+				DepartmentViewModel next = new DepartmentViewModel
+				{
+					DepartmentName = source.DepartmentName,
+					Employees = source.Employees[length..]
+				};
+
+				return (current, current.Employees.Length, next);
+			}
+
+			return (source, source.Employees.Length, null);
 		}
 	}
 }

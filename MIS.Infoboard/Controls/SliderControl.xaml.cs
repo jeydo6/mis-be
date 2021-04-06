@@ -82,7 +82,7 @@ namespace MIS.Infoboard.Controls
 			);
 
 			var actualHeight = ActualHeight;
-			var itemHeight = 80;
+			var itemHeight = 120;
 			var headerHeight = 90 + 20;
 
 			pages.Content = "Контакты";
