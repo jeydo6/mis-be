@@ -28,7 +28,8 @@ namespace MIS.Infoboard
 		{
 			var configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appsettings.json")
+				.AddJsonFile("appsettings.json", optional: false)
+				.AddJsonFile("contacts.json")
 				.Build();
 
 			Log.Logger = new LoggerConfiguration()

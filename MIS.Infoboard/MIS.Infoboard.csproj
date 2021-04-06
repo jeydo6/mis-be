@@ -16,7 +16,7 @@
 		<Version>2.0.0</Version>
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
 		<Authors>Vladimir Deryagin</Authors>
-		<PackageProjectUrl>https://github.com/jeydo6/MIS.Infoboard</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/jeydo6/MIS</PackageProjectUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Demo|AnyCPU'">
@@ -31,6 +31,10 @@
 
 	<ItemGroup>
 		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>false</ExcludeFromSingleFile>
+		</None>
+		<None Update="contacts.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>false</ExcludeFromSingleFile>
 		</None>
@@ -82,5 +86,7 @@
 			<SubType>Designer</SubType>
 		</Page>
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties contacts_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

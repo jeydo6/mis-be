@@ -14,9 +14,6 @@
  */
 #endregion
 
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using MIS.Infoboard.Windows;
 using System.Windows.Controls;
 
 namespace MIS.Infoboard.Controls
@@ -26,16 +23,8 @@ namespace MIS.Infoboard.Controls
 	/// </summary>
 	public partial class MainControl : UserControl
 	{
-		private readonly IMediator _mediator;
-		private readonly MainWindow _mainWindow;
-
 		internal MainControl()
 		{
-			var app = System.Windows.Application.Current as App;
-
-			_mediator = app.ServiceProvider.GetService<IMediator>();
-			_mainWindow = app.MainWindow as MainWindow;
-
 			InitializeComponent();
 		}
 	}

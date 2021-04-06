@@ -44,6 +44,10 @@ namespace MIS.Infoboard
 				Configuration.GetSection($"{nameof(SettingsConfig)}")
 			);
 
+			services.Configure<ContactsConfig>(
+				Configuration.GetSection($"{nameof(ContactsConfig)}")
+			);
+
 			services
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
@@ -61,8 +65,6 @@ namespace MIS.Infoboard
 
 		private IServiceCollection ConfigureLive(IServiceCollection services)
 		{
-			//services.AddTransient<IDateTimeProvider, CurrentDateTimeProvider>();
-
 			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
