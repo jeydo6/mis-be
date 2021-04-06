@@ -92,7 +92,7 @@ namespace MIS.Demo.DataContexts
 					Room = new Room
 					{
 						ID = 1,
-						Code = "1",
+						Code = "100",
 						Flat = 1
 					}
 				},

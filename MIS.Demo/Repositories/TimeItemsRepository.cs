@@ -57,6 +57,8 @@ namespace MIS.Demo.Repositories
 				{
 					ResourceID = g.Key.ResourceID,
 					Date = g.Key.Date,
+					BeginTime = g.Min(ti => ti.BeginDateTime),
+					EndTime = g.Max(ti => ti.EndDateTime),
 					TimesCount = g.Count(),
 					VisitsCount = g.Count(ti => ti.VisitItem != null)
 				})
@@ -75,6 +77,8 @@ namespace MIS.Demo.Repositories
 				{
 					ResourceID = g.Key.ResourceID,
 					Date = g.Key.Date,
+					BeginTime = g.Min(ti => ti.BeginDateTime),
+					EndTime = g.Max(ti => ti.EndDateTime),
 					TimesCount = g.Count(),
 					VisitsCount = g.Count(ti => ti.VisitItem != null)
 				})

@@ -51,9 +51,6 @@ namespace MIS.Infoboard
 			services
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
-			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
-
 #if DEMO
 			ConfigureDemo(services);
 #else
@@ -65,6 +62,8 @@ namespace MIS.Infoboard
 
 		private IServiceCollection ConfigureLive(IServiceCollection services)
 		{
+			services.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
+
 			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
@@ -76,6 +75,8 @@ namespace MIS.Infoboard
 		{
 			var dateTimeProvider = new CurrentDateTimeProvider();
 			var dataContext = new DemoDataContext(dateTimeProvider);
+
+			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
 
 			services.AddSingleton<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
 			services.AddSingleton<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));
