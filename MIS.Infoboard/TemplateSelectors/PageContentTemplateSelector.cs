@@ -14,6 +14,7 @@ namespace MIS.Infoboard.TemplateSelectors
 			var result = item switch
 			{
 				SpecialtyViewModel => app.TryFindResource("specialtyListItemTemplate"),
+				DepartmentViewModel => app.TryFindResource("departmentListItemTemplate"),
 				_ => null
 			};
 

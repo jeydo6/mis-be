@@ -14,10 +14,10 @@ namespace MIS.Application.Queries
 		private readonly ContactsConfig _contactsConfig;
 
 		public DepartmentListItemsHandler(
-			IOptionsSnapshot<ContactsConfig> contactsConfigOptions
+			IOptionsMonitor<ContactsConfig> contactsConfigOptions
 		)
 		{
-			_contactsConfig = contactsConfigOptions.Value;
+			_contactsConfig = contactsConfigOptions.CurrentValue;
 		}
 
 		public async Task<DepartmentViewModel[]> Handle(DepartmentListItemsQuery request, CancellationToken cancellationToken)

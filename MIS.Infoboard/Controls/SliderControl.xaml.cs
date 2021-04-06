@@ -27,7 +27,8 @@ namespace MIS.Infoboard.Controls
 			_mediator = app.ServiceProvider.GetService<IMediator>();
 			_actions = new Func<Task>[]
 			{
-				LoadSpecialtiesPages
+				LoadSpecialtiesPages,
+				LoadDepartmentPages
 			};
 
 			_index = -1;
@@ -72,6 +73,20 @@ namespace MIS.Infoboard.Controls
 
 			pages.Content = "Расписание приёма врачей";
 			pages.Items = specialties.GetPages(actualHeight, itemHeight, headerHeight);
+		}
+
+		private async Task LoadDepartmentPages()
+		{
+			var departments = await _mediator.Send(
+				new DepartmentListItemsQuery()
+			);
+
+			var actualHeight = ActualHeight;
+			var itemHeight = 80;
+			var headerHeight = 90 + 20;
+
+			pages.Content = "Контакты";
+			pages.Items = departments.GetPages(actualHeight, itemHeight, headerHeight);
 		}
 	}
 }
