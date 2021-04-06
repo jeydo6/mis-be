@@ -53,14 +53,27 @@ namespace MIS.Infoboard
 
 #if DEMO
 			ConfigureDemo(services);
+#elif DEBUG
+			ConfigureDebug(services);
 #else
-			ConfigureLive(services);
+			ConfigureRelease(services);
 #endif
 
 			return services;
 		}
 
-		private IServiceCollection ConfigureLive(IServiceCollection services)
+		private IServiceCollection ConfigureRelease(IServiceCollection services)
+		{
+			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
+
+			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+
+			return services;
+		}
+
+		private IServiceCollection ConfigureDebug(IServiceCollection services)
 		{
 			services.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
 

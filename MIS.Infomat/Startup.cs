@@ -52,19 +52,34 @@ namespace MIS.Infomat
 			services
 				.AddSingleton<IPrintService, XPSPrintService>();
 
-			services
-				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
-
 #if DEMO
 			ConfigureDemo(services);
+#elif DEBUG
+			ConfigureDebug(services);
 #else
-			ConfigureLive(services);
+			ConfigureRelease(services);
 #endif
+
 			return services;
 		}
 
-		private IServiceCollection ConfigureLive(IServiceCollection services)
+		private IServiceCollection ConfigureRelease(IServiceCollection services)
 		{
+			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
+
+			services.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(Configuration.GetConnectionString("DefaultConnection")));
+
+			return services;
+		}
+
+		private IServiceCollection ConfigureDebug(IServiceCollection services)
+		{
+			services.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
+
 			services.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
@@ -78,6 +93,8 @@ namespace MIS.Infomat
 		{
 			var dateTimeProvider = new CurrentDateTimeProvider();
 			var dataContext = new DemoDataContext(dateTimeProvider);
+
+			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
 
 			services.AddSingleton<IPatientsRepository, Demo.PatientsRepository>(sp => new Demo.PatientsRepository(dateTimeProvider, dataContext));
 			services.AddSingleton<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
