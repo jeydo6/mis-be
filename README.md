@@ -10,3 +10,11 @@ It has 2 variants to use:
 
 * Demo - it's a database-free mode, where you have 2 demo-patients: (30000000, 1980) and (31000000, 1980);
 * Live - you need the database to use this application in Live mode.
+
+### Infoboard
+Application for displaying a schedule of appointments on TV or another widescreen.
+
+It has 2 variants to use:
+
+* Demo - it's a database-free mode;
+* Live - you need the database to use this application in Live mode.
