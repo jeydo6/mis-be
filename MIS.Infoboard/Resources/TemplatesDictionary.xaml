@@ -47,11 +47,11 @@
 		<Border BorderThickness="0,1,0,0" Style="{StaticResource secondaryLightListItem}">
 			<Grid>
 				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="6*"/>
+					<ColumnDefinition Width="6*"/>
+					<ColumnDefinition Width="4*"/>
 					<ColumnDefinition Width="3*"/>
-					<ColumnDefinition Width="3*"/>
-					<ColumnDefinition Width="2*"/>
-					<ColumnDefinition Width="2*"/>
-					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="5*"/>
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Column="0" Text="{Binding PostName}" FontSize="36" FontFamily="Georgia" Margin="50, 10, 10, 10" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" />
