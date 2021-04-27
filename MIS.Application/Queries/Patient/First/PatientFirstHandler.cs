@@ -79,7 +79,7 @@ namespace MIS.Application.Queries
 					IsClosed = d.IsClosed,
 					IsEnabled = true,
 					Analyses = d.Analyses.Select(a => a.Description).ToArray()
-				}).ToArray(),
+				}).ToList(),
 				VisitItems = patient.VisitItems.Select(vi => new VisitItemViewModel
 				{
 					BeginDateTime = vi.TimeItem.BeginDateTime,
@@ -91,7 +91,7 @@ namespace MIS.Application.Queries
 					RoomFlat = vi.TimeItem.Resource.Room.Flat,
 					IsEnabled = true,
 					ResourceID = vi.TimeItem.ResourceID
-				}).ToArray()
+				}).ToList()
 			};
 
 			return result;

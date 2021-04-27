@@ -47,8 +47,8 @@ namespace MIS.Application.ViewModels
 
 		public Int32 Gender { get; set; }
 
-		public ICollection<VisitItemViewModel> VisitItems { get; set; }
+		public List<VisitItemViewModel> VisitItems { get; set; }
 
-		public ICollection<DispanserizationViewModel> Dispanserizations { get; set; }
+		public List<DispanserizationViewModel> Dispanserizations { get; set; }
 	}
 }
