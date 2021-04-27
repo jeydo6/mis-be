@@ -71,15 +71,15 @@ namespace MIS.Infomat.Controls
 			);
 		}
 
-		private async void DateListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserizationItem)
 			{
 				try
 				{
-					var dispanserization = await _mediator.Send(
+					var dispanserization = _mediator.Send(
 						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.DisplayName)
-					);
+					).ConfigureAwait(false).GetAwaiter().GetResult();
 
 					_patient.Dispanserizations.Add(dispanserization);
 

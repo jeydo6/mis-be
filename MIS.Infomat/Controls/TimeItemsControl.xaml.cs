@@ -104,15 +104,15 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private async void TimeListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void TimeListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is TimeItemViewModel timeItem)
 			{
 				try
 				{
-					var visitItem = await _mediator.Send(
+					var visitItem = _mediator.Send(
 						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.DisplayName)
-					);
+					).ConfigureAwait(false).GetAwaiter().GetResult();
 
 					_patient.VisitItems.Add(visitItem);
 
