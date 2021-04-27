@@ -61,7 +61,7 @@ namespace MIS.Infomat.Services
 					});
 
 					var xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
-					xpsdw.Write(document.DocumentPaginator);
+					xpsdw.WriteAsync(document);
 				}
 			}
 		}
