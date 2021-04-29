@@ -16,7 +16,7 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-21>
 -- =============================================
-USE MIS
+USE [MIS]
 GO
 
 IF OBJECT_ID('[dbo].[sp_Dispanserizations_List]', 'P') IS NOT NULL

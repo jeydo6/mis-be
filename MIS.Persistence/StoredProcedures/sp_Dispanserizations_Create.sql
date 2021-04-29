@@ -16,7 +16,7 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
 -- =============================================
-USE MIS
+USE [MIS]
 GO
 
 IF OBJECT_ID('[dbo].[sp_Dispanserizations_Create]', 'P') IS NOT NULL
@@ -389,7 +389,7 @@ BEGIN
 			,0
 			,''
 			,0
-			,(ds.[Description] + ': ' + FORMAT(@beginDate, 'dd.MM.yyyy') + ' (' + r.[Num] + ' каб.)')
+			,(ds.[Description] + ': ' + CONVERT(VARCHAR(10), @beginDate, 104) + ' (' + r.[Num] + ' каб.)')
 			,0
 			,0
 			,'19000101'
@@ -501,7 +501,7 @@ BEGIN
 			,0
 			,0
 			,1
-			,FORMAT(t.[Begin_Time], 'H:mm')
+			,CONVERT(NVARCHAR(2), DATEPART(HOUR, t.[Begin_Time])) + ':' + CONVERT(NVARCHAR(2), DATEPART(MINUTE, t.[Begin_Time]))
 			,0
 			,''
 			,0
@@ -540,8 +540,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'Dispanserization: (patientID: ''' + CAST(@patientID AS VARCHAR(10)) + ''', year: ''' + CAST(YEAR(@beginDate) AS VARCHAR(4)) + ''') already exists'
-		;THROW 51000, @msg, 16
+		SET @msg = 'Dispanserization: (patientID: ''' + CAST(@patientID AS VARCHAR(10)) + ''', year: ''' + CAST(YEAR(@beginDate) AS VARCHAR(4)) + ''') already exists';
+		RAISERROR(@msg, 10, 1);
 	END
 END
 GO

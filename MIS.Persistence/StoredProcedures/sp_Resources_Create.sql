@@ -229,8 +229,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'Resource: (doctorID: ''' + CAST(@doctorID AS VARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS VARCHAR(10)) + ''') already exists'
-		;THROW 51000, @msg, 16
+		SET @msg = 'Resource: (doctorID: ''' + CAST(@doctorID AS VARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS VARCHAR(10)) + ''') already exists';
+		RAISERROR(@msg, 10, 1);
 	END
 END
 GO

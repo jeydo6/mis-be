@@ -81,7 +81,7 @@ BEGIN
 			,0
 			,0
 			,1
-			,FORMAT(t.[Begin_Time], 'H:mm')
+			,CONVERT(NVARCHAR(2), DATEPART(HOUR, t.[Begin_Time])) + ':' + CONVERT(NVARCHAR(2), DATEPART(MINUTE, t.[Begin_Time]))
 			,0
 			,''
 			,0
@@ -101,8 +101,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS VARCHAR(10)) + ''') already exists'
-		;THROW 51000, @msg, 16
+		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS VARCHAR(10)) + ''') already exists';
+		RAISERROR(@msg, 10, 1);
 	END
 END
 GO

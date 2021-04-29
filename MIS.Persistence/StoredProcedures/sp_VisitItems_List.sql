@@ -32,7 +32,7 @@ BEGIN
 	SELECT
 		 v.[DoctorVisitTableID] AS [ID]
 		,v.[Comment] AS [PatientString]
-		,IIF(CHARINDEX('.', v.[StubNum]) > 0, SUBSTRING(v.[StubNum], 1, CHARINDEX('.', v.[StubNum]) - 1), v.[StubNum]) AS [TimeString]
+		,CASE WHEN CHARINDEX('.', v.[StubNum]) > 0 THEN SUBSTRING(v.[StubNum], 1, CHARINDEX('.', v.[StubNum]) - 1) ELSE v.[StubNum] END AS [TimeString]
 		,v.[rf_MKABID] AS [PatientID]
 		,v.[rf_DoctorTimeTableID] AS [TimeItemID]
 		,t.[DoctorTimeTableID] AS [ID]

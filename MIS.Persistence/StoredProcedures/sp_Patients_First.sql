@@ -16,7 +16,7 @@
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-19>
 -- =============================================
-USE MIS
+USE [MIS]
 GO
 
 IF OBJECT_ID('[dbo].[sp_Patients_First]', 'P') IS NOT NULL

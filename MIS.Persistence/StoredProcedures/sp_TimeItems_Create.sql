@@ -104,8 +104,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''', beginDateTime: ''' + FORMAT(@beginDateTime, 'dd.MM.yyyy HH:mm') + ''', endDateTime: ''' + FORMAT(@endDateTime, 'dd.MM.yyyy HH:mm') + ''') already exists'
-		;THROW 51000, @msg, 16
+		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''', beginDateTime: ''' + CONVERT(VARCHAR(16), @beginDateTime, 104) + ''', endDateTime: ''' + FORMAT(@endDateTime, 'dd.MM.yyyy HH:mm') + ''') already exists';
+		RAISERROR(@msg, 10, 1);
 	END
 END
 GO
