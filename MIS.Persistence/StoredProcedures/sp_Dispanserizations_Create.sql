@@ -540,8 +540,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'Dispanserization: (patientID: ''' + CAST(@patientID AS VARCHAR(10)) + ''', year: ''' + CAST(YEAR(@beginDate) AS VARCHAR(4)) + ''') already exists';
-		RAISERROR(@msg, 10, 1);
+		SET @msg = 'Dispanserization: (patientID: ''' + CAST(@patientID AS VARCHAR(10)) + ''', year: ''' + CAST(YEAR(@beginDate) AS VARCHAR(4)) + ''') already exists'
+		RAISERROR(@msg, 10, 1)
 	END
 END
 GO

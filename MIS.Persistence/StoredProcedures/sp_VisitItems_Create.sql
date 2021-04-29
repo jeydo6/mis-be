@@ -101,8 +101,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS VARCHAR(10)) + ''') already exists';
-		RAISERROR(@msg, 10, 1);
+		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS VARCHAR(10)) + ''') already exists'
+		RAISERROR(@msg, 10, 1)
 	END
 END
 GO

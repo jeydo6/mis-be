@@ -55,7 +55,7 @@ BEGIN
 		) > 0
 		BEGIN
 			SET @msg = 'Resource: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''') doesn''t exist'
-			;THROW 51000, @msg, 16
+			RAISERROR(@msg, 10, 1)
 		END
 
 		INSERT INTO
@@ -104,8 +104,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''', beginDateTime: ''' + CONVERT(VARCHAR(16), @beginDateTime, 104) + ''', endDateTime: ''' + FORMAT(@endDateTime, 'dd.MM.yyyy HH:mm') + ''') already exists';
-		RAISERROR(@msg, 10, 1);
+		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''', beginDateTime: ''' + CONVERT(VARCHAR(16), @beginDateTime, 104) + ''', endDateTime: ''' + CONVERT(VARCHAR(16), @endDateTime, 104) + ''') already exists'
+		RAISERROR(@msg, 10, 1)
 	END
 END
 GO

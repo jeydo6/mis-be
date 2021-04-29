@@ -217,8 +217,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'Patient: (code: ''' + @code + ''') already exists';
-		RAISERROR(@msg, 10, 1);
+		SET @msg = 'Patient: (code: ''' + @code + ''') already exists'
+		RAISERROR(@msg, 10, 1)
 	END
 END
 GO
