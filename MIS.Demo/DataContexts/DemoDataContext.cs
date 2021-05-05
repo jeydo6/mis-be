@@ -41,6 +41,7 @@ namespace MIS.Demo.DataContexts
 					MiddleName = "Иванович",
 					BirthDate = new DateTime(1980, 1, 1),
 					Gender = 0,
+					DispanserizationIsEnabled = true,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -52,6 +53,7 @@ namespace MIS.Demo.DataContexts
 					MiddleName = "Михайлович",
 					BirthDate = new DateTime(1980, 1, 1),
 					Gender = 0,
+					DispanserizationIsEnabled = false,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -63,6 +65,7 @@ namespace MIS.Demo.DataContexts
 					MiddleName = "Сергеевич",
 					BirthDate = new DateTime(1993, 1, 1),
 					Gender = 0,
+					DispanserizationIsEnabled = true,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				}

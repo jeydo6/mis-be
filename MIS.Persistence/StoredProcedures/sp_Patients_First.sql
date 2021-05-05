@@ -35,6 +35,7 @@ BEGIN
 		,p.[OT] AS [MiddleName]
 		,p.[DATE_BD] AS [BirthDate]
 		,p.[W] AS [Gender]
+		,1 AS [DispanserizationIsEnabled]
 	FROM
 		[dbo].[hlt_MKAB] AS p
 	WHERE

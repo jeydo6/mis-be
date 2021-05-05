@@ -40,6 +40,7 @@ BEGIN
 			[dbo].[hlt_MKAB] AS p ON d.[MKABGuid] = p.[UGUID]
 		WHERE
 			p.[MKABID] = @patientID
+			AND d.[IsClosed] = 0
 			AND YEAR(d.[dateDispBeg]) = YEAR(@beginDate)
 	) > 0
 	BEGIN

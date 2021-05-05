@@ -70,6 +70,7 @@ namespace MIS.Application.Queries
 				MiddleName = patient.MiddleName,
 				BirthDate = patient.BirthDate,
 				Gender = patient.Gender,
+				DispanserizationIsEnabled = patient.DispanserizationIsEnabled,
 				Dispanserizations = patient.Dispanserizations.Select(d => new DispanserizationViewModel
 				{
 					BeginDate = d.BeginDate,
