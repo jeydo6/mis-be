@@ -41,7 +41,7 @@ BEGIN
 			[dbo].[hlt_MKAB] AS p
 		WHERE
 			p.[NUM] = @code
-	) > 0
+	) = 0
 	BEGIN
         INSERT INTO
 	        [dbo].[hlt_MKAB]
@@ -218,7 +218,7 @@ BEGIN
 	ELSE
 	BEGIN
 		SET @msg = 'Patient: (code: ''' + @code + ''') already exists'
-		RAISERROR(@msg, 10, 1)
+		RAISERROR(@msg, 16, 1)
 	END
 END
 GO

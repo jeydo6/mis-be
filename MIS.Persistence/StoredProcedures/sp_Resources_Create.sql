@@ -48,7 +48,7 @@ BEGIN
 		WHERE
 			r.[rf_LPUDoctorID] = @doctorID
 			AND r.[rf_HealingRoomID] = @roomID
-	) > 0
+	) = 0
 	BEGIN
 		IF @roomID < 0
 		BEGIN
@@ -230,7 +230,7 @@ BEGIN
 	ELSE
 	BEGIN
 		SET @msg = 'Resource: (doctorID: ''' + CAST(@doctorID AS VARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS VARCHAR(10)) + ''') already exists'
-		RAISERROR(@msg, 10, 1)
+		RAISERROR(@msg, 16, 1)
 	END
 END
 GO

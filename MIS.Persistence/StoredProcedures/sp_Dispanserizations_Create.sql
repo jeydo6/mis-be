@@ -42,7 +42,7 @@ BEGIN
 			p.[MKABID] = @patientID
 			AND d.[IsClosed] = 0
 			AND YEAR(d.[dateDispBeg]) = YEAR(@beginDate)
-	) > 0
+	) = 0
 	BEGIN
 		DECLARE @tapGUID UNIQUEIDENTIFIER = NEWID()
 		DECLARE @dispanserizationGUID UNIQUEIDENTIFIER = NEWID()
@@ -542,7 +542,7 @@ BEGIN
 	ELSE
 	BEGIN
 		SET @msg = 'Dispanserization: (patientID: ''' + CAST(@patientID AS VARCHAR(10)) + ''', year: ''' + CAST(YEAR(@beginDate) AS VARCHAR(4)) + ''') already exists'
-		RAISERROR(@msg, 10, 1)
+		RAISERROR(@msg, 16, 1)
 	END
 END
 GO

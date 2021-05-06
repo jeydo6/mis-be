@@ -42,7 +42,7 @@ BEGIN
 			t.[rf_DocPRVDID] = @resourceID
 			AND t.[Begin_Time] = @beginDateTime
 			AND t.[End_Time] = @endDateTime
-	) > 0
+	) = 0
 	BEGIN
 		IF
 		(
@@ -105,7 +105,7 @@ BEGIN
 	ELSE
 	BEGIN
 		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''', beginDateTime: ''' + CONVERT(VARCHAR(16), @beginDateTime, 104) + ''', endDateTime: ''' + CONVERT(VARCHAR(16), @endDateTime, 104) + ''') already exists'
-		RAISERROR(@msg, 10, 1)
+		RAISERROR(@msg, 16, 1)
 	END
 END
 GO

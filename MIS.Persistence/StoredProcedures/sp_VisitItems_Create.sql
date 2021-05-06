@@ -30,7 +30,7 @@ AS
 BEGIN
 	DECLARE @msg VARCHAR(128)
 
-	IF (SELECT COUNT(*) FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID) > 0
+	IF (SELECT COUNT(*) FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID) = 0
 	BEGIN
 		INSERT INTO
 			[dbo].[hlt_DoctorVisitTable] (
@@ -102,7 +102,7 @@ BEGIN
 	ELSE
 	BEGIN
 		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS VARCHAR(10)) + ''') already exists'
-		RAISERROR(@msg, 10, 1)
+		RAISERROR(@msg, 16, 1)
 	END
 END
 GO
