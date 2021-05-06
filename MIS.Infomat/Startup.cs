@@ -23,6 +23,7 @@ using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
+using System;
 
 namespace MIS.Infomat
 {
@@ -56,8 +57,10 @@ namespace MIS.Infomat
 			ConfigureDemo(services);
 #elif DEBUG
 			ConfigureDebug(services);
-#else
+#elif RELEASE
 			ConfigureRelease(services);
+#else
+			throw new Exception("Unknown project configuration!");
 #endif
 
 			return services;

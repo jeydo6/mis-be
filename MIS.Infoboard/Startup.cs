@@ -55,8 +55,10 @@ namespace MIS.Infoboard
 			ConfigureDemo(services);
 #elif DEBUG
 			ConfigureDebug(services);
-#else
+#elif RELEASE
 			ConfigureRelease(services);
+#else
+			throw new Exception("Unknown project configuration!");
 #endif
 
 			return services;
