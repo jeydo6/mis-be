@@ -66,36 +66,42 @@ namespace MIS.Infoboard
 
 		private IServiceCollection ConfigureRelease(IServiceCollection services)
 		{
-			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
+			services
+				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
-			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")))
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")))
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
 
 			return services;
 		}
 
 		private IServiceCollection ConfigureDebug(IServiceCollection services)
 		{
-			services.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
+			services
+				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
 
-			services.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
+			services
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")))
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")))
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")));
 
 			return services;
 		}
 
 		private static IServiceCollection ConfigureDemo(IServiceCollection services)
 		{
-			var dateTimeProvider = new CurrentDateTimeProvider();
-			var dataContext = new DemoDataContext(dateTimeProvider);
+			services
+				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
-			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>(sp => dateTimeProvider);
+			services
+				.AddSingleton<DemoDataContext>();
 
-			services.AddSingleton<IResourcesRepository, Demo.ResourcesRepository>(sp => new Demo.ResourcesRepository(dateTimeProvider, dataContext));
-			services.AddSingleton<ITimeItemsRepository, Demo.TimeItemsRepository>(sp => new Demo.TimeItemsRepository(dateTimeProvider, dataContext));
-			services.AddSingleton<IVisitItemsRepository, Demo.VisitItemsRepository>(sp => new Demo.VisitItemsRepository(dateTimeProvider, dataContext));
+			services
+				.AddSingleton<IResourcesRepository, Demo.ResourcesRepository>()
+				.AddSingleton<ITimeItemsRepository, Demo.TimeItemsRepository>()
+				.AddSingleton<IVisitItemsRepository, Demo.VisitItemsRepository>();
 
 			return services;
 		}
