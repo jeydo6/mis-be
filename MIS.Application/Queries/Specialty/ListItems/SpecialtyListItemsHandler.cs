@@ -15,6 +15,8 @@
 #endregion
 
 using MediatR;
+using Microsoft.Extensions.Options;
+using MIS.Application.Configs;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
@@ -31,15 +33,19 @@ namespace MIS.Application.Queries
 		private readonly IResourcesRepository _resources;
 		private readonly ITimeItemsRepository _timeItems;
 
+		private readonly SettingsConfig _settingsConfig;
+
 		public SpecialtyListItemsHandler(
 			IDateTimeProvider dateTimeProvider,
 			IResourcesRepository resources,
-			ITimeItemsRepository timeItems
+			ITimeItemsRepository timeItems,
+			IOptionsSnapshot<SettingsConfig> settingsConfigOptions
 		)
 		{
 			_dateTimeProvider = dateTimeProvider;
 			_resources = resources;
 			_timeItems = timeItems;
+			_settingsConfig = settingsConfigOptions.Value;
 		}
 
 		public async Task<SpecialtyViewModel[]> Handle(SpecialtyListItemsQuery request, CancellationToken cancellationToken)
@@ -110,7 +116,12 @@ namespace MIS.Application.Queries
 				{
 					foreach (var ri in dispanserizationSpecialtyItem.Resources)
 					{
-						ri.Dates = ri.Dates.Where(di => di.Date >= dispanserization.BeginDate).ToArray();
+						var dispanserizationBeginDate = dispanserization.BeginDate;
+						var dispanserizationEndDate = _settingsConfig.DispanserizationInterval.HasValue ?
+							dispanserization.BeginDate.AddDays(_settingsConfig.DispanserizationInterval.Value) :
+							endDate;
+
+						ri.Dates = ri.Dates.Where(di => di.Date >= dispanserizationBeginDate && di.Date < dispanserizationEndDate).ToArray();
 						ri.IsEnabled = ri.Dates.Any(di => di.IsEnabled) && ri.Dates.All(di => !di.IsBlocked);
 						ri.IsBlocked = ri.Dates.Any(di => di.IsBlocked);
 					}

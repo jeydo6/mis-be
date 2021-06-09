@@ -22,6 +22,8 @@ namespace MIS.Application.Configs
 	{
 		public String OrganizationName { get; set; }
 
+		public Int32? DispanserizationInterval { get; set; }
+
 		public ServiceInterval[] ServiceIntervals { get; set; }
 	}
 
