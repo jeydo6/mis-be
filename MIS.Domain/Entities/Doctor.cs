@@ -37,18 +37,6 @@ namespace MIS.Domain.Entities
 			{
 				var sb = new StringBuilder();
 
-				if (!String.IsNullOrEmpty(LastName))
-				{
-					if (LastName.Contains(' '))
-					{
-						sb.Append(LastName[0..LastName.IndexOf(' ')]);
-					}
-					else
-					{
-						sb.Append(LastName);
-					}
-				}
-
 				if (!String.IsNullOrEmpty(FirstName))
 				{
 					sb.Append($" {FirstName[0]}.");
@@ -57,6 +45,20 @@ namespace MIS.Domain.Entities
 				if (!String.IsNullOrEmpty(MiddleName))
 				{
 					sb.Append($" {MiddleName[0]}.");
+				}
+
+				if (!String.IsNullOrEmpty(LastName))
+				{
+					var spaceIndex = LastName.IndexOf(' ');
+					if (spaceIndex > 0)
+					{
+						sb.Insert(0, LastName[0..spaceIndex]);
+						sb.Append(LastName[spaceIndex..]);
+					}
+					else
+					{
+						sb.Insert(0, LastName);
+					}
 				}
 
 				return sb.ToString().Trim();
