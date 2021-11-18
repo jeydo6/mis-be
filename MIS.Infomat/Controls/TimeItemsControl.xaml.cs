@@ -17,6 +17,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Commands;
+using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Domain.Services;
@@ -64,24 +65,24 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			datesHeader.Content = await _mediator.Send(
+			datesHeader.Content = _mediator.SendSync(
 				new DateHeaderQuery()
 			);
 
-			datesList.ItemsSource = await _mediator.Send(
+			datesList.ItemsSource = _mediator.SendSync(
 				new DateListItemsQuery(_resource)
 			);
 		}
 
-		private async void DateListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is DateItemViewModel dateItem)
 			{
 				if (dateItem.Times == null)
 				{
-					dateItem.Times = await _mediator.Send(
+					dateItem.Times = _mediator.SendSync(
 						new TimeListItemsQuery(dateItem.Date, _resource.ResourceID)
 					);
 
@@ -104,13 +105,13 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private async void TimeListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void TimeListItemButton_Click(Object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is TimeItemViewModel timeItem)
 			{
 				try
 				{
-					var visitItem = await _mediator.Send(
+					var visitItem = _mediator.SendSync(
 						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.DisplayName)
 					);
 

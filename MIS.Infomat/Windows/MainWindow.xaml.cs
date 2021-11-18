@@ -16,6 +16,7 @@
 
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Infomat.Controls;
 using System;
@@ -128,11 +129,11 @@ namespace MIS.Infomat.Windows
 			NextWorkflow(new MainControl(), isRemember: false);
 		}
 
-		private async void TimerTick(Object sender, EventArgs e)
+		private void TimerTick(Object sender, EventArgs e)
 		{
 			MainWorkflow();
 
-			IsServiceTime = await _mediator.Send(
+			IsServiceTime = _mediator.SendSync(
 				new TimeIsServiceQuery()
 			);
 		}

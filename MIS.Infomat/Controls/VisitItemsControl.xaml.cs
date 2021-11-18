@@ -16,6 +16,7 @@
 
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Domain.Services;
@@ -60,13 +61,13 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private async void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
 		{
-			list.ItemsSource = await _mediator.Send(
+			list.ItemsSource = _mediator.SendSync(
 				new VisitListItemsQuery(_patient)
 			);
 
-			dispanserizationButton.DataContext = await _mediator.Send(
+			dispanserizationButton.DataContext = _mediator.SendSync(
 				new DispanserizationLastQuery(_patient)
 			);
 

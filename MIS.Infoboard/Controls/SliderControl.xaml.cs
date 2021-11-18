@@ -32,7 +32,7 @@ namespace MIS.Infoboard.Controls
 	{
 		private readonly IMediator _mediator;
 
-		private readonly Func<Task>[] _actions;
+		private readonly Action[] _actions;
 
 		private Int32 _index;
 
@@ -41,7 +41,7 @@ namespace MIS.Infoboard.Controls
 			var app = System.Windows.Application.Current as App;
 
 			_mediator = app.ServiceProvider.GetService<IMediator>();
-			_actions = new Func<Task>[]
+			_actions = new Action[]
 			{
 				LoadSpecialtiesPages,
 				LoadDepartmentPages
@@ -62,7 +62,7 @@ namespace MIS.Infoboard.Controls
 			MoveNext(sender, e);
 		}
 
-		private async void MoveNext(Object sender, EventArgs e)
+		private void MoveNext(Object sender, EventArgs e)
 		{
 			if (_actions == null || _actions.Length == 0)
 			{
@@ -74,12 +74,12 @@ namespace MIS.Infoboard.Controls
 				_index = -1;
 			}
 
-			await _actions[++_index]();
+			_actions[++_index]();
 		}
 
-		private async Task LoadSpecialtiesPages()
+		private void LoadSpecialtiesPages()
 		{
-			var specialties = await _mediator.Send(
+			var specialties = _mediator.SendSync(
 				new SpecialtyListItemsQuery(patient: null)
 			);
 
@@ -91,9 +91,9 @@ namespace MIS.Infoboard.Controls
 			pages.Items = specialties.GetPages(actualHeight, itemHeight, headerHeight);
 		}
 
-		private async Task LoadDepartmentPages()
+		private void LoadDepartmentPages()
 		{
-			var departments = await _mediator.Send(
+			var departments = _mediator.SendSync(
 				new DepartmentListItemsQuery()
 			);
 

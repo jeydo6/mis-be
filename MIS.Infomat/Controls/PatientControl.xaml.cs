@@ -16,6 +16,7 @@
 
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Infomat.Windows;
@@ -94,7 +95,7 @@ namespace MIS.Infomat.Controls
 			_mainWindow.PrevWorkflow();
 		}
 
-		private async void NextButton_Click(Object sender, RoutedEventArgs e)
+		private void NextButton_Click(Object sender, RoutedEventArgs e)
 		{
 			Boolean numberValidation;
 			if (String.IsNullOrEmpty(numberTextBox.Text))
@@ -126,7 +127,7 @@ namespace MIS.Infomat.Controls
 
 			if (numberValidation && birthdateValidation)
 			{
-				var patient = await _mediator.Send(new PatientFirstQuery(
+				var patient = _mediator.SendSync(new PatientFirstQuery(
 						numberTextBox.Text,
 						new DateTime(Int32.Parse(birthdateTextBox.Text), 1, 1)
 					)

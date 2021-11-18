@@ -16,6 +16,7 @@
 
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Domain.Providers;
 using System;
@@ -53,9 +54,9 @@ namespace MIS.Infoboard.Controls
 			_timer.Start();
 		}
 
-		private async void UserControl_Initialized(Object sender, EventArgs e)
+		private void UserControl_Initialized(Object sender, EventArgs e)
 		{
-			organizationName.Text = await _mediator.Send(
+			organizationName.Text = _mediator.SendSync(
 				new OrganizationNameQuery()
 			);
 		}
