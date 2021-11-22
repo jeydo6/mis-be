@@ -18,6 +18,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
+using MIS.Application.Options;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
@@ -54,49 +55,69 @@ namespace MIS.Infomat
 				.AddSingleton<IPrintService, XPSPrintService>();
 
 #if DEMO
-			ConfigureDemo(services);
+			services.
+				ConfigureDemo();
 #elif DEBUG
-			ConfigureDebug(services);
+			services
+				.ConfigureDebug(options =>
+				{
+					options.ConnectionString = Configuration
+						.GetConnectionString("DefaultConnection");
+				});
 #elif RELEASE
-			ConfigureRelease(services);
+			services
+				.ConfigureRelease(options =>
+				{
+					options.ConnectionString = Configuration
+						.GetConnectionString("DefaultConnection");
+				});
 #else
 			throw new Exception("Unknown project configuration!");
 #endif
 
 			return services;
 		}
+	}
 
-		private IServiceCollection ConfigureRelease(IServiceCollection services)
+	internal static class StartupExtension
+	{
+		public static IServiceCollection ConfigureRelease(this IServiceCollection services, Action<LiveServicesOptions> configureOptions)
 		{
+			var liveOptions = new LiveServicesOptions();
+			configureOptions?.Invoke(liveOptions);
+
 			services
 				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
 			services
-				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(Configuration.GetConnectionString("DefaultConnection")));
+				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(liveOptions.ConnectionString))
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(liveOptions.ConnectionString))
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(liveOptions.ConnectionString))
+				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(liveOptions.ConnectionString));
 
 			return services;
 		}
 
-		private IServiceCollection ConfigureDebug(IServiceCollection services)
+		public static IServiceCollection ConfigureDebug(this IServiceCollection services, Action<LiveServicesOptions> configureOptions)
 		{
-			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
+			var liveOptions = new LiveServicesOptions();
+			configureOptions?.Invoke(liveOptions);
 
 			services
-				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(Configuration.GetConnectionString("DefaultConnection")))
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(Configuration.GetConnectionString("DefaultConnection")));
+				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 12, 18)));
+
+			services
+				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(liveOptions.ConnectionString))
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(liveOptions.ConnectionString))
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(liveOptions.ConnectionString))
+				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(liveOptions.ConnectionString));
 
 			return services;
 		}
 
-		private static IServiceCollection ConfigureDemo(IServiceCollection services)
+		public static IServiceCollection ConfigureDemo(this IServiceCollection services)
 		{
 			services
 				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
