@@ -131,11 +131,11 @@ namespace MIS.Infomat.Windows
 
 		private void TimerTick(Object sender, EventArgs e)
 		{
-			MainWorkflow();
-
 			IsServiceTime = _mediator.SendSync(
 				new TimeIsServiceQuery()
 			);
+
+			MainWorkflow();
 		}
 
 		private void Window_KeyUp(Object sender, KeyEventArgs e)
