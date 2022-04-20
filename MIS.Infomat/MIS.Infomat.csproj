@@ -6,7 +6,6 @@
 		<UseWPF>true</UseWPF>
 		<StartupObject>MIS.Infomat.App</StartupObject>
 		<Configurations>Debug;Release;Demo</Configurations>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<PropertyGroup Label="About">
@@ -14,16 +13,6 @@
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
 		<Authors>Vladimir Deryagin</Authors>
 		<PackageProjectUrl>https://github.com/jeydo6/MIS</PackageProjectUrl>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Demo|AnyCPU'">
-		<Optimize>true</Optimize>
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<Optimize>true</Optimize>
-		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
