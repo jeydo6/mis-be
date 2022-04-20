@@ -517,7 +517,7 @@ BEGIN
 			[dbo].[hlt_DoctorTimeTable] AS t INNER JOIN
 			(
 				SELECT
-						t.[rf_DocPRVDID]
+					t.[rf_DocPRVDID]
 					,MIN(t.[Begin_Time]) AS [Begin_Time]
 				FROM
 					[dbo].[hlt_DoctorTimeTable] AS t INNER JOIN
@@ -526,13 +526,14 @@ BEGIN
 					[dbo].[hlt_DoctorVisitTable] AS v ON t.[DoctorTimeTableID] = v.[rf_DoctorTimeTableID]
 				WHERE
 					t.[Date] = @beginDate
+					AND t.[FlagAccess] BETWEEN 4 AND 7
 					AND v.[DoctorVisitTableID] IS NULL
 					AND r.[InTime] = 1
 					AND ds.[rf_HealingRoomID] > 0
 					AND ds.[IsParaclinic] = 1
 					AND ds.[rf_ServiceTypeID] = 2
 				GROUP BY
-						t.[rf_DocPRVDID]
+					t.[rf_DocPRVDID]
 				) AS tg ON t.[rf_DocPRVDID] = tg.[rf_DocPRVDID] AND t.[Begin_Time] = tg.[Begin_Time]
 		WHERE
 			tap.[UGUID] = @tapGUID
