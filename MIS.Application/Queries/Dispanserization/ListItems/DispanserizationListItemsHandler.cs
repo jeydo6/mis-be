@@ -65,7 +65,7 @@ namespace MIS.Application.Queries
 				.Select(g => new DispanserizationViewModel
 				{
 					BeginDate = g.Key,
-					IsEnabled = g.Count() == resources.Count
+					IsEnabled = g.Count(t => (t.TimesCount - t.VisitsCount) > 0) == resources.Count
 				})
 				.ToArray();
 
