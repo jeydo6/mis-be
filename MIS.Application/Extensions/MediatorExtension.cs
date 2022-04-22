@@ -8,13 +8,19 @@ namespace MIS.Application.Extensions
 	{
 		public static TResponse SendSync<TResponse>(this IMediator mediator, IRequest<TResponse> request, CancellationToken cancellationToken = default)
 		{
-			var task = Task.Run(async () => await mediator.Send(request, cancellationToken));
+			var task = Task.Run(async () => await mediator
+				.Send(request, cancellationToken)
+				.ConfigureAwait(false)
+			);
 			return task.Result;
 		}
 
 		public static void SendSync(this IMediator mediator, IRequest request, CancellationToken cancellationToken = default)
 		{
-			var task = Task.Run(async () => await mediator.Send(request, cancellationToken));
+			var task = Task.Run(async () => await mediator
+				.Send(request, cancellationToken)
+				.ConfigureAwait(false)
+			);
 		}
 	}
 }
