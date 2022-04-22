@@ -24,6 +24,7 @@ using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
+using Serilog;
 using System;
 
 namespace MIS.Infomat
@@ -47,6 +48,9 @@ namespace MIS.Infomat
 			services.Configure<SettingsConfig>(
 				Configuration.GetSection($"{nameof(SettingsConfig)}")
 			);
+
+			services
+				.AddLogging(builder => builder.AddSerilog(dispose: true));
 
 			services
 				.AddMediatR(typeof(Application.AssemblyMarker));
