@@ -11,10 +11,11 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 -- =============================================
- 
+
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
+-- Update date: <2022-04-25>
 -- =============================================
 USE [MIS]
 GO
@@ -46,7 +47,21 @@ BEGIN
 	BEGIN
 		DECLARE @tapGUID UNIQUEIDENTIFIER = NEWID()
 		DECLARE @dispanserizationGUID UNIQUEIDENTIFIER = NEWID()
-		DECLARE @testsGroupGUID UNIQUEIDENTIFIER = NEWID()
+		DECLARE @researchGroupGUID UNIQUEIDENTIFIER = NEWID()
+
+		DECLARE @tapID INT
+		DECLARE @dispanserizationID INT
+
+		DECLARE @patientID INT
+		DECLARE @patientDescription NVARCHAR(128)
+
+		SELECT TOP (1)
+			@patientID = p.[MKABID]
+			,@patientDescription = (p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + N' г.р.')
+		FROM
+			[dbo].[hlt_MKAB] AS p
+		WHERE
+			p.[MKABID] = @patientID
 
 		INSERT INTO
 			[dbo].[hlt_TAP] (
@@ -177,6 +192,8 @@ BEGIN
 		WHERE
 			p.[MKABID] = @patientID
 
+		SET @tapID = CAST(IDENT_CURRENT('[dbo].[hlt_TAP]') AS INT)
+
 		INSERT INTO
 			[dbo].[dd_DDForm] (
 				 [x_Edition]
@@ -302,6 +319,8 @@ BEGIN
 			p.[MKABID] = @patientID
 			AND t.[UGUID] = @tapGUID
 
+		SET @dispanserizationID = CAST(IDENT_CURRENT('[dbo].[dd_DDForm]') AS INT)
+
 		INSERT INTO
 			[dbo].[lbr_LaboratoryResearch] (
 				 [x_Edition]
@@ -341,7 +360,7 @@ BEGIN
 			,''
 			,GETDATE()
 			,0
-			,@testsGroupGUID
+			,@researchGroupGUID
 			,0
 			,p.[DATE_BD]
 			,p.[W]
@@ -381,7 +400,7 @@ BEGIN
 		SELECT
 			 0
 			,0
-			,d.[DDFormID]
+			,@dispanserizationID
 			,@beginDate
 			,DATEADD(DAY, 1, @beginDate)
 			,0
@@ -390,21 +409,19 @@ BEGIN
 			,0
 			,''
 			,0
-			,(ds.[Description] + ': ' + CONVERT(VARCHAR(10), @beginDate, 104) + ' (' + r.[Num] + ' каб.)')
+			,(ds.[Description] + ': ' + CONVERT(VARCHAR(10), @beginDate, 104) + ' (' + r.[Num] + N' каб.)')
 			,0
 			,0
 			,'19000101'
-			,d.[DDFormGUID]
+			,@dispanserizationGUID
 			,'084C2416-E793-4E61-A472-E2067D80AF2E'
 			,0
 		FROM
-			[dbo].[dd_DDForm] AS d CROSS JOIN
 			[dbo].[dd_DDService] AS ds INNER JOIN
 			[dbo].[hlt_HealingRoom] AS r ON ds.[rf_HealingRoomID] = r.[HealingRoomID] INNER JOIN
-			[dbo].[lbr_ResearchType] AS tt ON ds.[HLRCode] = tt.[Code]
+			[dbo].[lbr_ResearchType] AS rt ON ds.[HLRCode] = rt.[Code]
 		WHERE
-			d.[DDFormGUID] = @dispanserizationGUID
-			AND ds.[rf_HealingRoomID] > 0
+			ds.[rf_HealingRoomID] > 0
 			AND ds.[IsParaclinic] = 1
 			AND ds.[rf_ServiceTypeID] = 2
 
@@ -437,19 +454,17 @@ BEGIN
 			,NEWID()
 			,0
 			,''
-			,tg.[GUID]
+			,@researchGroupGUID
 			,0x0
-			,tt.[UGUID]
-			,tg.[rf_TAPID]
+			,rt.[UGUID]
+			,@tapID
 			,0
 		FROM
-			[dbo].[lbr_LaboratoryResearch] AS tg CROSS JOIN
 			[dbo].[dd_DDService] AS ds INNER JOIN
 			[dbo].[hlt_HealingRoom] AS r ON ds.[rf_HealingRoomID] = r.[HealingRoomID] INNER JOIN
-			[dbo].[lbr_ResearchType] AS tt ON ds.[HLRCode] = tt.[Code]
+			[dbo].[lbr_ResearchType] AS rt ON ds.[HLRCode] = rt.[Code]
 		WHERE
-			tg.[GUID] = @testsGroupGUID
-			AND ds.[rf_HealingRoomID] > 0
+			ds.[rf_HealingRoomID] > 0
 			AND ds.[IsParaclinic] = 1
 			AND ds.[rf_ServiceTypeID] = 2
 
@@ -487,9 +502,9 @@ BEGIN
 			 0
 			,0
 			,t.[DoctorTimeTableID]
-			,tap.[TAPID]
-			,(p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + ' г.р.')
-			,p.[MKABID]
+			,@tapID
+			,@patientDescription
+			,@patientID
 			,0
 			,0
 			,4
@@ -512,33 +527,29 @@ BEGIN
 			,'19000101'
 			,'19000101'
 		FROM
-			[dbo].[hlt_TAP] AS tap INNER JOIN
-			[dbo].[hlt_MKAB] AS p ON tap.[rf_MKABID] = p.[MKABID] CROSS JOIN
 			[dbo].[hlt_DoctorTimeTable] AS t INNER JOIN
 			(
 				SELECT
 					t.[rf_DocPRVDID]
 					,MIN(t.[Begin_Time]) AS [Begin_Time]
 				FROM
-					[dbo].[hlt_DoctorTimeTable] AS t INNER JOIN
-					[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID] INNER JOIN
-					[dbo].[dd_DDService] AS ds ON r.[rf_HealingRoomID] = ds.[rf_HealingRoomID] LEFT JOIN
+					[dbo].[hlt_DocPRVD] AS dr INNER JOIN
+					[dbo].[dd_DDService] AS ds ON dr.[rf_HealingRoomID] = ds.[rf_HealingRoomID] INNER JOIN
+					[dbo].[hlt_DoctorTimeTable] AS t ON t.[rf_DocPRVDID] = dr.[DocPRVDID] LEFT JOIN
 					[dbo].[hlt_DoctorVisitTable] AS v ON t.[DoctorTimeTableID] = v.[rf_DoctorTimeTableID]
 				WHERE
 					t.[Date] = @beginDate
 					AND t.[FlagAccess] BETWEEN 4 AND 7
 					AND v.[DoctorVisitTableID] IS NULL
-					AND r.[InTime] = 1
+					AND dr.[InTime] = 1
 					AND ds.[rf_HealingRoomID] > 0
 					AND ds.[IsParaclinic] = 1
 					AND ds.[rf_ServiceTypeID] = 2
 				GROUP BY
 					t.[rf_DocPRVDID]
-				) AS tg ON t.[rf_DocPRVDID] = tg.[rf_DocPRVDID] AND t.[Begin_Time] = tg.[Begin_Time]
-		WHERE
-			tap.[UGUID] = @tapGUID
+			) AS tg ON t.[rf_DocPRVDID] = tg.[rf_DocPRVDID] AND t.[Begin_Time] = tg.[Begin_Time]
 
-		SELECT CAST(IDENT_CURRENT('[dbo].[dd_DDForm]') AS INT) AS [ID]
+		SELECT @dispanserizationID AS [ID]
 	END
 	ELSE
 	BEGIN

@@ -15,6 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-24>
+-- Update date: <2022-04-24>
 -- =============================================
 USE [MIS]
 GO
@@ -32,6 +33,15 @@ BEGIN
 
 	IF (SELECT COUNT(*) FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID) = 0
 	BEGIN
+		DECLARE @patientDescription NVARCHAR(128)
+
+		SELECT TOP(1)
+			@patientDescription = (p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + N' ã.ð.')
+		FROM
+			[dbo].[hlt_MKAB] AS p
+		WHERE
+			p.[MKABID] = @patientID
+
 		INSERT INTO
 			[dbo].[hlt_DoctorVisitTable] (
 				 [x_Edition]
@@ -67,8 +77,8 @@ BEGIN
 			,1
 			,t.[DoctorTimeTableID]
 			,0
-			,(p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + ' ã.ð.')
-			,p.[MKABID]
+			,@patientDescription
+			,@patientID
 			,0
 			,0
 			,4
@@ -91,7 +101,6 @@ BEGIN
 			,GETDATE()
 			,DATEADD(DAY, 1, GETDATE())
 		FROM
-			[dbo].[hlt_MKAB] AS p CROSS JOIN
 			[dbo].[hlt_DoctorTimeTable] AS t
 		WHERE
 			p.[MKABID] = @patientID
