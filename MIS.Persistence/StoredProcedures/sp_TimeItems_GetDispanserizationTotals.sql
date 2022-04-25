@@ -28,10 +28,6 @@ CREATE PROCEDURE [dbo].[sp_TimeItems_GetDispanserizationTotals]
 	@endDate DATETIME
 AS
 BEGIN
-	DECLARE @roomIDs TABLE (
-		[ID] INT NOT NULL
-	)
-
 	SELECT
 		t.[rf_DocPRVDID] AS [ResourceID]
 		,t.[Date] AS [Date]
