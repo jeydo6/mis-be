@@ -79,7 +79,7 @@ namespace MIS.Application.Queries
 					PatientName = patient.DisplayName,
 					IsClosed = d.IsClosed,
 					IsEnabled = true,
-					Analyses = d.Analyses.Select(a => a.Description).ToArray()
+					Researches = d.Researches.Select(a => a.Description).ToArray()
 				}).ToList(),
 				VisitItems = patient.VisitItems.Select(vi => new VisitItemViewModel
 				{

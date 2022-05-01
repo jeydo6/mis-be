@@ -61,7 +61,7 @@ namespace MIS.Application.Commands
 				PatientName = request.PatientName,
 				IsClosed = dispanserization.IsClosed,
 				IsEnabled = true,
-				Analyses = dispanserization.Analyses.Select(a => a.Description).ToArray()
+				Researches = dispanserization.Researches.Select(a => a.Description).ToArray()
 			};
 
 			return result;

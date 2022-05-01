@@ -57,10 +57,10 @@ namespace MIS.Demo.Repositories
 				.Where(r => r.Specialty.ID == 0)
 				.ToList();
 
-			dispanserization.Analyses = new List<Analysis>();
+			dispanserization.Researches = new List<Research>();
 			foreach (var resource in resources)
 			{
-				dispanserization.Analyses.Add(new Analysis
+				dispanserization.Researches.Add(new Research
 				{
 					ID = resource.ID * 10 + dispanserization.ID,
 					Description = $"{resource.Name} в {resource.Room.Code} каб."

@@ -14,24 +14,12 @@
  */
 #endregion
 
-using System;
-
-namespace MIS.Application.ViewModels
+namespace MIS.Domain.Entities
 {
-	public class DispanserizationViewModel
+	public class Research
 	{
-		public DateTime BeginDate { get; set; }
+		public int ID { get; set; }
 
-		public DateTime Now { get; set; }
-
-		public String PatientCode { get; set; }
-
-		public String PatientName { get; set; }
-
-		public Boolean IsClosed { get; set; }
-
-		public Boolean IsEnabled { get; set; }
-
-		public String[] Researches { get; set; }
+		public string Description { get; set; }
 	}
 }

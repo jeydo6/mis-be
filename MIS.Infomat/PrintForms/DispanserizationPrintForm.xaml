@@ -64,7 +64,7 @@
 				<CheckBox Grid.Row="5" Grid.Column="2" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DefaultCheckBox}" />
 				<TextBlock Grid.Row="5" Grid.Column="3" Text="Терапевт" FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
 			</Grid>
-			<ItemsControl Name="testsList" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Margin="0, 0, 0, 5" ItemsSource="{Binding Analyses}">
+			<ItemsControl Name="testsList" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Margin="0, 0, 0, 5" ItemsSource="{Binding Researches}">
 				<ItemsControl.Template>
 					<ControlTemplate>
 						<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True">

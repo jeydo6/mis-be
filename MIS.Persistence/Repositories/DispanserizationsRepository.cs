@@ -64,18 +64,18 @@ namespace MIS.Persistence.Repositories
 		{
 			var keyValues = new Dictionary<Int32, Dispanserization>();
 
-			var result = await _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
+			var result = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
-				map: (dispanserization, analysis) =>
+				map: (dispanserization, research) =>
 				{
 					if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
 					{
 						value = dispanserization;
-						value.Analyses = new List<Analysis>();
+						value.Researches = new List<Research>();
 						keyValues.Add(dispanserization.ID, dispanserization);
 					}
 
-					value.Analyses.Add(analysis);
+					value.Researches.Add(research);
 
 					return dispanserization;
 				},
@@ -93,18 +93,18 @@ namespace MIS.Persistence.Repositories
 		{
 			var keyValues = new Dictionary<Int32, Dispanserization>();
 
-			var result = await _db.QueryAsync<Dispanserization, Analysis, Dispanserization>(
+			var result = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_List]",
-				map: (dispanserization, analysis) =>
+				map: (dispanserization, research) =>
 				{
 					if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
 					{
 						value = dispanserization;
-						value.Analyses = new List<Analysis>();
+						value.Researches = new List<Research>();
 						keyValues.Add(dispanserization.ID, dispanserization);
 					}
 
-					value.Analyses.Add(analysis);
+					value.Researches.Add(research);
 					return value;
 				},
 				param: new { patientID },

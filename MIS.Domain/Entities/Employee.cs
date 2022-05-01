@@ -14,14 +14,18 @@
  */
 #endregion
 
-using System;
-
 namespace MIS.Domain.Entities
 {
-	public class Analysis
+	public class Employee
 	{
-		public Int32 ID { get; set; }
+		public int ID { get; set; }
 
-		public String Description { get; set; }
+		public string Code { get; set; }
+
+		public string FirstName { get; set; }
+
+		public string MiddleName { get; set; }
+
+		public string LastName { get; set; }
 	}
 }

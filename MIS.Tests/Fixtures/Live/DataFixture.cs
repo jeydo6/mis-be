@@ -126,7 +126,7 @@ namespace MIS.Tests.Fixtures.Live
 			return patientID;
 		}
 
-		private Int32 CreateDoctor(Doctor item)
+		private Int32 CreateDoctor(Employee item)
 		{
 			throw new NotImplementedException();
 		}
