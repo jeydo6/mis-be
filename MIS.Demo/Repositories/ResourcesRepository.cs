@@ -39,7 +39,7 @@ namespace MIS.Demo.Repositories
 		public async Task<List<Resource>> ToList()
 		{
 			var result = _dataContext.Resources
-				.Where(r => r.Doctor.Specialty.ID > 0)
+				.Where(r => r.Specialty.ID > 0)
 				.ToList();
 
 			return await Task.FromResult(result);
@@ -48,7 +48,7 @@ namespace MIS.Demo.Repositories
 		public async Task<List<Resource>> GetDispanserizations()
 		{
 			var result = _dataContext.Resources
-				.Where(r => r.Doctor.Specialty.ID == 0)
+				.Where(r => r.Specialty.ID == 0)
 				.ToList();
 
 			return await Task.FromResult(result);

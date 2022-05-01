@@ -14,29 +14,14 @@
  */
 #endregion
 
-using System;
-
 namespace MIS.Domain.Entities
 {
 	public class Room
 	{
-		public Int32 ID { get; set; }
+		public int ID { get; set; }
 
-		public String Code { get; set; }
+		public string Code { get; set; }
 
-		public String DisplayCode
-		{
-			get
-			{
-				if (!String.IsNullOrEmpty(Code))
-				{
-					return $"{Code} каб.";
-				}
-
-				return "";
-			}
-		}
-
-		public Int32 Flat { get; set; }
+		public int Flat { get; set; }
 	}
 }

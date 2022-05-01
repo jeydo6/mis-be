@@ -14,20 +14,20 @@
  */
 #endregion
 
-using System;
-
 namespace MIS.Domain.Entities
 {
 	public class Resource
 	{
-		public Int32 ID { get; set; }
+		public int ID { get; set; }
 
-		public Int32 DoctorID { get; set; }
+		public string Name { get; set; }
 
-		public Doctor Doctor { get; set; }
-
-		public Int32 RoomID { get; set; }
+		public int RoomID { get; set; }
 
 		public Room Room { get; set; }
+
+		public int SpecialtyID { get; set; }
+
+		public Specialty Specialty { get; set; }
 	}
 }

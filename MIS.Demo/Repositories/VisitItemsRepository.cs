@@ -70,7 +70,7 @@ namespace MIS.Demo.Repositories
 		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
 		{
 			var result = _dataContext.VisitItems
-				.Where(vi => vi.TimeItem.Resource.Doctor.Specialty.ID > 0)
+				.Where(vi => vi.TimeItem.Resource.Specialty.ID > 0)
 				.Where(vi => vi.TimeItem.Date >= beginDate && vi.TimeItem.Date <= endDate && (patientID == 0 || vi.PatientID == patientID))
 				.ToList();
 

@@ -75,163 +75,115 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 1,
-					DoctorID = 1,
-					Doctor = new Doctor
-					{
-						ID = 1,
-						Code = "100",
-						FirstName = "Пётр",
-						MiddleName = "Петрович",
-						LastName = "Петров",
-						SpecialtyID = 1,
-						Specialty = new Specialty
-						{
-							ID = 1,
-							Code = "1",
-							Name = "Терапия"
-						}
-					},
+					Name = "Петров П. П.",
 					RoomID = 1,
 					Room = new Room
 					{
 						ID = 1,
 						Code = "100",
 						Flat = 1
+					},
+					SpecialtyID = 1,
+					Specialty = new Specialty
+					{
+						ID = 1,
+						Code = "1",
+						Name = "Терапия"
 					}
 				},
 				new Resource
 				{
 					ID = 2,
-					DoctorID = 2,
-					Doctor = new Doctor
-					{
-						ID = 2,
-						Code = "200",
-						FirstName = "Сергей",
-						MiddleName = "Владимирович",
-						LastName = "Кузнецов",
-						SpecialtyID = 1,
-						Specialty = new Specialty
-						{
-							ID = 1,
-							Code = "1",
-							Name = "Терапия"
-						}
-					},
+					Name = "Кузнецов С. В.",
 					RoomID = 2,
 					Room = new Room
 					{
 						ID = 2,
 						Code = "200",
 						Flat = 2
+					},
+					SpecialtyID = 1,
+					Specialty = new Specialty
+					{
+						ID = 1,
+						Code = "1",
+						Name = "Терапия"
 					}
 				},
 				new Resource
 				{
 					ID = 3,
-					DoctorID = 3,
-					Doctor = new Doctor
-					{
-						ID = 3,
-						Code = "300",
-						FirstName = "Михаил",
-						MiddleName = "Семёнович",
-						LastName = "Костоломов",
-						SpecialtyID = 2,
-						Specialty = new Specialty
-						{
-							ID = 2,
-							Code = "2",
-							Name = "Хирургия"
-						}
-					},
+					Name = "Костоломов М. С.",
 					RoomID = 3,
 					Room = new Room
 					{
 						ID = 3,
 						Code = "300",
 						Flat = 3
+					},
+					SpecialtyID = 2,
+					Specialty = new Specialty
+					{
+						ID = 2,
+						Code = "2",
+						Name = "Хирургия"
 					}
 				},
 				new Resource
 				{
 					ID = 4,
-					DoctorID = 4,
-					Doctor = new Doctor
-					{
-						ID = 4,
-						Code = "400",
-						FirstName = "Кирилл",
-						MiddleName = "Александрович",
-						LastName = "Яковлев",
-						SpecialtyID = 3,
-						Specialty = new Specialty
-						{
-							ID = 3,
-							Code = "3",
-							Name = "Диспансеризация"
-						}
-					},
+					Name = "Яковлев К. А.",
 					RoomID = 4,
 					Room = new Room
 					{
 						ID = 4,
 						Code = "400",
 						Flat = 4
+					},
+					SpecialtyID = 3,
+					Specialty = new Specialty
+					{
+						ID = 3,
+						Code = "3",
+						Name = "Диспансеризация"
 					}
 				},
 				new Resource
 				{
 					ID = 5,
-					DoctorID = 5,
-					Doctor = new Doctor
-					{
-						ID = 5,
-						Code = "500",
-						FirstName = "Анастасия",
-						MiddleName = "Яковлевна",
-						LastName = "Пономаренко",
-						SpecialtyID = 0,
-						Specialty = new Specialty
-						{
-							ID = 0,
-							Code = "0",
-							Name = "Не определено"
-						}
-					},
+					Name = "Пономаренко А. Я.",
 					RoomID = 500,
 					Room = new Room
 					{
 						ID = 500,
 						Code = "500",
 						Flat = 5
+					},
+					SpecialtyID = 0,
+					Specialty = new Specialty
+					{
+						ID = 0,
+						Code = "0",
+						Name = "Не определено"
 					}
 				},
 				new Resource
 				{
 					ID = 6,
-					DoctorID = 6,
-					Doctor = new Doctor
-					{
-						ID = 6,
-						Code = "600",
-						FirstName = "Яков",
-						MiddleName = "Анастархович",
-						LastName = "Вахроменко",
-						SpecialtyID = 0,
-						Specialty = new Specialty
-						{
-							ID = 0,
-							Code = "0",
-							Name = "Не определено"
-						}
-					},
+					Name = "Вахроменко Я. А.",
 					RoomID = 6,
 					Room = new Room
 					{
 						ID = 6,
 						Code = "600",
 						Flat = 6
+					},
+					SpecialtyID = 0,
+					Specialty = new Specialty
+					{
+						ID = 0,
+						Code = "0",
+						Name = "Не определено"
 					}
 				}
 			};

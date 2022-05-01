@@ -79,20 +79,20 @@ namespace MIS.Application.Queries
 			var resourceItems = resources
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
 				{
-					ResourceName = r.Doctor.DisplayName,
-					RoomCode = r.Room.DisplayCode,
+					ResourceName = r.Name,
+					RoomCode = r.Room.Code,
 					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(di => di.IsEnabled) && g.All(di => !di.IsBlocked),
 					IsBlocked = g.Any(di => di.IsBlocked),
 					ResourceID = r.ID,
-					SpecialtyID = r.Doctor.SpecialtyID,
+					SpecialtyID = r.SpecialtyID,
 					Dates = g.ToArray()
 				})
 				.OrderBy(ri => ri.ResourceName)
 				.ToArray();
 
 			var specialtyItems = resources
-				.GroupBy(r => new { r.Doctor.Specialty.ID, r.Doctor.Specialty.Name })
+				.GroupBy(r => new { r.Specialty.ID, r.Specialty.Name })
 				.Select(g => g.Key)
 				.GroupJoin(resourceItems, s => s.ID, g => g.SpecialtyID, (s, g) => new SpecialtyViewModel
 				{

@@ -54,7 +54,7 @@ namespace MIS.Demo.Repositories
 				.FirstOrDefault(p => p.ID == dispanserization.PatientID);
 
 			var resources = _dataContext.Resources
-				.Where(r => r.Doctor.Specialty.ID == 0)
+				.Where(r => r.Specialty.ID == 0)
 				.ToList();
 
 			dispanserization.Analyses = new List<Analysis>();
@@ -63,7 +63,7 @@ namespace MIS.Demo.Repositories
 				dispanserization.Analyses.Add(new Analysis
 				{
 					ID = resource.ID * 10 + dispanserization.ID,
-					Description = $"{resource.Doctor.DisplayName} в {resource.Room.Code} каб."
+					Description = $"{resource.Name} в {resource.Room.Code} каб."
 				});
 
 				var timeItem = _dataContext.TimeItems

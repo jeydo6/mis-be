@@ -61,14 +61,13 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<VisitItem> Get(Int32 visitItemID)
 		{
-			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
+			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_Get]",
-				map: (visitItem, timeItem, resource, doctor, specialty, room) =>
+				map: (visitItem, timeItem, resource, specialty, room) =>
 				{
 					visitItem.TimeItem = timeItem;
 					visitItem.TimeItem.Resource = resource;
-					visitItem.TimeItem.Resource.Doctor = doctor;
-					visitItem.TimeItem.Resource.Doctor.Specialty = specialty;
+					visitItem.TimeItem.Resource.Specialty = specialty;
 					visitItem.TimeItem.Resource.Room = room;
 					visitItem.TimeItem.VisitItem = visitItem;
 
@@ -85,14 +84,13 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
 		{
-			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Doctor, Specialty, Room, VisitItem>(
+			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_List]",
-				map: (visitItem, timeItem, resource, doctor, specialty, room) =>
+				map: (visitItem, timeItem, resource, specialty, room) =>
 				{
 					visitItem.TimeItem = timeItem;
 					visitItem.TimeItem.Resource = resource;
-					visitItem.TimeItem.Resource.Doctor = doctor;
-					visitItem.TimeItem.Resource.Doctor.Specialty = specialty;
+					visitItem.TimeItem.Resource.Specialty = specialty;
 					visitItem.TimeItem.Resource.Room = room;
 					visitItem.TimeItem.VisitItem = visitItem;
 

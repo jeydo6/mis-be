@@ -40,7 +40,7 @@ namespace MIS.Demo.Repositories
 		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
 		{
 			var result = _dataContext.TimeItems
-				.Where(ti => ti.Resource.Doctor.Specialty.ID > 0)
+				.Where(ti => ti.Resource.Specialty.ID > 0)
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (resourceID == 0 || ti.ResourceID == resourceID))
 				.ToList();
 
@@ -50,8 +50,8 @@ namespace MIS.Demo.Repositories
 		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
 		{
 			var result = _dataContext.TimeItems
-				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (specialtyID == 0 || ti.Resource.Doctor.SpecialtyID == specialtyID))
-				.Where(ti => ti.Resource.Doctor.Specialty.ID > 0)
+				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (specialtyID == 0 || ti.Resource.SpecialtyID == specialtyID))
+				.Where(ti => ti.Resource.Specialty.ID > 0)
 				.GroupBy(ti => new { ti.ResourceID, ti.Date })
 				.Select(g => new TimeItemTotal
 				{
@@ -71,7 +71,7 @@ namespace MIS.Demo.Repositories
 		{
 			var result = _dataContext.TimeItems
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate)
-				.Where(ti => ti.Resource.Doctor.Specialty.ID == 0)
+				.Where(ti => ti.Resource.Specialty.ID == 0)
 				.GroupBy(ti => new { ti.ResourceID, ti.Date })
 				.Select(g => new TimeItemTotal
 				{

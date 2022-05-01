@@ -47,25 +47,18 @@ namespace MIS.Tests.Fixtures.Live
 			});
 			Int32 resourceID = CreateResource(new Resource
 			{
-				DoctorID = -1,
-				Doctor = new Doctor
-				{
-					Code = "1001",
-					FirstName = "Пётр",
-					MiddleName = "Петрович",
-					LastName = "Петров",
-					SpecialtyID = -1,
-					Specialty = new Specialty
-					{
-						Code = "1001",
-						Name = "Терапия"
-					}
-				},
+				Name = "Петров П. П.",
 				RoomID = -1,
 				Room = new Room
 				{
 					Code = "1001",
 					Flat = 1
+				},
+				SpecialtyID = -1,
+				Specialty = new Specialty
+				{
+					Code = "1001",
+					Name = "Терапия"
 				}
 			});
 
@@ -133,29 +126,36 @@ namespace MIS.Tests.Fixtures.Live
 			return patientID;
 		}
 
+		private Int32 CreateDoctor(Doctor item)
+		{
+			throw new NotImplementedException();
+		}
+
 		private Int32 CreateResource(Resource item)
 		{
-			Int32 resourceID = Transaction.Connection.QuerySingle<Int32>(
-				sql: "[dbo].[sp_Resources_Create]",
-				param: new
-				{
-					doctorID = item.DoctorID,
-					doctorCode = item.Doctor.Code,
-					doctorFirstName = item.Doctor.FirstName,
-					doctorMiddleName = item.Doctor.MiddleName,
-					doctorLastName = item.Doctor.LastName,
-					specialtyID = item.Doctor.SpecialtyID,
-					specialtyCode = item.Doctor.Specialty.Code,
-					specialtyName = item.Doctor.Specialty.Name,
-					roomID = item.RoomID,
-					roomCode = item.Room.Code,
-					roomFlat = item.Room.Flat,
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: Transaction
-			);
+			throw new NotImplementedException();
 
-			return resourceID;
+			//Int32 resourceID = Transaction.Connection.QuerySingle<Int32>(
+			//	sql: "[dbo].[sp_Resources_Create]",
+			//	param: new
+			//	{
+			//		doctorID = item.DoctorID,
+			//		doctorCode = item.Doctor.Code,
+			//		doctorFirstName = item.Doctor.FirstName,
+			//		doctorMiddleName = item.Doctor.MiddleName,
+			//		doctorLastName = item.Doctor.LastName,
+			//		specialtyID = item.SpecialtyID,
+			//		specialtyCode = item.Specialty.Code,
+			//		specialtyName = item.Specialty.Name,
+			//		roomID = item.RoomID,
+			//		roomCode = item.Room.Code,
+			//		roomFlat = item.Room.Flat,
+			//	},
+			//	commandType: CommandType.StoredProcedure,
+			//	transaction: Transaction
+			//);
+
+			//return resourceID;
 		}
 
 		private Int32 CreateTimeItem(TimeItem item)
@@ -198,6 +198,7 @@ namespace MIS.Tests.Fixtures.Live
 			{
 				Transaction.Rollback();
 				Transaction.Dispose();
+				GC.SuppressFinalize(this);
 			}
 		}
 	}

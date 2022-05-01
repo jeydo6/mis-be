@@ -44,13 +44,12 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
 		{
-			var result = await _db.QueryAsync<TimeItem, Resource, Doctor, Specialty, Room, VisitItem, TimeItem>(
+			var result = await _db.QueryAsync<TimeItem, Resource, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_List]",
-				map: (timeItem, resource, doctor, specialty, room, visitItem) =>
+				map: (timeItem, resource, specialty, room, visitItem) =>
 				{
 					timeItem.Resource = resource;
-					timeItem.Resource.Doctor = doctor;
-					timeItem.Resource.Doctor.Specialty = specialty;
+					timeItem.Resource.Specialty = specialty;
 					timeItem.Resource.Room = room;
 					if (visitItem != null)
 					{

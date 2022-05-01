@@ -64,9 +64,5 @@ namespace MIS.Domain.Entities
 				return sb.ToString().Trim();
 			}
 		}
-
-		public Int32 SpecialtyID { get; set; }
-
-		public Specialty Specialty { get; set; }
 	}
 }
