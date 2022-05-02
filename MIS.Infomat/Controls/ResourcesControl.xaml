@@ -33,7 +33,7 @@
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<Button Margin="25, 10" Style="{StaticResource DefaultButton}" IsEnabled="{Binding IsEnabled}" Click="ListItemButton_Click">
-						<TextBlock Text="{Binding ResourceName}" TextAlignment="Center" VerticalAlignment="Center" FontSize="60" FontFamily="Georgia" Margin="10, 25" />
+                        <TextBlock Text="{Binding EmployeeName}" TextAlignment="Center" VerticalAlignment="Center" FontSize="60" FontFamily="Georgia" Margin="10, 25" />
 					</Button>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

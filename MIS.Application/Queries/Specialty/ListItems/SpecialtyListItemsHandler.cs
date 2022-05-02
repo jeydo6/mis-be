@@ -80,7 +80,7 @@ namespace MIS.Application.Queries
 			var resourceItems = resources
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
 				{
-					ResourceName = r.Employee.GetName(),
+					EmployeeName = r.Employee.GetName(),
 					RoomCode = r.Room.Code,
 					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(di => di.IsEnabled) && g.All(di => !di.IsBlocked),
@@ -89,7 +89,7 @@ namespace MIS.Application.Queries
 					SpecialtyID = r.Employee.SpecialtyID,
 					Dates = g.ToArray()
 				})
-				.OrderBy(ri => ri.ResourceName)
+				.OrderBy(ri => ri.EmployeeName)
 				.ToArray();
 
 			var specialtyItems = resources

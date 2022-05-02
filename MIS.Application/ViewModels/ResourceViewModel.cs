@@ -20,7 +20,7 @@ namespace MIS.Application.ViewModels
 {
 	public class ResourceViewModel
 	{
-		public String ResourceName { get; set; }
+		public String EmployeeName { get; set; }
 
 		public String RoomCode { get; set; }
 
