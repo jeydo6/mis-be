@@ -80,9 +80,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 1,
 						Code = "100",
-						FirstName = "Пётр",
-						MiddleName = "Петрович",
-						LastName = "Петров",
+						Name = "Петров П. П.",
 						SpecialtyID = 1,
 						Specialty = new Specialty
 						{
@@ -107,9 +105,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 2,
 						Code = "200",
-						FirstName = "Сергей",
-						MiddleName = "Владимирович",
-						LastName = "Кузнецов",
+						Name = "Кузнецов С. В.",
 						SpecialtyID = 1,
 						Specialty = new Specialty
 						{
@@ -134,9 +130,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 3,
 						Code = "300",
-						FirstName = "Михаил",
-						MiddleName = "Семёнович",
-						LastName = "Костоломов",
+						Name = "Костоломов М. С.",
 						SpecialtyID = 2,
 						Specialty = new Specialty
 						{
@@ -161,9 +155,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 4,
 						Code = "400",
-						FirstName = "Кирилл",
-						MiddleName = "Александрович",
-						LastName = "Яковлев",
+						Name = "Яковлев К. А.",
 						SpecialtyID = 3,
 						Specialty = new Specialty
 						{
@@ -188,9 +180,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 5,
 						Code = "500",
-						FirstName = "Анастасия",
-						MiddleName = "Яковлевна",
-						LastName = "Пономаренко",
+						Name = "Пономаренко А. Я.",
 						SpecialtyID = 0,
 						Specialty = new Specialty
 						{
@@ -215,9 +205,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 6,
 						Code = "600",
-						FirstName = "Яков",
-						MiddleName = "Анастархович",
-						LastName = "Вахроменко",
+						Name = "Вахроменко Я. А.",
 						SpecialtyID = 0,
 						Specialty = new Specialty
 						{

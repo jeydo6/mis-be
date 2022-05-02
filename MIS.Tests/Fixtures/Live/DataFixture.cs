@@ -51,9 +51,7 @@ namespace MIS.Tests.Fixtures.Live
 				Employee = new Employee
 				{
 					Code = "1001",
-					FirstName = "Пётр",
-					MiddleName = "Петрович",
-					LastName = "Петров",
+					Name = "Петров П. П.",
 					SpecialtyID = -1,
 					Specialty = new Specialty
 					{
@@ -135,27 +133,28 @@ namespace MIS.Tests.Fixtures.Live
 
 		private Int32 CreateResource(Resource item)
 		{
-			Int32 resourceID = Transaction.Connection.QuerySingle<Int32>(
-				sql: "[dbo].[sp_Resources_Create]",
-				param: new
-				{
-					employeeID = item.EmployeeID,
-					employeeCode = item.Employee.Code,
-					employeeFirstName = item.Employee.FirstName,
-					employeeMiddleName = item.Employee.MiddleName,
-					employeeLastName = item.Employee.LastName,
-					specialtyID = item.Employee.SpecialtyID,
-					specialtyCode = item.Employee.Specialty.Code,
-					specialtyName = item.Employee.Specialty.Name,
-					roomID = item.RoomID,
-					roomCode = item.Room.Code,
-					roomFlat = item.Room.Flat,
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: Transaction
-			);
+			throw new NotImplementedException();
+			//Int32 resourceID = Transaction.Connection.QuerySingle<Int32>(
+			//	sql: "[dbo].[sp_Resources_Create]",
+			//	param: new
+			//	{
+			//		employeeID = item.EmployeeID,
+			//		employeeCode = item.Employee.Code,
+			//		employeeFirstName = item.Employee.FirstName,
+			//		employeeMiddleName = item.Employee.MiddleName,
+			//		employeeLastName = item.Employee.LastName,
+			//		specialtyID = item.Employee.SpecialtyID,
+			//		specialtyCode = item.Employee.Specialty.Code,
+			//		specialtyName = item.Employee.Specialty.Name,
+			//		roomID = item.RoomID,
+			//		roomCode = item.Room.Code,
+			//		roomFlat = item.Room.Flat,
+			//	},
+			//	commandType: CommandType.StoredProcedure,
+			//	transaction: Transaction
+			//);
 
-			return resourceID;
+			//return resourceID;
 		}
 
 		private Int32 CreateTimeItem(TimeItem item)
