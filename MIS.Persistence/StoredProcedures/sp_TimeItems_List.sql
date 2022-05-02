@@ -41,11 +41,17 @@ BEGIN
 			(CASE WHEN LEN(LTRIM(RTRIM(d.[IM_V]))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(d.[IM_V])), 1, 1) + '.' ELSE '' END) +
 			(CASE WHEN LEN(LTRIM(RTRIM(d.[OT_V]))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(d.[OT_V])), 1, 1) + '.' ELSE '' END)
 		) AS [Name]
-		,r.[rf_HealingRoomID] AS [RoomID]
+		,r.[rf_LPUDoctorID] AS [EmployeeID]
+		,d.[LPUDoctorID] AS [ID]
+		,d.[PCOD] AS [Code]
+		,d.[IM_V] AS [FirstName]
+		,d.[OT_V] AS [MiddleName]
+		,d.[FAM_V] AS [LastName]
 		,r.[rf_PRVSID] AS [SpecialtyID]
 		,s.[PRVSID] AS [ID]
 		,s.[C_PRVS] AS [Code]
 		,s.[PRVS_NAME] AS [Name]
+		,r.[rf_HealingRoomID] AS [RoomID]
 		,room.[HealingRoomID] AS [ID]
 		,room.[Num] AS [Code]
 		,room.[Flat] AS [Flat]
@@ -59,7 +65,7 @@ BEGIN
 		[dbo].[hlt_DoctorVisitTable] AS v ON t.[DoctorTimeTableID] = v.[rf_DoctorTimeTableID] INNER JOIN
 		[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID] INNER JOIN
 		[dbo].[hlt_LPUDoctor] AS d ON r.[rf_LPUDoctorID] = d.[LPUDoctorID] INNER JOIN
-		[dbo].[oms_PRVS] AS s ON r.[rf_PRVSID] = s.[PRVSID] AND r.[rf_PRVSID] > 0 INNER JOIN
+		[dbo].[oms_PRVS] AS s ON r.[rf_PRVSID] = s.[PRVSID] INNER JOIN
 		[dbo].[hlt_HealingRoom] AS room ON r.[rf_HealingRoomID] = room.[HealingRoomID]
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate

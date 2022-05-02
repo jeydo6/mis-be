@@ -85,14 +85,14 @@ namespace MIS.Application.Queries
 					IsEnabled = g.Any(di => di.IsEnabled) && g.All(di => !di.IsBlocked),
 					IsBlocked = g.Any(di => di.IsBlocked),
 					ResourceID = r.ID,
-					SpecialtyID = r.SpecialtyID,
+					SpecialtyID = r.Employee.SpecialtyID,
 					Dates = g.ToArray()
 				})
 				.OrderBy(ri => ri.ResourceName)
 				.ToArray();
 
 			var specialtyItems = resources
-				.GroupBy(r => new { r.Specialty.ID, r.Specialty.Name })
+				.GroupBy(r => new { r.Employee.Specialty.ID, r.Employee.Specialty.Name })
 				.Select(g => g.Key)
 				.GroupJoin(resourceItems, s => s.ID, g => g.SpecialtyID, (s, g) => new SpecialtyViewModel
 				{

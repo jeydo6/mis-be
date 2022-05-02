@@ -21,7 +21,7 @@
 			<TextBlock Text="{Binding PatientCode}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock Text="{Binding PatientName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock Text="Врач:" FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
-			<TextBlock Text="{Binding DoctorName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding ResourceName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">
                 <Run Text="Кабинет: " />
                 <Run FontWeight="Bold" Text="{Binding RoomCode}" />

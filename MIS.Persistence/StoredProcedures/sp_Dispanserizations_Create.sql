@@ -52,12 +52,10 @@ BEGIN
 		DECLARE @tapID INT
 		DECLARE @dispanserizationID INT
 
-		DECLARE @patientID INT
 		DECLARE @patientDescription NVARCHAR(128)
 
 		SELECT TOP (1)
-			@patientID = p.[MKABID]
-			,@patientDescription = (p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + N' ã.ð.')
+			@patientDescription = (p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + N' ã.ð.')
 		FROM
 			[dbo].[hlt_MKAB] AS p
 		WHERE

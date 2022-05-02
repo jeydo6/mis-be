@@ -54,7 +54,7 @@
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
-							<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DoctorName}" VerticalAlignment="Center" TextAlignment="Left" TextWrapping="Wrap" FontSize="48" FontFamily="Georgia" Margin="10, 0" />
+							<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ResourceName}" VerticalAlignment="Center" TextAlignment="Left" TextWrapping="Wrap" FontSize="48" FontFamily="Georgia" Margin="10, 0" />
 							<TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SpecialtyName}" VerticalAlignment="Center" TextAlignment="Left" TextWrapping="Wrap" FontSize="36" FontFamily="Georgia" Foreground="DimGray" Margin="10, 0" />
 							<TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Text="{Binding BeginDateTime, StringFormat={}{0:dd MMMM HH:mm}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" VerticalAlignment="Center" TextAlignment="Left" TextWrapping="Wrap" FontSize="48" FontFamily="Georgia" Margin="10, 0" />
 						</Grid>

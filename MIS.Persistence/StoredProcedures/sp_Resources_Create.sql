@@ -24,11 +24,11 @@ IF OBJECT_ID('[dbo].[sp_Resources_Create]', 'P') IS NOT NULL
 GO
 
 CREATE PROCEDURE [dbo].[sp_Resources_Create]
-	 @doctorID INT
-	,@doctorCode VARCHAR(16) = ''
-	,@doctorFirstName VARCHAR(64) = ''
-	,@doctorMiddleName VARCHAR(64) = ''
-	,@doctorLastName VARCHAR(128) = ''
+	 @employeeID INT
+	,@employeeCode VARCHAR(16) = ''
+	,@employeeFirstName VARCHAR(64) = ''
+	,@employeeMiddleName VARCHAR(64) = ''
+	,@employeeLastName VARCHAR(128) = ''
 	,@specialtyID INT
 	,@specialtyCode VARCHAR(16) = ''
 	,@specialtyName VARCHAR(128) = ''
@@ -46,7 +46,7 @@ BEGIN
 		FROM
 			[dbo].[hlt_DocPRVD] AS r
 		WHERE
-			r.[rf_LPUDoctorID] = @doctorID
+			r.[rf_LPUDoctorID] = @employeeID
 			AND r.[rf_HealingRoomID] = @roomID
 	) = 0
 	BEGIN
@@ -110,7 +110,7 @@ BEGIN
 
 			SET @specialtyID = CAST(IDENT_CURRENT('[dbo].[oms_PRVS]') AS INT)
 		END
-		IF @doctorID < 0
+		IF @employeeID < 0
 		BEGIN
 			INSERT INTO
 				[dbo].[hlt_LPUDoctor]
@@ -140,12 +140,12 @@ BEGIN
 				(
 					 0
 					,0
-					,@doctorCode
-					,@doctorMiddleName
-					,@doctorFirstName
+					,@employeeCode
+					,@employeeMiddleName
+					,@employeeFirstName
 					,GETDATE()
 					,@specialtyID
-					,@doctorLastName
+					,@employeeLastName
 					,0
 					,''
 					,921
@@ -160,7 +160,7 @@ BEGIN
 					,0
 				)
 
-			SET @doctorID = CAST(IDENT_CURRENT('[dbo].[hlt_LPUDoctor]') AS INT)
+			SET @employeeID = CAST(IDENT_CURRENT('[dbo].[hlt_LPUDoctor]') AS INT)
 		END
 
 		INSERT INTO
@@ -198,7 +198,7 @@ BEGIN
 				(
 					 0
 					,0
-					,@doctorID
+					,@employeeID
 					,GETDATE()
 					,1
 					,DATEADD(YEAR, 100, GETDATE())
@@ -229,7 +229,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'Resource: (doctorID: ''' + CAST(@doctorID AS VARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS VARCHAR(10)) + ''') already exists'
+		SET @msg = 'Resource: (doctorID: ''' + CAST(@employeeID AS VARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS VARCHAR(10)) + ''') already exists'
 		RAISERROR(@msg, 16, 1)
 	END
 END

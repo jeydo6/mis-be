@@ -44,11 +44,17 @@ BEGIN
 			(CASE WHEN LEN(LTRIM(RTRIM(d.[IM_V]))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(d.[IM_V])), 1, 1) + '.' ELSE '' END) +
 			(CASE WHEN LEN(LTRIM(RTRIM(d.[OT_V]))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(d.[OT_V])), 1, 1) + '.' ELSE '' END)
 		) AS [Name]
-		,r.[rf_HealingRoomID] AS [RoomID]
+		,r.[rf_LPUDoctorID] AS [EmployeeID]
+		,d.[LPUDoctorID] AS [ID]
+		,d.[PCOD] AS [Code]
+		,d.[IM_V] AS [FirstName]
+		,d.[OT_V] AS [MiddleName]
+		,d.[FAM_V] AS [LastName]
 		,r.[rf_PRVSID] AS [SpecialtyID]
 		,s.[PRVSID] AS [ID]
 		,s.[C_PRVS] AS [Code]
 		,s.[PRVS_NAME] AS [Name]
+		,r.[rf_HealingRoomID] AS [RoomID]
 		,room.[HealingRoomID] AS [ID]
 		,room.[Num] AS [Code]
 		,room.[Flat] AS [Flat]

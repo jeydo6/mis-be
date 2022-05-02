@@ -22,12 +22,12 @@ namespace MIS.Domain.Entities
 
 		public string Name { get; set; }
 
+		public int EmployeeID { get; set; }
+
+		public Employee Employee { get; set; }
+
 		public int RoomID { get; set; }
 
 		public Room Room { get; set; }
-
-		public int SpecialtyID { get; set; }
-
-		public Specialty Specialty { get; set; }
 	}
 }

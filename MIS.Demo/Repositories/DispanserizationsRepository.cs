@@ -54,7 +54,7 @@ namespace MIS.Demo.Repositories
 				.FirstOrDefault(p => p.ID == dispanserization.PatientID);
 
 			var resources = _dataContext.Resources
-				.Where(r => r.Specialty.ID == 0)
+				.Where(r => r.Employee.Specialty.ID == 0)
 				.ToList();
 
 			dispanserization.Researches = new List<Research>();

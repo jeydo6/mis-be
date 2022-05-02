@@ -26,7 +26,7 @@ namespace MIS.Application.ViewModels
 
 		public String PatientName { get; set; }
 
-		public String DoctorName { get; set; }
+		public String ResourceName { get; set; }
 
 		public String SpecialtyName { get; set; }
 

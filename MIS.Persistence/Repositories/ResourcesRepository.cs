@@ -44,11 +44,12 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<List<Resource>> ToList()
 		{
-			var result = await _db.QueryAsync<Resource, Specialty, Room, Resource>(
+			var result = await _db.QueryAsync<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_List]",
-				map: (resource, specialty, room) =>
+				map: (resource, employee, specialty, room) =>
 				{
-					resource.Specialty = specialty;
+					resource.Employee = employee;
+					resource.Employee.Specialty = specialty;
 					resource.Room = room;
 
 					return resource;
@@ -63,11 +64,12 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<List<Resource>> GetDispanserizations()
 		{
-			var result = await _db.QueryAsync<Resource, Specialty, Room, Resource>(
+			var result = await _db.QueryAsync<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_GetDispanserizations]",
-				map: (resource, specialty, room) =>
+				map: (resource, employee, specialty, room) =>
 				{
-					resource.Specialty = specialty;
+					resource.Employee = employee;
+					resource.Employee.Specialty = specialty;
 					resource.Room = room;
 
 					return resource;

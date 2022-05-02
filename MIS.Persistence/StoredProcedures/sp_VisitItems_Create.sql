@@ -103,8 +103,7 @@ BEGIN
 		FROM
 			[dbo].[hlt_DoctorTimeTable] AS t
 		WHERE
-			p.[MKABID] = @patientID
-			AND t.[DoctorTimeTableID] = @timeItemID
+			t.[DoctorTimeTableID] = @timeItemID
 
 		SELECT CAST(IDENT_CURRENT('[dbo].[hlt_DoctorVisitTable]') AS INT) AS [ID]
 	END
