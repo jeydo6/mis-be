@@ -27,15 +27,15 @@ namespace MIS.Domain.Entities
 			Dispanserizations = new List<Dispanserization>();
 		}
 
-		public Int32 ID { get; set; }
+		public int ID { get; set; }
 
-		public String Code { get; set; }
+		public string Code { get; set; }
 
-		public String FirstName { get; set; }
+		public string FirstName { get; set; }
 
-		public String MiddleName { get; set; }
+		public string MiddleName { get; set; }
 
-		public String DisplayName
+		public string DisplayName
 		{
 			get
 			{
@@ -45,9 +45,9 @@ namespace MIS.Domain.Entities
 
 		public DateTime BirthDate { get; set; }
 
-		public Int32 Gender { get; set; }
+		public int Gender { get; set; }
 
-		public Boolean DispanserizationIsEnabled { get; set; }
+		public bool DispanserizationIsEnabled { get; set; }
 
 		public ICollection<VisitItem> VisitItems { get; set; }
 

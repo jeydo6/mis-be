@@ -14,16 +14,14 @@
  */
 #endregion
 
-using System;
-
 namespace MIS.Domain.Entities
 {
 	public class Specialty
 	{
-		public Int32 ID { get; set; }
+		public int ID { get; set; }
 
-		public String Code { get; set; }
+		public string Code { get; set; }
 
-		public String Name { get; set; }
+		public string Name { get; set; }
 	}
 }

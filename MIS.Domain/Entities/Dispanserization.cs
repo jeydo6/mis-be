@@ -21,15 +21,15 @@ namespace MIS.Domain.Entities
 {
 	public class Dispanserization
 	{
-		public Int32 ID { get; set; }
+		public int ID { get; set; }
 
 		public DateTime BeginDate { get; set; }
 
 		public DateTime EndDate { get; set; }
 
-		public Boolean IsClosed { get; set; }
+		public bool IsClosed { get; set; }
 
-		public Int32 PatientID { get; set; }
+		public int PatientID { get; set; }
 
 		public ICollection<Research> Researches { get; set; }
 	}

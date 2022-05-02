@@ -20,7 +20,7 @@ namespace MIS.Domain.Entities
 {
 	public class TimeItemTotal
 	{
-		public Int32 ResourceID { get; set; }
+		public int ResourceID { get; set; }
 
 		public DateTime Date { get; set; }
 
@@ -28,8 +28,8 @@ namespace MIS.Domain.Entities
 
 		public DateTime EndTime { get; set; }
 
-		public Int32 TimesCount { get; set; }
+		public int TimesCount { get; set; }
 
-		public Int32 VisitsCount { get; set; }
+		public int VisitsCount { get; set; }
 	}
 }
