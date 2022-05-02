@@ -18,6 +18,7 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
 using MIS.Application.ViewModels;
+using MIS.Domain.Extensions;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
@@ -79,7 +80,7 @@ namespace MIS.Application.Queries
 			var resourceItems = resources
 				.GroupJoin(dateItems, r => r.ID, d => d.ResourceID, (r, g) => new ResourceViewModel
 				{
-					ResourceName = r.Name,
+					ResourceName = r.Employee.GetName(),
 					RoomCode = r.Room.Code,
 					Count = g.Sum(di => di.Count),
 					IsEnabled = g.Any(di => di.IsEnabled) && g.All(di => !di.IsBlocked),

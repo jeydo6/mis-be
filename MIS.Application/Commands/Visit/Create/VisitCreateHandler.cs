@@ -17,6 +17,7 @@
 using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
+using MIS.Domain.Extensions;
 using MIS.Domain.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,7 @@ namespace MIS.Application.Commands
 				BeginDateTime = visitItem.TimeItem.BeginDateTime,
 				PatientCode = request.PatientCode,
 				PatientName = request.PatientName,
-				ResourceName = visitItem.TimeItem.Resource.Name,
+				ResourceName = visitItem.TimeItem.Resource.Employee.GetName(),
 				SpecialtyName = visitItem.TimeItem.Resource.Employee.Specialty.Name,
 				RoomCode = visitItem.TimeItem.Resource.Room.Code,
 				RoomFlat = visitItem.TimeItem.Resource.Room.Flat,

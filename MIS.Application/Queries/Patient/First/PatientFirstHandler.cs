@@ -16,6 +16,7 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
+using MIS.Domain.Extensions;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System.Linq;
@@ -86,7 +87,7 @@ namespace MIS.Application.Queries
 					BeginDateTime = vi.TimeItem.BeginDateTime,
 					PatientCode = patient.Code,
 					PatientName = patient.DisplayName,
-					ResourceName = vi.TimeItem.Resource.Name,
+					ResourceName = vi.TimeItem.Resource.Employee.GetName(),
 					SpecialtyName = vi.TimeItem.Resource.Employee.Specialty.Name,
 					RoomCode = vi.TimeItem.Resource.Room.Code,
 					RoomFlat = vi.TimeItem.Resource.Room.Flat,

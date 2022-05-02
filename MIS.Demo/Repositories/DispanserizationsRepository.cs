@@ -16,6 +16,7 @@
 
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
+using MIS.Domain.Extensions;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
@@ -63,7 +64,7 @@ namespace MIS.Demo.Repositories
 				dispanserization.Researches.Add(new Research
 				{
 					ID = resource.ID * 10 + dispanserization.ID,
-					Description = $"{resource.Name} в {resource.Room.Code} каб."
+					Description = $"{resource.Employee.GetName()} в {resource.Room.Code} каб."
 				});
 
 				var timeItem = _dataContext.TimeItems
