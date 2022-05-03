@@ -34,7 +34,6 @@ BEGIN
 		,[dbo].[f_Patients_GetName](p.[NAME], p.[OT]) AS [Name]
 		,p.[DATE_BD] AS [BirthDate]
 		,p.[W] AS [Gender]
-		,1 AS [DispanserizationIsEnabled]
 	FROM
 		[dbo].[hlt_MKAB] AS p
 	WHERE
