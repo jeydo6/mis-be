@@ -40,7 +40,6 @@ namespace MIS.Demo.DataContexts
 					Name = "Иван Иванович",
 					BirthDate = new DateTime(1980, 1, 1),
 					Gender = "М",
-					DispanserizationIsEnabled = true,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -51,7 +50,6 @@ namespace MIS.Demo.DataContexts
 					Name = "Михаил Михайлович",
 					BirthDate = new DateTime(1980, 1, 1),
 					Gender = "М",
-					DispanserizationIsEnabled = false,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -62,7 +60,6 @@ namespace MIS.Demo.DataContexts
 					Name = "Владимир Сергеевич",
 					BirthDate = new DateTime(1993, 1, 1),
 					Gender = "М",
-					DispanserizationIsEnabled = true,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				}

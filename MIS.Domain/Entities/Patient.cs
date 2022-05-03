@@ -37,8 +37,6 @@ namespace MIS.Domain.Entities
 
 		public string Gender { get; set; }
 
-		public bool DispanserizationIsEnabled { get; set; }
-
 		public ICollection<VisitItem> VisitItems { get; set; }
 
 		public ICollection<Dispanserization> Dispanserizations { get; set; }
