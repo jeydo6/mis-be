@@ -35,7 +35,7 @@ namespace MIS.Domain.Entities
 
 		public DateTime BirthDate { get; set; }
 
-		public string Gender { get; set; }
+		public int GenderID { get; set; }
 
 		public ICollection<VisitItem> VisitItems { get; set; }
 

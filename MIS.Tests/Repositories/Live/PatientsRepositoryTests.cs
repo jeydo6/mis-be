@@ -27,7 +27,7 @@ namespace MIS.Tests.Repositories.Live
 				Code = "30000000",
 				Name = "Иван Иванович",
 				BirthDate = new DateTime(1980, 1, 1),
-				Gender = "М",
+				GenderID = 0,
 				Dispanserizations = new List<Dispanserization>(),
 				VisitItems = new List<VisitItem>()
 			};
@@ -38,14 +38,14 @@ namespace MIS.Tests.Repositories.Live
 					expectedResult.Code,
 					expectedResult.Name,
 					expectedResult.BirthDate,
-					expectedResult.Gender
+					expectedResult.GenderID
 				},
 				new
 				{
 					actualResult.Code,
 					actualResult.Name,
 					actualResult.BirthDate,
-					actualResult.Gender
+					actualResult.GenderID
 				}
 			);
 		}
@@ -62,7 +62,7 @@ namespace MIS.Tests.Repositories.Live
 				Code = "30000000",
 				Name = "Иван Иванович",
 				BirthDate = new DateTime(1980, 1, 1),
-				Gender = "М",
+				GenderID = 0,
 				Dispanserizations = new List<Dispanserization>(),
 				VisitItems = new List<VisitItem>()
 			};
@@ -74,7 +74,7 @@ namespace MIS.Tests.Repositories.Live
 					expectedResult.Code,
 					expectedResult.Name,
 					expectedResult.BirthDate,
-					expectedResult.Gender
+					expectedResult.GenderID
 				},
 				new
 				{
@@ -82,7 +82,7 @@ namespace MIS.Tests.Repositories.Live
 					actualResult.Code,
 					actualResult.Name,
 					actualResult.BirthDate,
-					actualResult.Gender
+					actualResult.GenderID
 				}
 			);
 		}

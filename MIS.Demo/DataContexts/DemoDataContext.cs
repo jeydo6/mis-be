@@ -39,7 +39,7 @@ namespace MIS.Demo.DataContexts
 					Code = "30000000",
 					Name = "Иван Иванович",
 					BirthDate = new DateTime(1980, 1, 1),
-					Gender = "М",
+					GenderID = 0,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -49,7 +49,7 @@ namespace MIS.Demo.DataContexts
 					Code = "31000000",
 					Name = "Михаил Михайлович",
 					BirthDate = new DateTime(1980, 1, 1),
-					Gender = "М",
+					GenderID = 0,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -59,7 +59,7 @@ namespace MIS.Demo.DataContexts
 					Code = "32020444",
 					Name = "Владимир Сергеевич",
 					BirthDate = new DateTime(1993, 1, 1),
-					Gender = "М",
+					GenderID = 0,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				}
