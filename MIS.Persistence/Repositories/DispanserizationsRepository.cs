@@ -62,46 +62,45 @@ namespace MIS.Persistence.Repositories
 
 		public async Task<Dispanserization> Get(Int32 dispanserizationID)
 		{
-			var keyValues = new Dictionary<Int32, Dispanserization>();
+			var dispanserizations = new Dictionary<Int32, Dispanserization>();
 
-			var result = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
+			var query = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
 				map: (dispanserization, research) =>
 				{
-					if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
+					if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
 					{
 						value = dispanserization;
 						value.Researches = new List<Research>();
-						keyValues.Add(dispanserization.ID, dispanserization);
+						dispanserizations[dispanserization.ID] = dispanserization;
 					}
 
 					value.Researches.Add(research);
-
-					return dispanserization;
+					return value;
 				},
 				param: new { dispanserizationID },
 				commandType: CommandType.StoredProcedure,
 				transaction: _transaction
 			);
 
-			return result
+			return query
 				.Distinct()
 				.FirstOrDefault();
 		}
 
 		public async Task<List<Dispanserization>> ToList(Int32 patientID)
 		{
-			var keyValues = new Dictionary<Int32, Dispanserization>();
+			var dispanserizations = new Dictionary<Int32, Dispanserization>();
 
-			var result = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
+			var query = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_List]",
 				map: (dispanserization, research) =>
 				{
-					if (!keyValues.TryGetValue(dispanserization.ID, out Dispanserization value))
+					if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
 					{
 						value = dispanserization;
 						value.Researches = new List<Research>();
-						keyValues.Add(dispanserization.ID, dispanserization);
+						dispanserizations[dispanserization.ID] = dispanserization;
 					}
 
 					value.Researches.Add(research);
@@ -112,7 +111,7 @@ namespace MIS.Persistence.Repositories
 				transaction: _transaction
 			);
 
-			return result
+			return query
 				.Distinct()
 				.AsList();
 		}
