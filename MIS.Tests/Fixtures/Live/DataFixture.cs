@@ -123,7 +123,7 @@ namespace MIS.Tests.Fixtures.Live
 			//		middleName = item.MiddleName,
 			//		lastName = item.LastName,
 			//		birthDate = item.BirthDate,
-			//		gender = item.Gender
+			//		genderID = item.Gender
 			//	},
 			//	commandType: CommandType.StoredProcedure,
 			//	transaction: Transaction

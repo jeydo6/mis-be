@@ -29,7 +29,7 @@ CREATE PROCEDURE [dbo].[sp_Patients_Create]
 	,@middleName NVARCHAR(64)
 	,@lastName NVARCHAR(128)
 	,@birthDate DATETIME
-	,@gender NVARCHAR(16)
+	,@genderID NVARCHAR(16)
 AS
 BEGIN
 	DECLARE @msg NVARCHAR(128)
@@ -44,7 +44,7 @@ BEGIN
 			p.[NUM] = @code
 	) = 0
 	BEGIN
-		DECLARE @genderInt INT = CASE WHEN UPPER(SUBSTRING(LTRIM(RTRIM(@gender)), 1, 1)) = N'Ì' THEN 1 ELSE 0 END
+		DECLARE @gender INT = CASE WHEN UPPER(SUBSTRING(LTRIM(RTRIM(@genderID)), 1, 1)) = N'Ì' THEN 1 ELSE 0 END
 
 		INSERT INTO
 			[dbo].[hlt_MKAB]
@@ -141,7 +141,7 @@ BEGIN
 				,''
 				,''
 				,@code
-				,@genderInt
+				,@gender
 				,@birthDate
 				,''
 				,0
