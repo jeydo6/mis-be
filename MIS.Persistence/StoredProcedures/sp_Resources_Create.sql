@@ -25,19 +25,19 @@ GO
 
 CREATE PROCEDURE [dbo].[sp_Resources_Create]
 	 @employeeID INT
-	,@employeeCode VARCHAR(16) = ''
-	,@employeeFirstName VARCHAR(64) = ''
-	,@employeeMiddleName VARCHAR(64) = ''
-	,@employeeLastName VARCHAR(128) = ''
+	,@employeeCode NVARCHAR(16) = ''
+	,@employeeFirstName NVARCHAR(64) = ''
+	,@employeeMiddleName NVARCHAR(64) = ''
+	,@employeeLastName NVARCHAR(128) = ''
 	,@specialtyID INT
-	,@specialtyCode VARCHAR(16) = ''
-	,@specialtyName VARCHAR(128) = ''
+	,@specialtyCode NVARCHAR(16) = ''
+	,@specialtyName NVARCHAR(128) = ''
 	,@roomID INT
-	,@roomCode VARCHAR(16) = ''
+	,@roomCode NVARCHAR(16) = ''
 	,@roomFlat INT = 0
 AS
 BEGIN
-	DECLARE @msg VARCHAR(128)
+	DECLARE @msg NVARCHAR(128)
 
 	IF
 	(
@@ -229,7 +229,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'Resource: (doctorID: ''' + CAST(@employeeID AS VARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS VARCHAR(10)) + ''') already exists'
+		SET @msg = 'Resource: (doctorID: ''' + CAST(@employeeID AS NVARCHAR(10)) + ''', roomID: ''' + CAST(@roomID AS NVARCHAR(10)) + ''') already exists'
 		RAISERROR(@msg, 16, 1)
 	END
 END

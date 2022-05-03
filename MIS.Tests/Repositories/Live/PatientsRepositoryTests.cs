@@ -25,10 +25,9 @@ namespace MIS.Tests.Repositories.Live
 			var expectedResult = new Patient
 			{
 				Code = "30000000",
-				FirstName = "Иван",
-				MiddleName = "Иванович",
+				Name = "Иван Иванович",
 				BirthDate = new DateTime(1980, 1, 1),
-				Gender = 0,
+				Gender = "М",
 				Dispanserizations = new List<Dispanserization>(),
 				VisitItems = new List<VisitItem>()
 			};
@@ -37,16 +36,14 @@ namespace MIS.Tests.Repositories.Live
 				new
 				{
 					expectedResult.Code,
-					expectedResult.FirstName,
-					expectedResult.MiddleName,
+					expectedResult.Name,
 					expectedResult.BirthDate,
 					expectedResult.Gender
 				},
 				new
 				{
 					actualResult.Code,
-					actualResult.FirstName,
-					actualResult.MiddleName,
+					actualResult.Name,
 					actualResult.BirthDate,
 					actualResult.Gender
 				}
@@ -63,10 +60,9 @@ namespace MIS.Tests.Repositories.Live
 			{
 				ID = actualResult.ID,
 				Code = "30000000",
-				FirstName = "Иван",
-				MiddleName = "Иванович",
+				Name = "Иван Иванович",
 				BirthDate = new DateTime(1980, 1, 1),
-				Gender = 0,
+				Gender = "М",
 				Dispanserizations = new List<Dispanserization>(),
 				VisitItems = new List<VisitItem>()
 			};
@@ -76,8 +72,7 @@ namespace MIS.Tests.Repositories.Live
 				{
 					patient.ID,
 					expectedResult.Code,
-					expectedResult.FirstName,
-					expectedResult.MiddleName,
+					expectedResult.Name,
 					expectedResult.BirthDate,
 					expectedResult.Gender
 				},
@@ -85,8 +80,7 @@ namespace MIS.Tests.Repositories.Live
 				{
 					actualResult.ID,
 					actualResult.Code,
-					actualResult.FirstName,
-					actualResult.MiddleName,
+					actualResult.Name,
 					actualResult.BirthDate,
 					actualResult.Gender
 				}

@@ -31,21 +31,9 @@ namespace MIS.Application.ViewModels
 
 		public String Code { get; set; }
 
-		public String FirstName { get; set; }
-
-		public String MiddleName { get; set; }
-
-		public String DisplayName
-		{
-			get
-			{
-				return $"{FirstName} {MiddleName}".Trim();
-			}
-		}
+		public String Name { get; set; }
 
 		public DateTime BirthDate { get; set; }
-
-		public Int32 Gender { get; set; }
 
 		public Boolean DispanserizationIsEnabled { get; set; }
 

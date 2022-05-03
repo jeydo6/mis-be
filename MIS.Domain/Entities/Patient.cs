@@ -31,21 +31,11 @@ namespace MIS.Domain.Entities
 
 		public string Code { get; set; }
 
-		public string FirstName { get; set; }
-
-		public string MiddleName { get; set; }
-
-		public string DisplayName
-		{
-			get
-			{
-				return $"{FirstName} {MiddleName}".Trim();
-			}
-		}
+		public string Name { get; set; }
 
 		public DateTime BirthDate { get; set; }
 
-		public int Gender { get; set; }
+		public string Gender { get; set; }
 
 		public bool DispanserizationIsEnabled { get; set; }
 

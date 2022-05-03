@@ -38,10 +38,9 @@ namespace MIS.Tests.Fixtures.Live
 			Int32 patientID = CreatePatient(new Patient
 			{
 				Code = "30000000",
-				FirstName = "Иван",
-				MiddleName = "Иванович",
+				Name = "Иван Иванович",
 				BirthDate = new DateTime(1980, 1, 1),
-				Gender = 0,
+				Gender = "М",
 				Dispanserizations = new List<Dispanserization>(),
 				VisitItems = new List<VisitItem>()
 			});
@@ -114,21 +113,23 @@ namespace MIS.Tests.Fixtures.Live
 
 		private Int32 CreatePatient(Patient item)
 		{
-			Int32 patientID = Transaction.Connection.QuerySingle<Int32>(
-				sql: "[dbo].[sp_Patients_Create]",
-				param: new
-				{
-					code = item.Code,
-					firstName = item.FirstName,
-					middleName = item.MiddleName,
-					birthDate = item.BirthDate,
-					gender = item.Gender
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: Transaction
-			);
+			throw new NotImplementedException();
+			//Int32 patientID = Transaction.Connection.QuerySingle<Int32>(
+			//	sql: "[dbo].[sp_Patients_Create]",
+			//	param: new
+			//	{
+			//		code = item.Code,
+			//		firstName = item.FirstName,
+			//		middleName = item.MiddleName,
+			//		lastName = item.LastName,
+			//		birthDate = item.BirthDate,
+			//		gender = item.Gender
+			//	},
+			//	commandType: CommandType.StoredProcedure,
+			//	transaction: Transaction
+			//);
 
-			return patientID;
+			//return patientID;
 		}
 
 		private Int32 CreateResource(Resource item)

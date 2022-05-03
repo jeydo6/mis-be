@@ -14,28 +14,28 @@
  
 -- =============================================
 -- Author:		<Vladimir Deryagin>
--- Create date: <2020-10-29>
+-- Create date: <2022-05-04>
+-- Update date: <2022-05-04>
 -- =============================================
 USE [MIS]
 GO
 
-IF OBJECT_ID('[dbo].[sp_Patients_Get]', 'P') IS NOT NULL
-	DROP PROCEDURE [dbo].[sp_Patients_Get]
+IF OBJECT_ID('[dbo].[f_Patients_GetName]', 'FN') IS NOT NULL
+	DROP FUNCTION [dbo].[f_Patients_GetName]
 GO
 
-CREATE PROCEDURE [dbo].[sp_Patients_Get]
-	@patientID INT
+CREATE FUNCTION [dbo].[f_Patients_GetName]
+(
+	 @firstName NVARCHAR(64) = ''
+	,@middleName NVARCHAR(64) = ''
+)
+RETURNS NVARCHAR(256)
 AS
 BEGIN
-	SELECT TOP (1)
-		 p.[MKABID] AS [ID]
-		,p.[NUM] AS [Code]
-		,[dbo].[f_Patients_GetName](p.[NAME], p.[OT]) AS [Name]
-		,p.[DATE_BD] AS [BirthDate]
-		,p.[W] AS [Gender]
-	FROM
-		[dbo].[hlt_MKAB] AS p
-	WHERE
-		p.[MKABID] = @patientID
+	RETURN
+	(
+		(CASE WHEN LEN(LTRIM(RTRIM(@firstName))) > 0 THEN LTRIM(RTRIM(@firstName)) ELSE '' END) +
+		(CASE WHEN LEN(LTRIM(RTRIM(@middleName))) > 0 THEN ' ' + LTRIM(RTRIM(@middleName)) ELSE '' END)
+	)
 END
 GO

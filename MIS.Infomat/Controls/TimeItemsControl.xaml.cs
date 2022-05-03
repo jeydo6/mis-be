@@ -112,7 +112,7 @@ namespace MIS.Infomat.Controls
 				try
 				{
 					var visitItem = _mediator.SendSync(
-						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.DisplayName)
+						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.Name)
 					);
 
 					_patient.VisitItems.Add(visitItem);

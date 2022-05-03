@@ -30,7 +30,7 @@ CREATE PROCEDURE [dbo].[sp_TimeItems_Create]
 	,@resourceID INT
 AS
 BEGIN
-	DECLARE @msg VARCHAR(128)
+	DECLARE @msg NVARCHAR(128)
 
 	IF
 	(
@@ -54,7 +54,7 @@ BEGIN
 				r.[DocPRVDID] = @resourceID
 		) > 0
 		BEGIN
-			SET @msg = 'Resource: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''') doesn''t exist'
+			SET @msg = 'Resource: (resourceID: ''' + CAST(@resourceID AS NVARCHAR(10)) + ''') doesn''t exist'
 			RAISERROR(@msg, 10, 1)
 		END
 
@@ -104,7 +104,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS VARCHAR(10)) + ''', beginDateTime: ''' + CONVERT(VARCHAR(16), @beginDateTime, 104) + ''', endDateTime: ''' + CONVERT(VARCHAR(16), @endDateTime, 104) + ''') already exists'
+		SET @msg = 'TimeItem: (resourceID: ''' + CAST(@resourceID AS NVARCHAR(10)) + ''', beginDateTime: ''' + CONVERT(VARCHAR(16), @beginDateTime, 104) + ''', endDateTime: ''' + CONVERT(VARCHAR(16), @endDateTime, 104) + ''') already exists'
 		RAISERROR(@msg, 16, 1)
 	END
 END

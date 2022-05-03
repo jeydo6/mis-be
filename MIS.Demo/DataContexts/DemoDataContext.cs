@@ -37,10 +37,9 @@ namespace MIS.Demo.DataContexts
 				{
 					ID = 1,
 					Code = "30000000",
-					FirstName = "Иван",
-					MiddleName = "Иванович",
+					Name = "Иван Иванович",
 					BirthDate = new DateTime(1980, 1, 1),
-					Gender = 0,
+					Gender = "М",
 					DispanserizationIsEnabled = true,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
@@ -49,10 +48,9 @@ namespace MIS.Demo.DataContexts
 				{
 					ID = 2,
 					Code = "31000000",
-					FirstName = "Михаил",
-					MiddleName = "Михайлович",
+					Name = "Михаил Михайлович",
 					BirthDate = new DateTime(1980, 1, 1),
-					Gender = 0,
+					Gender = "М",
 					DispanserizationIsEnabled = false,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
@@ -61,10 +59,9 @@ namespace MIS.Demo.DataContexts
 				{
 					ID = Int32.MaxValue,
 					Code = "32020444",
-					FirstName = "Владимир",
-					MiddleName = "Сергеевич",
+					Name = "Владимир Сергеевич",
 					BirthDate = new DateTime(1993, 1, 1),
-					Gender = 0,
+					Gender = "М",
 					DispanserizationIsEnabled = true,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()

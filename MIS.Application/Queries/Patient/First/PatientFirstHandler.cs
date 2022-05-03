@@ -66,17 +66,15 @@ namespace MIS.Application.Queries
 			{
 				ID = patient.ID,
 				Code = patient.Code,
-				FirstName = patient.FirstName,
-				MiddleName = patient.MiddleName,
+				Name = patient.Name,
 				BirthDate = patient.BirthDate,
-				Gender = patient.Gender,
 				DispanserizationIsEnabled = patient.DispanserizationIsEnabled,
 				Dispanserizations = patient.Dispanserizations.Select(d => new DispanserizationViewModel
 				{
 					BeginDate = d.BeginDate,
 					Now = _dateTimeProvider.Now,
 					PatientCode = patient.Code,
-					PatientName = patient.DisplayName,
+					PatientName = patient.Name,
 					IsClosed = d.IsClosed,
 					IsEnabled = true,
 					Researches = d.Researches.Select(a => a.Description).ToArray()
@@ -85,8 +83,8 @@ namespace MIS.Application.Queries
 				{
 					BeginDateTime = vi.TimeItem.BeginDateTime,
 					PatientCode = patient.Code,
-					PatientName = patient.DisplayName,
-					EmployeeName = vi.TimeItem.Resource.Name,
+					PatientName = patient.Name,
+					EmployeeName = vi.TimeItem.Resource.Employee.Name,
 					SpecialtyName = vi.TimeItem.Resource.Employee.Specialty.Name,
 					RoomCode = vi.TimeItem.Resource.Room.Code,
 					RoomFlat = vi.TimeItem.Resource.Room.Flat,

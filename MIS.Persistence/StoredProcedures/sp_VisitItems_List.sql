@@ -41,17 +41,11 @@ BEGIN
 		,t.[End_Time] AS [EndDateTime]
 		,t.[rf_DocPRVDID] AS [ResourceID]
 		,r.[DocPRVDID] AS [ID]
-		,(
-			LTRIM(RTRIM(d.[FAM_V])) +
-			(CASE WHEN LEN(LTRIM(RTRIM(d.[IM_V]))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(d.[IM_V])), 1, 1) + '.' ELSE '' END) +
-			(CASE WHEN LEN(LTRIM(RTRIM(d.[OT_V]))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(d.[OT_V])), 1, 1) + '.' ELSE '' END)
-		) AS [Name]
+		,'' AS [Name]
 		,r.[rf_LPUDoctorID] AS [EmployeeID]
 		,d.[LPUDoctorID] AS [ID]
 		,d.[PCOD] AS [Code]
-		,d.[IM_V] AS [FirstName]
-		,d.[OT_V] AS [MiddleName]
-		,d.[FAM_V] AS [LastName]
+		,[dbo].[f_Resources_GetName](d.[IM_V], d.[OT_V], d.[FAM_V]) AS [Name]
 		,r.[rf_PRVSID] AS [SpecialtyID]
 		,s.[PRVSID] AS [ID]
 		,s.[C_PRVS] AS [Code]

@@ -79,7 +79,7 @@ namespace MIS.Infomat.Controls
 				try
 				{
 					var dispanserization = _mediator.SendSync(
-						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.DisplayName)
+						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.Name)
 					);
 
 					_patient.Dispanserizations.Add(dispanserization);

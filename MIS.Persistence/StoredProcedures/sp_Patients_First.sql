@@ -31,8 +31,7 @@ BEGIN
 	SELECT TOP (1)
 		 p.[MKABID] AS [ID]
 		,p.[NUM] AS [Code]
-		,p.[NAME] AS [FirstName]
-		,p.[OT] AS [MiddleName]
+		,[dbo].[f_Patients_GetName](p.[NAME], p.[OT]) AS [Name]
 		,p.[DATE_BD] AS [BirthDate]
 		,p.[W] AS [Gender]
 		,1 AS [DispanserizationIsEnabled]

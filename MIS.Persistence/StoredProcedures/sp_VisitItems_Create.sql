@@ -29,14 +29,14 @@ CREATE PROCEDURE [dbo].[sp_VisitItems_Create]
 	,@timeItemID INT
 AS
 BEGIN
-	DECLARE @msg VARCHAR(128)
+	DECLARE @msg NVARCHAR(128)
 
 	IF (SELECT COUNT(*) FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID) = 0
 	BEGIN
 		DECLARE @patientDescription NVARCHAR(128)
 
 		SELECT TOP(1)
-			@patientDescription = (p.[NUM] + ', ' + p.[NAME] + ' ' + p.[OT] + ', ' + CAST(YEAR(p.[DATE_BD]) AS VARCHAR(4)) + N' ã.ð.')
+			@patientDescription = [dbo].[f_Patients_GetDescription](p.[NUM], p.[NAME], p.[OT], p.[DATE_BD])
 		FROM
 			[dbo].[hlt_MKAB] AS p
 		WHERE
@@ -109,7 +109,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS VARCHAR(10)) + ''') already exists'
+		SET @msg = 'VisitItem: (timeItemID: ''' + CAST(@timeItemID AS NVARCHAR(10)) + ''') already exists'
 		RAISERROR(@msg, 16, 1)
 	END
 END
