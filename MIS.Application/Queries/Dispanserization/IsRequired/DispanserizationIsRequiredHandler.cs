@@ -36,7 +36,7 @@ namespace MIS.Application.Queries
 
 		public async Task<Boolean> Handle(DispanserizationIsRequiredQuery request, CancellationToken cancellationToken)
 		{
-			var result = !request.Patient.Dispanserizations
+			var result = request.Patient.DispanserizationIsEnabled && !request.Patient.Dispanserizations
 				.Any(d => d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
 			return await Task.FromResult(result);
