@@ -14,7 +14,9 @@
  */
 #endregion
 
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.ViewModels;
+using MIS.Domain.Providers;
 using System;
 using System.Windows.Controls;
 
@@ -32,9 +34,17 @@ namespace MIS.Infomat.PrintForms
 
 		internal DispanserizationPrintForm(DispanserizationViewModel dispanserization)
 		{
+			var app = System.Windows.Application.Current as App;
+
+			var dateTimeProvider = app.ServiceProvider.GetService<IDateTimeProvider>();
+			Now = dateTimeProvider.Now;
+
 			InitializeComponent();
 
-			DataContext = dispanserization;
+			now.DataContext = this;
+			viewBox.DataContext = dispanserization;
 		}
+
+		public DateTime Now { get; set; }
 	}
 }

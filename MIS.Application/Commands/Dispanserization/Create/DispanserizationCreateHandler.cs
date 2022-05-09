@@ -17,7 +17,6 @@
 using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
-using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using System;
 using System.Linq;
@@ -28,15 +27,12 @@ namespace MIS.Application.Commands
 {
 	public class DispanserizationCreateHandler : IRequestHandler<DispanserizationCreateCommand, DispanserizationViewModel>
 	{
-		private readonly IDateTimeProvider _dateTimeProvider;
 		private readonly IDispanserizationsRepository _dispanserizations;
 
 		public DispanserizationCreateHandler(
-			IDateTimeProvider dateTimeProvider,
 			IDispanserizationsRepository dispanserizations
 		)
 		{
-			_dateTimeProvider = dateTimeProvider;
 			_dispanserizations = dispanserizations;
 		}
 
@@ -56,7 +52,6 @@ namespace MIS.Application.Commands
 			var result = new DispanserizationViewModel
 			{
 				BeginDate = dispanserization.BeginDate,
-				Now = _dateTimeProvider.Now,
 				PatientCode = request.PatientCode,
 				PatientName = request.PatientName,
 				IsClosed = dispanserization.IsClosed,

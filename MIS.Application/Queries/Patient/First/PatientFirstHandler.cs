@@ -72,7 +72,6 @@ namespace MIS.Application.Queries
 				Dispanserizations = patient.Dispanserizations.Select(d => new DispanserizationViewModel
 				{
 					BeginDate = d.BeginDate,
-					Now = _dateTimeProvider.Now,
 					PatientCode = patient.Code,
 					PatientName = patient.Name,
 					IsClosed = d.IsClosed,

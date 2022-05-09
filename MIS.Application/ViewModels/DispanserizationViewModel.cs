@@ -22,8 +22,6 @@ namespace MIS.Application.ViewModels
 	{
 		public DateTime BeginDate { get; set; }
 
-		public DateTime Now { get; set; }
-
 		public String PatientCode { get; set; }
 
 		public String PatientName { get; set; }
