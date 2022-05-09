@@ -15,6 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-21>
+-- Update date: <2022-05-04>
 -- =============================================
 USE [MIS]
 GO
@@ -28,18 +29,25 @@ CREATE PROCEDURE [dbo].[sp_Dispanserizations_List]
 AS
 BEGIN
 	SELECT
-		 d.[DDFormID] AS [ID]
-		,d.[dateDispBeg] AS [BeginDate]
-		,d.[DateENDDD] AS [EndDate]
-		,d.[IsClosed] AS [IsClosed]
-		,p.[MKABID] AS [PatientID]
-		,dt.[DDResearchLFID] AS [ID]
-		,dt.[AddInfo] AS [Description]
+		 d.[ID]
+		,d.[BeginDate]
+		,d.[EndDate]
+		,d.[IsClosed]
+		,d.[PatientID]
+		,v.[ID]
+		,(r.[Name] + ': ' + CONVERT(VARCHAR(10), t.[Date], 104) + ' (' + rm.[Code] + N' каб.)') AS [Description]
 	FROM
-		[dbo].[dd_DDForm] AS d INNER JOIN
-		[dbo].[hlt_MKAB] AS p ON d.[MKABGuid] = p.[UGUID] INNER JOIN
-		[dbo].[dd_DDResearchLF] AS dt ON d.[DDFormID] = dt.[rf_DDFormID]
+		[dbo].[Dispanserizations] AS d INNER JOIN
+		[dbo].[VisitItems] AS v ON v.[PatientID] = d.[PatientID] INNER JOIN
+		[dbo].[TimeItems] AS t ON t.[ID] = v.[TimeItemID] INNER JOIN
+		[dbo].[Resources] AS r ON r.[ID] = t.[ResourceID] INNER JOIN
+		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] INNER JOIN
+		[dbo].[ResourceTypes] AS rt ON rt.[ID] = r.[TypeID] INNER JOIN
+		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
+		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID]
 	WHERE
-		p.[MKABID] = @patientID
+		d.[PatientID] = @patientID
+		AND rt.[Name] = N'Исследование'
+		AND s.[Name] = N'Диспансеризация'
 END
 GO

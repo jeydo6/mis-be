@@ -14,32 +14,20 @@
  
 -- =============================================
 -- Author:		<Vladimir Deryagin>
--- Create date: <2020-10-19>
--- Update date: <2022-05-04>
+-- Create date: <2020-10-26>
+-- Update date: <2022-04-26>
 -- =============================================
 USE [MIS]
 GO
 
-IF OBJECT_ID('[dbo].[sp_Patients_First]', 'P') IS NOT NULL
-	DROP PROCEDURE [dbo].[sp_Patients_First]
+IF OBJECT_ID('[dbo].[Rooms]', 'U') IS NOT NULL
+	DROP TABLE [dbo].[Rooms]
 GO
 
-CREATE PROCEDURE [dbo].[sp_Patients_First]
-	@code NVARCHAR(8),
-	@birthDate DATE
-AS
-BEGIN
-	SELECT TOP (1)
-		 p.[ID]
-		,p.[Code]
-		,[dbo].[f_Patients_GetName](p.[FirstName], p.[MiddleName], p.[LastName]) AS [Name]
-		,p.[BirthDate]
-		,p.[GenderID]
-		,1 AS [DispanserizationIsEnabled]
-	FROM
-		[dbo].[Patients] AS p
-	WHERE
-		p.[Code] = @code
-		AND YEAR(p.[BirthDate]) = YEAR(@birthDate)
-END
+CREATE TABLE [dbo].[Rooms]
+(
+	[ID] INT IDENTITY NOT NULL PRIMARY KEY,
+	[Code] NVARCHAR(16) NOT NULL,
+	[Flat] INT NOT NULL
+)
 GO

@@ -15,6 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-27>
+-- Update date: <2022-05-10>
 -- =============================================
 USE [MIS]
 GO
@@ -28,44 +29,38 @@ CREATE PROCEDURE [dbo].[sp_VisitItems_Get]
 AS
 BEGIN
 	SELECT
-		 v.[DoctorVisitTableID] AS [ID]
-		,v.[Comment] AS [PatientString]
-		,CASE WHEN CHARINDEX('.', v.[StubNum]) > 0 THEN SUBSTRING(v.[StubNum], 1, CHARINDEX('.', v.[StubNum]) - 1) ELSE v.[StubNum] END AS [TimeString]
-		,v.[rf_MKABID] AS [PatientID]
-		,v.[rf_DoctorTimeTableID] AS [TimeItemID]
-		,t.[DoctorTimeTableID] AS [ID]
-		,t.[Date] AS [Date]
-		,t.[Begin_Time] AS [BeginDateTime]
-		,t.[End_Time] AS [EndDateTime]
-		,t.[rf_DocPRVDID] AS [ResourceID]
-		,r.[DocPRVDID] AS [ID]
-		,ro.[NAME] AS [Name]
-		,r.[rf_LPUDoctorID] AS [EmployeeID]
-		,r.[rf_HealingRoomID] AS [RoomID]
-		,d.[LPUDoctorID] AS [ID]
-		,d.[PCOD] AS [Code]
-		,[dbo].[f_Resources_GetName](d.[IM_V], d.[OT_V], d.[FAM_V]) AS [Name]
-		,r.[rf_PRVSID] AS [SpecialtyID]
-		,s.[PRVSID] AS [ID]
-		,s.[C_PRVS] AS [Code]
-		,s.[PRVS_NAME] AS [Name]
-		,room.[HealingRoomID] AS [ID]
-		,room.[Num] AS [Code]
-		,room.[Flat] AS [Flat]
+		 v.[ID]
+		,v.[PatientID]
+		,v.[TimeItemID]
+		,t.[ID]
+		,t.[Date]
+		,t.[BeginDateTime]
+		,t.[EndDateTime]
+		,t.[ResourceID]
+		,r.[ID]
+		,r.[Name]
+		,r.[EmployeeID]
+		,r.[RoomID]
+		,e.[ID]
+		,e.[Code]
+		,[dbo].[f_Resources_GetName](e.[FirstName], e.[MiddleName], e.[LastName]) AS [Name]
+		,e.[SpecialtyID]
+		,s.[ID]
+		,s.[Code]
+		,s.[Name]
+		,rm.[ID]
+		,rm.[Code]
+		,rm.[Flat]
 	FROM
-		[dbo].[hlt_DoctorVisitTable] AS v INNER JOIN
-		[dbo].[hlt_DoctorTimeTable] AS t ON v.[rf_DoctorTimeTableID] = t.[DoctorTimeTableID] INNER JOIN
-		[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID] INNER JOIN
-		[dbo].[oms_PRVD] AS ro ON ro.[PRVDID] = r.[rf_PRVDID] INNER JOIN
-		[dbo].[hlt_LPUDoctor] AS d ON r.[rf_LPUDoctorID] = d.[LPUDoctorID] INNER JOIN
-		[dbo].[oms_PRVS] AS s ON r.[rf_PRVSID] = s.[PRVSID] INNER JOIN
-		[dbo].[hlt_HealingRoom] AS room ON r.[rf_HealingRoomID] = room.[HealingRoomID]
+		[dbo].[VisitItems] AS v INNER JOIN
+		[dbo].[TimeItems] AS t ON t.[ID] = v.[TimeItemID] INNER JOIN
+		[dbo].[Resources] AS r ON r.[ID] = t.[ResourceID] INNER JOIN
+		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
+		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID] INNER JOIN
+		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] INNER JOIN
+		[dbo].[ResourceTypes] AS rt ON rt.[ID] = r.[TypeID]
 	WHERE
-		v.[DoctorVisitTableID] = @visitItemID
-		AND r.[InTime] = 1
-		AND r.[rf_LPUDoctorID] > 0
-		AND r.[rf_PRVSID] > 0
-		AND r.[rf_HealingRoomID] > 0
-		AND r.[rf_PRVDID] > 0
+		v.[ID] = @visitItemID
+		AND r.[IsActive] = 1
 END
 GO

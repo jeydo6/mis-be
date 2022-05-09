@@ -37,8 +37,9 @@ BEGIN
 	RETURN
 	(
 		(CASE WHEN LEN(LTRIM(RTRIM(@code))) > 0 THEN LTRIM(RTRIM(@code)) ELSE '' END) +
-		(CASE WHEN LEN(LTRIM(RTRIM(@firstName))) > 0 THEN ', ' + LTRIM(RTRIM(@firstName)) ELSE '' END) +
-		(CASE WHEN LEN(LTRIM(RTRIM(@middleName))) > 0 THEN ' ' + LTRIM(RTRIM(@middleName)) ELSE '' END) + 
+		(CASE WHEN LEN(LTRIM(RTRIM(@lastName))) > 0 THEN ', ' + LTRIM(RTRIM(@lastName)) ELSE '' END) +
+		(CASE WHEN LEN(LTRIM(RTRIM(@firstName))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(@firstName)), 1, 1) + '.' ELSE '' END) +
+		(CASE WHEN LEN(LTRIM(RTRIM(@middleName))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(@middleName)), 1, 1) + '.' ELSE '' END) +
 		(CASE WHEN @birthDate IS NOT NULL THEN ', ' + CAST(YEAR(@birthDate) AS NVARCHAR(4)) + N' ã.ð.' ELSE '' END)
 	)
 END

@@ -15,6 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
+-- Update date: <2022-05-09>
 -- =============================================
 USE [MIS]
 GO
@@ -27,35 +28,29 @@ CREATE PROCEDURE [dbo].[sp_Resources_GetDispanserizations]
 AS
 BEGIN
 	SELECT
-		 r.[DocPRVDID] AS [ID]
-		,ro.[NAME] AS [Name]
-		,r.[rf_LPUDoctorID] AS [EmployeeID]
-		,r.[rf_HealingRoomID] AS [RoomID]
-		,d.[LPUDoctorID] AS [ID]
-		,d.[PCOD] AS [Code]
-		,[dbo].[f_Resources_GetName](d.[IM_V], d.[OT_V], d.[FAM_V]) AS [Name]
-		,r.[rf_PRVSID] AS [SpecialtyID]
-		,s.[PRVSID] AS [ID]
-		,s.[C_PRVS] AS [Code]
-		,s.[PRVS_NAME] AS [Name]
-		,room.[HealingRoomID] AS [ID]
-		,room.[Num] AS [Code]
-		,room.[Flat] AS [Flat]
+		 r.[ID] AS [ID]
+		,r.[Name] AS [Name]
+		,r.[EmployeeID] AS [EmployeeID]
+		,r.[RoomID] AS [RoomID]
+		,e.[ID] AS [ID]
+		,e.[Code] AS [Code]
+		,[dbo].[f_Resources_GetName](e.[FirstName], e.[MiddleName], e.[LastName]) AS [Name]
+		,e.[SpecialtyID] AS [SpecialtyID]
+		,s.[ID] AS [ID]
+		,s.[Code] AS [Code]
+		,s.[Name] AS [Name]
+		,rm.[ID] AS [ID]
+		,rm.[Code] AS [Code]
+		,rm.[Flat] AS [Flat]
 	FROM
-		[dbo].[hlt_DocPRVD] AS r INNER JOIN
-		[dbo].[oms_PRVD] AS ro ON ro.[PRVDID] = r.[rf_PRVDID] INNER JOIN
-		[dbo].[hlt_LPUDoctor] AS d ON r.[rf_LPUDoctorID] = d.[LPUDoctorID] INNER JOIN
-		[dbo].[oms_PRVS] AS s ON r.[rf_PRVSID] = s.[PRVSID] INNER JOIN
-		[dbo].[hlt_HealingRoom] AS room ON r.[rf_HealingRoomID] = room.[HealingRoomID] INNER JOIN
-		[dbo].[dd_DDService] AS ds ON r.[rf_HealingRoomID] = ds.[rf_HealingRoomID]
+		[dbo].[Resources] AS r INNER JOIN
+		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
+		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID] INNER JOIN
+		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] INNER JOIN
+		[dbo].[ResourceTypes] AS rt ON rt.[ID] = r.[TypeID]
 	WHERE
-		r.[InTime] = 1
-		AND r.[rf_LPUDoctorID] > 0
-		AND r.[rf_PRVSID] > 0
-		AND r.[rf_HealingRoomID] > 0
-		AND r.[rf_PRVDID] > 0
-		AND ds.[rf_HealingRoomID] > 0
-		AND ds.[IsParaclinic] = 1
-		AND ds.[rf_ServiceTypeID] = 2
+		r.[IsActive] = 1
+		AND s.[Name] = N'Диспансеризация'
+		AND rt.[Name] = N'Исследование'
 END
 GO

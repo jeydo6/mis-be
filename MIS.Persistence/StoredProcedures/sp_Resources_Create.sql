@@ -23,6 +23,7 @@ IF OBJECT_ID('[dbo].[sp_Resources_Create]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_Resources_Create]
 GO
 
+-- DEPRECATED
 CREATE PROCEDURE [dbo].[sp_Resources_Create]
 	 @employeeID INT
 	,@employeeCode NVARCHAR(16) = ''

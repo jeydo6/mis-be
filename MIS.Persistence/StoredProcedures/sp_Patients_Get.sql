@@ -15,6 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-29>
+-- Update date: <2022-05-04>
 -- =============================================
 USE [MIS]
 GO
@@ -28,14 +29,15 @@ CREATE PROCEDURE [dbo].[sp_Patients_Get]
 AS
 BEGIN
 	SELECT TOP (1)
-		 p.[MKABID] AS [ID]
-		,p.[NUM] AS [Code]
-		,[dbo].[f_Patients_GetName](p.[NAME], p.[OT]) AS [Name]
-		,p.[DATE_BD] AS [BirthDate]
-		,p.[W] AS [Gender]
+		 p.[ID]
+		,p.[Code]
+		,[dbo].[f_Patients_GetName](p.[FirstName], p.[MiddleName], p.[LastName]) AS [Name]
+		,p.[BirthDate]
+		,p.[GenderID]
+		,1 AS [DispanserizationIsEnabled]
 	FROM
-		[dbo].[hlt_MKAB] AS p
+		[dbo].[Patients] AS p
 	WHERE
-		p.[MKABID] = @patientID
+		p.[ID] = @patientID
 END
 GO

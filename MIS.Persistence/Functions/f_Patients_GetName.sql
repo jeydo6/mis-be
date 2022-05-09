@@ -28,14 +28,16 @@ CREATE FUNCTION [dbo].[f_Patients_GetName]
 (
 	 @firstName NVARCHAR(64) = ''
 	,@middleName NVARCHAR(64) = ''
+	,@lastName NVARCHAR(128) = ''
 )
 RETURNS NVARCHAR(256)
 AS
 BEGIN
 	RETURN
 	(
-		(CASE WHEN LEN(LTRIM(RTRIM(@firstName))) > 0 THEN LTRIM(RTRIM(@firstName)) ELSE '' END) +
-		(CASE WHEN LEN(LTRIM(RTRIM(@middleName))) > 0 THEN ' ' + LTRIM(RTRIM(@middleName)) ELSE '' END)
+		(CASE WHEN LEN(LTRIM(RTRIM(@lastName))) > 0 THEN LTRIM(RTRIM(@lastName)) ELSE '' END) +
+		(CASE WHEN LEN(LTRIM(RTRIM(@firstName))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(@firstName)), 1, 1) + '.' ELSE '' END) +
+		(CASE WHEN LEN(LTRIM(RTRIM(@middleName))) > 0 THEN ' ' + SUBSTRING(LTRIM(RTRIM(@middleName)), 1, 1) + '.' ELSE '' END)
 	)
 END
 GO

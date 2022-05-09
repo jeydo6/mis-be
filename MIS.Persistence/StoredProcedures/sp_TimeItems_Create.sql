@@ -15,6 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-11-06>
+-- Update date: <2022-05-10>
 -- =============================================
 USE [MIS]
 GO
@@ -24,7 +25,7 @@ IF OBJECT_ID('[dbo].[sp_TimeItems_Create]', 'P') IS NOT NULL
 GO
 
 CREATE PROCEDURE [dbo].[sp_TimeItems_Create]
-	 @date DATETIME
+	 @date DATE
 	,@beginDateTime DATETIME
 	,@endDateTime DATETIME
 	,@resourceID INT
@@ -37,70 +38,29 @@ BEGIN
 		SELECT
 			COUNT(*)
 		FROM
-			[dbo].[hlt_DoctorTimeTable] AS t
+			[dbo].[TimeItems] AS t
 		WHERE
-			t.[rf_DocPRVDID] = @resourceID
-			AND t.[Begin_Time] = @beginDateTime
-			AND t.[End_Time] = @endDateTime
+			t.[ResourceID] = @resourceID
+			AND t.[BeginDateTime] = @beginDateTime
+			AND t.[EndDateTime] = @endDateTime
 	) = 0
 	BEGIN
-		IF
-		(
-			SELECT
-				COUNT(*)
-			FROM
-				[dbo].[hlt_DocPRVD] AS r
-			WHERE
-				r.[DocPRVDID] = @resourceID
-		) > 0
-		BEGIN
-			SET @msg = 'Resource: (resourceID: ''' + CAST(@resourceID AS NVARCHAR(10)) + ''') doesn''t exist'
-			RAISERROR(@msg, 10, 1)
-		END
-
 		INSERT INTO
-			[dbo].[hlt_DoctorTimeTable]
-			(
-				 [x_Edition]
-				,[x_Status]
-				,[Begin_Time]
-				,[End_Time]
-				,[Date]
-				,[rf_LPUDoctorID]
-				,[rf_DocBusyType]
-				,[FlagAccess]
-				,[FLAGS]
-				,[UGUID]
-				,[rf_HealingRoomID]
-				,[PlanUE]
-				,[TTSource]
-				,[rf_DocPRVDID]
-				,[LastStubNum]
-				,[UsedUE]
+			[dbo].[TimeItems] (
+				 [Date]
+				,[BeginDateTime]
+				,[EndDateTime]
+				,[ResourceID]
 			)
-		SELECT
-			 0
-			,0
+		VALUES
+		(
+			 @date
 			,@beginDateTime
 			,@endDateTime
-			,@date
-			,r.[rf_LPUDoctorID]
-			,3
-			,7
-			,0
-			,NEWID()
-			,r.[rf_HealingRoomID]
-			,1
-			,0
-			,r.[DocPRVDID]
-			,0
-			,0
-		FROM
-			[dbo].[hlt_DocPRVD] AS r
-		WHERE
-			r.[DocPRVDID] = @resourceID
+			,@resourceID
+		)
 
-		SELECT CAST(IDENT_CURRENT('[dbo].[hlt_DoctorTimeTable]') AS INT) AS [ID]
+		SELECT CAST(IDENT_CURRENT('[dbo].[TimeItems]') AS INT) AS [ID]
 	END
 	ELSE
 	BEGIN

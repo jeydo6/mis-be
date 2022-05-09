@@ -15,7 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-24>
--- Update date: <2022-04-24>
+-- Update date: <2022-05-10>
 -- =============================================
 USE [MIS]
 GO
@@ -31,81 +31,20 @@ AS
 BEGIN
 	DECLARE @msg NVARCHAR(128)
 
-	IF (SELECT COUNT(*) FROM [dbo].[hlt_DoctorVisitTable] AS v WHERE v.[rf_DoctorTimeTableID] = @timeItemID) = 0
+	IF (SELECT COUNT(*) FROM [dbo].[VisitItems] AS v WHERE v.[TimeItemID] = @timeItemID) = 0
 	BEGIN
-		DECLARE @patientDescription NVARCHAR(128)
-
-		SELECT TOP(1)
-			@patientDescription = [dbo].[f_Patients_GetDescription](p.[NUM], p.[NAME], p.[OT], p.[DATE_BD])
-		FROM
-			[dbo].[hlt_MKAB] AS p
-		WHERE
-			p.[MKABID] = @patientID
-
 		INSERT INTO
-			[dbo].[hlt_DoctorVisitTable] (
-				 [x_Edition]
-				,[x_Status] 
-				,[rf_DoctorTimeTableID] 
-				,[rf_TAPID] 
-				,[Comment]
-				,[rf_MKABID]
-				,[StubPrintCounter]
-				,[VisitStatus]
-				,[Flags]
-				,[UGUID]
-				,[rf_UserID]
-				,[rf_DocPRVDID]
-				,[fromReg]
-				,[fromDoc]
-				,[fromInfomat]
-				,[fromInternet]
-				,[fromTel]
-				,[NormaUE]
-				,[StubNum]
-				,[confirmRequired]
-				,[editHistory]
-				,[fromOtherLPU]
-				,[rf_DirectionID]
-				,[ERID]
-				,[ReservedTo]
-				,[FactBeginTime]
-				,[FactEndTime]
+			[dbo].[VisitItems] (
+				 [PatientID]
+				,[TimeItemID]
 			)
-		SELECT
-			 1
-			,1
-			,t.[DoctorTimeTableID]
-			,0
-			,@patientDescription
-			,@patientID
-			,0
-			,0
-			,4
-			,NEWID()
-			,133
-			,t.[rf_DocPRVDID]
-			,0
-			,0
-			,1
-			,0
-			,0
-			,1
-			,CONVERT(NVARCHAR(2), DATEPART(HOUR, t.[Begin_Time])) + ':' + CONVERT(NVARCHAR(2), DATEPART(MINUTE, t.[Begin_Time]))
-			,0
-			,''
-			,0
-			,0
-			,''
-			,DATEADD(YEAR, 100, GETDATE())
-			,GETDATE()
-			,DATEADD(DAY, 1, GETDATE())
-		FROM
-			[dbo].[hlt_DoctorTimeTable] AS t
-		WHERE
-			t.[DoctorTimeTableID] = @timeItemID
+		VALUES
+		(
+			 @patientID
+			,@timeItemID
+		)
 
-		SELECT CAST(IDENT_CURRENT('[dbo].[hlt_DoctorVisitTable]') AS INT) AS [ID]
+		SELECT CAST(IDENT_CURRENT('[dbo].[VisitItems]') AS INT) AS [ID]
 	END
 	ELSE
 	BEGIN
