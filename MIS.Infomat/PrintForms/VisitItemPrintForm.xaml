@@ -8,27 +8,27 @@
 			 d:DesignHeight="480" d:DesignWidth="360">
 	<Viewbox>
 		<StackPanel Margin="25, 10">
-            <TextBlock Text="{Binding OrganizationName}" FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+			<TextBlock Text="{Binding OrganizationName}" d:Text="Поликлиника" FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock Text="Запись на приём" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">
 				<Run Text="Дата: " />
-				<Run FontWeight="Bold" Text="{Binding VisitItem.BeginDateTime, StringFormat={}{0:dd MMMM yyyy г.}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" />
+				<Run FontWeight="Bold" Text="{Binding VisitItem.BeginDateTime, StringFormat={}{0:dd MMMM yyyy г.}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" d:Text="01 января 2022" />
 				<LineBreak />
 				<Run Text="Время: " />
-				<Run FontWeight="Bold" Text="{Binding VisitItem.BeginDateTime, StringFormat={}{0:H:mm}}" />
+				<Run FontWeight="Bold" Text="{Binding VisitItem.BeginDateTime, StringFormat={}{0:H:mm}}" d:Text="9:00" />
 			</TextBlock>
 			<TextBlock Text="Пациент: " FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
-			<TextBlock Text="{Binding VisitItem.PatientCode}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
-			<TextBlock Text="{Binding VisitItem.PatientName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+			<TextBlock Text="{Binding VisitItem.PatientCode}" d:Text="32000000" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+			<TextBlock Text="{Binding VisitItem.PatientName}" d:Text="Иванов И.И." FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock Text="Врач:" FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
-			<TextBlock Text="{Binding VisitItem.ResourceName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
-			<TextBlock Text="{Binding VisitItem.EmployeeName}" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+			<TextBlock Text="{Binding VisitItem.ResourceName}" d:Text="Врач-хирург" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+			<TextBlock Text="{Binding VisitItem.EmployeeName}" d:Text="Костоломов И.А." FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">
 				<Run Text="Кабинет: " />
-				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomCode}" />
+				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomCode}" d:Text="301" />
 				<LineBreak />
 				<Run Text="Этаж: " />
-				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomFlat}" />
+				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomFlat}" d:Text="3" />
 			</TextBlock>
 			<TextBlock Text="Пожалуйста, не опаздывайте!" FontSize="12" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 		</StackPanel>

@@ -8,15 +8,15 @@
 	<Viewbox Name="viewBox">
 		<StackPanel Margin="25, 10">
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0, 0, 0, 5">
-				<Run Text="{Binding Dispanserization.PatientCode}" FontWeight="Bold" />
+				<Run Text="{Binding Dispanserization.PatientCode}" d:Text="32000000" FontWeight="Bold" />
 				<LineBreak />
-				<Run Text="{Binding Dispanserization.PatientName}" FontWeight="Bold" />
+				<Run Text="{Binding Dispanserization.PatientName}" d:Text="Иванов И.И." FontWeight="Bold" />
 				<LineBreak />
 				<Run Text="Список врачей-специалистов" />
 				<LineBreak />
 				<Run Text="уточняйте в регистратуре" />
 				<LineBreak />
-				<Run Text="{Binding Dispanserization.BeginDate, StringFormat={}{0:Начиная с dd.MM.yyyy\,}}" FontSize="12" />
+				<Run Text="{Binding Dispanserization.BeginDate, StringFormat={}{0:Начиная с dd.MM.yyyy\,}}" d:Text="Начиная с 01.01.2022" FontSize="12" />
 				<LineBreak />
 				<Run Text="Вам необходимо посетить: " />
 			</TextBlock>
@@ -86,7 +86,7 @@
 			<TextBlock x:Name="now" FontSize="12" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0, 0, 0, 5">
 				<Run Text="Пожалуйста, не опаздывайте!" />
 				<LineBreak />
-				<Run Text="{Binding Now, StringFormat={}{0:марш. лист напечатан dd.MM.yyyy в H:mm}}" FontSize="10" />
+				<Run Text="{Binding Now, StringFormat={}{0:марш. лист напечатан dd.MM.yyyy в H:mm}}" d:Text="марш.лист напечатан 01.01.2022 в 9:00" FontSize="10" />
 			</TextBlock>
 			<TextBlock FontSize="8" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">
 				<Run Text="&gt; Анализ крови сдаётся натощак. Разрешается" />
