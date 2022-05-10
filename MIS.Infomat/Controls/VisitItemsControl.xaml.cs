@@ -84,7 +84,7 @@ namespace MIS.Infomat.Controls
 				try
 				{
 					_printService.Print(
-						new VisitPrintForm(visitItem)
+						new VisitItemPrintForm(visitItem)
 					);
 				}
 				catch (Exception ex)

@@ -118,7 +118,7 @@ namespace MIS.Infomat.Controls
 					_patient.VisitItems.Add(visitItem);
 
 					_printService.Print(
-						new VisitPrintForm(visitItem)
+						new VisitItemPrintForm(visitItem)
 					);
 				}
 				catch (Exception ex)

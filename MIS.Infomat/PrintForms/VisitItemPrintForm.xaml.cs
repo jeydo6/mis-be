@@ -24,16 +24,16 @@ using System.Windows.Controls;
 namespace MIS.Infomat.PrintForms
 {
 	/// <summary>
-	/// Логика взаимодействия для VisitPrintForm.xaml
+	/// Логика взаимодействия для VisitItemPrintForm.xaml
 	/// </summary>
-	public partial class VisitPrintForm : UserControl
+	public partial class VisitItemPrintForm : UserControl
 	{
-		internal VisitPrintForm()
+		internal VisitItemPrintForm()
 		{
 			throw new ArgumentNullException($"Print model can't be empty!");
 		}
 
-		internal VisitPrintForm(VisitItemViewModel visitItem)
+		internal VisitItemPrintForm(VisitItemViewModel visitItem)
 		{
 			var app = System.Windows.Application.Current as App;
 			var settingsConfigOptions = app.ServiceProvider.GetService<IOptionsSnapshot<SettingsConfig>>();
