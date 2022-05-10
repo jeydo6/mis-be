@@ -58,13 +58,14 @@ BEGIN
 		[dbo].[Resources] AS r ON r.[ID] = t.[ResourceID] INNER JOIN
 		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID] INNER JOIN
-		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] INNER JOIN
-		[dbo].[ResourceTypes] AS rt ON rt.[ID] = r.[TypeID] LEFT JOIN
+		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] LEFT JOIN
 		[dbo].[VisitItems] AS v ON v.[TimeItemID] = t.[ID]
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@resourceID = 0 OR r.[ID] = @resourceID)
 		AND r.[IsActive] = 1
+		AND r.[TypeID] = 1
+
 END
 GO

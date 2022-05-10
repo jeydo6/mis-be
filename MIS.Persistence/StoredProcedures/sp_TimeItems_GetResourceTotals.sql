@@ -46,6 +46,7 @@ BEGIN
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@specialtyID = 0 OR s.[ID] = @specialtyID)
 		AND r.[IsActive] = 1
+		AND r.[TypeID] = 1
 	GROUP BY
 		 t.[ResourceID]
 		,t.[Date]

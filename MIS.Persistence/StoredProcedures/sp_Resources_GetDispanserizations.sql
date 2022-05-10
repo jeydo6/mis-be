@@ -46,11 +46,10 @@ BEGIN
 		[dbo].[Resources] AS r INNER JOIN
 		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID] INNER JOIN
-		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] INNER JOIN
-		[dbo].[ResourceTypes] AS rt ON rt.[ID] = r.[TypeID]
+		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID]
 	WHERE
 		r.[IsActive] = 1
+		AND r.[TypeID] = 2
 		AND s.[Name] = N'Диспансеризация'
-		AND rt.[Name] = N'Исследование'
 END
 GO

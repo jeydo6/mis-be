@@ -42,12 +42,11 @@ BEGIN
 		[dbo].[TimeItems] AS t ON t.[ID] = v.[TimeItemID] INNER JOIN
 		[dbo].[Resources] AS r ON r.[ID] = t.[ResourceID] INNER JOIN
 		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID] INNER JOIN
-		[dbo].[ResourceTypes] AS rt ON rt.[ID] = r.[TypeID] INNER JOIN
 		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID]
 	WHERE
 		d.[PatientID] = @patientID
-		AND rt.[Name] = N'Исследование'
+		AND r.[TypeID] = 2
 		AND s.[Name] = N'Диспансеризация'
 END
 GO
