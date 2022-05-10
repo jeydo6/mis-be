@@ -15,6 +15,6 @@
 
 		<controls:HeaderControl Grid.Row="0" />
 		<controls:SliderControl Grid.Row="1" />
-		<TextBlock Grid.Row="2" Text="&#x00A9; 2021 Дерягин В." Foreground="#24000000" FontSize="30" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+		<TextBlock Grid.Row="2" Text="&#x00A9; 2018-2022 Дерягин В." Foreground="#24000000" FontSize="30" FontFamily="Georgia" Margin="25, 10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
 	</Grid>
 </UserControl>
