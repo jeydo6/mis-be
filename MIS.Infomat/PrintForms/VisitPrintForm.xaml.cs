@@ -14,6 +14,9 @@
  */
 #endregion
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MIS.Application.Configs;
 using MIS.Application.ViewModels;
 using System;
 using System.Windows.Controls;
@@ -32,9 +35,17 @@ namespace MIS.Infomat.PrintForms
 
 		internal VisitPrintForm(VisitItemViewModel visitItem)
 		{
+			var app = System.Windows.Application.Current as App;
+			var settingsConfigOptions = app.ServiceProvider.GetService<IOptionsSnapshot<SettingsConfig>>();
+			var settingsConfig = settingsConfigOptions.Value;
+
 			InitializeComponent();
 
-			DataContext = visitItem;
+			DataContext = new VisitItemPrintFormViewModel
+			{
+				OrganizationName = settingsConfig.OrganizationName,
+				VisitItem = visitItem
+			};
 		}
 	}
 }

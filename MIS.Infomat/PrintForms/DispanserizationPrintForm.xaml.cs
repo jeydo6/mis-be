@@ -37,14 +37,14 @@ namespace MIS.Infomat.PrintForms
 			var app = System.Windows.Application.Current as App;
 
 			var dateTimeProvider = app.ServiceProvider.GetService<IDateTimeProvider>();
-			Now = dateTimeProvider.Now;
 
 			InitializeComponent();
 
-			now.DataContext = this;
-			viewBox.DataContext = dispanserization;
+			DataContext = new DispanserizationPrintFormViewModel
+			{
+				Now = dateTimeProvider.Now,
+				Dispanserization = dispanserization
+			};
 		}
-
-		public DateTime Now { get; set; }
 	}
 }

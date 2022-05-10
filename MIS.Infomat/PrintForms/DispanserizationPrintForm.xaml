@@ -8,15 +8,15 @@
 	<Viewbox Name="viewBox">
 		<StackPanel Margin="25, 10">
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0, 0, 0, 5">
-				<Run Text="{Binding PatientCode}" FontWeight="Bold" />
+				<Run Text="{Binding Dispanserization.PatientCode}" FontWeight="Bold" />
 				<LineBreak />
-				<Run Text="{Binding PatientName}" FontWeight="Bold" />
+				<Run Text="{Binding Dispanserization.PatientName}" FontWeight="Bold" />
 				<LineBreak />
 				<Run Text="Список врачей-специалистов" />
 				<LineBreak />
 				<Run Text="уточняйте в регистратуре" />
 				<LineBreak />
-				<Run Text="{Binding BeginDate, StringFormat={}{0:Начиная с dd.MM.yyyy\,}}" FontSize="12" />
+				<Run Text="{Binding Dispanserization.BeginDate, StringFormat={}{0:Начиная с dd.MM.yyyy\,}}" FontSize="12" />
 				<LineBreak />
 				<Run Text="Вам необходимо посетить: " />
 			</TextBlock>
@@ -64,7 +64,7 @@
 				<CheckBox Grid.Row="5" Grid.Column="2" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DefaultCheckBox}" />
 				<TextBlock Grid.Row="5" Grid.Column="3" Text="Терапевт" FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" />
 			</Grid>
-			<ItemsControl Name="testsList" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Margin="0, 0, 0, 5" ItemsSource="{Binding Researches}">
+			<ItemsControl Name="testsList" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Margin="0, 0, 0, 5" ItemsSource="{Binding Dispanserization.Researches}">
 				<ItemsControl.Template>
 					<ControlTemplate>
 						<ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True">
