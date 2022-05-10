@@ -28,7 +28,7 @@ AS
 BEGIN
 	SELECT
 		 r.[DocPRVDID] AS [ID]
-		,'' AS [Name]
+		,ro.[NAME] AS [Name]
 		,r.[rf_LPUDoctorID] AS [EmployeeID]
 		,d.[LPUDoctorID] AS [ID]
 		,d.[PCOD] AS [Code]
@@ -43,12 +43,17 @@ BEGIN
 		,room.[Flat] AS [Flat]
 	FROM
 		[dbo].[hlt_DocPRVD] AS r INNER JOIN
+		[dbo].[oms_PRVD] AS ro ON ro.[PRVDID] = r.[rf_PRVDID] INNER JOIN
 		[dbo].[hlt_LPUDoctor] AS d ON r.[rf_LPUDoctorID] = d.[LPUDoctorID] INNER JOIN
 		[dbo].[oms_PRVS] AS s ON r.[rf_PRVSID] = s.[PRVSID] INNER JOIN
 		[dbo].[hlt_HealingRoom] AS room ON r.[rf_HealingRoomID] = room.[HealingRoomID] INNER JOIN
 		[dbo].[dd_DDService] AS ds ON r.[rf_HealingRoomID] = ds.[rf_HealingRoomID]
 	WHERE
 		r.[InTime] = 1
+		AND r.[rf_LPUDoctorID] > 0
+		AND r.[rf_PRVSID] > 0
+		AND r.[rf_HealingRoomID] > 0
+		AND r.[rf_PRVDID] > 0
 		AND ds.[rf_HealingRoomID] > 0
 		AND ds.[IsParaclinic] = 1
 		AND ds.[rf_ServiceTypeID] = 2

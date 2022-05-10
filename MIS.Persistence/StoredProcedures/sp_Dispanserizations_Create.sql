@@ -540,6 +540,10 @@ BEGIN
 					AND t.[FlagAccess] BETWEEN 4 AND 7
 					AND v.[DoctorVisitTableID] IS NULL
 					AND dr.[InTime] = 1
+					AND dr.[rf_LPUDoctorID] > 0
+					AND dr.[rf_PRVSID] > 0
+					AND dr.[rf_HealingRoomID] > 0
+					AND dr.[rf_PRVDID] > 0
 					AND ds.[rf_HealingRoomID] > 0
 					AND ds.[IsParaclinic] = 1
 					AND ds.[rf_ServiceTypeID] = 2

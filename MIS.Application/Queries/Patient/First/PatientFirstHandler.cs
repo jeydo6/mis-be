@@ -84,6 +84,7 @@ namespace MIS.Application.Queries
 					BeginDateTime = vi.TimeItem.BeginDateTime,
 					PatientCode = patient.Code,
 					PatientName = patient.Name,
+					ResourceName = vi.TimeItem.Resource.Name,
 					EmployeeName = vi.TimeItem.Resource.Employee.Name,
 					SpecialtyName = vi.TimeItem.Resource.Employee.Specialty.Name,
 					RoomCode = vi.TimeItem.Resource.Room.Code,

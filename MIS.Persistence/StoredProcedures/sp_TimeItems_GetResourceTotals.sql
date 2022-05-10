@@ -39,13 +39,17 @@ BEGIN
 	FROM
 		[dbo].[hlt_DoctorTimeTable] AS t LEFT OUTER JOIN
 		[dbo].[hlt_DoctorVisitTable] AS v ON t.[DoctorTimeTableID] = v.[rf_DoctorTimeTableID] INNER JOIN
-		[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID] AND r.[rf_PRVSID] > 0
+		[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID]
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
 		AND t.[Begin_Time] >= @beginDate
 		AND t.[FlagAccess] BETWEEN 4 AND 7
 		AND (@specialtyID = 0 OR r.[rf_PRVSID] = @specialtyID)
 		AND r.[InTime] = 1
+		AND r.[rf_LPUDoctorID] > 0
+		AND r.[rf_PRVSID] > 0
+		AND r.[rf_HealingRoomID] > 0
+		AND r.[rf_PRVDID] > 0
 	GROUP BY
 		 t.[rf_DocPRVDID]
 		,t.[Date]

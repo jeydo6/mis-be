@@ -41,7 +41,7 @@ BEGIN
 		,t.[End_Time] AS [EndDateTime]
 		,t.[rf_DocPRVDID] AS [ResourceID]
 		,r.[DocPRVDID] AS [ID]
-		,'' AS [Name]
+		,r.[NAME] AS [Name]
 		,r.[rf_LPUDoctorID] AS [EmployeeID]
 		,d.[LPUDoctorID] AS [ID]
 		,d.[PCOD] AS [Code]
@@ -58,6 +58,7 @@ BEGIN
 		[dbo].[hlt_DoctorTimeTable] AS t LEFT OUTER JOIN
 		[dbo].[hlt_DoctorVisitTable] AS v ON t.[DoctorTimeTableID] = v.[rf_DoctorTimeTableID] INNER JOIN
 		[dbo].[hlt_DocPRVD] AS r ON t.[rf_DocPRVDID] = r.[DocPRVDID] INNER JOIN
+		[dbo].[oms_PRVD] AS ro ON ro.[PRVDID] = r.[rf_PRVDID] INNER JOIN
 		[dbo].[hlt_LPUDoctor] AS d ON r.[rf_LPUDoctorID] = d.[LPUDoctorID] INNER JOIN
 		[dbo].[oms_PRVS] AS s ON r.[rf_PRVSID] = s.[PRVSID] INNER JOIN
 		[dbo].[hlt_HealingRoom] AS room ON r.[rf_HealingRoomID] = room.[HealingRoomID]
@@ -67,9 +68,9 @@ BEGIN
 		AND t.[FlagAccess] BETWEEN 4 AND 7
 		AND (@patientID = 0 OR v.[rf_MKABID] = @patientID)
 		AND r.[InTime] = 1
-		AND r.[rf_PRVSID] > 0
 		AND r.[rf_LPUDoctorID] > 0
 		AND r.[rf_PRVSID] > 0
 		AND r.[rf_HealingRoomID] > 0
+		AND r.[rf_PRVDID] > 0
 END
 GO

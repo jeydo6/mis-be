@@ -72,6 +72,7 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 1,
+					Name = "Врач-терапевт",
 					EmployeeID = 1,
 					Employee = new Employee
 					{
@@ -97,6 +98,7 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 2,
+					Name = "Врач-терапевт",
 					EmployeeID = 2,
 					Employee = new Employee
 					{
@@ -122,6 +124,7 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 3,
+					Name = "Врач-хирург",
 					EmployeeID = 3,
 					Employee = new Employee
 					{
@@ -147,6 +150,7 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 4,
+					Name = "Врач диспансерного отделения",
 					EmployeeID = 4,
 					Employee = new Employee
 					{
@@ -172,6 +176,7 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 5,
+					Name = "Не определено",
 					EmployeeID = 5,
 					Employee = new Employee
 					{
@@ -197,6 +202,7 @@ namespace MIS.Demo.DataContexts
 				new Resource
 				{
 					ID = 6,
+					Name = "Не определено",
 					EmployeeID = 6,
 					Employee = new Employee
 					{

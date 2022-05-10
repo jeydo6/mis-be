@@ -43,6 +43,10 @@ BEGIN
 		AND t.[Begin_Time] >= @beginDate
 		AND t.[FlagAccess] BETWEEN 4 AND 7
 		AND r.[InTime] = 1
+		AND r.[rf_LPUDoctorID] > 0
+		AND r.[rf_PRVSID] > 0
+		AND r.[rf_HealingRoomID] > 0
+		AND r.[rf_PRVDID] > 0
 		AND ds.[rf_HealingRoomID] > 0
 		AND ds.[IsParaclinic] = 1
 		AND ds.[rf_ServiceTypeID] = 2

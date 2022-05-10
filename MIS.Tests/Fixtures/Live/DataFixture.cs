@@ -47,6 +47,7 @@ namespace MIS.Tests.Fixtures.Live
 			Int32 resourceID = CreateResource(new Resource
 			{
 				EmployeeID = -1,
+				Name = "Врач-терапевт",
 				Employee = new Employee
 				{
 					Code = "1001",
