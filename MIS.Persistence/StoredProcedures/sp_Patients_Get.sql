@@ -31,7 +31,7 @@ BEGIN
 	SELECT TOP (1)
 		 p.[ID]
 		,p.[Code]
-		,[dbo].[f_Patients_GetName](p.[FirstName], p.[MiddleName], p.[LastName]) AS [Name]
+		,[dbo].[f_Persons_GetName](p.[FirstName], p.[MiddleName], p.[LastName]) AS [Name]
 		,p.[BirthDate]
 		,p.[GenderID]
 		,1 AS [DispanserizationIsEnabled]

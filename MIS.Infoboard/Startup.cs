@@ -102,7 +102,7 @@ namespace MIS.Infoboard
 			configureOptions?.Invoke(liveOptions);
 
 			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2018, 12, 18)));
+				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2022, 5, 10)));
 
 			services
 				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))

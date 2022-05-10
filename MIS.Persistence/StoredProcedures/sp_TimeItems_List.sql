@@ -42,7 +42,7 @@ BEGIN
 		,r.[RoomID]
 		,e.[ID]
 		,e.[Code]
-		,[dbo].[f_Resources_GetName](e.[FirstName], e.[MiddleName], e.[LastName]) AS [Name]
+		,[dbo].[f_Persons_GetName](e.[FirstName], e.[MiddleName], e.[LastName]) AS [Name]
 		,e.[SpecialtyID]
 		,s.[ID]
 		,s.[Code]

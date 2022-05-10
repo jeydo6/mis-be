@@ -20,11 +20,11 @@
 USE [MIS]
 GO
 
-IF OBJECT_ID('[dbo].[f_Resources_GetName]', 'FN') IS NOT NULL
-	DROP FUNCTION [dbo].[f_Resources_GetName]
+IF OBJECT_ID('[dbo].[f_Persons_GetName]', 'FN') IS NOT NULL
+	DROP FUNCTION [dbo].[f_Persons_GetName]
 GO
 
-CREATE FUNCTION [dbo].[f_Resources_GetName]
+CREATE FUNCTION [dbo].[f_Persons_GetName]
 (
 	 @firstName NVARCHAR(64) = ''
 	,@middleName NVARCHAR(64) = ''
