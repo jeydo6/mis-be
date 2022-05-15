@@ -92,7 +92,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 1,
 						Code = "100",
-						Flat = 1
+						Floor = 1
 					}
 				},
 				new Resource
@@ -118,7 +118,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 2,
 						Code = "200",
-						Flat = 2
+						Floor = 2
 					}
 				},
 				new Resource
@@ -144,7 +144,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 3,
 						Code = "300",
-						Flat = 3
+						Floor = 3
 					}
 				},
 				new Resource
@@ -170,7 +170,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 4,
 						Code = "400",
-						Flat = 4
+						Floor = 4
 					}
 				},
 				new Resource
@@ -196,7 +196,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 500,
 						Code = "500",
-						Flat = 5
+						Floor = 5
 					}
 				},
 				new Resource
@@ -222,7 +222,7 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 6,
 						Code = "600",
-						Flat = 6
+						Floor = 6
 					}
 				}
 			};

@@ -34,7 +34,7 @@ namespace MIS.Application.ViewModels
 
 		public String RoomCode { get; set; }
 
-		public Int32 RoomFlat { get; set; }
+		public Int32 RoomFloor { get; set; }
 
 		public Boolean IsEnabled { get; set; }
 

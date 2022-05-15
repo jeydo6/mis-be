@@ -63,7 +63,7 @@ namespace MIS.Tests.Fixtures.Live
 				Room = new Room
 				{
 					Code = "1001",
-					Flat = 1
+					Floor = 1
 				}
 			});
 
@@ -150,7 +150,7 @@ namespace MIS.Tests.Fixtures.Live
 			//		specialtyName = item.Employee.Specialty.Name,
 			//		roomID = item.RoomID,
 			//		roomCode = item.Room.Code,
-			//		roomFlat = item.Room.Flat,
+			//		roomFloor = item.Room.Floor,
 			//	},
 			//	commandType: CommandType.StoredProcedure,
 			//	transaction: Transaction

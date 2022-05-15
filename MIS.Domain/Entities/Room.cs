@@ -22,6 +22,6 @@ namespace MIS.Domain.Entities
 
 		public string Code { get; set; }
 
-		public int Flat { get; set; }
+		public int Floor { get; set; }
 	}
 }

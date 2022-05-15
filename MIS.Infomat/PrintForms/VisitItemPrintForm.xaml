@@ -28,7 +28,7 @@
 				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomCode}" d:Text="301" />
 				<LineBreak />
 				<Run Text="Этаж: " />
-				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomFlat}" d:Text="3" />
+				<Run FontWeight="Bold" Text="{Binding VisitItem.RoomFloor}" d:Text="3" />
 			</TextBlock>
 			<TextBlock Text="Пожалуйста, не опаздывайте!" FontSize="12" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 		</StackPanel>

@@ -52,7 +52,7 @@ BEGIN
 		,s.[Name]
 		,rm.[ID]
 		,rm.[Code]
-		,rm.[Flat]
+		,rm.[Floor]
 	FROM
 		[dbo].[VisitItems] AS v INNER JOIN
 		[dbo].[TimeItems] AS t ON t.[ID] = v.[TimeItemID] INNER JOIN

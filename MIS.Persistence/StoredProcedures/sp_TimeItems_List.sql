@@ -49,7 +49,7 @@ BEGIN
 		,s.[Name]
 		,rm.[ID]
 		,rm.[Code]
-		,rm.[Flat]
+		,rm.[Floor]
 		,v.[ID]
 		,v.[PatientID]
 		,v.[TimeItemID]

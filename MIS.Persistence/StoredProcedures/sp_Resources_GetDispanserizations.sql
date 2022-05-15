@@ -28,20 +28,20 @@ CREATE PROCEDURE [dbo].[sp_Resources_GetDispanserizations]
 AS
 BEGIN
 	SELECT
-		 r.[ID] AS [ID]
-		,r.[Name] AS [Name]
-		,r.[EmployeeID] AS [EmployeeID]
-		,r.[RoomID] AS [RoomID]
-		,e.[ID] AS [ID]
-		,e.[Code] AS [Code]
+		 r.[ID]
+		,r.[Name]
+		,r.[EmployeeID]
+		,r.[RoomID]
+		,e.[ID]
+		,e.[Code]
 		,[dbo].[f_Persons_GetName](e.[FirstName], e.[MiddleName], e.[LastName]) AS [Name]
-		,e.[SpecialtyID] AS [SpecialtyID]
-		,s.[ID] AS [ID]
-		,s.[Code] AS [Code]
-		,s.[Name] AS [Name]
-		,rm.[ID] AS [ID]
-		,rm.[Code] AS [Code]
-		,rm.[Flat] AS [Flat]
+		,e.[SpecialtyID]
+		,s.[ID]
+		,s.[Code]
+		,s.[Name]
+		,rm.[ID]
+		,rm.[Code]
+		,rm.[Floor]
 	FROM
 		[dbo].[Resources] AS r INNER JOIN
 		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN

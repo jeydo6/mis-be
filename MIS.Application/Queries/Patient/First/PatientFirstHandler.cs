@@ -87,7 +87,7 @@ namespace MIS.Application.Queries
 					EmployeeName = vi.TimeItem.Resource.Employee.Name,
 					SpecialtyName = vi.TimeItem.Resource.Employee.Specialty.Name,
 					RoomCode = vi.TimeItem.Resource.Room.Code,
-					RoomFlat = vi.TimeItem.Resource.Room.Flat,
+					RoomFloor = vi.TimeItem.Resource.Room.Floor,
 					IsEnabled = true,
 					ResourceID = vi.TimeItem.ResourceID
 				}).ToList()

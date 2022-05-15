@@ -55,7 +55,7 @@ namespace MIS.Application.Commands
 				EmployeeName = visitItem.TimeItem.Resource.Employee.Name,
 				SpecialtyName = visitItem.TimeItem.Resource.Employee.Specialty.Name,
 				RoomCode = visitItem.TimeItem.Resource.Room.Code,
-				RoomFlat = visitItem.TimeItem.Resource.Room.Flat,
+				RoomFloor = visitItem.TimeItem.Resource.Room.Floor,
 				IsEnabled = true,
 				ResourceID = visitItem.TimeItem.ResourceID
 			};
