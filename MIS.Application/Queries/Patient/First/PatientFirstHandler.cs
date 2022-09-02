@@ -68,7 +68,6 @@ namespace MIS.Application.Queries
 				Code = patient.Code,
 				Name = patient.Name,
 				BirthDate = patient.BirthDate,
-				DispanserizationIsEnabled = patient.DispanserizationIsEnabled,
 				Dispanserizations = patient.Dispanserizations.Select(d => new DispanserizationViewModel
 				{
 					BeginDate = d.BeginDate,

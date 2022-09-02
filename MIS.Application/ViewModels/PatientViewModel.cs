@@ -35,8 +35,6 @@ namespace MIS.Application.ViewModels
 
 		public DateTime BirthDate { get; set; }
 
-		public Boolean DispanserizationIsEnabled { get; set; }
-
 		public List<VisitItemViewModel> VisitItems { get; set; }
 
 		public List<DispanserizationViewModel> Dispanserizations { get; set; }
