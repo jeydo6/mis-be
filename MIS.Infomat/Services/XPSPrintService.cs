@@ -25,6 +25,8 @@ namespace MIS.Infomat.Services
 {
 	internal class XPSPrintService : IPrintService
 	{
+		private const double HeightCoefficient = 1.1d;
+
 		public void Print(Object obj)
 		{
 			if (obj is UserControl userControl)
@@ -49,8 +51,9 @@ namespace MIS.Infomat.Services
 					var page = new FixedPage
 					{
 						Width = document.DocumentPaginator.PageSize.Width,
-						Height = document.DocumentPaginator.PageSize.Height,
-						HorizontalAlignment = HorizontalAlignment.Center
+						Height = document.DocumentPaginator.PageSize.Height * HeightCoefficient,
+						HorizontalAlignment = HorizontalAlignment.Center,
+						VerticalAlignment = VerticalAlignment.Center
 					};
 
 					page.Children.Add(userControl);
