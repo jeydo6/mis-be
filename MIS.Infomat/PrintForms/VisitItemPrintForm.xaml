@@ -7,7 +7,7 @@
 			 mc:Ignorable="d" 
 			 d:DesignHeight="480" d:DesignWidth="360">
 	<Viewbox>
-		<StackPanel Margin="25, 10">
+		<StackPanel Margin="25, 25">
 			<TextBlock Text="{Binding OrganizationName}" d:Text="Поликлиника" FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock Text="Запись на приём" FontSize="14" FontFamily="Georgia" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center">

@@ -6,7 +6,7 @@
 			 mc:Ignorable="d" 
 			 d:DesignHeight="480" d:DesignWidth="360">
 	<Viewbox Name="viewBox">
-		<StackPanel Margin="25, 10">
+		<StackPanel Margin="25, 25">
 			<TextBlock FontSize="14" FontFamily="Georgia" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0, 0, 0, 5">
 				<Run Text="{Binding Dispanserization.PatientCode}" d:Text="32000000" FontWeight="Bold" />
 				<LineBreak />
