@@ -12,7 +12,6 @@ namespace MIS.Application.Extensions
 				.Send(request, cancellationToken)
 				.ConfigureAwait(false)
 			);
-			task.Wait(cancellationToken);
 			return task.Result;
 		}
 
@@ -22,7 +21,6 @@ namespace MIS.Application.Extensions
 				.Send(request, cancellationToken)
 				.ConfigureAwait(false)
 			);
-			task.Wait(cancellationToken);
 		}
 	}
 }
