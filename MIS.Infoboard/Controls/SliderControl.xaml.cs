@@ -14,14 +14,13 @@
  */
 #endregion
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
 using MIS.Application.Queries;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace MIS.Infoboard.Controls
 {
@@ -34,7 +33,7 @@ namespace MIS.Infoboard.Controls
 
 		private readonly Action[] _actions;
 
-		private Int32 _index;
+		private int _index;
 
 		public SliderControl()
 		{
@@ -52,17 +51,17 @@ namespace MIS.Infoboard.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			MoveNext(sender, e);
 		}
 
-		private void Pages_Done(Object sender, RoutedEventArgs e)
+		private void Pages_Done(object sender, RoutedEventArgs e)
 		{
 			MoveNext(sender, e);
 		}
 
-		private void MoveNext(Object sender, EventArgs e)
+		private void MoveNext(object sender, EventArgs e)
 		{
 			if (_actions == null || _actions.Length == 0)
 			{

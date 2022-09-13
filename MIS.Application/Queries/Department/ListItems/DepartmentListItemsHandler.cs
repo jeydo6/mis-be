@@ -14,14 +14,14 @@
  */
 #endregion
 
-using MediatR;
-using Microsoft.Extensions.Options;
-using MIS.Application.Configs;
-using MIS.Application.ViewModels;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.Extensions.Options;
+using MIS.Application.Configs;
+using MIS.Application.ViewModels;
 
 namespace MIS.Application.Queries
 {

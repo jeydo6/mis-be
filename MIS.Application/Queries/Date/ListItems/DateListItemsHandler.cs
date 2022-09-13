@@ -14,13 +14,12 @@
  */
 #endregion
 
-using MediatR;
-using MIS.Application.ViewModels;
-using MIS.Domain.Providers;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using MIS.Application.ViewModels;
+using MIS.Domain.Providers;
 
 namespace MIS.Application.Queries
 {
@@ -38,7 +37,7 @@ namespace MIS.Application.Queries
 		public async Task<DateItemViewModel[]> Handle(DateListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
-			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
+			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (int)beginDate.DayOfWeek;
 
 			var result = Enumerable
 				.Range(1 - beginDayOfWeek, 35)

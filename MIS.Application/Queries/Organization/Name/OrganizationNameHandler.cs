@@ -14,16 +14,15 @@
  */
 #endregion
 
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
-	public class OrganizationNameHandler : IRequestHandler<OrganizationNameQuery, String>
+	public class OrganizationNameHandler : IRequestHandler<OrganizationNameQuery, string>
 	{
 		private readonly SettingsConfig _settingsConfig;
 
@@ -34,14 +33,14 @@ namespace MIS.Application.Queries
 			_settingsConfig = settingsConfigOptions.Value;
 		}
 
-		public async Task<String> Handle(OrganizationNameQuery request, CancellationToken cancellationToken)
+		public async Task<string> Handle(OrganizationNameQuery request, CancellationToken cancellationToken)
 		{
 			if (_settingsConfig != null)
 			{
 				return await Task.FromResult(_settingsConfig.OrganizationName);
 			}
 
-			return await Task.FromResult<String>(null);
+			return await Task.FromResult<string>(null);
 		}
 	}
 }

@@ -14,14 +14,14 @@
  */
 #endregion
 
-using Dapper;
-using Microsoft.Data.SqlClient;
-using MIS.Domain.Entities;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using MIS.Domain.Entities;
+using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
@@ -30,7 +30,7 @@ namespace MIS.Persistence.Repositories
 		private readonly IDbConnection _db;
 		private readonly IDbTransaction _transaction;
 
-		public ResourcesRepository(String connectionString)
+		public ResourcesRepository(string connectionString)
 		{
 			_db = new SqlConnection(connectionString);
 			_transaction = null;

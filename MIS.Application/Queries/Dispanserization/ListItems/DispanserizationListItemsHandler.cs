@@ -14,14 +14,13 @@
  */
 #endregion
 
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MIS.Application.Queries
 {
@@ -47,7 +46,7 @@ namespace MIS.Application.Queries
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
 			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
-			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
+			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (int)beginDate.DayOfWeek;
 
 			var result = Enumerable
 				.Range(1 - beginDayOfWeek, 35)

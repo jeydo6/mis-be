@@ -14,16 +14,15 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
-using System;
 using System.Windows;
 using System.Windows.Controls;
+using MIS.Application.ViewModels;
 
 namespace MIS.Infoboard.TemplateSelectors
 {
 	internal class PageContentTemplateSelector : DataTemplateSelector
 	{
-		public override DataTemplate SelectTemplate(Object item, DependencyObject container)
+		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			var app = System.Windows.Application.Current;
 

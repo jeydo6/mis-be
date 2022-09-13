@@ -14,15 +14,14 @@
  */
 #endregion
 
-using MediatR;
-using MIS.Domain.Providers;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using MIS.Domain.Providers;
 
 namespace MIS.Application.Queries
 {
-	public class DateHeaderHandler : IRequestHandler<DateHeaderQuery, String>
+	public class DateHeaderHandler : IRequestHandler<DateHeaderQuery, string>
 	{
 		private readonly IDateTimeProvider _dateTimeProvider;
 
@@ -34,10 +33,10 @@ namespace MIS.Application.Queries
 		}
 
 
-		public async Task<String> Handle(DateHeaderQuery request, CancellationToken cancellationToken)
+		public async Task<string> Handle(DateHeaderQuery request, CancellationToken cancellationToken)
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
-			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (Int32)beginDate.DayOfWeek;
+			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (int)beginDate.DayOfWeek;
 
 			var endDate = beginDate.AddDays(1 - beginDayOfWeek + 35);
 

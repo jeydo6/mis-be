@@ -14,12 +14,12 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MIS.Application.ViewModels;
 
 namespace MIS.Infoboard.Controls
 {
@@ -33,13 +33,13 @@ namespace MIS.Infoboard.Controls
 		private readonly DispatcherTimer _timer;
 
 		private PageViewModel[] _items;
-		private Int32 _index;
+		private int _index;
 
 		public PagesControl()
 		{
 			_timer = new DispatcherTimer
 			{
-				Interval = TimeSpan.FromTicks(Int32.MaxValue)
+				Interval = TimeSpan.FromTicks(int.MaxValue)
 			};
 			_timer.Tick += MoveNext;
 			_timer.Start();
@@ -73,7 +73,7 @@ namespace MIS.Infoboard.Controls
 			}
 		}
 
-		private void UserControl_MouseUp(Object sender, MouseButtonEventArgs e)
+		private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			if (e.ChangedButton == MouseButton.Left)
 			{
@@ -81,7 +81,7 @@ namespace MIS.Infoboard.Controls
 			}
 		}
 
-		private void MoveNext(Object sender, EventArgs e)
+		private void MoveNext(object sender, EventArgs e)
 		{
 			if (_items == null || _items.Length == 0)
 			{

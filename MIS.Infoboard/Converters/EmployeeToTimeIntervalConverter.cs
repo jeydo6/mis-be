@@ -14,17 +14,17 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using MIS.Application.ViewModels;
 
 namespace MIS.Infoboard.Converters
 {
 	internal class EmployeeToTimeIntervalConverter : IValueConverter
 	{
-		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is not EmployeeViewModel employee || employee == null)
 			{
@@ -32,7 +32,7 @@ namespace MIS.Infoboard.Converters
 			}
 
 			var result = $"{employee.BeginTime:H:mm} - {employee.EndTime:H:mm}";
-			if (String.IsNullOrEmpty(result))
+			if (string.IsNullOrEmpty(result))
 			{
 				return "нет приёма";
 			}
@@ -40,7 +40,7 @@ namespace MIS.Infoboard.Converters
 			return result;
 		}
 
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return DependencyProperty.UnsetValue;
 		}

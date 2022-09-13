@@ -14,17 +14,17 @@
  */
 #endregion
 
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
-using MIS.Application.Queries;
-using MIS.Infomat.Controls;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Extensions;
+using MIS.Application.Queries;
+using MIS.Infomat.Controls;
 
 namespace MIS.Infomat.Windows
 {
@@ -39,7 +39,7 @@ namespace MIS.Infomat.Windows
 
 		private readonly Stack<UserControl> _path;
 
-		private Boolean _serviceMode = false;
+		private bool _serviceMode = false;
 
 		public MainWindow()
 		{
@@ -60,7 +60,7 @@ namespace MIS.Infomat.Windows
 			TimerTick(this, null);
 		}
 
-		public Boolean IsServiceTime { get; private set; }
+		public bool IsServiceTime { get; private set; }
 
 		public void ResetTimer()
 		{
@@ -106,7 +106,7 @@ namespace MIS.Infomat.Windows
 			NextWorkflow(userControl ?? new MainControl(), isRemember: false);
 		}
 
-		public void NextWorkflow(UserControl userControl, Boolean isRemember = true)
+		public void NextWorkflow(UserControl userControl, bool isRemember = true)
 		{
 			if (userControl != null)
 			{
@@ -129,7 +129,7 @@ namespace MIS.Infomat.Windows
 			NextWorkflow(new MainControl(), isRemember: false);
 		}
 
-		private void TimerTick(Object sender, EventArgs e)
+		private void TimerTick(object sender, EventArgs e)
 		{
 			IsServiceTime = _mediator.SendSync(
 				new TimeIsServiceQuery()
@@ -138,7 +138,7 @@ namespace MIS.Infomat.Windows
 			MainWorkflow();
 		}
 
-		private void Window_KeyUp(Object sender, KeyEventArgs e)
+		private void Window_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.F11)
 			{
@@ -162,7 +162,7 @@ namespace MIS.Infomat.Windows
 			}
 		}
 
-		private void Window_MouseUp(Object sender, MouseButtonEventArgs e)
+		private void Window_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			ResetTimer();
 		}

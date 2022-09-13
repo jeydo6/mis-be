@@ -14,19 +14,18 @@
  */
 #endregion
 
-using System;
 
 namespace MIS.Application.ViewModels
 {
 	public class SpecialtyViewModel
 	{
-		public String SpecialtyName { get; set; }
+		public string SpecialtyName { get; set; }
 
-		public Int32 Count { get; set; }
+		public int Count { get; set; }
 
-		public Boolean IsEnabled { get; set; }
+		public bool IsEnabled { get; set; }
 
-		public Int32 SpecialtyID { get; set; }
+		public int SpecialtyID { get; set; }
 
 		public ResourceViewModel[] Resources { get; set; }
 	}

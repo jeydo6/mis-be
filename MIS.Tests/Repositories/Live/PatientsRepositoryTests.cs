@@ -1,10 +1,10 @@
-﻿using MIS.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 using MIS.Persistence.Repositories;
 using MIS.Tests.Fixtures.Live;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MIS.Tests.Repositories.Live

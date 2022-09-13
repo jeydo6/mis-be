@@ -14,15 +14,15 @@
  */
 #endregion
 
+using System;
 using MediatR;
 using MIS.Application.ViewModels;
-using System;
 
 namespace MIS.Application.Commands
 {
 	public class DispanserizationCreateCommand : IRequest<DispanserizationViewModel>
 	{
-		public DispanserizationCreateCommand(DateTime beginDate, Int32 patientID, String patientCode, String patientName)
+		public DispanserizationCreateCommand(DateTime beginDate, int patientID, string patientCode, string patientName)
 		{
 			BeginDate = beginDate;
 			PatientID = patientID;
@@ -32,10 +32,10 @@ namespace MIS.Application.Commands
 
 		public DateTime BeginDate { get; }
 
-		public Int32 PatientID { get; }
+		public int PatientID { get; }
 
-		public String PatientCode { get; }
+		public string PatientCode { get; }
 
-		public String PatientName { get; }
+		public string PatientName { get; }
 	}
 }

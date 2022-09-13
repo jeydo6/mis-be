@@ -22,22 +22,22 @@ namespace MIS.Application.ViewModels
 	{
 		public DateTime BeginDateTime { get; set; }
 
-		public String PatientCode { get; set; }
+		public string PatientCode { get; set; }
 
-		public String PatientName { get; set; }
+		public string PatientName { get; set; }
 
-		public String ResourceName { get; set; }
+		public string ResourceName { get; set; }
 
-		public String EmployeeName { get; set; }
+		public string EmployeeName { get; set; }
 
-		public String SpecialtyName { get; set; }
+		public string SpecialtyName { get; set; }
 
-		public String RoomCode { get; set; }
+		public string RoomCode { get; set; }
 
-		public Int32 RoomFloor { get; set; }
+		public int RoomFloor { get; set; }
 
-		public Boolean IsEnabled { get; set; }
+		public bool IsEnabled { get; set; }
 
-		public Int32 ResourceID { get; set; }
+		public int ResourceID { get; set; }
 	}
 }

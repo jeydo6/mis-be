@@ -14,6 +14,9 @@
  */
 #endregion
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Commands;
@@ -24,9 +27,6 @@ using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
 using Serilog;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace MIS.Infomat.Controls
 {
@@ -61,7 +61,7 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			datesHeader.Content = _mediator.SendSync(
 				new DateHeaderQuery()
@@ -72,7 +72,7 @@ namespace MIS.Infomat.Controls
 			);
 		}
 
-		private void DateListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void DateListItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserizationItem)
 			{
@@ -97,7 +97,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		private void PrevButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainWindow.PrevWorkflow();
 		}

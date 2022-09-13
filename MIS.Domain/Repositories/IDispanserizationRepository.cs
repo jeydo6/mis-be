@@ -14,19 +14,18 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IDispanserizationsRepository
 	{
-		Task<Int32> Create(Dispanserization dispanserization);
+		Task<int> Create(Dispanserization dispanserization);
 
-		Task<Dispanserization> Get(Int32 dispanserizationID);
+		Task<Dispanserization> Get(int dispanserizationID);
 
-		Task<List<Dispanserization>> ToList(Int32 patientID);
+		Task<List<Dispanserization>> ToList(int patientID);
 	}
 }

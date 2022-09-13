@@ -14,11 +14,11 @@
  */
 #endregion
 
+using System;
+using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
-using System;
-using System.Windows.Controls;
 
 namespace MIS.Infomat.PrintForms
 {

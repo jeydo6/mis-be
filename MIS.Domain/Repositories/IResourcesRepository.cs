@@ -14,9 +14,9 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {

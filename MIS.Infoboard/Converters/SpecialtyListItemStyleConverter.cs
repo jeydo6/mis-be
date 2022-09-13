@@ -14,25 +14,25 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using MIS.Application.ViewModels;
 
 namespace MIS.Infoboard.Converters
 {
 	internal class SpecialtyListItemStyleConverter : IValueConverter
 	{
-		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is not SpecialtyViewModel specialty)
 			{
 				return DependencyProperty.UnsetValue;
 			}
 
-			if (parameter is not String option || String.IsNullOrEmpty(option))
+			if (parameter is not string option || string.IsNullOrEmpty(option))
 			{
 				return DependencyProperty.UnsetValue;
 			}
@@ -41,7 +41,7 @@ namespace MIS.Infoboard.Converters
 			{
 				return DependencyProperty.UnsetValue;
 			}
-			var count = (Int32)specialty.Resources.Average(r => r.Count);
+			var count = (int)specialty.Resources.Average(r => r.Count);
 			var resourceKey = count switch
 			{
 				> 50 => "success",
@@ -56,7 +56,7 @@ namespace MIS.Infoboard.Converters
 			return result;
 		}
 
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return DependencyProperty.UnsetValue;
 		}

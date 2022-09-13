@@ -14,23 +14,23 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MIS.Application.ViewModels;
 
 namespace MIS.Application.Extensions
 {
 	public static class PagesExtension
 	{
-		public static PageViewModel[] GetPages(this Object[] items, Double maxHeight, Int32 itemHeight, Int32 headerHeight = 0)
+		public static PageViewModel[] GetPages(this object[] items, double maxHeight, int itemHeight, int headerHeight = 0)
 		{
 			if (headerHeight + itemHeight > maxHeight)
 			{
 				return Array.Empty<PageViewModel>();
 			}
 
-			var stack = new Stack<Object>(items.Reverse());
+			var stack = new Stack<object>(items.Reverse());
 			var pages = new List<PageViewModel>();
 
 			var page = new PageViewModel();
@@ -46,10 +46,10 @@ namespace MIS.Application.Extensions
 					pageHeight = 0;
 				}
 
-				var length = (Int32)(maxHeight - pageHeight - headerHeight) / itemHeight;
+				var length = (int)(maxHeight - pageHeight - headerHeight) / itemHeight;
 
 				var item = stack.Pop();
-				(Object current, Int32 currentLength, Object next) = item switch
+				(object current, int currentLength, object next) = item switch
 				{
 					SpecialtyViewModel source => Separate(source, length),
 					DepartmentViewModel source => Separate(source, length),
@@ -77,7 +77,7 @@ namespace MIS.Application.Extensions
 				.ToArray();
 		}
 
-		private static (Object current, Int32 currentLength, Object next) Separate(SpecialtyViewModel source, Int32 length)
+		private static (object current, int currentLength, object next) Separate(SpecialtyViewModel source, int length)
 		{
 			if (source.Resources.Length > length)
 			{
@@ -105,7 +105,7 @@ namespace MIS.Application.Extensions
 			return (source, source.Resources.Length, null);
 		}
 
-		private static (Object current, Int32 currentLength, Object next) Separate(DepartmentViewModel source, Int32 length)
+		private static (object current, int currentLength, object next) Separate(DepartmentViewModel source, int length)
 		{
 			if (source.Employees.Length > length)
 			{

@@ -14,10 +14,9 @@
  */
 #endregion
 
-using MIS.Infomat.Windows;
-using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MIS.Infomat.Windows;
 
 namespace MIS.Infomat.Controls
 {
@@ -37,7 +36,7 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_MouseUp(Object sender, MouseButtonEventArgs e)
+		private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			if (!_mainWindow.IsServiceTime)
 			{

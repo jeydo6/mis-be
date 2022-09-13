@@ -14,25 +14,24 @@
  */
 #endregion
 
-using System;
 
 namespace MIS.Application.ViewModels
 {
 	public class ResourceViewModel
 	{
-		public String EmployeeName { get; set; }
+		public string EmployeeName { get; set; }
 
-		public String RoomCode { get; set; }
+		public string RoomCode { get; set; }
 
-		public Int32 Count { get; set; }
+		public int Count { get; set; }
 
-		public Boolean IsEnabled { get; set; }
+		public bool IsEnabled { get; set; }
 
-		public Boolean IsBlocked { get; set; }
+		public bool IsBlocked { get; set; }
 
-		public Int32 ResourceID { get; set; }
+		public int ResourceID { get; set; }
 
-		public Int32 SpecialtyID { get; set; }
+		public int SpecialtyID { get; set; }
 
 		public DateItemViewModel[] Dates { get; set; }
 	}

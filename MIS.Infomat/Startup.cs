@@ -14,6 +14,7 @@
  */
 #endregion
 
+using System;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,6 @@ using MIS.Domain.Repositories;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
 using Serilog;
-using System;
 
 namespace MIS.Infomat
 {

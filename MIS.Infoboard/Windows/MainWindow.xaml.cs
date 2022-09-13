@@ -14,11 +14,10 @@
  */
 #endregion
 
-using MIS.Infoboard.Controls;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MIS.Infoboard.Controls;
 
 namespace MIS.Infoboard.Windows
 {
@@ -27,7 +26,7 @@ namespace MIS.Infoboard.Windows
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private Boolean _serviceMode = false;
+		private bool _serviceMode = false;
 
 		public MainWindow()
 		{
@@ -50,7 +49,7 @@ namespace MIS.Infoboard.Windows
 			NextWorkflow(new MainControl());
 		}
 
-		private void Window_KeyUp(Object sender, KeyEventArgs e)
+		private void Window_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.F11)
 			{

@@ -15,11 +15,10 @@
 #endregion
 
 using MediatR;
-using System;
 
 namespace MIS.Application.Queries
 {
-	public class OrganizationNameQuery : IRequest<String>
+	public class OrganizationNameQuery : IRequest<string>
 	{
 		public OrganizationNameQuery()
 		{

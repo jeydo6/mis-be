@@ -26,13 +26,13 @@ namespace MIS.Application.ViewModels
 
 		public DateTime EndTime { get; set; }
 
-		public Int32 Count { get; set; }
+		public int Count { get; set; }
 
-		public Boolean IsEnabled { get; set; }
+		public bool IsEnabled { get; set; }
 
-		public Boolean IsBlocked { get; set; }
+		public bool IsBlocked { get; set; }
 
-		public Int32 ResourceID { get; set; }
+		public int ResourceID { get; set; }
 
 		public TimeItemViewModel[] Times { get; set; }
 	}

@@ -14,12 +14,12 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
-using MIS.Infomat.Windows;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MIS.Application.ViewModels;
+using MIS.Infomat.Windows;
 
 namespace MIS.Infomat.Controls
 {
@@ -50,13 +50,13 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			header.Content = _specialty.SpecialtyName;
 			list.ItemsSource = _specialty.Resources;
 		}
 
-		private void ListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void ListItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is ResourceViewModel resourceListItem)
 			{
@@ -64,7 +64,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void UpButton_Click(Object sender, RoutedEventArgs e)
+		private void UpButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
 			{
@@ -72,7 +72,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void DownButton_Click(Object sender, RoutedEventArgs e)
+		private void DownButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
 			{
@@ -80,7 +80,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		private void PrevButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainWindow.PrevWorkflow();
 		}

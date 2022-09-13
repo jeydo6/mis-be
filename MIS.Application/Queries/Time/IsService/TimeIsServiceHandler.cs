@@ -14,18 +14,18 @@
  */
 #endregion
 
-using MediatR;
-using Microsoft.Extensions.Options;
-using MIS.Application.Configs;
-using MIS.Domain.Providers;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.Extensions.Options;
+using MIS.Application.Configs;
+using MIS.Domain.Providers;
 
 namespace MIS.Application.Queries
 {
-	public class TimeIsServiceHandler : IRequestHandler<TimeIsServiceQuery, Boolean>
+	public class TimeIsServiceHandler : IRequestHandler<TimeIsServiceQuery, bool>
 	{
 		private readonly IDateTimeProvider _dateTimeProvider;
 
@@ -40,7 +40,7 @@ namespace MIS.Application.Queries
 			_settingsConfig = settingsConfigOptions.Value;
 		}
 
-		public async Task<Boolean> Handle(TimeIsServiceQuery request, CancellationToken cancellationToken)
+		public async Task<bool> Handle(TimeIsServiceQuery request, CancellationToken cancellationToken)
 		{
 			if (_settingsConfig != null && _settingsConfig.ServiceIntervals != null)
 			{
@@ -49,8 +49,8 @@ namespace MIS.Application.Queries
 
 				var result = _settingsConfig.ServiceIntervals.Any(si =>
 				{
-					TimeSpan beginService = DateTime.Parse(si.BeginTime).TimeOfDay;
-					TimeSpan endService = DateTime.Parse(si.EndTime).TimeOfDay;
+					var beginService = DateTime.Parse(si.BeginTime).TimeOfDay;
+					var endService = DateTime.Parse(si.EndTime).TimeOfDay;
 
 					return dayOfWeek == si.DayOfWeek
 						&& timeOfDay >= beginService

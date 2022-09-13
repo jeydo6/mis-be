@@ -14,14 +14,14 @@
  */
 #endregion
 
-using MIS.Demo.DataContexts;
-using MIS.Domain.Entities;
-using MIS.Domain.Providers;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MIS.Demo.DataContexts;
+using MIS.Domain.Entities;
+using MIS.Domain.Providers;
+using MIS.Domain.Repositories;
 
 namespace MIS.Demo.Repositories
 {
@@ -37,7 +37,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
+		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			var result = _dataContext.TimeItems
 				.Where(ti => ti.Resource.Employee.Specialty.ID > 0)
@@ -47,7 +47,7 @@ namespace MIS.Demo.Repositories
 			return await Task.FromResult(result);
 		}
 
-		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
+		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
 			var result = _dataContext.TimeItems
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (specialtyID == 0 || ti.Resource.Employee.SpecialtyID == specialtyID))

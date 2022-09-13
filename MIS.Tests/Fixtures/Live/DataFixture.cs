@@ -1,11 +1,11 @@
-﻿using Dapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
-using System;
-using System.Collections.Generic;
-using System.Data;
 
 namespace MIS.Tests.Fixtures.Live
 {
@@ -17,7 +17,7 @@ namespace MIS.Tests.Fixtures.Live
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
 				.Build();
 
-			String connectionString = configuration.GetConnectionString("DefaultConnection");
+			string connectionString = configuration.GetConnectionString("DefaultConnection");
 
 			IDbConnection db = new SqlConnection(connectionString);
 			db.Open();
@@ -35,7 +35,7 @@ namespace MIS.Tests.Fixtures.Live
 
 		private void Seed()
 		{
-			Int32 patientID = CreatePatient(new Patient
+			int patientID = CreatePatient(new Patient
 			{
 				Code = "30000000",
 				Name = "Иван Иванович",
@@ -44,7 +44,7 @@ namespace MIS.Tests.Fixtures.Live
 				Dispanserizations = new List<Dispanserization>(),
 				VisitItems = new List<VisitItem>()
 			});
-			Int32 resourceID = CreateResource(new Resource
+			int resourceID = CreateResource(new Resource
 			{
 				EmployeeID = -1,
 				Name = "Врач-терапевт",
@@ -67,8 +67,8 @@ namespace MIS.Tests.Fixtures.Live
 				}
 			});
 
-			List<Int32> timeItemIDs = new List<Int32>();
-			for (Int32 i = 0; i < 6; i++)
+			List<int> timeItemIDs = new List<int>();
+			for (int i = 0; i < 6; i++)
 			{
 				timeItemIDs.Add(
 					CreateTimeItem(new TimeItem
@@ -95,9 +95,9 @@ namespace MIS.Tests.Fixtures.Live
 			});
 		}
 
-		private Int32 CreateDispanserization(Dispanserization item)
+		private int CreateDispanserization(Dispanserization item)
 		{
-			Int32 dispanserizationID = Transaction.Connection.QuerySingle<Int32>(
+			int dispanserizationID = Transaction.Connection.QuerySingle<int>(
 				sql: "[dbo].[sp_Dispanserizations_Create]",
 				param: new
 				{
@@ -112,7 +112,7 @@ namespace MIS.Tests.Fixtures.Live
 			return dispanserizationID;
 		}
 
-		private Int32 CreatePatient(Patient item)
+		private int CreatePatient(Patient item)
 		{
 			throw new NotImplementedException();
 			//Int32 patientID = Transaction.Connection.QuerySingle<Int32>(
@@ -133,7 +133,7 @@ namespace MIS.Tests.Fixtures.Live
 			//return patientID;
 		}
 
-		private Int32 CreateResource(Resource item)
+		private int CreateResource(Resource item)
 		{
 			throw new NotImplementedException();
 			//Int32 resourceID = Transaction.Connection.QuerySingle<Int32>(
@@ -159,9 +159,9 @@ namespace MIS.Tests.Fixtures.Live
 			//return resourceID;
 		}
 
-		private Int32 CreateTimeItem(TimeItem item)
+		private int CreateTimeItem(TimeItem item)
 		{
-			Int32 timeItemID = Transaction.Connection.QuerySingle<Int32>(
+			int timeItemID = Transaction.Connection.QuerySingle<int>(
 				sql: "[dbo].[sp_TimeItems_Create]",
 				param: new
 				{
@@ -177,9 +177,9 @@ namespace MIS.Tests.Fixtures.Live
 			return timeItemID;
 		}
 
-		private Int32 CreateVisitItem(VisitItem item)
+		private int CreateVisitItem(VisitItem item)
 		{
-			Int32 visitItemID = Transaction.Connection.QuerySingle<Int32>(
+			int visitItemID = Transaction.Connection.QuerySingle<int>(
 				sql: "[dbo].[sp_VisitItems_Create]",
 				param: new
 				{

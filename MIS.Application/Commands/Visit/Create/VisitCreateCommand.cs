@@ -16,13 +16,12 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using System;
 
 namespace MIS.Application.Commands
 {
 	public class VisitCreateCommand : IRequest<VisitItemViewModel>
 	{
-		public VisitCreateCommand(Int32 timeItemID, Int32 patientID, String patientCode, String patientName)
+		public VisitCreateCommand(int timeItemID, int patientID, string patientCode, string patientName)
 		{
 			TimeItemID = timeItemID;
 			PatientID = patientID;
@@ -30,12 +29,12 @@ namespace MIS.Application.Commands
 			PatientName = patientName;
 		}
 
-		public Int32 TimeItemID { get; }
+		public int TimeItemID { get; }
 
-		public Int32 PatientID { get; }
+		public int PatientID { get; }
 
-		public String PatientCode { get; }
+		public string PatientCode { get; }
 
-		public String PatientName { get; }
+		public string PatientName { get; }
 	}
 }

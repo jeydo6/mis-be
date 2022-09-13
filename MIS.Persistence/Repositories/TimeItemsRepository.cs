@@ -14,14 +14,14 @@
  */
 #endregion
 
-using Dapper;
-using Microsoft.Data.SqlClient;
-using MIS.Domain.Entities;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using MIS.Domain.Entities;
+using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
@@ -30,7 +30,7 @@ namespace MIS.Persistence.Repositories
 		private readonly IDbConnection _db;
 		private readonly IDbTransaction _transaction;
 
-		public TimeItemsRepository(String connectionString)
+		public TimeItemsRepository(string connectionString)
 		{
 			_db = new SqlConnection(connectionString);
 			_transaction = null;
@@ -42,7 +42,7 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0)
+		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			var result = await _db.QueryAsync<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_List]",
@@ -69,7 +69,7 @@ namespace MIS.Persistence.Repositories
 				.AsList();
 		}
 
-		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0)
+		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
 			var result = await _db.QueryAsync<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetResourceTotals]",

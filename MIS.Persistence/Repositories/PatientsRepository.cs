@@ -14,13 +14,13 @@
  */
 #endregion
 
+using System;
+using System.Data;
+using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
-using System;
-using System.Data;
-using System.Threading.Tasks;
 
 namespace MIS.Persistence.Repositories
 {
@@ -29,7 +29,7 @@ namespace MIS.Persistence.Repositories
 		private readonly IDbConnection _db;
 		private readonly IDbTransaction _transaction;
 
-		public PatientsRepository(String connectionString)
+		public PatientsRepository(string connectionString)
 		{
 			_db = new SqlConnection(connectionString);
 			_transaction = null;
@@ -41,7 +41,7 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<Patient> First(String code, DateTime birthDate)
+		public async Task<Patient> First(string code, DateTime birthDate)
 		{
 			var result = await _db.QueryFirstOrDefaultAsync<Patient>(
 				sql: "[dbo].[sp_Patients_First]",
@@ -53,7 +53,7 @@ namespace MIS.Persistence.Repositories
 			return result;
 		}
 
-		public async Task<Patient> Get(Int32 patientID)
+		public async Task<Patient> Get(int patientID)
 		{
 			var result = await _db.QueryFirstOrDefaultAsync<Patient>(
 				sql: "[dbo].[sp_Patients_Get]",

@@ -22,14 +22,14 @@ namespace MIS.Application.ViewModels
 	{
 		public DateTime BeginDate { get; set; }
 
-		public String PatientCode { get; set; }
+		public string PatientCode { get; set; }
 
-		public String PatientName { get; set; }
+		public string PatientName { get; set; }
 
-		public Boolean IsClosed { get; set; }
+		public bool IsClosed { get; set; }
 
-		public Boolean IsEnabled { get; set; }
+		public bool IsEnabled { get; set; }
 
-		public String[] Researches { get; set; }
+		public string[] Researches { get; set; }
 	}
 }

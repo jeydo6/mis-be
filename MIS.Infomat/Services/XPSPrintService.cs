@@ -14,18 +14,17 @@
  */
 #endregion
 
-using MIS.Domain.Services;
-using System;
 using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using MIS.Domain.Services;
 
 namespace MIS.Infomat.Services
 {
 	internal class XPSPrintService : IPrintService
 	{
-		public void Print(Object obj)
+		public void Print(object obj)
 		{
 			if (obj is UserControl userControl)
 			{

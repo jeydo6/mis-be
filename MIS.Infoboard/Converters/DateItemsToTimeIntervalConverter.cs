@@ -14,14 +14,14 @@
  */
 #endregion
 
-using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.ViewModels;
-using MIS.Domain.Providers;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.ViewModels;
+using MIS.Domain.Providers;
 
 namespace MIS.Infoboard.Converters
 {
@@ -36,7 +36,7 @@ namespace MIS.Infoboard.Converters
 			_dateTimeProvider = app.ServiceProvider.GetService<IDateTimeProvider>();
 		}
 
-		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is not DateItemViewModel[] dates)
 			{
@@ -50,7 +50,7 @@ namespace MIS.Infoboard.Converters
 			}
 
 			var result = $"{date.BeginTime:H:mm} - {date.EndTime:H:mm}";
-			if (String.IsNullOrEmpty(result))
+			if (string.IsNullOrEmpty(result))
 			{
 				return "нет приёма";
 			}
@@ -58,7 +58,7 @@ namespace MIS.Infoboard.Converters
 			return result;
 		}
 
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return DependencyProperty.UnsetValue;
 		}

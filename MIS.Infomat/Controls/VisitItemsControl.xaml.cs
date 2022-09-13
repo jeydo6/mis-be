@@ -14,6 +14,10 @@
  */
 #endregion
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
@@ -23,10 +27,6 @@ using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
 using Serilog;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace MIS.Infomat.Controls
 {
@@ -61,7 +61,7 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			list.ItemsSource = _mediator.SendSync(
 				new VisitListItemsQuery(_patient)
@@ -77,7 +77,7 @@ namespace MIS.Infomat.Controls
 			//}
 		}
 
-		private void VisitItemButton_Click(Object sender, RoutedEventArgs e)
+		private void VisitItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is VisitItemViewModel visitItem)
 			{
@@ -97,7 +97,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void DispanserizationButton_Click(Object sender, RoutedEventArgs e)
+		private void DispanserizationButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is DispanserizationViewModel dispanserization)
 			{
@@ -117,7 +117,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void UpButton_Click(Object sender, RoutedEventArgs e)
+		private void UpButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
 			{
@@ -125,7 +125,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void DownButton_Click(Object sender, RoutedEventArgs e)
+		private void DownButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
 			{
@@ -133,7 +133,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		private void PrevButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainWindow.PrevWorkflow();
 		}

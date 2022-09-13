@@ -15,13 +15,12 @@
 #endregion
 
 using MIS.Domain.Services;
-using System;
 
 namespace MIS.Infomat.Services
 {
 	internal class NullPrintService : IPrintService
 	{
-		public void Print(Object obj)
+		public void Print(object obj)
 		{
 			//
 		}

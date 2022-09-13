@@ -14,6 +14,7 @@
  */
 #endregion
 
+using System;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,6 @@ using MIS.Application.Options;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
-using System;
 
 namespace MIS.Infoboard
 {

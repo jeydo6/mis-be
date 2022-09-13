@@ -14,13 +14,13 @@
  */
 #endregion
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MIS.Demo.Repositories
 {
@@ -36,7 +36,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<Patient> First(String code, DateTime birthDate)
+		public async Task<Patient> First(string code, DateTime birthDate)
 		{
 			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.Code == code && s.BirthDate == birthDate);
@@ -44,7 +44,7 @@ namespace MIS.Demo.Repositories
 			return await Task.FromResult(result);
 		}
 
-		public async Task<Patient> Get(Int32 patientID)
+		public async Task<Patient> Get(int patientID)
 		{
 			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.ID == patientID);

@@ -24,7 +24,7 @@ namespace MIS.Infomat.Converters
 {
 	internal class DateToBrushConverter : IMultiValueConverter
 	{
-		public Object Convert(Object[] values, Type targetType, Object parameter, CultureInfo culture)
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			DateTime date;
 			try
@@ -36,10 +36,10 @@ namespace MIS.Infomat.Converters
 				date = new DateTime();
 			}
 
-			Boolean isEnabled;
+			bool isEnabled;
 			try
 			{
-				isEnabled = (Boolean)values[1];
+				isEnabled = (bool)values[1];
 			}
 			catch
 			{
@@ -54,7 +54,7 @@ namespace MIS.Infomat.Converters
 			return Brushes.DarkGray;
 		}
 
-		public Object[] ConvertBack(Object value, Type[] targetTypes, Object parameter, CultureInfo culture)
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
 		{
 			return Array.Empty<DependencyProperty>();
 		}

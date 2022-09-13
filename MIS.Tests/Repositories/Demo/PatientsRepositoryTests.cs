@@ -1,10 +1,10 @@
-﻿using MIS.Demo.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MIS.Demo.Repositories;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 using MIS.Tests.Fixtures.Demo;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MIS.Tests.Repositories.Demo

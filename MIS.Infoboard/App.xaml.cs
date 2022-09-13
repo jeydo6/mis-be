@@ -14,10 +14,10 @@
  */
 #endregion
 
-using MIS.Infoboard.Windows;
-using Serilog;
 using System;
 using System.Windows.Threading;
+using MIS.Infoboard.Windows;
+using Serilog;
 
 namespace MIS.Infoboard
 {
@@ -37,7 +37,7 @@ namespace MIS.Infoboard
 
 		public IServiceProvider ServiceProvider { get; }
 
-		private void App_DispatcherUnhandledException(Object sender, DispatcherUnhandledExceptionEventArgs e)
+		private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
 		{
 			Log.Error(e.Exception, $"Unhandled exception of type '{e.Exception.GetType()}' was thrown.");
 			e.Handled = true;

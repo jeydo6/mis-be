@@ -23,9 +23,9 @@ namespace MIS.Infomat.Converters
 {
 	internal class BooleanToVisibilityConverter : IValueConverter
 	{
-		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is Boolean isVisible && isVisible)
+			if (value is bool isVisible && isVisible)
 			{
 				return Visibility.Visible;
 			}
@@ -33,7 +33,7 @@ namespace MIS.Infomat.Converters
 			return Visibility.Collapsed;
 		}
 
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return DependencyProperty.UnsetValue;
 		}

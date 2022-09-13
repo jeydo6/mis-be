@@ -14,14 +14,14 @@
  */
 #endregion
 
+using System;
+using System.Windows.Controls;
+using System.Windows.Threading;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Domain.Providers;
-using System;
-using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace MIS.Infoboard.Controls
 {
@@ -54,14 +54,14 @@ namespace MIS.Infoboard.Controls
 			_timer.Start();
 		}
 
-		private void UserControl_Initialized(Object sender, EventArgs e)
+		private void UserControl_Initialized(object sender, EventArgs e)
 		{
 			organizationName.Text = _mediator.SendSync(
 				new OrganizationNameQuery()
 			);
 		}
 
-		private void Tick(Object sender, EventArgs e)
+		private void Tick(object sender, EventArgs e)
 		{
 			time.Text = $"{_dateTimeProvider.Now:H:mm}";
 			date.Text = $"{_dateTimeProvider.Now:dddd, d MMMM yyyy г.}";

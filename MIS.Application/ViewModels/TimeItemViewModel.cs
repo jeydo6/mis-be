@@ -22,8 +22,8 @@ namespace MIS.Application.ViewModels
 	{
 		public DateTime DateTime { get; set; }
 
-		public Boolean IsEnabled { get; set; }
+		public bool IsEnabled { get; set; }
 
-		public Int32 TimeItemID { get; set; }
+		public int TimeItemID { get; set; }
 	}
 }

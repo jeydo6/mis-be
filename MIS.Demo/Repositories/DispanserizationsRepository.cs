@@ -14,14 +14,14 @@
  */
 #endregion
 
-using MIS.Demo.DataContexts;
-using MIS.Domain.Entities;
-using MIS.Domain.Providers;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MIS.Demo.DataContexts;
+using MIS.Domain.Entities;
+using MIS.Domain.Providers;
+using MIS.Domain.Repositories;
 
 namespace MIS.Demo.Repositories
 {
@@ -39,7 +39,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<Int32> Create(Dispanserization dispanserization)
+		public async Task<int> Create(Dispanserization dispanserization)
 		{
 			if (_dataContext.Dispanserizations.FirstOrDefault(
 					d => d.PatientID == dispanserization.PatientID
@@ -94,7 +94,7 @@ namespace MIS.Demo.Repositories
 			return await Task.FromResult(result);
 		}
 
-		public async Task<Dispanserization> Get(Int32 dispanserizationID)
+		public async Task<Dispanserization> Get(int dispanserizationID)
 		{
 			var result = _dataContext.Dispanserizations
 				.FirstOrDefault(d => d.ID == dispanserizationID);
@@ -102,7 +102,7 @@ namespace MIS.Demo.Repositories
 			return await Task.FromResult(result);
 		}
 
-		public async Task<List<Dispanserization>> ToList(Int32 patientID)
+		public async Task<List<Dispanserization>> ToList(int patientID)
 		{
 			var result = _dataContext.Dispanserizations
 				.Where(d => d.PatientID == patientID)

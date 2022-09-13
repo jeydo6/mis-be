@@ -1,7 +1,7 @@
-﻿using MIS.Domain.Repositories;
+﻿using System.Threading.Tasks;
+using MIS.Domain.Repositories;
 using MIS.Persistence.Repositories;
 using MIS.Tests.Fixtures.Live;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MIS.Tests.Repositories.Live

@@ -14,15 +14,15 @@
  */
 #endregion
 
-using MIS.Demo.DataContexts;
-using MIS.Domain.Entities;
-using MIS.Domain.Providers;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using MIS.Demo.DataContexts;
+using MIS.Domain.Entities;
+using MIS.Domain.Providers;
+using MIS.Domain.Repositories;
 
 namespace MIS.Demo.Repositories
 {
@@ -38,7 +38,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<Int32> Create(VisitItem item)
+		public async Task<int> Create(VisitItem item)
 		{
 			if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == item.TimeItemID) != null)
 			{
@@ -59,7 +59,7 @@ namespace MIS.Demo.Repositories
 			return await Task.FromResult(result);
 		}
 
-		public async Task<VisitItem> Get(Int32 visitItemID)
+		public async Task<VisitItem> Get(int visitItemID)
 		{
 			var result = _dataContext.VisitItems
 				.FirstOrDefault(vi => vi.ID == visitItemID);
@@ -67,7 +67,7 @@ namespace MIS.Demo.Repositories
 			return await Task.FromResult(result);
 		}
 
-		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
+		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
 		{
 			var result = _dataContext.VisitItems
 				.Where(vi => vi.TimeItem.Resource.Employee.Specialty.ID > 0)

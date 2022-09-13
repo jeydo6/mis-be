@@ -14,19 +14,19 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IVisitItemsRepository
 	{
-		Task<Int32> Create(VisitItem item);
+		Task<int> Create(VisitItem item);
 
-		Task<VisitItem> Get(Int32 visitItemID);
+		Task<VisitItem> Get(int visitItemID);
 
-		Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0);
+		Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, int patientID = 0);
 	}
 }

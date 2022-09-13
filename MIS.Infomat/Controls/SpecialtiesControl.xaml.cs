@@ -14,16 +14,16 @@
  */
 #endregion
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Infomat.Windows;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace MIS.Infomat.Controls
 {
@@ -56,14 +56,14 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			list.ItemsSource = _mediator.SendSync(
 				new SpecialtyListItemsQuery(_patient)
 			);
 		}
 
-		private void ListItemButton_Click(Object sender, RoutedEventArgs e)
+		private void ListItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (e.OriginalSource is Button button && button.DataContext is SpecialtyViewModel specialtyItem)
 			{
@@ -71,7 +71,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void UpButton_Click(Object sender, RoutedEventArgs e)
+		private void UpButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
 			{
@@ -79,7 +79,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void DownButton_Click(Object sender, RoutedEventArgs e)
+		private void DownButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (VisualTreeHelper.GetChild(list, 0) is ScrollViewer scrollViewer)
 			{
@@ -87,7 +87,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		private void PrevButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainWindow.PrevWorkflow();
 		}

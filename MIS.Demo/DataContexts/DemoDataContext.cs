@@ -14,11 +14,11 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
-using MIS.Domain.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MIS.Domain.Entities;
+using MIS.Domain.Providers;
 
 namespace MIS.Demo.DataContexts
 {
@@ -55,7 +55,7 @@ namespace MIS.Demo.DataContexts
 				},
 				new Patient
 				{
-					ID = Int32.MaxValue,
+					ID = int.MaxValue,
 					Code = "32020444",
 					Name = "Владимир Сергеевич",
 					BirthDate = new DateTime(1993, 1, 1),
@@ -226,12 +226,12 @@ namespace MIS.Demo.DataContexts
 			TimeItems = new List<TimeItem>();
 			VisitItems = new List<VisitItem>();
 
-			Int32 timeItemID = 0;
+			int timeItemID = 0;
 			foreach (Resource resource in Resources)
 			{
-				for (Int32 i = 0; i < 28; i++)
+				for (int i = 0; i < 28; i++)
 				{
-					for (Int32 j = 0; j < 24; j++)
+					for (int j = 0; j < 24; j++)
 					{
 						TimeItems.Add(new TimeItem
 						{

@@ -14,12 +14,11 @@
  */
 #endregion
 
-using System;
 
 namespace MIS.Domain.Services
 {
 	public interface IPrintService
 	{
-		public void Print(Object obj);
+		public void Print(object obj);
 	}
 }

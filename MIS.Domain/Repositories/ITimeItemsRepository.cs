@@ -14,18 +14,18 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {
 	public interface ITimeItemsRepository
 	{
-		Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, Int32 resourceID = 0);
+		Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0);
 
-		Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, Int32 specialtyID = 0);
+		Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0);
 
 		Task<List<TimeItemTotal>> GetDispanserizationTotals(DateTime beginDate, DateTime endDate);
 	}

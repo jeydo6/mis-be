@@ -14,24 +14,24 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using MIS.Application.ViewModels;
 
 namespace MIS.Infoboard.Converters
 {
 	internal class ResourceListItemStyleConverter : IValueConverter
 	{
-		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is not ResourceViewModel resource)
 			{
 				return DependencyProperty.UnsetValue;
 			}
 
-			if (parameter is not String option || String.IsNullOrEmpty(option))
+			if (parameter is not string option || string.IsNullOrEmpty(option))
 			{
 				return DependencyProperty.UnsetValue;
 			}
@@ -51,7 +51,7 @@ namespace MIS.Infoboard.Converters
 			return result;
 		}
 
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return DependencyProperty.UnsetValue;
 		}

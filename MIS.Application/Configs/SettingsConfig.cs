@@ -20,9 +20,9 @@ namespace MIS.Application.Configs
 {
 	public class SettingsConfig
 	{
-		public String OrganizationName { get; set; }
+		public string OrganizationName { get; set; }
 
-		public Int32? DispanserizationInterval { get; set; }
+		public int? DispanserizationInterval { get; set; }
 
 		public ServiceInterval[] ServiceIntervals { get; set; }
 	}
@@ -31,8 +31,8 @@ namespace MIS.Application.Configs
 	{
 		public DayOfWeek DayOfWeek { get; set; }
 
-		public String BeginTime { get; set; }
+		public string BeginTime { get; set; }
 
-		public String EndTime { get; set; }
+		public string EndTime { get; set; }
 	}
 }

@@ -14,15 +14,15 @@
  */
 #endregion
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Infomat.Windows;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace MIS.Infomat.Controls
 {
@@ -55,7 +55,7 @@ namespace MIS.Infomat.Controls
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(Object sender, RoutedEventArgs e)
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			var dispanserizationIsRequired = _mediator.SendSync(
 				new DispanserizationIsRequiredQuery(_patient)
@@ -64,7 +64,7 @@ namespace MIS.Infomat.Controls
 			dispanserizationButton.Visibility = dispanserizationIsRequired ? Visibility.Visible : Visibility.Collapsed;
 		}
 
-		private void TimesButton_Click(Object sender, RoutedEventArgs e)
+		private void TimesButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (!_mainWindow.IsServiceTime)
 			{
@@ -72,7 +72,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void VisitsButton_Click(Object sender, RoutedEventArgs e)
+		private void VisitsButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (!_mainWindow.IsServiceTime)
 			{
@@ -80,7 +80,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void DispanserizationButton_Click(Object sender, RoutedEventArgs e)
+		private void DispanserizationButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (!_mainWindow.IsServiceTime)
 			{
@@ -88,7 +88,7 @@ namespace MIS.Infomat.Controls
 			}
 		}
 
-		private void PrevButton_Click(Object sender, RoutedEventArgs e)
+		private void PrevButton_Click(object sender, RoutedEventArgs e)
 		{
 			_mainWindow.MainWorkflow();
 		}

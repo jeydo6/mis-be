@@ -14,16 +14,16 @@
  */
 #endregion
 
-using MIS.Domain.Entities;
 using System;
 using System.Threading.Tasks;
+using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IPatientsRepository
 	{
-		Task<Patient> First(String code, DateTime birthDate);
+		Task<Patient> First(string code, DateTime birthDate);
 
-		Task<Patient> Get(Int32 patientID);
+		Task<Patient> Get(int patientID);
 	}
 }

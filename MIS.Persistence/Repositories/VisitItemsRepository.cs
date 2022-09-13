@@ -14,15 +14,15 @@
  */
 #endregion
 
-using Dapper;
-using Microsoft.Data.SqlClient;
-using MIS.Domain.Entities;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using MIS.Domain.Entities;
+using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
@@ -31,7 +31,7 @@ namespace MIS.Persistence.Repositories
 		private readonly IDbConnection _db;
 		private readonly IDbTransaction _transaction;
 
-		public VisitItemsRepository(String connectionString)
+		public VisitItemsRepository(string connectionString)
 		{
 			_db = new SqlConnection(connectionString);
 			_transaction = null;
@@ -43,9 +43,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<Int32> Create(VisitItem item)
+		public async Task<int> Create(VisitItem item)
 		{
-			var result = await _db.QuerySingleAsync<Int32>(
+			var result = await _db.QuerySingleAsync<int>(
 				sql: "[dbo].[sp_VisitItems_Create]",
 				param: new
 				{
@@ -59,7 +59,7 @@ namespace MIS.Persistence.Repositories
 			return result;
 		}
 
-		public async Task<VisitItem> Get(Int32 visitItemID)
+		public async Task<VisitItem> Get(int visitItemID)
 		{
 			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_Get]",
@@ -83,7 +83,7 @@ namespace MIS.Persistence.Repositories
 				.FirstOrDefault();
 		}
 
-		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, Int32 patientID = 0)
+		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
 		{
 			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_List]",

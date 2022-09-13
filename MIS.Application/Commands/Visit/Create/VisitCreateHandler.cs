@@ -14,12 +14,12 @@
  */
 #endregion
 
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MIS.Application.Commands
 {

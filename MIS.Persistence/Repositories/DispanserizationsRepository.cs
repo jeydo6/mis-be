@@ -14,15 +14,15 @@
  */
 #endregion
 
-using Dapper;
-using Microsoft.Data.SqlClient;
-using MIS.Domain.Entities;
-using MIS.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using MIS.Domain.Entities;
+using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
@@ -31,7 +31,7 @@ namespace MIS.Persistence.Repositories
 		private readonly IDbConnection _db;
 		private readonly IDbTransaction _transaction;
 
-		public DispanserizationsRepository(String connectionString)
+		public DispanserizationsRepository(string connectionString)
 		{
 			_db = new SqlConnection(connectionString);
 			_transaction = null;
@@ -43,9 +43,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<Int32> Create(Dispanserization item)
+		public async Task<int> Create(Dispanserization item)
 		{
-			Int32 dispanserizationID = await _db.QuerySingleAsync<Int32>(
+			int dispanserizationID = await _db.QuerySingleAsync<int>(
 				sql: "[dbo].[sp_Dispanserizations_Create]",
 				param: new
 				{
@@ -60,9 +60,9 @@ namespace MIS.Persistence.Repositories
 			return dispanserizationID;
 		}
 
-		public async Task<Dispanserization> Get(Int32 dispanserizationID)
+		public async Task<Dispanserization> Get(int dispanserizationID)
 		{
-			var dispanserizations = new Dictionary<Int32, Dispanserization>();
+			var dispanserizations = new Dictionary<int, Dispanserization>();
 
 			var query = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
@@ -88,9 +88,9 @@ namespace MIS.Persistence.Repositories
 				.FirstOrDefault();
 		}
 
-		public async Task<List<Dispanserization>> ToList(Int32 patientID)
+		public async Task<List<Dispanserization>> ToList(int patientID)
 		{
-			var dispanserizations = new Dictionary<Int32, Dispanserization>();
+			var dispanserizations = new Dictionary<int, Dispanserization>();
 
 			var query = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_List]",

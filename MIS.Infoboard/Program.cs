@@ -14,11 +14,11 @@
  */
 #endregion
 
+using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using System;
-using System.IO;
 
 namespace MIS.Infoboard
 {

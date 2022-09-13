@@ -16,11 +16,10 @@
 
 using MediatR;
 using MIS.Application.ViewModels;
-using System;
 
 namespace MIS.Application.Queries
 {
-	public class DispanserizationIsRequiredQuery : IRequest<Boolean>
+	public class DispanserizationIsRequiredQuery : IRequest<bool>
 	{
 		public DispanserizationIsRequiredQuery(PatientViewModel patient)
 		{

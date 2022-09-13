@@ -14,15 +14,15 @@
  */
 #endregion
 
+using System;
 using MediatR;
 using MIS.Application.ViewModels;
-using System;
 
 namespace MIS.Application.Queries
 {
 	public class TimeListItemsQuery : IRequest<TimeItemViewModel[]>
 	{
-		public TimeListItemsQuery(DateTime date, Int32 resourceID)
+		public TimeListItemsQuery(DateTime date, int resourceID)
 		{
 			Date = date;
 			ResourceID = resourceID;
@@ -30,6 +30,6 @@ namespace MIS.Application.Queries
 
 		public DateTime Date { get; set; }
 
-		public Int32 ResourceID { get; set; }
+		public int ResourceID { get; set; }
 	}
 }

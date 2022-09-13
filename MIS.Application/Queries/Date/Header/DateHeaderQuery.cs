@@ -15,11 +15,10 @@
 #endregion
 
 using MediatR;
-using System;
 
 namespace MIS.Application.Queries
 {
-	public class DateHeaderQuery : IRequest<String>
+	public class DateHeaderQuery : IRequest<string>
 	{
 		public DateHeaderQuery()
 		{
