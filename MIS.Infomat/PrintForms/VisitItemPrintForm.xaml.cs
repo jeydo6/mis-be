@@ -36,7 +36,7 @@ namespace MIS.Infomat.PrintForms
 		internal VisitItemPrintForm(VisitItemViewModel visitItem)
 		{
 			var app = System.Windows.Application.Current as App;
-			var settingsConfigOptions = app.ServiceProvider.GetService<IOptionsSnapshot<SettingsConfigSection>>();
+			var settingsConfigOptions = app.ServiceProvider.GetService<IOptionsSnapshot<SettingsConfig>>();
 			var settingsConfig = settingsConfigOptions.Value;
 
 			InitializeComponent();

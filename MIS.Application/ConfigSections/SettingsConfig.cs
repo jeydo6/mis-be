@@ -18,7 +18,7 @@ using System;
 
 namespace MIS.Application.Configs
 {
-	public class SettingsConfigSection
+	public class SettingsConfig
 	{
 		public class ServiceInterval
 		{

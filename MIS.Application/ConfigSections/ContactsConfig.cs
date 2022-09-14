@@ -18,7 +18,7 @@ using System;
 
 namespace MIS.Application.Configs
 {
-	public class ContactsConfigSection
+	public class ContactsConfig
 	{
 		public class Department
 		{

@@ -24,10 +24,10 @@ namespace MIS.Application.Queries
 {
 	public class OrganizationNameHandler : IRequestHandler<OrganizationNameQuery, string>
 	{
-		private readonly SettingsConfigSection _settingsConfig;
+		private readonly SettingsConfig _settingsConfig;
 
 		public OrganizationNameHandler(
-			IOptionsSnapshot<SettingsConfigSection> settingsConfigOptions
+			IOptionsSnapshot<SettingsConfig> settingsConfigOptions
 		)
 		{
 			_settingsConfig = settingsConfigOptions.Value;

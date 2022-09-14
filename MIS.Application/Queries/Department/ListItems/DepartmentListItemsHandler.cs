@@ -27,10 +27,10 @@ namespace MIS.Application.Queries
 {
 	public class DepartmentListItemsHandler : IRequestHandler<DepartmentListItemsQuery, DepartmentViewModel[]>
 	{
-		private readonly ContactsConfigSection _contactsConfig;
+		private readonly ContactsConfig _contactsConfig;
 
 		public DepartmentListItemsHandler(
-			IOptionsMonitor<ContactsConfigSection> contactsConfigOptions
+			IOptionsMonitor<ContactsConfig> contactsConfigOptions
 		)
 		{
 			_contactsConfig = contactsConfigOptions.CurrentValue;

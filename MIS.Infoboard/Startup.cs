@@ -42,12 +42,12 @@ namespace MIS.Infoboard
 		{
 			IServiceCollection services = new ServiceCollection();
 
-			services.Configure<SettingsConfigSection>(
-				Configuration.GetSection($"{nameof(SettingsConfigSection)}")
+			services.Configure<SettingsConfig>(
+				Configuration.GetSection($"{nameof(SettingsConfig)}")
 			);
 
-			services.Configure<ContactsConfigSection>(
-				Configuration.GetSection($"{nameof(ContactsConfigSection)}")
+			services.Configure<ContactsConfig>(
+				Configuration.GetSection($"{nameof(ContactsConfig)}")
 			);
 
 			services
