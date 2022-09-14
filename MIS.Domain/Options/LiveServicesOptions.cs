@@ -1,4 +1,4 @@
-﻿namespace MIS.Application.Options
+﻿namespace MIS.Domain.Options
 {
 	public class LiveServicesOptions
 	{

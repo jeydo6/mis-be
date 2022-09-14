@@ -19,8 +19,8 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
-using MIS.Application.Options;
 using MIS.Demo.DataContexts;
+using MIS.Domain.Options;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Domain.Services;
@@ -45,8 +45,8 @@ namespace MIS.Infomat
 		{
 			IServiceCollection services = new ServiceCollection();
 
-			services.Configure<SettingsConfig>(
-				Configuration.GetSection($"{nameof(SettingsConfig)}")
+			services.Configure<SettingsConfigSection>(
+				Configuration.GetSection($"{nameof(SettingsConfigSection)}")
 			);
 
 			services

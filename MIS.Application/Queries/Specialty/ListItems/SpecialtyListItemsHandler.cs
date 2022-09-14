@@ -33,13 +33,13 @@ namespace MIS.Application.Queries
 		private readonly IResourcesRepository _resources;
 		private readonly ITimeItemsRepository _timeItems;
 
-		private readonly SettingsConfig _settingsConfig;
+		private readonly SettingsConfigSection _settingsConfig;
 
 		public SpecialtyListItemsHandler(
 			IDateTimeProvider dateTimeProvider,
 			IResourcesRepository resources,
 			ITimeItemsRepository timeItems,
-			IOptionsSnapshot<SettingsConfig> settingsConfigOptions
+			IOptionsSnapshot<SettingsConfigSection> settingsConfigOptions
 		)
 		{
 			_dateTimeProvider = dateTimeProvider;

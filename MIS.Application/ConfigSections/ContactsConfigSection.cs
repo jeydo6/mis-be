@@ -18,21 +18,30 @@ using System;
 
 namespace MIS.Application.Configs
 {
-	public class SettingsConfig
+	public class ContactsConfigSection
 	{
-		public string OrganizationName { get; set; }
+		public class Department
+		{
+			public string DepartmentName { get; set; }
 
-		public int? DispanserizationInterval { get; set; }
+			public Employee[] Employees { get; set; }
+		}
 
-		public ServiceInterval[] ServiceIntervals { get; set; }
-	}
+		public class Employee
+		{
+			public string EmployeeName { get; set; }
 
-	public class ServiceInterval
-	{
-		public DayOfWeek DayOfWeek { get; set; }
+			public string PostName { get; set; }
 
-		public string BeginTime { get; set; }
+			public DateTime BeginTime { get; set; }
 
-		public string EndTime { get; set; }
+			public DateTime EndTime { get; set; }
+
+			public string PhoneNumber { get; set; }
+
+			public string RoomCode { get; set; }
+		}
+
+		public Department[] Departments { get; set; }
 	}
 }

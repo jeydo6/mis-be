@@ -29,11 +29,11 @@ namespace MIS.Application.Queries
 	{
 		private readonly IDateTimeProvider _dateTimeProvider;
 
-		private readonly SettingsConfig _settingsConfig;
+		private readonly SettingsConfigSection _settingsConfig;
 
 		public TimeIsServiceHandler(
 			IDateTimeProvider dateTimeProvider,
-			IOptionsSnapshot<SettingsConfig> settingsConfigOptions
+			IOptionsSnapshot<SettingsConfigSection> settingsConfigOptions
 		)
 		{
 			_dateTimeProvider = dateTimeProvider;

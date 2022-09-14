@@ -14,12 +14,25 @@
  */
 #endregion
 
-using MIS.Application.ViewModels;
+using System;
 
 namespace MIS.Application.Configs
 {
-	public class ContactsConfig
+	public class SettingsConfigSection
 	{
-		public DepartmentViewModel[] Departments { get; set; }
+		public class ServiceInterval
+		{
+			public DayOfWeek DayOfWeek { get; set; }
+
+			public string BeginTime { get; set; }
+
+			public string EndTime { get; set; }
+		}
+
+		public string OrganizationName { get; set; }
+
+		public int? DispanserizationInterval { get; set; }
+
+		public ServiceInterval[] ServiceIntervals { get; set; }
 	}
 }

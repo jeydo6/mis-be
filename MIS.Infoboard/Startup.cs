@@ -19,8 +19,8 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
-using MIS.Application.Options;
 using MIS.Demo.DataContexts;
+using MIS.Domain.Options;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 
@@ -42,12 +42,12 @@ namespace MIS.Infoboard
 		{
 			IServiceCollection services = new ServiceCollection();
 
-			services.Configure<SettingsConfig>(
-				Configuration.GetSection($"{nameof(SettingsConfig)}")
+			services.Configure<SettingsConfigSection>(
+				Configuration.GetSection($"{nameof(SettingsConfigSection)}")
 			);
 
-			services.Configure<ContactsConfig>(
-				Configuration.GetSection($"{nameof(ContactsConfig)}")
+			services.Configure<ContactsConfigSection>(
+				Configuration.GetSection($"{nameof(ContactsConfigSection)}")
 			);
 
 			services

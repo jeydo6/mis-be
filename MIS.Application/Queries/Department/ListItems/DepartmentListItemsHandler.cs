@@ -27,10 +27,10 @@ namespace MIS.Application.Queries
 {
 	public class DepartmentListItemsHandler : IRequestHandler<DepartmentListItemsQuery, DepartmentViewModel[]>
 	{
-		private readonly ContactsConfig _contactsConfig;
+		private readonly ContactsConfigSection _contactsConfig;
 
 		public DepartmentListItemsHandler(
-			IOptionsMonitor<ContactsConfig> contactsConfigOptions
+			IOptionsMonitor<ContactsConfigSection> contactsConfigOptions
 		)
 		{
 			_contactsConfig = contactsConfigOptions.CurrentValue;
@@ -39,7 +39,23 @@ namespace MIS.Application.Queries
 		public async Task<DepartmentViewModel[]> Handle(DepartmentListItemsQuery request, CancellationToken cancellationToken)
 		{
 			var result = _contactsConfig.Departments != null
-				? _contactsConfig.Departments.ToArray()
+				? _contactsConfig.Departments
+					.Select(d => new DepartmentViewModel
+					{
+						DepartmentName = d.DepartmentName,
+						Employees = d.Employees
+							.Select(e => new EmployeeViewModel
+						{
+							EmployeeName = e.EmployeeName,
+							BeginTime = e.BeginTime,
+							EndTime	= e.EndTime,
+							PhoneNumber = e.PhoneNumber,
+							PostName = e.PostName,
+							RoomCode = e.RoomCode
+						})
+							.ToArray()
+					})
+					.ToArray()
 				: Array.Empty<DepartmentViewModel>();
 
 			return await Task.FromResult(result);
