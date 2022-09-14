@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using MIS.Application.ViewModels;
 
 namespace MIS.Application.Extensions
@@ -30,13 +29,18 @@ namespace MIS.Application.Extensions
 				return Array.Empty<PageViewModel>();
 			}
 
-			var stack = new Stack<object>(items.Reverse());
+			var list = new LinkedList<object>();
+			foreach (var item in items)
+			{
+				list.AddFirst(item);
+			}
+
 			var pages = new List<PageViewModel>();
 
 			var page = new PageViewModel();
 			var pageHeight = 0;
 
-			while (stack.Count > 0)
+			while (list.Count > 0)
 			{
 				if (pageHeight + headerHeight + itemHeight > maxHeight)
 				{
@@ -48,11 +52,13 @@ namespace MIS.Application.Extensions
 
 				var length = (int)(maxHeight - pageHeight - headerHeight) / itemHeight;
 
-				var item = stack.Pop();
-				(object current, int currentLength, object next) = item switch
+				var item = list.Last.Value;
+				list.RemoveLast();
+
+				var (current, currentLength, next) = item switch
 				{
-					SpecialtyViewModel source => Separate(source, length),
-					DepartmentViewModel source => Separate(source, length),
+					SpecialtyViewModel source => source.Split(length),
+					DepartmentViewModel source => source.Split(length),
 					_ => (null, 0, null)
 				};
 
@@ -64,7 +70,7 @@ namespace MIS.Application.Extensions
 
 				if (next != null)
 				{
-					stack.Push(next);
+					list.AddLast(next);
 				}
 			}
 
@@ -77,11 +83,11 @@ namespace MIS.Application.Extensions
 				.ToArray();
 		}
 
-		private static (object current, int currentLength, object next) Separate(SpecialtyViewModel source, int length)
+		private static (object current, int currentLength, object next) Split(this SpecialtyViewModel source, int length)
 		{
 			if (source.Resources.Length > length)
 			{
-				SpecialtyViewModel current = new SpecialtyViewModel
+				var current = new SpecialtyViewModel
 				{
 					SpecialtyID = source.SpecialtyID,
 					SpecialtyName = source.SpecialtyName,
@@ -90,7 +96,7 @@ namespace MIS.Application.Extensions
 					Resources = source.Resources[..length]
 				};
 
-				SpecialtyViewModel next = new SpecialtyViewModel
+				var next = new SpecialtyViewModel
 				{
 					SpecialtyID = source.SpecialtyID,
 					SpecialtyName = source.SpecialtyName,
@@ -105,17 +111,17 @@ namespace MIS.Application.Extensions
 			return (source, source.Resources.Length, null);
 		}
 
-		private static (object current, int currentLength, object next) Separate(DepartmentViewModel source, int length)
+		private static (object current, int currentLength, object next) Split(this DepartmentViewModel source, int length)
 		{
 			if (source.Employees.Length > length)
 			{
-				DepartmentViewModel current = new DepartmentViewModel
+				var current = new DepartmentViewModel
 				{
 					DepartmentName = source.DepartmentName,
 					Employees = source.Employees[..length]
 				};
 
-				DepartmentViewModel next = new DepartmentViewModel
+				var next = new DepartmentViewModel
 				{
 					DepartmentName = source.DepartmentName,
 					Employees = source.Employees[length..]
