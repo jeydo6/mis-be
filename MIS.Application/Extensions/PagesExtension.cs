@@ -16,121 +16,137 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MIS.Application.ViewModels;
 
 namespace MIS.Application.Extensions
 {
 	public static class PagesExtension
 	{
-		public static PageViewModel[] GetPages(this object[] items, double maxHeight, int itemHeight, int headerHeight = 0)
+		public static IEnumerable<PageViewModel> GetPages<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, int maxHeight, int itemHeight, int headerHeight = 0)
 		{
-			if (headerHeight + itemHeight > maxHeight)
-			{
-				return Array.Empty<PageViewModel>();
-			}
-
-			var list = new LinkedList<object>();
-			foreach (var item in items)
-			{
-				list.AddFirst(item);
-			}
-
-			var pages = new List<PageViewModel>();
-
-			var page = new PageViewModel();
-			var pageHeight = 0;
-
-			while (list.Count > 0)
-			{
-				if (pageHeight + headerHeight + itemHeight > maxHeight)
+			return groups
+				.GroupBy(maxHeight, itemHeight, headerHeight)
+				.Select(p => new PageViewModel
 				{
-					pages.Add(page);
-
-					page = new PageViewModel();
-					pageHeight = 0;
-				}
-
-				var length = (int)(maxHeight - pageHeight - headerHeight) / itemHeight;
-
-				var item = list.Last.Value;
-				list.RemoveLast();
-
-				var (current, currentLength, next) = item switch
-				{
-					SpecialtyViewModel source => source.Split(length),
-					DepartmentViewModel source => source.Split(length),
-					_ => (null, 0, null)
-				};
-
-				if (current != null)
-				{
-					page.Objects.Add(current);
-					pageHeight += headerHeight + itemHeight * currentLength;
-				}
-
-				if (next != null)
-				{
-					list.AddLast(next);
-				}
-			}
-
-			if (page.Objects.Count > 0)
-			{
-				pages.Add(page);
-			}
-
-			return pages
+					Objects = p.Select(g => g switch
+					{
+						IGrouping<DepartmentViewModel, EmployeeViewModel> d => new DepartmentViewModel
+						{
+							DepartmentName = d.Key.DepartmentName,
+							Employees = d.ToArray()
+						},
+						IGrouping<SpecialtyViewModel, ResourceViewModel> s => new SpecialtyViewModel
+						{
+							SpecialtyID = s.Key.SpecialtyID,
+							SpecialtyName = s.Key.SpecialtyName,
+							IsEnabled = s.Key.IsEnabled,
+							Count = s.Key.Count,
+							Resources = s.ToArray()
+						},
+						_ => default(object)
+					})
+				})
 				.ToArray();
 		}
 
-		private static (object current, int currentLength, object next) Split(this SpecialtyViewModel source, int length)
+		private static IEnumerable<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, int maxHeight, int itemHeight, int headerHeight = 0)
 		{
-			if (source.Resources.Length > length)
-			{
-				var current = new SpecialtyViewModel
-				{
-					SpecialtyID = source.SpecialtyID,
-					SpecialtyName = source.SpecialtyName,
-					IsEnabled = source.IsEnabled,
-					Count = source.Count,
-					Resources = source.Resources[..length]
-				};
+			var template = groups
+				.Select(g => g.Count())
+				.GetTemplate(maxHeight, itemHeight, headerHeight);
 
-				var next = new SpecialtyViewModel
-				{
-					SpecialtyID = source.SpecialtyID,
-					SpecialtyName = source.SpecialtyName,
-					IsEnabled = source.IsEnabled,
-					Count = source.Count,
-					Resources = source.Resources[length..]
-				};
-
-				return (current, current.Resources.Length, next);
-			}
-
-			return (source, source.Resources.Length, null);
+			return groups
+				.GroupBy(template.SelectMany(t => t))
+				.GroupBy(template);
 		}
 
-		private static (object current, int currentLength, object next) Split(this DepartmentViewModel source, int length)
+		private static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, IEnumerable<int> template)
 		{
-			if (source.Employees.Length > length)
+			var result = new List<IGrouping<TKey, TElement>>();
+
+			var items = groups
+				.SelectMany(g => g.Select(item => (g.Key, Item: item)))
+				.ToArray();
+
+			var offset = 0;
+			foreach (var length in template)
 			{
-				var current = new DepartmentViewModel
-				{
-					DepartmentName = source.DepartmentName,
-					Employees = source.Employees[..length]
-				};
+				result.AddRange(
+					items
+						.Skip(offset)
+						.Take(length)
+						.GroupBy(t => t.Key, t => t.Item)
+				);
 
-				var next = new DepartmentViewModel
-				{
-					DepartmentName = source.DepartmentName,
-					Employees = source.Employees[length..]
-				};
-
-				return (current, current.Employees.Length, next);
+				offset += length;
 			}
 
-			return (source, source.Employees.Length, null);
+			return result.ToArray();
 		}
+
+		private static IEnumerable<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, IEnumerable<IEnumerable<int>> template)
+		{
+			var result = new List<IEnumerable<IGrouping<TKey, TElement>>>();
+
+			var offset = 0;
+			foreach (var length in template.Select(t => t.Count()))
+			{
+				result.Add(
+					groups
+						.Skip(offset)
+						.Take(length)
+				);
+
+				offset += length;
+			}
+
+			return result.ToArray();
+		}
+
+		private static IEnumerable<IEnumerable<int>> GetTemplate(this IEnumerable<int> counts, int maxHeight, int itemHeight, int headerHeight = 0)
+		{
+			var result = new List<IEnumerable<int>>();
+
+			var stack = new Stack<int>(
+				counts.Reverse()
+			);
+
+			var current = new List<int>();
+			var currentHeight = 0;
+			while (stack.Count > 0)
+			{
+				var maxLength = (maxHeight - headerHeight - currentHeight) / itemHeight;
+				if (maxLength == 0)
+				{
+					return Array.Empty<IEnumerable<int>>();
+				}
+
+				var length = stack.Pop();
+				if (length > maxLength)
+				{
+					current.Add(maxLength);
+					result.Add(current);
+					stack.Push(length - maxLength);
+
+					current = new List<int>();
+					currentHeight = 0;
+				}
+				else
+				{
+					current.Add(length);
+					currentHeight += headerHeight + itemHeight * length;
+				}
+			}
+
+			if (current.Count > 0)
+			{
+				result.Add(current);
+			}
+
+			return result.ToArray();
+		}
+
+
 	}
 }

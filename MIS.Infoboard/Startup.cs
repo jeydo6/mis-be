@@ -54,8 +54,8 @@ namespace MIS.Infoboard
 				.AddMediatR(typeof(Application.AssemblyMarker));
 
 #if DEMO
-			services.
-				ConfigureDemo();
+			services
+				.ConfigureDemo();
 #elif DEBUG
 			services
 				.ConfigureDebug(options =>

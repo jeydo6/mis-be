@@ -15,9 +15,13 @@
 #endregion
 
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MIS.Application.ViewModels
 {
-	public class SpecialtyViewModel
+	public class SpecialtyViewModel : IGrouping<SpecialtyViewModel, ResourceViewModel>
 	{
 		public string SpecialtyName { get; set; }
 
@@ -28,5 +32,17 @@ namespace MIS.Application.ViewModels
 		public int SpecialtyID { get; set; }
 
 		public ResourceViewModel[] Resources { get; set; }
+
+		public SpecialtyViewModel Key => this;
+
+		public IEnumerator<ResourceViewModel> GetEnumerator()
+		{
+			foreach (var resource in Resources)
+			{
+				yield return resource;
+			}
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}
 }

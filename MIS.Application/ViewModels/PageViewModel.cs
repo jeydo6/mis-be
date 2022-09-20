@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MIS.Application.ViewModels
 {
@@ -6,9 +7,9 @@ namespace MIS.Application.ViewModels
 	{
 		public PageViewModel()
 		{
-			Objects = new List<object>();
+			Objects = Array.Empty<object>();
 		}
 
-		public ICollection<object> Objects { get; set; }
+		public IEnumerable<object> Objects { get; set; }
 	}
 }

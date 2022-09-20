@@ -59,8 +59,8 @@ namespace MIS.Infomat
 				.AddSingleton<IPrintService, XPSPrintService>();
 
 #if DEMO
-			services.
-				ConfigureDemo();
+			services
+				.ConfigureDemo();
 #elif DEBUG
 			services
 				.ConfigureDebug(options =>

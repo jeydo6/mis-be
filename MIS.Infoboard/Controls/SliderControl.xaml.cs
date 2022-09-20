@@ -15,6 +15,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using MediatR;
@@ -82,12 +83,14 @@ namespace MIS.Infoboard.Controls
 				new SpecialtyListItemsQuery(patient: null)
 			);
 
-			var actualHeight = ActualHeight;
+			var actualHeight = (int)ActualHeight;
 			var itemHeight = 80;
 			var headerHeight = 90 + 20;
 
 			pages.Content = "Расписание приёма врачей";
-			pages.Items = specialties.GetPages(actualHeight, itemHeight, headerHeight);
+			pages.Items = specialties
+				.GetPages(actualHeight, itemHeight, headerHeight)
+				.ToArray();
 		}
 
 		private void LoadDepartmentPages()
@@ -96,12 +99,14 @@ namespace MIS.Infoboard.Controls
 				new DepartmentListItemsQuery()
 			);
 
-			var actualHeight = ActualHeight;
+			var actualHeight = (int)ActualHeight;
 			var itemHeight = 120;
 			var headerHeight = 90 + 20;
 
 			pages.Content = "Контакты";
-			pages.Items = departments.GetPages(actualHeight, itemHeight, headerHeight);
+			pages.Items = departments
+				.GetPages(actualHeight, itemHeight, headerHeight)
+				.ToArray();
 		}
 	}
 }
