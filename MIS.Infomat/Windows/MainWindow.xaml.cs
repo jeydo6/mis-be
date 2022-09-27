@@ -45,7 +45,7 @@ namespace MIS.Infomat.Windows
 		{
 			var app = System.Windows.Application.Current as App;
 
-			_mediator = app.ServiceProvider.GetService<IMediator>();
+			_mediator = app.ServiceProvider.GetRequiredService<IMediator>();
 
 			_path = new Stack<UserControl>();
 

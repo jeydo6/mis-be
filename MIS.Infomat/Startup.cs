@@ -43,7 +43,7 @@ namespace MIS.Infomat
 
 		public IServiceCollection ConfigureServices()
 		{
-			IServiceCollection services = new ServiceCollection();
+			var services = new ServiceCollection();
 
 			services.Configure<SettingsConfig>(
 				Configuration.GetSection($"{nameof(SettingsConfig)}")
