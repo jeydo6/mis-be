@@ -14,7 +14,6 @@
  */
 #endregion
 
-
 namespace MIS.Application.ViewModels
 {
 	public class ResourceViewModel
