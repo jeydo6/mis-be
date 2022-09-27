@@ -5,54 +5,57 @@ namespace MIS.Mediator;
 
 public class Mediator : IMediator
 {
-	private readonly IServiceProvider _serviceProvider;
-	private readonly Dictionary<Type, Type?> _handlerDetails;
+	private readonly ServiceFactory _serviceFactory;
+	private readonly IDictionary<Type, HandlerBase> _requestHandlers = new Dictionary<Type, HandlerBase>();
 
-	public Mediator(
-		IServiceProvider serviceProvider,
-		IDictionary<Type, Type?> handlerDetails)
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Mediator"/> class.
+	/// </summary>
+	/// <param name="serviceFactory">The single instance factory.</param>
+	public Mediator(ServiceFactory serviceFactory)
 	{
-		_serviceProvider = serviceProvider;
-		_handlerDetails = new Dictionary<Type, Type?>(handlerDetails);
-	}		
+		_serviceFactory = serviceFactory;
+	}
 
 	public TResponse Send<TResponse>(IRequest<TResponse> request)
 	{
+		if (request == null)
+		{
+			throw new ArgumentNullException(nameof(request));
+		}
+
 		var requestType = request.GetType();
-		if (!_handlerDetails.ContainsKey(requestType) || _handlerDetails[requestType] is null)
+
+		if (!_requestHandlers.ContainsKey(requestType))
 		{
-			throw new Exception($"No handler to handle request of type: {requestType.Name}");
+			_requestHandlers[requestType] =
+				(HandlerBase)(Activator.CreateInstance(typeof(RequestHandlerWrapperImpl<,>).MakeGenericType(requestType, typeof(TResponse))) ??
+				throw new InvalidOperationException($"Could not create wrapper type for {requestType}"));
 		}
 
-		var handler = _serviceProvider.GetService(requestType);
-		if (handler is null)
-		{
-			throw new Exception($"No service to handle request of type: {requestType.Name}");
-		}
+		var handler = (RequestHandlerWrapper<TResponse>)_requestHandlers[requestType];
 
-		return (TResponse)handler
-			.GetType()
-			.GetMethod("Handle")!
-			.Invoke(handler, new object[] { request })!;
+		return handler.Handle(request, _serviceFactory);
 	}
 
 	public void Send(IRequest request)
 	{
+		if (request == null)
+		{
+			throw new ArgumentNullException(nameof(request));
+		}
+
 		var requestType = request.GetType();
-		if (!_handlerDetails.TryGetValue(requestType, out var requestHandlerType) || requestHandlerType is null)
+
+		if (!_requestHandlers.ContainsKey(requestType))
 		{
-			throw new Exception($"No handler type to handle request of type: {requestType.Name}");
+			_requestHandlers[requestType] =
+				(HandlerBase)(Activator.CreateInstance(typeof(RequestHandlerWrapperImpl<>).MakeGenericType(requestType)) ??
+				throw new InvalidOperationException($"Could not create wrapper type for {requestType}"));
 		}
 
-		var handler = _serviceProvider.GetService(requestHandlerType);
-		if (handler is null)
-		{
-			throw new Exception($"No handler to handle request of type: {requestType.Name}");
-		}
+		var handler = (RequestHandlerWrapper)_requestHandlers[requestType];
 
-		handler
-			.GetType()
-			.GetMethod("Handle")!
-			.Invoke(handler, new object[] { request });
+		handler.Handle(request, _serviceFactory);
 	}
 }
