@@ -1,23 +1,23 @@
 ﻿namespace MIS.Mediator;
 
-internal abstract class RequestHandlerWrapper : HandlerBase
+internal abstract class RequestHandlerWrapperBase : HandlerBase
 {
 	public abstract void Handle(IRequest request, ServiceFactory serviceFactory);
 }
 
-internal abstract class RequestHandlerWrapper<TResponse> : HandlerBase
+internal abstract class RequestHandlerWrapperBase<TResponse> : HandlerBase
 {
 	public abstract TResponse Handle(IRequest<TResponse> request, ServiceFactory serviceFactory);
 }
 
-internal class RequestHandlerWrapperImpl<TRequest> : RequestHandlerWrapper
+internal class RequestHandlerWrapper<TRequest> : RequestHandlerWrapperBase
 	where TRequest : IRequest
 {
 	public override void Handle(IRequest request, ServiceFactory serviceFactory) =>
 		GetHandler<IRequestHandler<TRequest>>(serviceFactory).Handle((TRequest)request);
 }
 
-internal class RequestHandlerWrapperImpl<TRequest, TResponse> : RequestHandlerWrapper<TResponse>
+internal class RequestHandlerWrapper<TRequest, TResponse> : RequestHandlerWrapperBase<TResponse>
 	where TRequest : IRequest<TResponse>
 {
 	public override TResponse Handle(IRequest<TResponse> request, ServiceFactory serviceFactory) =>

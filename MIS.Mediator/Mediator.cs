@@ -29,11 +29,11 @@ public class Mediator : IMediator
 		if (!_requestHandlers.ContainsKey(requestType))
 		{
 			_requestHandlers[requestType] =
-				(HandlerBase)(Activator.CreateInstance(typeof(RequestHandlerWrapperImpl<,>).MakeGenericType(requestType, typeof(TResponse))) ??
+				(HandlerBase)(Activator.CreateInstance(typeof(RequestHandlerWrapper<,>).MakeGenericType(requestType, typeof(TResponse))) ??
 				throw new InvalidOperationException($"Could not create wrapper type for {requestType}"));
 		}
 
-		var handler = (RequestHandlerWrapper<TResponse>)_requestHandlers[requestType];
+		var handler = (RequestHandlerWrapperBase<TResponse>)_requestHandlers[requestType];
 
 		return handler.Handle(request, _serviceFactory);
 	}
@@ -50,11 +50,11 @@ public class Mediator : IMediator
 		if (!_requestHandlers.ContainsKey(requestType))
 		{
 			_requestHandlers[requestType] =
-				(HandlerBase)(Activator.CreateInstance(typeof(RequestHandlerWrapperImpl<>).MakeGenericType(requestType)) ??
+				(HandlerBase)(Activator.CreateInstance(typeof(RequestHandlerWrapper<>).MakeGenericType(requestType)) ??
 				throw new InvalidOperationException($"Could not create wrapper type for {requestType}"));
 		}
 
-		var handler = (RequestHandlerWrapper)_requestHandlers[requestType];
+		var handler = (RequestHandlerWrapperBase)_requestHandlers[requestType];
 
 		handler.Handle(request, _serviceFactory);
 	}
