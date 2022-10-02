@@ -16,12 +16,10 @@
 
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
 
 namespace MIS.Application.Commands
 {
@@ -36,7 +34,7 @@ namespace MIS.Application.Commands
 			_dispanserizations = dispanserizations;
 		}
 
-		public async Task<DispanserizationViewModel> Handle(DispanserizationCreateCommand request, CancellationToken cancellationToken)
+		public DispanserizationViewModel Handle(DispanserizationCreateCommand request)
 		{
 			var dispanserization = new Dispanserization
 			{
@@ -45,9 +43,9 @@ namespace MIS.Application.Commands
 				PatientID = request.PatientID
 			};
 
-			var dispanserizationID = await _dispanserizations.Create(dispanserization);
+			var dispanserizationID = _dispanserizations.Create(dispanserization);
 
-			dispanserization = await _dispanserizations.Get(dispanserizationID);
+			dispanserization = _dispanserizations.Get(dispanserizationID);
 
 			var result = new DispanserizationViewModel
 			{

@@ -15,7 +15,6 @@
 #endregion
 
 using System;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
@@ -25,6 +24,7 @@ using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
+using MIS.Mediator;
 using Serilog;
 
 namespace MIS.Infomat
@@ -53,7 +53,7 @@ namespace MIS.Infomat
 				.AddLogging(builder => builder.AddSerilog(dispose: true));
 
 			services
-				.AddMediatR(typeof(Application.AssemblyMarker));
+				.AddMediator(typeof(Application.AssemblyMarker));
 
 			services
 				.AddSingleton<IPrintService, XPSPrintService>();

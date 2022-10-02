@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using MIS.Demo.Repositories;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
@@ -15,13 +14,13 @@ namespace MIS.Tests.Repositories.Demo
 
 		public PatientsRepositoryTests(DataFixture dataFixture)
 		{
-			_patients = new PatientsRepository(dataFixture.DateTimeProvider, dataFixture.DataContext);
+			_patients = new PatientsRepository(dataFixture.DataContext);
 		}
 
 		[Fact]
-		public async Task First_Ok()
+		public void First_Ok()
 		{
-			var actualResult = await _patients.First("30000000", new DateTime(1980, 1, 1));
+			var actualResult = _patients.First("30000000", new DateTime(1980, 1, 1));
 			var expectedResult = new Patient
 			{
 				Code = "30000000",
@@ -51,11 +50,11 @@ namespace MIS.Tests.Repositories.Demo
 		}
 
 		[Fact]
-		public async Task Get_Ok()
+		public void Get_Ok()
 		{
-			var patient = await _patients.First("30000000", new DateTime(1980, 1, 1));
+			var patient = _patients.First("30000000", new DateTime(1980, 1, 1));
 
-			var actualResult = await _patients.Get(patient.ID);
+			var actualResult = _patients.Get(patient.ID);
 			var expectedResult = new Patient
 			{
 				ID = actualResult.ID,

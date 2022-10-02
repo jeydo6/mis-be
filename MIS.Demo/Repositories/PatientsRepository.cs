@@ -16,10 +16,8 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
-using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 
 namespace MIS.Demo.Repositories
@@ -29,27 +27,26 @@ namespace MIS.Demo.Repositories
 		private readonly DemoDataContext _dataContext;
 
 		public PatientsRepository(
-			IDateTimeProvider _,
 			DemoDataContext dataContext
 		)
 		{
 			_dataContext = dataContext;
 		}
 
-		public async Task<Patient> First(string code, DateTime birthDate)
+		public Patient First(string code, DateTime birthDate)
 		{
 			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.Code == code && s.BirthDate == birthDate);
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<Patient> Get(int patientID)
+		public Patient Get(int patientID)
 		{
 			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.ID == patientID);
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
 	}

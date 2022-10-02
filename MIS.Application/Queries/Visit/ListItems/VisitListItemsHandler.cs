@@ -15,22 +15,20 @@
 #endregion
 
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
 	public class VisitListItemsHandler : IRequestHandler<VisitListItemsQuery, VisitItemViewModel[]>
 	{
-		public async Task<VisitItemViewModel[]> Handle(VisitListItemsQuery request, CancellationToken cancellationToken)
+		public VisitItemViewModel[] Handle(VisitListItemsQuery request)
 		{
 			var result = request.Patient.VisitItems
 				.OrderBy(v => v.BeginDateTime)
 				.ToArray();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

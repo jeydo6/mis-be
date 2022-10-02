@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIS.Infoboard", "MIS.Infobo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIS.Tests", "MIS.Tests\MIS.Tests.csproj", "{DC7CDE36-6F5E-413F-B9EB-AD98B9CD20E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIS.Mediator", "MIS.Mediator\MIS.Mediator.csproj", "{DB42FD81-23EF-4251-99F3-D251FFAF082E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIS.Mediator", "MIS.Mediator\MIS.Mediator.csproj", "{DB42FD81-23EF-4251-99F3-D251FFAF082E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

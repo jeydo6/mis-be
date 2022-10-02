@@ -15,11 +15,9 @@
 #endregion
 
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -34,7 +32,7 @@ namespace MIS.Application.Queries
 			_dateTimeProvider = dateTimeProvider;
 		}
 
-		public async Task<DateItemViewModel[]> Handle(DateListItemsQuery request, CancellationToken cancellationToken)
+		public DateItemViewModel[] Handle(DateListItemsQuery request)
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
 			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (int)beginDate.DayOfWeek;
@@ -50,7 +48,7 @@ namespace MIS.Application.Queries
 
 			if (request.Resource.Dates != null && request.Resource.Dates.Any())
 			{
-				var joined = result
+				_ = result
 					.Join(request.Resource.Dates, di => di.Date, d => d.Date, (di, d) =>
 					{
 						di.IsEnabled = d.IsEnabled;
@@ -60,7 +58,7 @@ namespace MIS.Application.Queries
 					.ToArray();
 			}
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

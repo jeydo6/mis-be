@@ -16,14 +16,12 @@
 
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -48,7 +46,7 @@ namespace MIS.Application.Queries
 			_settingsConfig = settingsConfigOptions.Value;
 		}
 
-		public async Task<SpecialtyViewModel[]> Handle(SpecialtyListItemsQuery request, CancellationToken cancellationToken)
+		public SpecialtyViewModel[] Handle(SpecialtyListItemsQuery request)
 		{
 			var visitItems = request.Patient != null ? request.Patient.VisitItems
 				.ToArray() : Array.Empty<VisitItemViewModel>();
@@ -59,8 +57,8 @@ namespace MIS.Application.Queries
 			var beginDate = _dateTimeProvider.Now.Date;
 			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
 
-			var resources = await _resources.ToList();
-			var resourceTotals = await _timeItems.GetResourceTotals(beginDate, endDate);
+			var resources = _resources.ToList();
+			var resourceTotals = _timeItems.GetResourceTotals(beginDate, endDate);
 
 			var dateItems = resourceTotals
 				.GroupJoin(visitItems, t => t.ResourceID, g => g.ResourceID, (t, g) => new DateItemViewModel

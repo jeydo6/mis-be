@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
@@ -43,9 +42,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<int> Create(Dispanserization item)
+		public int Create(Dispanserization item)
 		{
-			int dispanserizationID = await _db.QuerySingleAsync<int>(
+			int dispanserizationID = _db.QuerySingle<int>(
 				sql: "[dbo].[sp_Dispanserizations_Create]",
 				param: new
 				{
@@ -60,11 +59,11 @@ namespace MIS.Persistence.Repositories
 			return dispanserizationID;
 		}
 
-		public async Task<Dispanserization> Get(int dispanserizationID)
+		public Dispanserization Get(int dispanserizationID)
 		{
 			var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var query = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
+			var query = _db.Query<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
 				map: (dispanserization, research) =>
 				{
@@ -88,11 +87,11 @@ namespace MIS.Persistence.Repositories
 				.FirstOrDefault();
 		}
 
-		public async Task<List<Dispanserization>> ToList(int patientID)
+		public List<Dispanserization> ToList(int patientID)
 		{
 			var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var query = await _db.QueryAsync<Dispanserization, Research, Dispanserization>(
+			var query = _db.Query<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_List]",
 				map: (dispanserization, research) =>
 				{

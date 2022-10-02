@@ -15,8 +15,8 @@
 #endregion
 
 using System;
-using MediatR;
 using MIS.Application.ViewModels;
+using MIS.Mediator;
 
 namespace MIS.Application.Commands
 {

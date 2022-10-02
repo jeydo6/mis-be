@@ -15,10 +15,8 @@
 #endregion
 
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Domain.Providers;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -33,12 +31,12 @@ namespace MIS.Application.Queries
 			_dateTimeProvider = dateTimeProvider;
 		}
 
-		public async Task<bool> Handle(DispanserizationIsRequiredQuery request, CancellationToken cancellationToken)
+		public bool Handle(DispanserizationIsRequiredQuery request)
 		{
 			var result = !request.Patient.Dispanserizations
 				.Any(d => d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

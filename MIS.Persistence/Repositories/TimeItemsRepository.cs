@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
@@ -42,9 +41,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
+		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
-			var result = await _db.QueryAsync<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+			var result = _db.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_List]",
 				map: (timeItem, resource, employee, specialty, room, visitItem) =>
 				{
@@ -69,9 +68,9 @@ namespace MIS.Persistence.Repositories
 				.AsList();
 		}
 
-		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
+		public List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
-			var result = await _db.QueryAsync<TimeItemTotal>(
+			var result = _db.Query<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
 				param: new { beginDate, endDate, specialtyID },
 				commandType: CommandType.StoredProcedure,
@@ -82,9 +81,9 @@ namespace MIS.Persistence.Repositories
 				.AsList();
 		}
 
-		public async Task<List<TimeItemTotal>> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
+		public List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
-			var result = await _db.QueryAsync<TimeItemTotal>(
+			var result = _db.Query<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
 				param: new { beginDate, endDate },
 				commandType: CommandType.StoredProcedure,

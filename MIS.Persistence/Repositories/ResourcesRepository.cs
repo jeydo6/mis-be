@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
@@ -42,9 +41,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<List<Resource>> ToList()
+		public List<Resource> ToList()
 		{
-			var result = await _db.QueryAsync<Resource, Employee, Specialty, Room, Resource>(
+			var result = _db.Query<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_List]",
 				map: (resource, employee, specialty, room) =>
 				{
@@ -62,9 +61,9 @@ namespace MIS.Persistence.Repositories
 				.AsList();
 		}
 
-		public async Task<List<Resource>> GetDispanserizations()
+		public List<Resource> GetDispanserizations()
 		{
-			var result = await _db.QueryAsync<Resource, Employee, Specialty, Room, Resource>(
+			var result = _db.Query<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_GetDispanserizations]",
 				map: (resource, employee, specialty, room) =>
 				{

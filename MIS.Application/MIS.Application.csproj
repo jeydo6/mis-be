@@ -16,13 +16,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MediatR" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\MIS.Domain\MIS.Domain.csproj" />
+		<ProjectReference Include="..\MIS.Mediator\MIS.Mediator.csproj" />
 	</ItemGroup>
 
 </Project>

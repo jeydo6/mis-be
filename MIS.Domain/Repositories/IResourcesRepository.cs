@@ -15,15 +15,14 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {
 	public interface IResourcesRepository
 	{
-		Task<List<Resource>> ToList();
+		List<Resource> ToList();
 
-		Task<List<Resource>> GetDispanserizations();
+		List<Resource> GetDispanserizations();
 	}
 }

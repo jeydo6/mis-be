@@ -14,12 +14,10 @@
  */
 #endregion
 
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
 
 namespace MIS.Application.Commands
 {
@@ -34,7 +32,7 @@ namespace MIS.Application.Commands
 			_visitItems = visitItems;
 		}
 
-		public async Task<VisitItemViewModel> Handle(VisitCreateCommand request, CancellationToken cancellationToken)
+		public VisitItemViewModel Handle(VisitCreateCommand request)
 		{
 			var visitItem = new VisitItem
 			{
@@ -42,9 +40,9 @@ namespace MIS.Application.Commands
 				PatientID = request.PatientID
 			};
 
-			var visitItemID = await _visitItems.Create(visitItem);
+			var visitItemID = _visitItems.Create(visitItem);
 
-			visitItem = await _visitItems.Get(visitItemID);
+			visitItem = _visitItems.Get(visitItemID);
 
 			var result = new VisitItemViewModel
 			{

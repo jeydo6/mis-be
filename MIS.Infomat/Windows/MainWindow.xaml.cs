@@ -20,11 +20,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Infomat.Controls;
+using MIS.Mediator;
 
 namespace MIS.Infomat.Windows
 {
@@ -131,7 +130,7 @@ namespace MIS.Infomat.Windows
 
 		private void TimerTick(object sender, EventArgs e)
 		{
-			IsServiceTime = _mediator.SendSync(
+			IsServiceTime = _mediator.Send(
 				new TimeIsServiceQuery()
 			);
 

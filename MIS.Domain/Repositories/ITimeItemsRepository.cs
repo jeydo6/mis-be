@@ -16,17 +16,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using MIS.Domain.Entities;
 
 namespace MIS.Domain.Repositories
 {
 	public interface ITimeItemsRepository
 	{
-		Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0);
+		List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0);
 
-		Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0);
+		List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0);
 
-		Task<List<TimeItemTotal>> GetDispanserizationTotals(DateTime beginDate, DateTime endDate);
+		List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate);
 	}
 }

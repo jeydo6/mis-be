@@ -18,14 +18,13 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
+using MIS.Mediator;
 using Serilog;
 
 namespace MIS.Infomat.Controls
@@ -63,11 +62,11 @@ namespace MIS.Infomat.Controls
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			list.ItemsSource = _mediator.SendSync(
+			list.ItemsSource = _mediator.Send(
 				new VisitListItemsQuery(_patient)
 			);
 
-			dispanserizationButton.DataContext = _mediator.SendSync(
+			dispanserizationButton.DataContext = _mediator.Send(
 				new DispanserizationLastQuery(_patient)
 			);
 

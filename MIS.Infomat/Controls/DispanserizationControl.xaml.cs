@@ -17,15 +17,14 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Commands;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
+using MIS.Mediator;
 using Serilog;
 
 namespace MIS.Infomat.Controls
@@ -63,11 +62,11 @@ namespace MIS.Infomat.Controls
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			datesHeader.Content = _mediator.SendSync(
+			datesHeader.Content = _mediator.Send(
 				new DateHeaderQuery()
 			);
 
-			datesList.ItemsSource = _mediator.SendSync(
+			datesList.ItemsSource = _mediator.Send(
 				new DispanserizationListItemsQuery()
 			);
 		}
@@ -78,7 +77,7 @@ namespace MIS.Infomat.Controls
 			{
 				try
 				{
-					var dispanserization = _mediator.SendSync(
+					var dispanserization = _mediator.Send(
 						new DispanserizationCreateCommand(dispanserizationItem.BeginDate, _patient.ID, _patient.Code, _patient.Name)
 					);
 

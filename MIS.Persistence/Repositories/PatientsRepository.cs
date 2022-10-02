@@ -16,7 +16,6 @@
 
 using System;
 using System.Data;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
@@ -41,9 +40,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<Patient> First(string code, DateTime birthDate)
+		public Patient First(string code, DateTime birthDate)
 		{
-			var result = await _db.QueryFirstOrDefaultAsync<Patient>(
+			var result = _db.QueryFirstOrDefault<Patient>(
 				sql: "[dbo].[sp_Patients_First]",
 				param: new { code, birthDate },
 				commandType: CommandType.StoredProcedure,
@@ -53,9 +52,9 @@ namespace MIS.Persistence.Repositories
 			return result;
 		}
 
-		public async Task<Patient> Get(int patientID)
+		public Patient Get(int patientID)
 		{
-			var result = await _db.QueryFirstOrDefaultAsync<Patient>(
+			var result = _db.QueryFirstOrDefault<Patient>(
 				sql: "[dbo].[sp_Patients_Get]",
 				param: new { patientID },
 				commandType: CommandType.StoredProcedure,

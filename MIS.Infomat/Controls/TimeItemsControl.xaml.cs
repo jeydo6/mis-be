@@ -19,15 +19,14 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Commands;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
+using MIS.Mediator;
 using Serilog;
 
 namespace MIS.Infomat.Controls
@@ -67,11 +66,11 @@ namespace MIS.Infomat.Controls
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			datesHeader.Content = _mediator.SendSync(
+			datesHeader.Content = _mediator.Send(
 				new DateHeaderQuery()
 			);
 
-			datesList.ItemsSource = _mediator.SendSync(
+			datesList.ItemsSource = _mediator.Send(
 				new DateListItemsQuery(_resource)
 			);
 		}
@@ -82,7 +81,7 @@ namespace MIS.Infomat.Controls
 			{
 				if (dateItem.Times == null)
 				{
-					dateItem.Times = _mediator.SendSync(
+					dateItem.Times = _mediator.Send(
 						new TimeListItemsQuery(dateItem.Date, _resource.ResourceID)
 					);
 
@@ -111,7 +110,7 @@ namespace MIS.Infomat.Controls
 			{
 				try
 				{
-					var visitItem = _mediator.SendSync(
+					var visitItem = _mediator.Send(
 						new VisitCreateCommand(timeItem.TimeItemID, _patient.ID, _patient.Code, _patient.Name)
 					);
 

@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
@@ -39,7 +38,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<int> Create(Dispanserization dispanserization)
+		public int Create(Dispanserization dispanserization)
 		{
 			if (_dataContext.Dispanserizations.FirstOrDefault(
 					d => d.PatientID == dispanserization.PatientID
@@ -91,24 +90,24 @@ namespace MIS.Demo.Repositories
 
 			var result = dispanserization.ID;
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<Dispanserization> Get(int dispanserizationID)
+		public Dispanserization Get(int dispanserizationID)
 		{
 			var result = _dataContext.Dispanserizations
 				.FirstOrDefault(d => d.ID == dispanserizationID);
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<List<Dispanserization>> ToList(int patientID)
+		public List<Dispanserization> ToList(int patientID)
 		{
 			var result = _dataContext.Dispanserizations
 				.Where(d => d.PatientID == patientID)
 				.ToList();
-			
-			return await Task.FromResult(result);
+
+			return result;
 		}
 	}
 }

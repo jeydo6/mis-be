@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
@@ -37,17 +36,17 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<List<TimeItem>> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
+		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			var result = _dataContext.TimeItems
 				.Where(ti => ti.Resource.Employee.Specialty.ID > 0)
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (resourceID == 0 || ti.ResourceID == resourceID))
 				.ToList();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<List<TimeItemTotal>> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
+		public List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
 			var result = _dataContext.TimeItems
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate && (specialtyID == 0 || ti.Resource.Employee.SpecialtyID == specialtyID))
@@ -64,10 +63,10 @@ namespace MIS.Demo.Repositories
 				})
 				.ToList();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<List<TimeItemTotal>> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
+		public List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
 			var result = _dataContext.TimeItems
 				.Where(ti => ti.Date >= beginDate && ti.Date <= endDate)
@@ -84,7 +83,7 @@ namespace MIS.Demo.Repositories
 				})
 				.ToList();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

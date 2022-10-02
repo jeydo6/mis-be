@@ -15,7 +15,6 @@
 #endregion
 
 using System;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
@@ -23,6 +22,7 @@ using MIS.Demo.DataContexts;
 using MIS.Domain.Options;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
 
 namespace MIS.Infoboard
 {
@@ -51,7 +51,7 @@ namespace MIS.Infoboard
 			);
 
 			services
-				.AddMediatR(typeof(Application.AssemblyMarker));
+				.AddMediator(typeof(Application.AssemblyMarker));
 
 #if DEMO
 			services

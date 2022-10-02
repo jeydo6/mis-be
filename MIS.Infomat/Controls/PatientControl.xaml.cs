@@ -19,11 +19,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Infomat.Windows;
+using MIS.Mediator;
 
 namespace MIS.Infomat.Controls
 {
@@ -126,7 +125,7 @@ namespace MIS.Infomat.Controls
 
 			if (numberValidation && birthdateValidation)
 			{
-				var patient = _mediator.SendSync(new PatientFirstQuery(
+				var patient = _mediator.Send(new PatientFirstQuery(
 						numberTextBox.Text,
 						new DateTime(int.Parse(birthdateTextBox.Text), 1, 1)
 					)

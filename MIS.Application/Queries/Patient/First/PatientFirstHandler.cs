@@ -15,12 +15,10 @@
 #endregion
 
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -44,9 +42,9 @@ namespace MIS.Application.Queries
 			_dispanserizations = dispanserizations;
 		}
 
-		public async Task<PatientViewModel> Handle(PatientFirstQuery request, CancellationToken cancellationToken)
+		public PatientViewModel Handle(PatientFirstQuery request)
 		{
-			var patient = await _patients.First(request.Code, request.BirthDate);
+			var patient = _patients.First(request.Code, request.BirthDate);
 
 			if (patient == null)
 			{
@@ -56,10 +54,10 @@ namespace MIS.Application.Queries
 			var beginDate = _dateTimeProvider.Now.Date;
 			var endDate = _dateTimeProvider.Now.Date.AddDays(28);
 
-			patient.VisitItems = await _visitItems
+			patient.VisitItems = _visitItems
 				.ToList(beginDate, endDate, patientID: patient.ID);
 
-			patient.Dispanserizations = await _dispanserizations
+			patient.Dispanserizations = _dispanserizations
 				.ToList(patient.ID);
 
 			var result = new PatientViewModel

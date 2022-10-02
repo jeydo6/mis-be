@@ -18,12 +18,11 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Infomat.Windows;
+using MIS.Mediator;
 
 namespace MIS.Infomat.Controls
 {
@@ -58,7 +57,7 @@ namespace MIS.Infomat.Controls
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			list.ItemsSource = _mediator.SendSync(
+			list.ItemsSource = _mediator.Send(
 				new SpecialtyListItemsQuery(_patient)
 			);
 		}

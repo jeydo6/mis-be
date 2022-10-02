@@ -14,7 +14,7 @@
  */
 #endregion
 
-using MediatR;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {

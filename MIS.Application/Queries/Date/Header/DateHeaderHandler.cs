@@ -14,10 +14,8 @@
  */
 #endregion
 
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Domain.Providers;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -33,7 +31,7 @@ namespace MIS.Application.Queries
 		}
 
 
-		public async Task<string> Handle(DateHeaderQuery request, CancellationToken cancellationToken)
+		public string Handle(DateHeaderQuery request)
 		{
 			var beginDate = _dateTimeProvider.Now.Date;
 			var beginDayOfWeek = beginDate.DayOfWeek == 0 ? 7 : (int)beginDate.DayOfWeek;
@@ -42,7 +40,7 @@ namespace MIS.Application.Queries
 
 			var result = beginDate.Month == endDate.Month ? $"{beginDate:MMMM}" : $"{beginDate:MMMM}/{endDate:MMMM}";
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

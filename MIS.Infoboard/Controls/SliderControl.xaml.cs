@@ -18,10 +18,10 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
 using MIS.Application.Queries;
+using MIS.Mediator;
 
 namespace MIS.Infoboard.Controls
 {
@@ -79,7 +79,7 @@ namespace MIS.Infoboard.Controls
 
 		private void LoadSpecialtiesPages()
 		{
-			var specialties = _mediator.SendSync(
+			var specialties = _mediator.Send(
 				new SpecialtyListItemsQuery(patient: null)
 			);
 
@@ -95,7 +95,7 @@ namespace MIS.Infoboard.Controls
 
 		private void LoadDepartmentPages()
 		{
-			var departments = _mediator.SendSync(
+			var departments = _mediator.Send(
 				new DepartmentListItemsQuery()
 			);
 

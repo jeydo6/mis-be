@@ -16,12 +16,10 @@
 
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
 using MIS.Application.ViewModels;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -36,7 +34,7 @@ namespace MIS.Application.Queries
 			_contactsConfig = contactsConfigOptions.CurrentValue;
 		}
 
-		public async Task<DepartmentViewModel[]> Handle(DepartmentListItemsQuery request, CancellationToken cancellationToken)
+		public DepartmentViewModel[] Handle(DepartmentListItemsQuery request)
 		{
 			var result = _contactsConfig.Departments != null
 				? _contactsConfig.Departments
@@ -45,20 +43,20 @@ namespace MIS.Application.Queries
 						DepartmentName = d.DepartmentName,
 						Employees = d.Employees
 							.Select(e => new EmployeeViewModel
-						{
-							EmployeeName = e.EmployeeName,
-							BeginTime = e.BeginTime,
-							EndTime	= e.EndTime,
-							PhoneNumber = e.PhoneNumber,
-							PostName = e.PostName,
-							RoomCode = e.RoomCode
-						})
+							{
+								EmployeeName = e.EmployeeName,
+								BeginTime = e.BeginTime,
+								EndTime = e.EndTime,
+								PhoneNumber = e.PhoneNumber,
+								PostName = e.PostName,
+								RoomCode = e.RoomCode
+							})
 							.ToArray()
 					})
 					.ToArray()
 				: Array.Empty<DepartmentViewModel>();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

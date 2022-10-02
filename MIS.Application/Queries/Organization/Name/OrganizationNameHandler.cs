@@ -14,11 +14,9 @@
  */
 #endregion
 
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -33,14 +31,14 @@ namespace MIS.Application.Queries
 			_settingsConfig = settingsConfigOptions.Value;
 		}
 
-		public async Task<string> Handle(OrganizationNameQuery request, CancellationToken cancellationToken)
+		public string Handle(OrganizationNameQuery request)
 		{
-			if (_settingsConfig != null)
+			if(_settingsConfig != null)
 			{
-				return await Task.FromResult(_settingsConfig.OrganizationName);
+				return _settingsConfig.OrganizationName;
 			}
 
-			return await Task.FromResult<string>(null);
+			return string.Empty;
 		}
 	}
 }

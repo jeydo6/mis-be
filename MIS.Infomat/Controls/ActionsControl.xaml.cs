@@ -17,12 +17,11 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
 using MIS.Infomat.Windows;
+using MIS.Mediator;
 
 namespace MIS.Infomat.Controls
 {
@@ -57,7 +56,7 @@ namespace MIS.Infomat.Controls
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			var dispanserizationIsRequired = _mediator.SendSync(
+			var dispanserizationIsRequired = _mediator.Send(
 				new DispanserizationIsRequiredQuery(_patient)
 			);
 

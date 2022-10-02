@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
@@ -36,22 +35,22 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<List<Resource>> ToList()
+		public List<Resource> ToList()
 		{
 			var result = _dataContext.Resources
 				.Where(r => r.Employee.Specialty.ID > 0)
 				.ToList();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<List<Resource>> GetDispanserizations()
+		public List<Resource> GetDispanserizations()
 		{
 			var result = _dataContext.Resources
 				.Where(r => r.Employee.Specialty.ID == 0)
 				.ToList();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

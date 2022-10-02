@@ -15,11 +15,9 @@
 #endregion
 
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -34,13 +32,13 @@ namespace MIS.Application.Queries
 			_dateTimeProvider = dateTimeProvider;
 		}
 
-		public async Task<DispanserizationViewModel> Handle(DispanserizationLastQuery request, CancellationToken cancellationToken)
+		public DispanserizationViewModel Handle(DispanserizationLastQuery request)
 		{
 			var result = request.Patient.Dispanserizations
 				.OrderBy(d => d.BeginDate)
 				.LastOrDefault(d => !d.IsClosed && d.BeginDate.Year == _dateTimeProvider.Now.Year);
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

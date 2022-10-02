@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
@@ -43,9 +42,9 @@ namespace MIS.Persistence.Repositories
 			_transaction = transaction;
 		}
 
-		public async Task<int> Create(VisitItem item)
+		public int Create(VisitItem item)
 		{
-			var result = await _db.QuerySingleAsync<int>(
+			var result = _db.QuerySingle<int>(
 				sql: "[dbo].[sp_VisitItems_Create]",
 				param: new
 				{
@@ -59,9 +58,9 @@ namespace MIS.Persistence.Repositories
 			return result;
 		}
 
-		public async Task<VisitItem> Get(int visitItemID)
+		public VisitItem Get(int visitItemID)
 		{
-			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
+			var result = _db.Query<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_Get]",
 				map: (visitItem, timeItem, resource, employee, specialty, room) =>
 				{
@@ -83,9 +82,9 @@ namespace MIS.Persistence.Repositories
 				.FirstOrDefault();
 		}
 
-		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
+		public List<VisitItem> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
 		{
-			var result = await _db.QueryAsync<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
+			var result = _db.Query<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_List]",
 				map: (visitItem, timeItem, resource, employee, specialty, room) =>
 				{

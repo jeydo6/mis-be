@@ -15,12 +15,10 @@
 #endregion
 
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -38,9 +36,9 @@ namespace MIS.Application.Queries
 			_timeItems = timeItems;
 		}
 
-		public async Task<TimeItemViewModel[]> Handle(TimeListItemsQuery request, CancellationToken cancellationToken)
+		public TimeItemViewModel[] Handle(TimeListItemsQuery request)
 		{
-			var timeItems = await _timeItems
+			var timeItems = _timeItems
 				.ToList(request.Date, request.Date, request.ResourceID);
 
 			var result = timeItems

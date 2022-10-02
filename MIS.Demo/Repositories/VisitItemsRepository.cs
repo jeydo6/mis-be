@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
@@ -38,7 +37,7 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
-		public async Task<int> Create(VisitItem item)
+		public int Create(VisitItem item)
 		{
 			if (_dataContext.VisitItems.FirstOrDefault(vi => vi.TimeItemID == item.TimeItemID) != null)
 			{
@@ -56,25 +55,25 @@ namespace MIS.Demo.Repositories
 
 			var result = item.ID;
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<VisitItem> Get(int visitItemID)
+		public VisitItem Get(int visitItemID)
 		{
 			var result = _dataContext.VisitItems
 				.FirstOrDefault(vi => vi.ID == visitItemID);
 
-			return await Task.FromResult(result);
+			return result;
 		}
 
-		public async Task<List<VisitItem>> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
+		public List<VisitItem> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
 		{
 			var result = _dataContext.VisitItems
 				.Where(vi => vi.TimeItem.Resource.Employee.Specialty.ID > 0)
 				.Where(vi => vi.TimeItem.Date >= beginDate && vi.TimeItem.Date <= endDate && (patientID == 0 || vi.PatientID == patientID))
 				.ToList();
 
-			return await Task.FromResult(result);
+			return result;
 		}
 	}
 }

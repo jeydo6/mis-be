@@ -17,11 +17,10 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MIS.Application.Extensions;
 using MIS.Application.Queries;
 using MIS.Domain.Providers;
+using MIS.Mediator;
 
 namespace MIS.Infoboard.Controls
 {
@@ -56,7 +55,7 @@ namespace MIS.Infoboard.Controls
 
 		private void UserControl_Initialized(object sender, EventArgs e)
 		{
-			organizationName.Text = _mediator.SendSync(
+			organizationName.Text = _mediator.Send(
 				new OrganizationNameQuery()
 			);
 		}

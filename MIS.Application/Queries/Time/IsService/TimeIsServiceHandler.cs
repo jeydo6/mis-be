@@ -16,12 +16,10 @@
 
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
 using MIS.Domain.Providers;
+using MIS.Mediator;
 
 namespace MIS.Application.Queries
 {
@@ -40,7 +38,7 @@ namespace MIS.Application.Queries
 			_settingsConfig = settingsConfigOptions.Value;
 		}
 
-		public async Task<bool> Handle(TimeIsServiceQuery request, CancellationToken cancellationToken)
+		public bool Handle(TimeIsServiceQuery request)
 		{
 			if (_settingsConfig != null && _settingsConfig.ServiceIntervals != null)
 			{
@@ -57,7 +55,7 @@ namespace MIS.Application.Queries
 						&& timeOfDay < endService;
 				});
 
-				return await Task.FromResult(result);
+				return result;
 			}
 
 			return false;
