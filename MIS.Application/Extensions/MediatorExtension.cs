@@ -33,10 +33,10 @@ namespace MIS.Application.Extensions
 
 		public static void SendSync(this IMediator mediator, IRequest request, CancellationToken cancellationToken = default)
 		{
-			var task = Task.Run(async () => await mediator
+			Task.Run(async () => await mediator
 				.Send(request, cancellationToken)
 				.ConfigureAwait(false)
-			);
+			).Wait(cancellationToken);
 		}
 	}
 }
