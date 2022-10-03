@@ -21,7 +21,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Commands;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
-using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
 using MIS.Mediator;
@@ -37,7 +36,6 @@ namespace MIS.Infomat.Controls
 		private readonly PatientViewModel _patient;
 
 		private readonly IMediator _mediator;
-		private readonly IPrintService _printService;
 
 		private readonly MainWindow _mainWindow;
 
@@ -55,7 +53,6 @@ namespace MIS.Infomat.Controls
 			_mainWindow = app.MainWindow as MainWindow;
 
 			_mediator = app.ServiceProvider.GetService<IMediator>();
-			_printService = app.ServiceProvider.GetService<IPrintService>();
 
 			InitializeComponent();
 		}
@@ -83,8 +80,8 @@ namespace MIS.Infomat.Controls
 
 					_patient.Dispanserizations.Add(dispanserization);
 
-					_printService.Print(
-						new DispanserizationPrintForm(dispanserization)
+					_mediator.Send(
+						new PrintFormPrintCommand(new DispanserizationPrintForm(dispanserization))
 					);
 				}
 				catch (Exception ex)

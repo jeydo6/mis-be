@@ -23,7 +23,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Commands;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
-using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
 using MIS.Mediator;
@@ -42,7 +41,6 @@ namespace MIS.Infomat.Controls
 		private readonly MainWindow _mainWindow;
 
 		private readonly IMediator _mediator;
-		private readonly IPrintService _printService;
 
 		internal TimeItemsControl()
 		{
@@ -57,7 +55,6 @@ namespace MIS.Infomat.Controls
 			var app = System.Windows.Application.Current as App;
 
 			_mediator = app.ServiceProvider.GetService<IMediator>();
-			_printService = app.ServiceProvider.GetService<IPrintService>();
 
 			_mainWindow = app.MainWindow as MainWindow;
 
@@ -116,8 +113,8 @@ namespace MIS.Infomat.Controls
 
 					_patient.VisitItems.Add(visitItem);
 
-					_printService.Print(
-						new VisitItemPrintForm(visitItem)
+					_mediator.Send(
+						new PrintFormPrintCommand(new VisitItemPrintForm(visitItem))
 					);
 				}
 				catch (Exception ex)

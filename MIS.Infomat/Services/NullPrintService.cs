@@ -20,7 +20,7 @@ namespace MIS.Infomat.Services
 {
 	internal class NullPrintService : IPrintService
 	{
-		public void Print(object obj)
+		public void Print(IPrintForm printForm)
 		{
 			//
 		}

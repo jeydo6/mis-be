@@ -19,13 +19,14 @@ using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
+using MIS.Domain.Services;
 
 namespace MIS.Infomat.PrintForms
 {
 	/// <summary>
 	/// Логика взаимодействия для DispanserizationPrintForm.xaml
 	/// </summary>
-	public partial class DispanserizationPrintForm : UserControl
+	public partial class DispanserizationPrintForm : UserControl, IPrintForm
 	{
 		internal DispanserizationPrintForm()
 		{

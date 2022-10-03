@@ -19,9 +19,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Extensions.DependencyInjection;
+using MIS.Application.Commands;
 using MIS.Application.Queries;
 using MIS.Application.ViewModels;
-using MIS.Domain.Services;
 using MIS.Infomat.PrintForms;
 using MIS.Infomat.Windows;
 using MIS.Mediator;
@@ -39,7 +39,6 @@ namespace MIS.Infomat.Controls
 		private readonly MainWindow _mainWindow;
 
 		private readonly IMediator _mediator;
-		private readonly IPrintService _printService;
 
 		internal VisitItemsControl()
 		{
@@ -55,7 +54,6 @@ namespace MIS.Infomat.Controls
 			_mainWindow = app.MainWindow as MainWindow;
 
 			_mediator = app.ServiceProvider.GetService<IMediator>();
-			_printService = app.ServiceProvider.GetService<IPrintService>();
 
 			InitializeComponent();
 		}
@@ -82,8 +80,8 @@ namespace MIS.Infomat.Controls
 			{
 				try
 				{
-					_printService.Print(
-						new VisitItemPrintForm(visitItem)
+					_mediator.Send(
+						new PrintFormPrintCommand(new VisitItemPrintForm(visitItem))
 					);
 				}
 				catch (Exception ex)
@@ -102,8 +100,8 @@ namespace MIS.Infomat.Controls
 			{
 				try
 				{
-					_printService.Print(
-						new DispanserizationPrintForm(dispanserization)
+					_mediator.Send(
+						new PrintFormPrintCommand(new DispanserizationPrintForm(dispanserization))
 					);
 				}
 				catch (Exception ex)

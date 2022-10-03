@@ -20,13 +20,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MIS.Application.Configs;
 using MIS.Application.ViewModels;
+using MIS.Domain.Services;
 
 namespace MIS.Infomat.PrintForms
 {
 	/// <summary>
 	/// Логика взаимодействия для VisitItemPrintForm.xaml
 	/// </summary>
-	public partial class VisitItemPrintForm : UserControl
+	public partial class VisitItemPrintForm : UserControl, IPrintForm
 	{
 		internal VisitItemPrintForm()
 		{

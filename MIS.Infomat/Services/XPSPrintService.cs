@@ -24,9 +24,9 @@ namespace MIS.Infomat.Services
 {
 	internal class XPSPrintService : IPrintService
 	{
-		public void Print(object obj)
+		public void Print(IPrintForm printForm)
 		{
-			if (obj is UserControl userControl)
+			if (printForm is UserControl userControl)
 			{
 				using (var ps = new LocalPrintServer())
 				{
@@ -60,8 +60,9 @@ namespace MIS.Infomat.Services
 						Child = page
 					});
 
-					var xpsdw = PrintQueue.CreateXpsDocumentWriter(pq);
-					xpsdw.WriteAsync(document);
+					PrintQueue
+						.CreateXpsDocumentWriter(pq)
+						.WriteAsync(document);
 				}
 			}
 		}
