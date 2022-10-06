@@ -14,7 +14,7 @@ namespace MIS.Tests.Repositories.Live
 
 		public PatientsRepositoryTests(DataFixture dataFixture)
 		{
-			_patients = new PatientsRepository(dataFixture.Transaction);
+			_patients = new PatientsRepository(dataFixture.ConnectionString);
 		}
 
 		[Fact]

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using Dapper;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Providers;
@@ -13,25 +10,17 @@ namespace MIS.Tests.Fixtures.Live
 	{
 		public DataFixture()
 		{
-			IConfigurationRoot configuration = new ConfigurationBuilder()
+			var configuration = new ConfigurationBuilder()
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
 				.Build();
 
-			string connectionString = configuration.GetConnectionString("DefaultConnection");
-
-			IDbConnection db = new SqlConnection(connectionString);
-			db.Open();
-
-			Transaction = db.BeginTransaction();
-
+			ConnectionString = configuration.GetConnectionString("DefaultConnection");
 			DateTimeProvider = new DefaultDateTimeProvider(new DateTime(2100, 1, 18));
-
-			Seed();
 		}
 
-		internal IDateTimeProvider DateTimeProvider { get; }
+		protected internal IDateTimeProvider DateTimeProvider { get; }
 
-		internal IDbTransaction Transaction { get; }
+		protected internal string ConnectionString { get; }
 
 		private void Seed()
 		{
@@ -97,19 +86,20 @@ namespace MIS.Tests.Fixtures.Live
 
 		private int CreateDispanserization(Dispanserization item)
 		{
-			int dispanserizationID = Transaction.Connection.QuerySingle<int>(
-				sql: "[dbo].[sp_Dispanserizations_Create]",
-				param: new
-				{
-					patientID = item.PatientID,
-					beginDate = item.BeginDate,
-					endDate = item.EndDate
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: Transaction
-			);
+			throw new NotImplementedException();
+			//int dispanserizationID = Transaction.Connection.QuerySingle<int>(
+			//	sql: "[dbo].[sp_Dispanserizations_Create]",
+			//	param: new
+			//	{
+			//		patientID = item.PatientID,
+			//		beginDate = item.BeginDate,
+			//		endDate = item.EndDate
+			//	},
+			//	commandType: CommandType.StoredProcedure,
+			//	transaction: Transaction
+			//);
 
-			return dispanserizationID;
+			//return dispanserizationID;
 		}
 
 		private int CreatePatient(Patient item)
@@ -161,45 +151,47 @@ namespace MIS.Tests.Fixtures.Live
 
 		private int CreateTimeItem(TimeItem item)
 		{
-			int timeItemID = Transaction.Connection.QuerySingle<int>(
-				sql: "[dbo].[sp_TimeItems_Create]",
-				param: new
-				{
-					date = item.Date,
-					beginDateTime = item.BeginDateTime,
-					endDateTime = item.EndDateTime,
-					resourceID = item.ResourceID
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: Transaction
-			);
+			throw new NotImplementedException();
+			//int timeItemID = Transaction.Connection.QuerySingle<int>(
+			//	sql: "[dbo].[sp_TimeItems_Create]",
+			//	param: new
+			//	{
+			//		date = item.Date,
+			//		beginDateTime = item.BeginDateTime,
+			//		endDateTime = item.EndDateTime,
+			//		resourceID = item.ResourceID
+			//	},
+			//	commandType: CommandType.StoredProcedure,
+			//	transaction: Transaction
+			//);
 
-			return timeItemID;
+			//return timeItemID;
 		}
 
 		private int CreateVisitItem(VisitItem item)
 		{
-			int visitItemID = Transaction.Connection.QuerySingle<int>(
-				sql: "[dbo].[sp_VisitItems_Create]",
-				param: new
-				{
-					patientID = item.PatientID,
-					timeItemID = item.TimeItemID
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: Transaction
-			);
+			throw new NotImplementedException();
+			//int visitItemID = Transaction.Connection.QuerySingle<int>(
+			//	sql: "[dbo].[sp_VisitItems_Create]",
+			//	param: new
+			//	{
+			//		patientID = item.PatientID,
+			//		timeItemID = item.TimeItemID
+			//	},
+			//	commandType: CommandType.StoredProcedure,
+			//	transaction: Transaction
+			//);
 
-			return visitItemID;
+			//return visitItemID;
 		}
 
 		public void Dispose()
 		{
-			if (Transaction != null)
-			{
-				Transaction.Rollback();
-				Transaction.Dispose();
-			}
+			//if (Transaction != null)
+			//{
+			//	Transaction.Rollback();
+			//	Transaction.Dispose();
+			//}
 		}
 	}
 }

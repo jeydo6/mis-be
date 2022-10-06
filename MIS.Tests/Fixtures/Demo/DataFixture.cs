@@ -8,13 +8,13 @@ namespace MIS.Tests.Fixtures.Demo
 	{
 		public DataFixture()
 		{
-			DateTimeProvider = new CurrentDateTimeProvider();
 			DataContext = new DemoDataContext(DateTimeProvider);
+			DateTimeProvider = new CurrentDateTimeProvider();
 		}
 
-		internal IDateTimeProvider DateTimeProvider { get; }
+		protected internal IDateTimeProvider DateTimeProvider { get; }
 
-		internal DemoDataContext DataContext { get; }
+		protected internal DemoDataContext DataContext { get; }
 
 		public void Dispose()
 		{

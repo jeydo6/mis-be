@@ -11,7 +11,7 @@ namespace MIS.Tests.Repositories.Live
 
 		public ResourcesRepositoryTests(DataFixture dataFixture)
 		{
-			_resources = new ResourcesRepository(dataFixture.Transaction);
+			_resources = new ResourcesRepository(dataFixture.ConnectionString);
 		}
 
 		[Fact]
