@@ -18,88 +18,62 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class TimeItemsRepository : ITimeItemsRepository, IDisposable
+	public class TimeItemsRepository : BaseRepository, ITimeItemsRepository
 	{
-		private readonly IDbConnection _db;
-		private readonly IDbTransaction _transaction;
-
-		public TimeItemsRepository(string connectionString)
-		{
-			_db = new SqlConnection(connectionString);
-			_transaction = null;
-		}
-
-		public TimeItemsRepository(IDbTransaction transaction)
-		{
-			_db = transaction.Connection;
-			_transaction = transaction;
-		}
+		public TimeItemsRepository(string connectionString) : base(connectionString) { }
 
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
-			var result = _db.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
-				sql: "[dbo].[sp_TimeItems_List]",
-				map: (timeItem, resource, employee, specialty, room, visitItem) =>
-				{
-					timeItem.Resource = resource;
-					timeItem.Resource.Employee = employee;
-					timeItem.Resource.Employee.Specialty = specialty;
-					timeItem.Resource.Room = room;
-					if (visitItem != null)
+			using (var db = OpenConnection())
+			{
+				return db.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+					sql: "[dbo].[sp_TimeItems_List]",
+					map: (timeItem, resource, employee, specialty, room, visitItem) =>
 					{
-						timeItem.VisitItem = visitItem;
-						timeItem.VisitItem.TimeItem = timeItem;
-					}
+						timeItem.Resource = resource;
+						timeItem.Resource.Employee = employee;
+						timeItem.Resource.Employee.Specialty = specialty;
+						timeItem.Resource.Room = room;
+						if (visitItem != null)
+						{
+							timeItem.VisitItem = visitItem;
+							timeItem.VisitItem.TimeItem = timeItem;
+						}
 
-					return timeItem;
-				},
-				param: new { beginDate, endDate, resourceID },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result
-				.AsList();
+						return timeItem;
+					},
+					param: new { beginDate, endDate, resourceID },
+					commandType: CommandType.StoredProcedure
+				).AsList();
+			}
 		}
 
 		public List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
-			var result = _db.Query<TimeItemTotal>(
-				sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
-				param: new { beginDate, endDate, specialtyID },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result
-				.AsList();
+			using (var db = OpenConnection())
+			{
+				return db.Query<TimeItemTotal>(
+					sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
+					param: new { beginDate, endDate, specialtyID },
+					commandType: CommandType.StoredProcedure
+				).AsList();
+			}
 		}
 
 		public List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
-			var result = _db.Query<TimeItemTotal>(
-				sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
-				param: new { beginDate, endDate },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result
-				.AsList();
-		}
-
-		public void Dispose()
-		{
-			if (_db != null)
+			using (var db = OpenConnection())
 			{
-				_db.Dispose();
-				GC.SuppressFinalize(this);
+				return db.Query<TimeItemTotal>(
+					sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
+					param: new { beginDate, endDate },
+					commandType: CommandType.StoredProcedure
+				).AsList();
 			}
 		}
 	}

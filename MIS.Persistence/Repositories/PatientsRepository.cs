@@ -17,59 +17,36 @@
 using System;
 using System.Data;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class PatientsRepository : IPatientsRepository, IDisposable
+	public class PatientsRepository : BaseRepository, IPatientsRepository
 	{
-		private readonly IDbConnection _db;
-		private readonly IDbTransaction _transaction;
-
-		public PatientsRepository(string connectionString)
-		{
-			_db = new SqlConnection(connectionString);
-			_transaction = null;
-		}
-
-		public PatientsRepository(IDbTransaction transaction)
-		{
-			_db = transaction.Connection;
-			_transaction = transaction;
-		}
+		public PatientsRepository(string connectionString) : base(connectionString) { }
 
 		public Patient First(string code, DateTime birthDate)
 		{
-			var result = _db.QueryFirstOrDefault<Patient>(
-				sql: "[dbo].[sp_Patients_First]",
-				param: new { code, birthDate },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result;
+			using (var db = OpenConnection())
+			{
+				return db.QueryFirstOrDefault<Patient>(
+					sql: "[dbo].[sp_Patients_First]",
+					param: new { code, birthDate },
+					commandType: CommandType.StoredProcedure
+				);
+			}
 		}
 
 		public Patient Get(int patientID)
 		{
-			var result = _db.QueryFirstOrDefault<Patient>(
-				sql: "[dbo].[sp_Patients_Get]",
-				param: new { patientID },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result;
-		}
-
-		public void Dispose()
-		{
-			if (_db != null)
+			using (var db = OpenConnection())
 			{
-				_db.Dispose();
-				GC.SuppressFinalize(this);
+				return db.QueryFirstOrDefault<Patient>(
+					sql: "[dbo].[sp_Patients_Get]",
+					param: new { patientID },
+					commandType: CommandType.StoredProcedure
+				);
 			}
 		}
 	}

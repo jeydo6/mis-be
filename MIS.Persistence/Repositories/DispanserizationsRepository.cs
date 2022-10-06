@@ -14,113 +14,98 @@
  */
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class DispanserizationsRepository : IDispanserizationsRepository, IDisposable
+	public class DispanserizationsRepository : BaseRepository, IDispanserizationsRepository
 	{
-		private readonly IDbConnection _db;
-		private readonly IDbTransaction _transaction;
-
-		public DispanserizationsRepository(string connectionString)
-		{
-			_db = new SqlConnection(connectionString);
-			_transaction = null;
-		}
-
-		public DispanserizationsRepository(IDbTransaction transaction)
-		{
-			_db = transaction.Connection;
-			_transaction = transaction;
-		}
+		public DispanserizationsRepository(string connectionString) : base(connectionString) { }
 
 		public int Create(Dispanserization item)
 		{
-			int dispanserizationID = _db.QuerySingle<int>(
-				sql: "[dbo].[sp_Dispanserizations_Create]",
-				param: new
+			using (var db = OpenConnection())
+			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			{
+				try
 				{
-					patientID = item.PatientID,
-					beginDate = item.BeginDate,
-					endDate = item.EndDate
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
+					var dispanserizationID = db.QuerySingle<int>(
+						sql: "[dbo].[sp_Dispanserizations_Create]",
+						param: new
+						{
+							patientID = item.PatientID,
+							beginDate = item.BeginDate,
+							endDate = item.EndDate
+						},
+						commandType: CommandType.StoredProcedure,
+						transaction: transaction
+					);
 
-			return dispanserizationID;
+					transaction.Commit();
+					return dispanserizationID;
+				}
+				catch
+				{
+					transaction.Rollback();
+					throw;
+				}
+			}
 		}
 
 		public Dispanserization Get(int dispanserizationID)
 		{
-			var dispanserizations = new Dictionary<int, Dispanserization>();
+			using (var db = OpenConnection())
+			{
+				var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var query = _db.Query<Dispanserization, Research, Dispanserization>(
-				sql: "[dbo].[sp_Dispanserizations_Get]",
-				map: (dispanserization, research) =>
-				{
-					if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
+				return db.Query<Dispanserization, Research, Dispanserization>(
+					sql: "[dbo].[sp_Dispanserizations_Get]",
+					map: (dispanserization, research) =>
 					{
-						value = dispanserization;
-						value.Researches = new List<Research>();
-						dispanserizations[dispanserization.ID] = dispanserization;
-					}
+						if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
+						{
+							value = dispanserization;
+							value.Researches = new List<Research>();
+							dispanserizations[dispanserization.ID] = dispanserization;
+						}
 
-					value.Researches.Add(research);
-					return value;
-				},
-				param: new { dispanserizationID },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return query
-				.Distinct()
-				.FirstOrDefault();
+						value.Researches.Add(research);
+						return value;
+					},
+					param: new { dispanserizationID },
+					commandType: CommandType.StoredProcedure
+				).Distinct().FirstOrDefault();
+			}
 		}
 
 		public List<Dispanserization> ToList(int patientID)
 		{
-			var dispanserizations = new Dictionary<int, Dispanserization>();
-
-			var query = _db.Query<Dispanserization, Research, Dispanserization>(
-				sql: "[dbo].[sp_Dispanserizations_List]",
-				map: (dispanserization, research) =>
-				{
-					if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
-					{
-						value = dispanserization;
-						value.Researches = new List<Research>();
-						dispanserizations[dispanserization.ID] = dispanserization;
-					}
-
-					value.Researches.Add(research);
-					return value;
-				},
-				param: new { patientID },
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return query
-				.Distinct()
-				.AsList();
-		}
-
-		public void Dispose()
-		{
-			if (_db != null)
+			using (var db = OpenConnection())
 			{
-				_db.Dispose();
-				GC.SuppressFinalize(this);
+				var dispanserizations = new Dictionary<int, Dispanserization>();
+
+				return db.Query<Dispanserization, Research, Dispanserization>(
+					sql: "[dbo].[sp_Dispanserizations_List]",
+					map: (dispanserization, research) =>
+					{
+						if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
+						{
+							value = dispanserization;
+							value.Researches = new List<Research>();
+							dispanserizations[dispanserization.ID] = dispanserization;
+						}
+
+						value.Researches.Add(research);
+						return value;
+					},
+					param: new { patientID },
+					commandType: CommandType.StoredProcedure
+				).Distinct().AsList();
 			}
 		}
 	}

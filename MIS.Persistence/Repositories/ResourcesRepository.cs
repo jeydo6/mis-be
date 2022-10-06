@@ -14,79 +14,53 @@
  */
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class ResourcesRepository : IResourcesRepository, IDisposable
+	public class ResourcesRepository : BaseRepository, IResourcesRepository
 	{
-		private readonly IDbConnection _db;
-		private readonly IDbTransaction _transaction;
-
-		public ResourcesRepository(string connectionString)
-		{
-			_db = new SqlConnection(connectionString);
-			_transaction = null;
-		}
-
-		public ResourcesRepository(IDbTransaction transaction)
-		{
-			_db = transaction.Connection;
-			_transaction = transaction;
-		}
+		public ResourcesRepository(string connectionString) : base(connectionString) { }
 
 		public List<Resource> ToList()
 		{
-			var result = _db.Query<Resource, Employee, Specialty, Room, Resource>(
-				sql: "[dbo].[sp_Resources_List]",
-				map: (resource, employee, specialty, room) =>
-				{
-					resource.Employee = employee;
-					resource.Employee.Specialty = specialty;
-					resource.Room = room;
+			using (var db = OpenConnection())
+			{
+				return db.Query<Resource, Employee, Specialty, Room, Resource>(
+					sql: "[dbo].[sp_Resources_List]",
+					map: (resource, employee, specialty, room) =>
+					{
+						resource.Employee = employee;
+						resource.Employee.Specialty = specialty;
+						resource.Room = room;
 
-					return resource;
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result
-				.AsList();
+						return resource;
+					},
+					commandType: CommandType.StoredProcedure
+				).AsList();
+			}
 		}
 
 		public List<Resource> GetDispanserizations()
 		{
-			var result = _db.Query<Resource, Employee, Specialty, Room, Resource>(
-				sql: "[dbo].[sp_Resources_GetDispanserizations]",
-				map: (resource, employee, specialty, room) =>
-				{
-					resource.Employee = employee;
-					resource.Employee.Specialty = specialty;
-					resource.Room = room;
-
-					return resource;
-				},
-				commandType: CommandType.StoredProcedure,
-				transaction: _transaction
-			);
-
-			return result
-				.AsList();
-		}
-
-		public void Dispose()
-		{
-			if (_db != null)
+			using (var db = OpenConnection())
 			{
-				_db.Dispose();
-				GC.SuppressFinalize(this);
+				return db.Query<Resource, Employee, Specialty, Room, Resource>(
+					sql: "[dbo].[sp_Resources_GetDispanserizations]",
+					map: (resource, employee, specialty, room) =>
+					{
+						resource.Employee = employee;
+						resource.Employee.Specialty = specialty;
+						resource.Room = room;
+
+						return resource;
+					},
+					commandType: CommandType.StoredProcedure
+					).AsList();
 			}
 		}
 	}
