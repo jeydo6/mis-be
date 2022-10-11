@@ -16,6 +16,7 @@
 
 using MIS.Application.ViewModels;
 using MIS.Domain.Entities;
+using MIS.Domain.Extensions;
 using MIS.Domain.Repositories;
 using MIS.Mediator;
 
@@ -50,7 +51,7 @@ namespace MIS.Application.Commands
 				PatientCode = request.PatientCode,
 				PatientName = request.PatientName,
 				ResourceName = visitItem.TimeItem.Resource.Name,
-				EmployeeName = visitItem.TimeItem.Resource.Employee.Name,
+				EmployeeName = visitItem.TimeItem.Resource.Employee.GetName(),
 				SpecialtyName = visitItem.TimeItem.Resource.Employee.Specialty.Name,
 				RoomCode = visitItem.TimeItem.Resource.Room.Code,
 				RoomFloor = visitItem.TimeItem.Resource.Room.Floor,

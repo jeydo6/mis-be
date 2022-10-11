@@ -37,7 +37,9 @@ namespace MIS.Demo.DataContexts
 				{
 					ID = 1,
 					Code = "30000000",
-					Name = "Иван Иванович",
+					FirstName = "Иван",
+					MiddleName = "Иванович",
+					LastName = "Иванов",
 					BirthDate = new DateTime(1980, 1, 1),
 					GenderID = 0,
 					Dispanserizations = new List<Dispanserization>(),
@@ -47,7 +49,9 @@ namespace MIS.Demo.DataContexts
 				{
 					ID = 2,
 					Code = "31000000",
-					Name = "Михаил Михайлович",
+					FirstName = "Михаил",
+					MiddleName = "Михайлович",
+					LastName = "Михайлов",
 					BirthDate = new DateTime(1980, 1, 1),
 					GenderID = 0,
 					Dispanserizations = new List<Dispanserization>(),
@@ -57,7 +61,9 @@ namespace MIS.Demo.DataContexts
 				{
 					ID = int.MaxValue,
 					Code = "32020444",
-					Name = "Владимир Сергеевич",
+					FirstName = "Владимир",
+					MiddleName = "Сергеевич",
+					LastName = "Дерягин",
 					BirthDate = new DateTime(1993, 1, 1),
 					GenderID = 0,
 					Dispanserizations = new List<Dispanserization>(),
@@ -75,7 +81,9 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 1,
 						Code = "100",
-						Name = "Петров П. П.",
+						FirstName = "Петр",
+						MiddleName = "Петрович",
+						LastName = "Петров",
 						SpecialtyID = 1,
 						Specialty = new Specialty
 						{
@@ -101,7 +109,9 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 2,
 						Code = "200",
-						Name = "Кузнецов С. В.",
+						FirstName = "Сергей",
+						MiddleName = "Викторович",
+						LastName = "Кузнецов",
 						SpecialtyID = 1,
 						Specialty = new Specialty
 						{
@@ -127,7 +137,9 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 3,
 						Code = "300",
-						Name = "Костоломов М. С.",
+						FirstName = "Михаил",
+						MiddleName = "Сергеевич",
+						LastName = "Костоломов",
 						SpecialtyID = 2,
 						Specialty = new Specialty
 						{
@@ -153,7 +165,9 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 4,
 						Code = "400",
-						Name = "Яковлев К. А.",
+						FirstName = "Константин",
+						MiddleName = "Александрович",
+						LastName = "Яковлев",
 						SpecialtyID = 3,
 						Specialty = new Specialty
 						{
@@ -179,7 +193,9 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 5,
 						Code = "500",
-						Name = "Пономаренко А. Я.",
+						FirstName = "Александр",
+						MiddleName = "Яковлевич",
+						LastName = "Пономаренко",
 						SpecialtyID = 0,
 						Specialty = new Specialty
 						{
@@ -205,7 +221,9 @@ namespace MIS.Demo.DataContexts
 					{
 						ID = 6,
 						Code = "600",
-						Name = "Вахроменко Я. А.",
+						FirstName = "Яков",
+						MiddleName = "Александрович",
+						LastName = "Вахроменко",
 						SpecialtyID = 0,
 						Specialty = new Specialty
 						{

@@ -31,7 +31,9 @@ BEGIN
 	SELECT TOP (1)
 		 p.[ID]
 		,p.[Code]
-		,[dbo].[f_Persons_GetName](p.[FirstName], p.[MiddleName], p.[LastName]) AS [Name]
+		,p.[FirstName]
+		,p.[MiddleName]
+		,p.[LastName]
 		,p.[BirthDate]
 		,p.[GenderID]
 	FROM

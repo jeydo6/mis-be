@@ -109,7 +109,7 @@ namespace MIS.Infomat
 			configureOptions?.Invoke(liveOptions);
 
 			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2022, 05, 10)));
+				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 12, 18)));
 
 			services
 				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(liveOptions.ConnectionString))

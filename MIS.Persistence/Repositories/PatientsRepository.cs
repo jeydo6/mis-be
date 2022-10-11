@@ -26,6 +26,39 @@ namespace MIS.Persistence.Repositories
 	{
 		public PatientsRepository(string connectionString) : base(connectionString) { }
 
+		public int Create(Patient item)
+		{
+			using (var db = OpenConnection())
+			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			{
+				try
+				{
+					var dispanserizationID = db.QuerySingle<int>(
+						sql: "[dbo].[sp_Patients_Create]",
+						param: new
+						{
+							code = item.Code,
+							firstName = item.FirstName,
+							middleName = item.MiddleName,
+							lastName = item.LastName,
+							birthDate = item.BirthDate,
+							genderID = item.GenderID,
+						},
+						commandType: CommandType.StoredProcedure,
+						transaction: transaction
+					);
+
+					transaction.Commit();
+					return dispanserizationID;
+				}
+				catch
+				{
+					transaction.Rollback();
+					throw;
+				}
+			}
+		}
+
 		public Patient First(string code, DateTime birthDate)
 		{
 			using (var db = OpenConnection())

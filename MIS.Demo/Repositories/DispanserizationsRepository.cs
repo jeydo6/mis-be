@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Entities;
+using MIS.Domain.Extensions;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 
@@ -62,7 +63,7 @@ namespace MIS.Demo.Repositories
 				dispanserization.Researches.Add(new Research
 				{
 					ID = resource.ID * 10 + dispanserization.ID,
-					Description = $"{resource.Employee.Name} в {resource.Room.Code} каб."
+					Description = $"{resource.Employee.GetName()} в {resource.Room.Code} каб."
 				});
 
 				var timeItem = _dataContext.TimeItems

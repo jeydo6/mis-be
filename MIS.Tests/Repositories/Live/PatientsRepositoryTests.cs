@@ -24,7 +24,9 @@ namespace MIS.Tests.Repositories.Live
 			var expectedResult = new Patient
 			{
 				Code = "30000000",
-				Name = "Иван Иванович",
+				FirstName = "Иван",
+				MiddleName = "Иванович",
+				LastName = "Иванов",
 				BirthDate = new DateTime(1980, 1, 1),
 				GenderID = 0,
 				Dispanserizations = new List<Dispanserization>(),
@@ -35,14 +37,18 @@ namespace MIS.Tests.Repositories.Live
 				new
 				{
 					expectedResult.Code,
-					expectedResult.Name,
+					expectedResult.FirstName,
+					expectedResult.MiddleName,
+					expectedResult.LastName,
 					expectedResult.BirthDate,
 					expectedResult.GenderID
 				},
 				new
 				{
 					actualResult.Code,
-					actualResult.Name,
+					actualResult.FirstName,
+					actualResult.MiddleName,
+					actualResult.LastName,
 					actualResult.BirthDate,
 					actualResult.GenderID
 				}
@@ -59,7 +65,9 @@ namespace MIS.Tests.Repositories.Live
 			{
 				ID = actualResult.ID,
 				Code = "30000000",
-				Name = "Иван Иванович",
+				FirstName = "Иван",
+				MiddleName = "Иванович",
+				LastName = "Иванов",
 				BirthDate = new DateTime(1980, 1, 1),
 				GenderID = 0,
 				Dispanserizations = new List<Dispanserization>(),
@@ -69,17 +77,19 @@ namespace MIS.Tests.Repositories.Live
 			Assert.Equal(
 				new
 				{
-					patient.ID,
 					expectedResult.Code,
-					expectedResult.Name,
+					expectedResult.FirstName,
+					expectedResult.MiddleName,
+					expectedResult.LastName,
 					expectedResult.BirthDate,
 					expectedResult.GenderID
 				},
 				new
 				{
-					actualResult.ID,
 					actualResult.Code,
-					actualResult.Name,
+					actualResult.FirstName,
+					actualResult.MiddleName,
+					actualResult.LastName,
 					actualResult.BirthDate,
 					actualResult.GenderID
 				}

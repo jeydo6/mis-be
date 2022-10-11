@@ -16,6 +16,7 @@
 
 using System.Linq;
 using MIS.Application.ViewModels;
+using MIS.Domain.Extensions;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Mediator;
@@ -60,17 +61,19 @@ namespace MIS.Application.Queries
 			patient.Dispanserizations = _dispanserizations
 				.ToList(patient.ID);
 
+			var patientName = patient.GetName();
+
 			var result = new PatientViewModel
 			{
 				ID = patient.ID,
 				Code = patient.Code,
-				Name = patient.Name,
+				Name = patientName,
 				BirthDate = patient.BirthDate,
 				Dispanserizations = patient.Dispanserizations.Select(d => new DispanserizationViewModel
 				{
 					BeginDate = d.BeginDate,
 					PatientCode = patient.Code,
-					PatientName = patient.Name,
+					PatientName = patientName,
 					IsClosed = d.IsClosed,
 					IsEnabled = true,
 					Researches = d.Researches.Select(a => a.Description).ToArray()
@@ -79,9 +82,9 @@ namespace MIS.Application.Queries
 				{
 					BeginDateTime = vi.TimeItem.BeginDateTime,
 					PatientCode = patient.Code,
-					PatientName = patient.Name,
+					PatientName = patientName,
 					ResourceName = vi.TimeItem.Resource.Name,
-					EmployeeName = vi.TimeItem.Resource.Employee.Name,
+					EmployeeName = vi.TimeItem.Resource.Employee.GetName(),
 					SpecialtyName = vi.TimeItem.Resource.Employee.Specialty.Name,
 					RoomCode = vi.TimeItem.Resource.Room.Code,
 					RoomFloor = vi.TimeItem.Resource.Room.Floor,

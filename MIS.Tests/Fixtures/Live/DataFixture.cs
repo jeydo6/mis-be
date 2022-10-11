@@ -27,7 +27,9 @@ namespace MIS.Tests.Fixtures.Live
 			int patientID = CreatePatient(new Patient
 			{
 				Code = "30000000",
-				Name = "Иван Иванович",
+				FirstName = "Иван",
+				MiddleName = "Иванович",
+				LastName = "Иванов",
 				BirthDate = new DateTime(1980, 1, 1),
 				GenderID = 0,
 				Dispanserizations = new List<Dispanserization>(),
@@ -40,7 +42,9 @@ namespace MIS.Tests.Fixtures.Live
 				Employee = new Employee
 				{
 					Code = "1001",
-					Name = "Петров П. П.",
+					FirstName = "Петр",
+					MiddleName = "Петрович",
+					LastName = "Петров",
 					SpecialtyID = -1,
 					Specialty = new Specialty
 					{
@@ -76,30 +80,12 @@ namespace MIS.Tests.Fixtures.Live
 				TimeItemID = timeItemIDs[0]
 			});
 
-			CreateDispanserization(new Dispanserization
-			{
-				PatientID = patientID,
-				BeginDate = new DateTime(DateTimeProvider.Now.Year - 1, 1, 1),
-				EndDate = new DateTime(DateTimeProvider.Now.Year - 1, 12, 31)
-			});
-		}
-
-		private int CreateDispanserization(Dispanserization item)
-		{
-			throw new NotImplementedException();
-			//int dispanserizationID = Transaction.Connection.QuerySingle<int>(
-			//	sql: "[dbo].[sp_Dispanserizations_Create]",
-			//	param: new
-			//	{
-			//		patientID = item.PatientID,
-			//		beginDate = item.BeginDate,
-			//		endDate = item.EndDate
-			//	},
-			//	commandType: CommandType.StoredProcedure,
-			//	transaction: Transaction
-			//);
-
-			//return dispanserizationID;
+			//CreateDispanserization(new Dispanserization
+			//{
+			//	PatientID = patientID,
+			//	BeginDate = new DateTime(DateTimeProvider.Now.Year - 1, 1, 1),
+			//	EndDate = new DateTime(DateTimeProvider.Now.Year - 1, 12, 31)
+			//});
 		}
 
 		private int CreatePatient(Patient item)

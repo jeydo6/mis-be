@@ -26,8 +26,8 @@ GO
 
 CREATE PROCEDURE [dbo].[sp_Patients_Create]
 	 @code NVARCHAR(8)
-	,@firstName NVARCHAR(64)
-	,@middleName NVARCHAR(64)
+	,@firstName NVARCHAR(128)
+	,@middleName NVARCHAR(128)
 	,@lastName NVARCHAR(128)
 	,@birthDate DATETIME
 	,@genderID NVARCHAR(16)
@@ -50,7 +50,6 @@ BEGIN
 			(
 				 p.[Code]
 				,p.[FirstName]
-				,p.[MiddleName]
 				,p.[LastName]
 				,p.[BirthDate]
 				,p.[GenderID]
@@ -59,7 +58,6 @@ BEGIN
 			(
 				 @code
 				,@firstName
-				,@middleName
 				,@lastName
 				,@birthDate
 				,@genderID
