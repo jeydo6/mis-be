@@ -36,6 +36,14 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
+		public int Create(TimeItem item)
+		{
+			item.ID = _dataContext.TimeItems.LastOrDefault()?.ID ?? 1;
+			_dataContext.TimeItems.Add(item);
+
+			return item.ID;
+		}
+
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			var result = _dataContext.TimeItems

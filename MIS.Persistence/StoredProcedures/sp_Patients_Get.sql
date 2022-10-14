@@ -35,7 +35,7 @@ BEGIN
 		,p.[MiddleName]
 		,p.[LastName]
 		,p.[BirthDate]
-		,p.[GenderID]
+		,p.[Gender]
 	FROM
 		[dbo].[Patients] AS p
 	WHERE

@@ -27,6 +27,37 @@ namespace MIS.Persistence.Repositories
 	{
 		public TimeItemsRepository(string connectionString) : base(connectionString) { }
 
+		public int Create(TimeItem item)
+		{
+			using (var db = OpenConnection())
+			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			{
+				try
+				{
+					var id = db.QuerySingle<int>(
+						sql: "[dbo].[sp_TimeItems_Create]",
+						param: new
+						{
+							date = item.Date,
+							beginDateTime = item.BeginDateTime,
+							endDateTime = item.EndDateTime,
+							resourceID = item.ResourceID
+						},
+						commandType: CommandType.StoredProcedure,
+						transaction: transaction
+					);
+
+					transaction.Commit();
+					return id;
+				}
+				catch
+				{
+					transaction.Rollback();
+					throw;
+				}
+			}
+		}
+
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			using (var db = OpenConnection())

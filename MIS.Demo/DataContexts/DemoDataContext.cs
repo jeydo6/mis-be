@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MIS.Domain.Entities;
+using MIS.Domain.Enums;
 using MIS.Domain.Providers;
 
 namespace MIS.Demo.DataContexts
@@ -41,7 +42,7 @@ namespace MIS.Demo.DataContexts
 					MiddleName = "Иванович",
 					LastName = "Иванов",
 					BirthDate = new DateTime(1980, 1, 1),
-					GenderID = 0,
+					Gender = Gender.Male,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -53,7 +54,7 @@ namespace MIS.Demo.DataContexts
 					MiddleName = "Михайлович",
 					LastName = "Михайлов",
 					BirthDate = new DateTime(1980, 1, 1),
-					GenderID = 0,
+					Gender = Gender.Male,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				},
@@ -65,7 +66,7 @@ namespace MIS.Demo.DataContexts
 					MiddleName = "Сергеевич",
 					LastName = "Дерягин",
 					BirthDate = new DateTime(1993, 1, 1),
-					GenderID = 0,
+					Gender = Gender.Male,
 					Dispanserizations = new List<Dispanserization>(),
 					VisitItems = new List<VisitItem>()
 				}

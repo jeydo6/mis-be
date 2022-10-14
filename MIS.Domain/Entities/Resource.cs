@@ -29,5 +29,7 @@ namespace MIS.Domain.Entities
 		public int RoomID { get; set; }
 
 		public Room Room { get; set; }
+
+		public int TypeID { get; set; }
 	}
 }

@@ -22,6 +22,8 @@ namespace MIS.Domain.Repositories
 {
 	public interface ITimeItemsRepository
 	{
+		int Create(TimeItem item);
+
 		List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0);
 
 		List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0);

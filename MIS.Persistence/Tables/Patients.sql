@@ -32,8 +32,6 @@ CREATE TABLE [dbo].[Patients]
 	[MiddleName] NVARCHAR(128) NOT NULL,
 	[LastName] NVARCHAR(128) NOT NULL,
 	[BirthDate] DATE NOT NULL,
-	[GenderID] INT NOT NULL,
-
-	CONSTRAINT [FK_Patients_Genders] FOREIGN KEY ([GenderID]) REFERENCES [Genders]([ID])
+	[Gender] INT NOT NULL
 )
 GO

@@ -35,7 +35,7 @@ namespace MIS.Persistence.Repositories
 			{
 				try
 				{
-					var visitItemID = db.QuerySingle<int>(
+					var id = db.QuerySingle<int>(
 						sql: "[dbo].[sp_VisitItems_Create]",
 						param: new
 						{
@@ -47,7 +47,7 @@ namespace MIS.Persistence.Repositories
 					);
 
 					transaction.Commit();
-					return visitItemID;
+					return id;
 				}
 				catch
 				{

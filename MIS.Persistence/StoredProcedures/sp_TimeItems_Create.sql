@@ -38,11 +38,11 @@ BEGIN
 		SELECT
 			COUNT(*)
 		FROM
-			[dbo].[TimeItems] AS t
+			[dbo].[TimeItems]
 		WHERE
-			t.[ResourceID] = @resourceID
-			AND t.[BeginDateTime] = @beginDateTime
-			AND t.[EndDateTime] = @endDateTime
+			[ResourceID] = @resourceID
+			AND [BeginDateTime] = @beginDateTime
+			AND [EndDateTime] = @endDateTime
 	) = 0
 	BEGIN
 		INSERT INTO

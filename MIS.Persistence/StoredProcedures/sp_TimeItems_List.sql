@@ -40,6 +40,7 @@ BEGIN
 		,r.[Name]
 		,r.[EmployeeID]
 		,r.[RoomID]
+		,r.[TypeID]
 		,e.[ID]
 		,e.[Code]
 		,e.[FirstName]

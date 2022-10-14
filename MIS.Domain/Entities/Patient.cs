@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using MIS.Domain.Enums;
 
 namespace MIS.Domain.Entities
 {
@@ -39,7 +40,7 @@ namespace MIS.Domain.Entities
 
 		public DateTime BirthDate { get; set; }
 
-		public int GenderID { get; set; }
+		public Gender Gender { get; set; }
 
 		public ICollection<VisitItem> VisitItems { get; set; }
 

@@ -34,7 +34,7 @@ namespace MIS.Persistence.Repositories
 			{
 				try
 				{
-					var dispanserizationID = db.QuerySingle<int>(
+					var id = db.QuerySingle<int>(
 						sql: "[dbo].[sp_Dispanserizations_Create]",
 						param: new
 						{
@@ -47,7 +47,7 @@ namespace MIS.Persistence.Repositories
 					);
 
 					transaction.Commit();
-					return dispanserizationID;
+					return id;
 				}
 				catch
 				{

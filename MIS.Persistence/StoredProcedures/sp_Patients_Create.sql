@@ -30,7 +30,7 @@ CREATE PROCEDURE [dbo].[sp_Patients_Create]
 	,@middleName NVARCHAR(128)
 	,@lastName NVARCHAR(128)
 	,@birthDate DATETIME
-	,@genderID NVARCHAR(16)
+	,@gender INT
 AS
 BEGIN
 	DECLARE @msg NVARCHAR(128)
@@ -40,27 +40,29 @@ BEGIN
 		SELECT
 			COUNT(*)
 		FROM
-			[dbo].[Patients] AS p
+			[dbo].[Patients]
 		WHERE
-			p.[Code] = @code
+			[Code] = @code
 	) = 0
 	BEGIN
 		INSERT INTO
 			[dbo].[Patients]
 			(
-				 p.[Code]
-				,p.[FirstName]
-				,p.[LastName]
-				,p.[BirthDate]
-				,p.[GenderID]
+				 [Code]
+				,[FirstName]
+				,[MiddleName]
+				,[LastName]
+				,[BirthDate]
+				,[Gender]
 			)
 			VALUES
 			(
 				 @code
 				,@firstName
+				,@middleName
 				,@lastName
 				,@birthDate
-				,@genderID
+				,@gender
 			)
 
 		SELECT CAST(IDENT_CURRENT('[dbo].[Patients]') AS INT) AS [ID]

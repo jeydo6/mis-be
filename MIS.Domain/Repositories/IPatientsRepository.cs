@@ -21,6 +21,8 @@ namespace MIS.Domain.Repositories
 {
 	public interface IPatientsRepository
 	{
+		int Create(Patient item);
+
 		Patient First(string code, DateTime birthDate);
 
 		Patient Get(int patientID);

@@ -26,6 +26,37 @@ namespace MIS.Persistence.Repositories
 	{
 		public ResourcesRepository(string connectionString) : base(connectionString) { }
 
+		public int Create(Resource item)
+		{
+			using (var db = OpenConnection())
+			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			{
+				try
+				{
+					var resourceID = db.QuerySingle<int>(
+						sql: "[dbo].[sp_Resources_Create]",
+						param: new
+						{
+							name = item.Name,
+							employeeID = item.EmployeeID,
+							roomID = item.RoomID,
+							typeID = item.TypeID
+						},
+						commandType: CommandType.StoredProcedure,
+						transaction: transaction
+					);
+
+					transaction.Commit();
+					return resourceID;
+				}
+				catch
+				{
+					transaction.Rollback();
+					throw;
+				}
+			}
+		}
+
 		public List<Resource> ToList()
 		{
 			using (var db = OpenConnection())

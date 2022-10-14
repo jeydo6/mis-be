@@ -33,6 +33,14 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
+		public int Create(Patient item)
+		{
+			item.ID = _dataContext.Patients.LastOrDefault()?.ID ?? 1;
+			_dataContext.Patients.Add(item);
+
+			return item.ID;
+		}
+
 		public Patient First(string code, DateTime birthDate)
 		{
 			var result = _dataContext.Patients
