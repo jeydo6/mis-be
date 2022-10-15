@@ -71,13 +71,13 @@ namespace MIS.Persistence.Repositories
 			}
 		}
 
-		public Patient Get(int patientID)
+		public Patient Get(int id)
 		{
 			using (var db = OpenConnection())
 			{
 				return db.QueryFirstOrDefault<Patient>(
 					sql: "[dbo].[sp_Patients_Get]",
-					param: new { patientID },
+					param: new { id },
 					commandType: CommandType.StoredProcedure
 				);
 			}

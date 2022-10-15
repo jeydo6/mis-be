@@ -25,6 +25,6 @@ namespace MIS.Domain.Repositories
 
 		Patient First(string code, DateTime birthDate);
 
-		Patient Get(int patientID);
+		Patient Get(int id);
 	}
 }

@@ -21,7 +21,7 @@ public sealed class RoomsRepository : BaseRepository, IRoomsRepository
 					param: new
 					{
 						code = item.Code,
-						name = item.Floor
+						floor = item.Floor
 					},
 					commandType: CommandType.StoredProcedure,
 					transaction: transaction
@@ -36,5 +36,16 @@ public sealed class RoomsRepository : BaseRepository, IRoomsRepository
 				throw;
 			}
 		}
+	}
+
+	public Room Get(int id)
+	{
+		using var db = OpenConnection();
+
+		return db.QueryFirstOrDefault<Room>(
+			sql: "[dbo].[sp_Rooms_Get]",
+			param: new { id },
+			commandType: CommandType.StoredProcedure
+		);
 	}
 }
