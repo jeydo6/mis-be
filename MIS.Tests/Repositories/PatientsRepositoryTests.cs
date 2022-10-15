@@ -35,19 +35,21 @@ namespace MIS.Tests.Repositories
 				FirstName = _fixture.Faker.Random.String2(10),
 				MiddleName = _fixture.Faker.Random.String2(10),
 				LastName = _fixture.Faker.Random.String2(10),
-				Gender = _fixture.Faker.PickRandom<Gender>()
+				Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
 			});
 
 			// Assert
 			var patient = patientsRepository.Get(id);
 
 			patient.Should().NotBeNull();
+			patient.ID.Should().Be(id);
 			patient.Code.Should().Be(code);
 			patient.BirthDate.Should().Be(birthDate);
 			patient.FirstName.Should().NotBeNullOrEmpty();
 			patient.MiddleName.Should().NotBeNullOrEmpty();
 			patient.LastName.Should().NotBeNullOrEmpty();
 			patient.Gender.Should().BeDefined();
+			patient.Gender.Should().NotBe(Gender.Unknown);
 		}
 
 		[Fact]
@@ -67,7 +69,7 @@ namespace MIS.Tests.Repositories
 				FirstName = _fixture.Faker.Random.String2(10),
 				MiddleName = _fixture.Faker.Random.String2(10),
 				LastName = _fixture.Faker.Random.String2(10),
-				Gender = _fixture.Faker.PickRandom<Gender>()
+				Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
 			});
 
 			// Assert
@@ -80,6 +82,7 @@ namespace MIS.Tests.Repositories
 			patient.MiddleName.Should().NotBeNullOrEmpty();
 			patient.LastName.Should().NotBeNullOrEmpty();
 			patient.Gender.Should().BeDefined();
+			patient.Gender.Should().NotBe(Gender.Unknown);
 		}
 
 		[Fact]
@@ -99,7 +102,7 @@ namespace MIS.Tests.Repositories
 					FirstName = _fixture.Faker.Random.String2(10),
 					MiddleName = _fixture.Faker.Random.String2(10),
 					LastName = _fixture.Faker.Random.String2(10),
-					Gender = _fixture.Faker.PickRandom<Gender>()
+					Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
 				}))
 				.Should().NotThrow<Exception>();
 
@@ -111,7 +114,7 @@ namespace MIS.Tests.Repositories
 					FirstName = _fixture.Faker.Random.String2(10),
 					MiddleName = _fixture.Faker.Random.String2(10),
 					LastName = _fixture.Faker.Random.String2(10),
-					Gender = _fixture.Faker.PickRandom<Gender>()
+					Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
 				}))
 				.Should().Throw<Exception>();
 		}

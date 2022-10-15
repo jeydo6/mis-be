@@ -73,14 +73,20 @@ namespace MIS.Persistence.Repositories
 
 		public Patient Get(int id)
 		{
-			using (var db = OpenConnection())
+			using var db = OpenConnection();
+
+			var item = db.QueryFirstOrDefault<Patient>(
+				sql: "[dbo].[sp_Patients_Get]",
+				param: new { id },
+				commandType: CommandType.StoredProcedure
+			);
+
+			if (item == null)
 			{
-				return db.QueryFirstOrDefault<Patient>(
-					sql: "[dbo].[sp_Patients_Get]",
-					param: new { id },
-					commandType: CommandType.StoredProcedure
-				);
+				throw new Exception($"Пациент с id = {id} не найден");
 			}
+
+			return item;
 		}
 	}
 }

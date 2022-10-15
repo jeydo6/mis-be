@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-19>
--- Update date: <2022-05-09>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_TimeItems_GetResourceTotals]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_TimeItems_GetResourceTotals]
@@ -46,7 +44,7 @@ BEGIN
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@specialtyID = 0 OR s.[ID] = @specialtyID)
 		AND r.[IsActive] = 1
-		AND r.[TypeID] = 1
+		AND r.[Type] = 1
 	GROUP BY
 		 t.[ResourceID]
 		,t.[Date]

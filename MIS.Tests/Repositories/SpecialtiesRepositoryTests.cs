@@ -36,6 +36,7 @@ public class SpecialtiesRepositoryTests : IClassFixture<DataFixture>
 		var specialty = specialtiesRepository.Get(id);
 
 		specialty.Should().NotBeNull();
+		specialty.ID.Should().Be(id);
 		specialty.Code.Should().Be(code);
 		specialty.Name.Should().NotBeNullOrEmpty();
 	}

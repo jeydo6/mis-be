@@ -14,6 +14,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
@@ -38,9 +39,9 @@ namespace MIS.Persistence.Repositories
 						param: new
 						{
 							name = item.Name,
+							type = item.Type,
 							employeeID = item.EmployeeID,
-							roomID = item.RoomID,
-							typeID = item.TypeID
+							roomID = item.RoomID
 						},
 						commandType: CommandType.StoredProcedure,
 						transaction: transaction
@@ -55,6 +56,32 @@ namespace MIS.Persistence.Repositories
 					throw;
 				}
 			}
+		}
+
+		public Resource Get(int id)
+		{
+			using var db = OpenConnection();
+
+			var items = db.Query<Resource, Employee, Specialty, Room, Resource>(
+				sql: "[dbo].[sp_Resources_Get]",
+				map: (resource, employee, specialty, room) =>
+				{
+					resource.Employee = employee;
+					resource.Employee.Specialty = specialty;
+					resource.Room = room;
+
+					return resource;
+				},
+				param: new { id },
+				commandType: CommandType.StoredProcedure
+			).AsList();
+
+			if (items.Count == 0)
+			{
+				throw new Exception($"Ресурс с id = {id} не найден");
+			}
+
+			return items[0];
 		}
 
 		public List<Resource> ToList()

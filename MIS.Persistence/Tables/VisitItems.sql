@@ -17,8 +17,6 @@
 -- Create date: <2022-05-03>
 -- Update date: <2022-05-03>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[VisitItems]', 'U') IS NOT NULL
 	DROP TABLE [dbo].[VisitItems]

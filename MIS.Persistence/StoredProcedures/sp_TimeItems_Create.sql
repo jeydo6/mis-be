@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-11-06>
--- Update date: <2022-05-10>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_TimeItems_Create]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_TimeItems_Create]

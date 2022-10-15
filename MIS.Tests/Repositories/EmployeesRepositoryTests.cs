@@ -7,6 +7,7 @@ using Xunit;
 
 namespace MIS.Tests.Repositories;
 
+[Collection("Database collection")]
 public class EmployeesRepositoryTests : IClassFixture<DataFixture>
 {
 	private readonly DataFixture _fixture;
@@ -45,8 +46,10 @@ public class EmployeesRepositoryTests : IClassFixture<DataFixture>
 		var employee = employeesRepository.Get(id);
 
 		employee.Should().NotBeNull();
+		employee.ID.Should().Be(id);
 		employee.Code.Should().Be(code);
 		employee.SpecialtyID.Should().Be(specialtyID);
+		employee.Specialty.Should().NotBeNull();
 		employee.FirstName.Should().NotBeNullOrEmpty();
 		employee.MiddleName.Should().NotBeNullOrEmpty();
 		employee.LastName.Should().NotBeNullOrEmpty();

@@ -21,6 +21,10 @@ namespace MIS.Domain.Repositories
 {
 	public interface IResourcesRepository
 	{
+		int Create(Resource item);
+
+		Resource Get(int id);
+
 		List<Resource> ToList();
 
 		List<Resource> GetDispanserizations();

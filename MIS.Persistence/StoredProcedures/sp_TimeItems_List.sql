@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-21>
--- Update date: <2022-05-09>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_TimeItems_List]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_TimeItems_List]
@@ -38,9 +36,9 @@ BEGIN
 		,t.[ResourceID]
 		,r.[ID]
 		,r.[Name]
+		,r.[Type]
 		,r.[EmployeeID]
 		,r.[RoomID]
-		,r.[TypeID]
 		,e.[ID]
 		,e.[Code]
 		,e.[FirstName]
@@ -68,7 +66,7 @@ BEGIN
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@resourceID = 0 OR r.[ID] = @resourceID)
 		AND r.[IsActive] = 1
-		AND r.[TypeID] = 1
+		AND r.[Type] = 1
 
 END
 GO

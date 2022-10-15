@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-21>
--- Update date: <2022-05-04>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_Dispanserizations_List]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_Dispanserizations_List]
@@ -46,7 +44,7 @@ BEGIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID]
 	WHERE
 		d.[PatientID] = @patientID
-		AND r.[TypeID] = 2
+		AND r.[Type] = 2
 		AND s.[Name] = N'Диспансеризация'
 END
 GO

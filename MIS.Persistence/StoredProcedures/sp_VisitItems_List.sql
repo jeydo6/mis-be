@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-27>
--- Create date: <2022-05-10>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_VisitItems_List]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_VisitItems_List]
@@ -41,9 +39,9 @@ BEGIN
 		,t.[ResourceID]
 		,r.[ID]
 		,r.[Name]
+		,r.[Type]
 		,r.[EmployeeID]
 		,r.[RoomID]
-		,r.[TypeID]
 		,e.[ID]
 		,e.[Code]
 		,e.[FirstName]
@@ -68,6 +66,6 @@ BEGIN
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@patientID = 0 OR v.[PatientID] = @patientID)
 		AND r.[IsActive] = 1
-		AND r.[TypeID] = 1
+		AND r.[Type] = 1
 END
 GO

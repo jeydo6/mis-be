@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
--- Update date: <2022-05-09>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_Resources_GetDispanserizations]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_Resources_GetDispanserizations]
@@ -30,9 +28,9 @@ BEGIN
 	SELECT
 		 r.[ID]
 		,r.[Name]
+		,r.[Type]
 		,r.[EmployeeID]
 		,r.[RoomID]
-		,r.[TypeID]
 		,e.[ID]
 		,e.[Code]
 		,e.[FirstName]
@@ -52,7 +50,7 @@ BEGIN
 		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID]
 	WHERE
 		r.[IsActive] = 1
-		AND r.[TypeID] = 2
+		AND r.[Type] = 2
 		AND s.[Name] = N'Диспансеризация'
 END
 GO

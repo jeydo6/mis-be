@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-19>
--- Update date: <2022-05-04>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_Patients_First]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_Patients_First]

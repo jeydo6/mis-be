@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
--- Update date: <2022-05-09>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_Dispanserizations_Create]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_Dispanserizations_Create]
@@ -86,7 +84,7 @@ BEGIN
 				WHERE
 					t.[Date] = @beginDate
 					AND r.[IsActive] = 1
-					AND r.[TypeID] = 2
+					AND r.[Type] = 2
 					AND s.[Name] = N'Диспансеризация'
 					AND v.[ID] IS NULL
 				GROUP BY

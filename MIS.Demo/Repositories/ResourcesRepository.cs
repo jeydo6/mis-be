@@ -35,6 +35,16 @@ namespace MIS.Demo.Repositories
 			_dataContext = dataContext;
 		}
 
+		public int Create(Resource item)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public Resource Get(int id)
+		{
+			throw new System.NotImplementedException();
+		}
+
 		public List<Resource> ToList()
 		{
 			var result = _dataContext.Resources

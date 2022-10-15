@@ -36,6 +36,7 @@ public class RoomsRepositoryTests : IClassFixture<DataFixture>
 		var room = roomsRepository.Get(id);
 
 		room.Should().NotBeNull();
+		room.ID.Should().Be(id);
 		room.Code.Should().Be(code);
 		room.Floor.Should().BeGreaterThan(0);
 	}

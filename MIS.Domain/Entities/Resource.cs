@@ -14,6 +14,8 @@
  */
 #endregion
 
+using MIS.Domain.Enums;
+
 namespace MIS.Domain.Entities
 {
 	public class Resource
@@ -22,6 +24,8 @@ namespace MIS.Domain.Entities
 
 		public string Name { get; set; }
 
+		public ResourceType Type { get; set; }
+
 		public int EmployeeID { get; set; }
 
 		public Employee Employee { get; set; }
@@ -29,7 +33,5 @@ namespace MIS.Domain.Entities
 		public int RoomID { get; set; }
 
 		public Room Room { get; set; }
-
-		public int TypeID { get; set; }
 	}
 }

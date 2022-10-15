@@ -17,8 +17,6 @@
 -- Create date: <2020-10-26>
 -- Update date: <2022-04-26>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[Specialties]', 'U') IS NOT NULL
 	DROP TABLE [dbo].[Specialties]

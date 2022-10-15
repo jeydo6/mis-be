@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
@@ -42,10 +43,17 @@ public sealed class RoomsRepository : BaseRepository, IRoomsRepository
 	{
 		using var db = OpenConnection();
 
-		return db.QueryFirstOrDefault<Room>(
+		var item = db.QueryFirstOrDefault<Room>(
 			sql: "[dbo].[sp_Rooms_Get]",
 			param: new { id },
 			commandType: CommandType.StoredProcedure
 		);
+
+		if (item == null)
+		{
+			throw new Exception($"Помещение с id = {id} не найдено");
+		}
+
+		return item;
 	}
 }

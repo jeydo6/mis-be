@@ -15,10 +15,8 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-24>
--- Update date: <2022-05-09>
+-- Update date: <2022-10-16>
 -- =============================================
-USE [MIS]
-GO
 
 IF OBJECT_ID('[dbo].[sp_TimeItems_GetDispanserizationTotals]', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[sp_TimeItems_GetDispanserizationTotals]
@@ -44,7 +42,7 @@ BEGIN
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
 		AND r.[IsActive] = 1
-		AND r.[TypeID] = 2
+		AND r.[Type] = 2
 		AND s.[Name] = N'Диспансеризация'
 	GROUP BY
 		 t.[ResourceID]
