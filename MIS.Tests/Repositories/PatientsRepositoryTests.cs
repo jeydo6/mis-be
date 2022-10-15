@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
 using MIS.Persistence.Repositories;
@@ -7,7 +8,7 @@ using Xunit;
 
 namespace MIS.Tests.Repositories
 {
-	[Collection("Collection")]
+	[Collection("Database collection")]
 	public class PatientsRepositoryTests : IClassFixture<DataFixture>
 	{
 		private readonly DataFixture _fixture;
@@ -79,6 +80,40 @@ namespace MIS.Tests.Repositories
 			patient.MiddleName.Should().NotBeNullOrEmpty();
 			patient.LastName.Should().NotBeNullOrEmpty();
 			patient.Gender.Should().BeDefined();
+		}
+
+		[Fact]
+		public void WhenCreate_WithDuplicate_ThenThrowException()
+		{
+			// Arrange
+			var code = _fixture.Faker.Random.String2(8);
+
+			// Act/Assert
+			var patientsRepository = new PatientsRepository(_fixture.ConnectionString);
+
+			FluentActions
+				.Invoking(() => patientsRepository.Create(new Patient
+				{
+					Code = code,
+					BirthDate = _fixture.Faker.Date.Past(30).Date,
+					FirstName = _fixture.Faker.Random.String2(10),
+					MiddleName = _fixture.Faker.Random.String2(10),
+					LastName = _fixture.Faker.Random.String2(10),
+					Gender = _fixture.Faker.PickRandom<Gender>()
+				}))
+				.Should().NotThrow<Exception>();
+
+			FluentActions
+				.Invoking(() => patientsRepository.Create(new Patient
+				{
+					Code = code,
+					BirthDate = _fixture.Faker.Date.Past(30).Date,
+					FirstName = _fixture.Faker.Random.String2(10),
+					MiddleName = _fixture.Faker.Random.String2(10),
+					LastName = _fixture.Faker.Random.String2(10),
+					Gender = _fixture.Faker.PickRandom<Gender>()
+				}))
+				.Should().Throw<Exception>();
 		}
 	}
 }

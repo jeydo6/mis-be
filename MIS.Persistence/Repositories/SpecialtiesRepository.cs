@@ -37,4 +37,15 @@ public sealed class SpecialtiesRepository : BaseRepository, ISpecialtiesReposito
 			}
 		}
 	}
+
+	public Specialty Get(int id)
+	{
+		using var db = OpenConnection();
+
+		return db.QueryFirstOrDefault<Specialty>(
+			sql: "[dbo].[sp_Specialties_Get]",
+			param: new { id },
+			commandType: CommandType.StoredProcedure
+		);
+	}
 }
