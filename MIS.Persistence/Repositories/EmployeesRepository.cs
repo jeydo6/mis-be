@@ -39,4 +39,15 @@ public sealed class EmployeesRepository : BaseRepository, IEmployeesRepository
 			}
 		}
 	}
+
+	public Employee Get(int id)
+	{
+		using var db = OpenConnection();
+
+		return db.QueryFirstOrDefault<Employee>(
+			sql: "[dbo].[sp_Employees_Get]",
+			param: new { id },
+			commandType: CommandType.StoredProcedure
+		);
+	}
 }
