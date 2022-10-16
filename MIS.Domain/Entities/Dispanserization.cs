@@ -31,6 +31,6 @@ namespace MIS.Domain.Entities
 
 		public int PatientID { get; set; }
 
-		public ICollection<Research> Researches { get; set; }
+		public ICollection<Research> Researches { get; set; } = new List<Research>();
 	}
 }

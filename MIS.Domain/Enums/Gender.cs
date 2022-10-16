@@ -1,4 +1,5 @@
 ﻿namespace MIS.Domain.Enums;
+
 public enum Gender
 {
 	Unknown = 0,

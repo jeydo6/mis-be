@@ -48,4 +48,15 @@ public sealed class SpecialtiesRepository : BaseRepository, ISpecialtiesReposito
 			commandType: CommandType.StoredProcedure
 		);
 	}
+
+	public Specialty FindByName(string name)
+	{
+		using var db = OpenConnection();
+
+		return db.QueryFirstOrDefault<Specialty>(
+			sql: "[dbo].[sp_Specialties_FindByName]",
+			param: new { name },
+			commandType: CommandType.StoredProcedure
+		);
+	}
 }

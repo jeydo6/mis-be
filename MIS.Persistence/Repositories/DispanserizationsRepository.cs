@@ -14,9 +14,9 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
@@ -57,39 +57,45 @@ namespace MIS.Persistence.Repositories
 			}
 		}
 
-		public Dispanserization Get(int dispanserizationID)
+		public Dispanserization Get(int id)
 		{
-			using (var db = OpenConnection())
-			{
-				var dispanserizations = new Dictionary<int, Dispanserization>();
+			using var db = OpenConnection();
 
-				return db.Query<Dispanserization, Research, Dispanserization>(
-					sql: "[dbo].[sp_Dispanserizations_Get]",
-					map: (dispanserization, research) =>
+			var dispanserizations = new Dictionary<int, Dispanserization>();
+
+			var items = db.Query<Dispanserization, Research, Dispanserization>(
+				sql: "[dbo].[sp_Dispanserizations_Get]",
+				map: (dispanserization, research) =>
+				{
+					if (!dispanserizations.ContainsKey(dispanserization.ID))
 					{
-						if (!dispanserizations.TryGetValue(dispanserization.ID, out var value))
-						{
-							value = dispanserization;
-							value.Researches = new List<Research>();
-							dispanserizations[dispanserization.ID] = dispanserization;
-						}
+						dispanserizations[dispanserization.ID] = dispanserization;
+					}
 
-						value.Researches.Add(research);
-						return value;
-					},
-					param: new { dispanserizationID },
-					commandType: CommandType.StoredProcedure
-				).Distinct().FirstOrDefault();
+					var result = dispanserizations[dispanserization.ID];
+					result.Researches.Add(research);
+
+					return result;
+				},
+				param: new { id },
+				commandType: CommandType.StoredProcedure
+			).AsList();
+
+			if (!dispanserizations.ContainsKey(id))
+			{
+				throw new Exception($"Диспансеризация с id = {id} не найдена");
 			}
+
+			return dispanserizations[id];
 		}
 
 		public List<Dispanserization> ToList(int patientID)
 		{
-			using (var db = OpenConnection())
-			{
-				var dispanserizations = new Dictionary<int, Dispanserization>();
+			using var db = OpenConnection();
 
-				return db.Query<Dispanserization, Research, Dispanserization>(
+			var dispanserizations = new Dictionary<int, Dispanserization>();
+
+			var items = db.Query<Dispanserization, Research, Dispanserization>(
 					sql: "[dbo].[sp_Dispanserizations_List]",
 					map: (dispanserization, research) =>
 					{
@@ -105,8 +111,9 @@ namespace MIS.Persistence.Repositories
 					},
 					param: new { patientID },
 					commandType: CommandType.StoredProcedure
-				).Distinct().AsList();
-			}
+				).AsList();
+
+			return new List<Dispanserization>(dispanserizations.Values);
 		}
 	}
 }

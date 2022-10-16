@@ -23,7 +23,7 @@ IF OBJECT_ID('[dbo].[sp_Dispanserizations_Get]', 'P') IS NOT NULL
 GO
 
 CREATE PROCEDURE [dbo].[sp_Dispanserizations_Get]
-	@dispanserizationID INT
+	@id INT
 AS
 BEGIN
 	SELECT
@@ -43,7 +43,7 @@ BEGIN
 		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID]
 	WHERE
-		d.[ID] = @dispanserizationID
+		d.[ID] = @id
 		AND r.[Type] = 2
 		AND s.[Name] = N'Диспансеризация'
 END

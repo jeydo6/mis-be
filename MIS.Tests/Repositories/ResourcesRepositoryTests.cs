@@ -75,4 +75,6 @@ public class ResourcesRepositoryTests : IClassFixture<DataFixture>
 		resource.Type.Should().BeDefined();
 		resource.Type.Should().NotBe(ResourceType.Unknown);
 	}
+
+	// TODO: Negative scenarios
 }

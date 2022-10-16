@@ -25,7 +25,7 @@ public static class PatientExtension
 		}
 
 		return sb.Length > 0 ?
-			sb.ToString().Trim(' ', '.') :
+			sb.ToString().Trim() :
 			string.Empty;
 	}
 }
