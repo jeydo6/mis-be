@@ -76,5 +76,57 @@ public class ResourcesRepositoryTests : IClassFixture<DataFixture>
 		resource.Type.Should().NotBe(ResourceType.Unknown);
 	}
 
-	// TODO: Negative scenarios
+	[Fact]
+	public void WhenCreate_WithDuplicate_ThenThrowException()
+	{
+		// Arrange
+		var name = _fixture.Faker.Random.String2(10);
+
+		// Act/Assert
+		var resourcesRepository = new ResourcesRepository(_fixture.ConnectionString);
+		var roomsRepository = new RoomsRepository(_fixture.ConnectionString);
+		var employeesRepository = new EmployeesRepository(_fixture.ConnectionString);
+		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+
+		var specialtyID = specialtiesRepository.Create(new Specialty
+		{
+			Code = _fixture.Faker.Random.String2(16),
+			Name = _fixture.Faker.Random.String2(10)
+		});
+
+		var employeeID = employeesRepository.Create(new Employee
+		{
+			Code = _fixture.Faker.Random.String2(16),
+			FirstName = _fixture.Faker.Random.String2(10),
+			MiddleName = _fixture.Faker.Random.String2(10),
+			LastName = _fixture.Faker.Random.String2(10),
+			SpecialtyID = specialtyID
+		});
+
+		var roomID = roomsRepository.Create(new Room
+		{
+			Code = _fixture.Faker.Random.String2(16),
+			Floor = _fixture.Faker.Random.Int(1, 10)
+		});
+
+		FluentActions
+			.Invoking(() => resourcesRepository.Create(new Resource
+			{
+				Name = name,
+				EmployeeID = employeeID,
+				RoomID = roomID,
+				Type = _fixture.Faker.PickRandomWithout(ResourceType.Unknown)
+			}))
+			.Should().NotThrow<Exception>();
+
+		FluentActions
+			.Invoking(() => resourcesRepository.Create(new Resource
+			{
+				Name = name,
+				EmployeeID = employeeID,
+				RoomID = roomID,
+				Type = _fixture.Faker.PickRandomWithout(ResourceType.Unknown)
+			}))
+			.Should().Throw<Exception>();
+	}
 }
