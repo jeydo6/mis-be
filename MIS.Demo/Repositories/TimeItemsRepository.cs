@@ -44,6 +44,15 @@ namespace MIS.Demo.Repositories
 			return item.ID;
 		}
 
+		public TimeItem Get(int id)
+		{
+			var result = _dataContext.TimeItems
+				.Where(ti => ti.Resource.Employee.Specialty.ID > 0)
+				.FirstOrDefault(ti => ti.ID == id);
+
+			return result;
+		}
+
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			var result = _dataContext.TimeItems

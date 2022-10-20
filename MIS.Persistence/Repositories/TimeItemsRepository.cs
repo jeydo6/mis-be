@@ -58,6 +58,47 @@ namespace MIS.Persistence.Repositories
 			}
 		}
 
+		public TimeItem Get(int id)
+		{
+			using var db = OpenConnection();
+
+			var timeItems = new Dictionary<int, TimeItem>();
+
+			var items = db.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+				sql: "[dbo].[sp_TimeItems_Get]",
+				map: (timeItem, resource, employee, specialty, room, visitItem) =>
+				{
+					if (!timeItems.ContainsKey(timeItem.ID))
+					{
+						timeItems[timeItem.ID] = timeItem;
+					}
+
+					var result = timeItems[timeItem.ID];
+
+					result.Resource = resource;
+					result.Resource.Employee = employee;
+					result.Resource.Employee.Specialty = specialty;
+					result.Resource.Room = room;
+					if (visitItem != null)
+					{
+						result.VisitItem = visitItem;
+						result.VisitItem.TimeItem = timeItem;
+					}
+
+					return timeItem;
+				},
+				param: new { id },
+				commandType: CommandType.StoredProcedure
+			).AsList();
+
+			if (!timeItems.ContainsKey(id))
+			{
+				throw new Exception($"Слот для записи с id = {id} не найден");
+			}
+
+			return timeItems[id];
+		}
+
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
 			using (var db = OpenConnection())
