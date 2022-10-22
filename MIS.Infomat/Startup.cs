@@ -18,6 +18,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
+using MIS.Application.Startups;
 using MIS.Demo.DataContexts;
 using MIS.Domain.Options;
 using MIS.Domain.Providers;
@@ -25,32 +26,21 @@ using MIS.Domain.Repositories;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
 using MIS.Mediator;
-using Serilog;
 
 namespace MIS.Infomat
 {
 	using Demo = Demo.Repositories;
 	using Live = Persistence.Repositories;
 
-	public class Startup
+	public sealed class Startup : StartupBase
 	{
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration) : base(configuration) { }
+
+		public override IServiceCollection ConfigureServices(IServiceCollection services)
 		{
-			Configuration = configuration;
-		}
-
-		private IConfiguration Configuration { get; }
-
-		public IServiceCollection ConfigureServices()
-		{
-			var services = new ServiceCollection();
-
 			services.Configure<SettingsConfig>(
 				Configuration.GetSection($"{nameof(SettingsConfig)}")
 			);
-
-			services
-				.AddLogging(builder => builder.AddSerilog(dispose: true));
 
 			services
 				.AddMediator(typeof(Application.AssemblyMarker));

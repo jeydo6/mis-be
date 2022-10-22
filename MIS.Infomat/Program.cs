@@ -14,41 +14,29 @@
  */
 #endregion
 
-using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace MIS.Infomat
 {
-	public static class Program
+	internal static class Program
 	{
-		public static IServiceProvider Run()
-		{
-			var configuration = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appsettings.json")
+		public static IHost CreateHost() =>
+			CreateHostBuilder()
 				.Build();
 
-			Log.Logger = new LoggerConfiguration()
-				.ReadFrom.Configuration(configuration)
-				.CreateLogger();
-
-			try
-			{
-				Log.Information("Starting Program.");
-
-				return new Startup(configuration)
-					.ConfigureServices()
-					.BuildServiceProvider();
-			}
-			catch (Exception ex)
-			{
-				Log.Fatal(ex, "Program terminated unexpectedly.");
-
-				return null;
-			}
-		}
+		private static IHostBuilder CreateHostBuilder() =>
+			Host
+				.CreateDefaultBuilder()
+				.UseSerilog((context, loggerConfiguration) =>
+				{
+					loggerConfiguration
+						.ReadFrom.Configuration(context.Configuration);
+				})
+				.ConfigureServices((context, services) =>
+				{
+					new Startup(context.Configuration)
+						.ConfigureServices(services);
+				});
 	}
 }
