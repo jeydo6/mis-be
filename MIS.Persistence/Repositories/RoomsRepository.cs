@@ -1,50 +1,52 @@
 ﻿using System;
 using System.Data;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories;
 
-public sealed class RoomsRepository : RepositoryBase, IRoomsRepository
+public sealed class RoomsRepository : IRoomsRepository
 {
-	public RoomsRepository(IConfiguration configuration) : base(configuration) { }
+	private readonly IDbConnection _connection;
+
+	public RoomsRepository(IDbConnection connection) =>
+		_connection = connection;
 
 	public int Create(Room item)
 	{
-		using (var db = OpenConnection())
-		using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+		_connection.Open();
+		using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+		try
 		{
-			try
-			{
-				var id = db.QuerySingle<int>(
-					sql: "[dbo].[sp_Rooms_Create]",
-					param: new
-					{
-						code = item.Code,
-						floor = item.Floor
-					},
-					commandType: CommandType.StoredProcedure,
-					transaction: transaction
-				);
+			var id = _connection.QuerySingle<int>(
+				sql: "[dbo].[sp_Rooms_Create]",
+				param: new
+				{
+					code = item.Code,
+					floor = item.Floor
+				},
+				commandType: CommandType.StoredProcedure,
+				transaction: transaction
+			);
 
-				transaction.Commit();
-				return id;
-			}
-			catch
-			{
-				transaction.Rollback();
-				throw;
-			}
+			transaction.Commit();
+			return id;
+		}
+		catch
+		{
+			transaction.Rollback();
+			throw;
+		}
+		finally
+		{
+			_connection.Close();
 		}
 	}
 
 	public Room Get(int id)
 	{
-		using var db = OpenConnection();
-
-		var item = db.QueryFirstOrDefault<Room>(
+		var item = _connection.QueryFirstOrDefault<Room>(
 			sql: "[dbo].[sp_Rooms_Get]",
 			param: new { id },
 			commandType: CommandType.StoredProcedure

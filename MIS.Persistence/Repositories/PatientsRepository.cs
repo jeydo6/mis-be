@@ -17,66 +17,65 @@
 using System;
 using System.Data;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class PatientsRepository : RepositoryBase, IPatientsRepository
+	public sealed class PatientsRepository : IPatientsRepository
 	{
-		public PatientsRepository(IConfiguration configuration) : base(configuration) { }
+		private readonly IDbConnection _connection;
+
+		public PatientsRepository(IDbConnection connection) =>
+			_connection = connection;
 
 		public int Create(Patient item)
 		{
-			using (var db = OpenConnection())
-			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			_connection.Open();
+			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			try
 			{
-				try
-				{
-					var id = db.QuerySingle<int>(
-						sql: "[dbo].[sp_Patients_Create]",
-						param: new
-						{
-							code = item.Code,
-							firstName = item.FirstName,
-							middleName = item.MiddleName,
-							lastName = item.LastName,
-							birthDate = item.BirthDate,
-							gender = item.Gender,
-						},
-						commandType: CommandType.StoredProcedure,
-						transaction: transaction
-					);
+				var id = _connection.QuerySingle<int>(
+					sql: "[dbo].[sp_Patients_Create]",
+					param: new
+					{
+						code = item.Code,
+						firstName = item.FirstName,
+						middleName = item.MiddleName,
+						lastName = item.LastName,
+						birthDate = item.BirthDate,
+						gender = item.Gender,
+					},
+					commandType: CommandType.StoredProcedure,
+					transaction: transaction
+				);
 
-					transaction.Commit();
-					return id;
-				}
-				catch
-				{
-					transaction.Rollback();
-					throw;
-				}
+				transaction.Commit();
+				return id;
+			}
+			catch
+			{
+				transaction.Rollback();
+				throw;
+			}
+			finally
+			{
+				_connection.Close();
 			}
 		}
 
 		public Patient First(string code, DateTime birthDate)
 		{
-			using (var db = OpenConnection())
-			{
-				return db.QueryFirstOrDefault<Patient>(
-					sql: "[dbo].[sp_Patients_First]",
-					param: new { code, birthDate },
-					commandType: CommandType.StoredProcedure
-				);
-			}
+			return _connection.QueryFirstOrDefault<Patient>(
+				sql: "[dbo].[sp_Patients_First]",
+				param: new { code, birthDate },
+				commandType: CommandType.StoredProcedure
+			);
 		}
 
 		public Patient Get(int id)
 		{
-			using var db = OpenConnection();
-
-			var item = db.QueryFirstOrDefault<Patient>(
+			var item = _connection.QueryFirstOrDefault<Patient>(
 				sql: "[dbo].[sp_Patients_Get]",
 				param: new { id },
 				commandType: CommandType.StoredProcedure

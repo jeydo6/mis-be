@@ -18,53 +18,55 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class DispanserizationsRepository : RepositoryBase, IDispanserizationsRepository
+	public sealed class DispanserizationsRepository : IDispanserizationsRepository
 	{
-		public DispanserizationsRepository(IConfiguration configuration) : base(configuration) { }
+		private readonly IDbConnection _connection;
+
+		public DispanserizationsRepository(IDbConnection connection) =>
+			_connection = connection;
 
 		public int Create(Dispanserization item)
 		{
-			using (var db = OpenConnection())
-			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			_connection.Open();
+			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			try
 			{
-				try
-				{
-					var id = db.QuerySingle<int>(
-						sql: "[dbo].[sp_Dispanserizations_Create]",
-						param: new
-						{
-							patientID = item.PatientID,
-							beginDate = item.BeginDate,
-							endDate = item.EndDate
-						},
-						commandType: CommandType.StoredProcedure,
-						transaction: transaction
-					);
+				var id = _connection.QuerySingle<int>(
+					sql: "[dbo].[sp_Dispanserizations_Create]",
+					param: new
+					{
+						patientID = item.PatientID,
+						beginDate = item.BeginDate,
+						endDate = item.EndDate
+					},
+					commandType: CommandType.StoredProcedure,
+					transaction: transaction
+				);
 
-					transaction.Commit();
-					return id;
-				}
-				catch
-				{
-					transaction.Rollback();
-					throw;
-				}
+				transaction.Commit();
+				return id;
+			}
+			catch
+			{
+				transaction.Rollback();
+				throw;
+			}
+			finally
+			{
+				_connection.Close();
 			}
 		}
 
 		public Dispanserization Get(int id)
 		{
-			using var db = OpenConnection();
-
 			var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var items = db.Query<Dispanserization, Research, Dispanserization>(
+			var items = _connection.Query<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
 				map: (dispanserization, research) =>
 				{
@@ -92,11 +94,9 @@ namespace MIS.Persistence.Repositories
 
 		public List<Dispanserization> ToList(int patientID)
 		{
-			using var db = OpenConnection();
-
 			var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var items = db.Query<Dispanserization, Research, Dispanserization>(
+			var items = _connection.Query<Dispanserization, Research, Dispanserization>(
 					sql: "[dbo].[sp_Dispanserizations_List]",
 					map: (dispanserization, research) =>
 					{

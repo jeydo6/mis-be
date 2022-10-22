@@ -18,54 +18,56 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class TimeItemsRepository : RepositoryBase, ITimeItemsRepository
+	public class TimeItemsRepository : ITimeItemsRepository
 	{
-		public TimeItemsRepository(IConfiguration configuration) : base(configuration) { }
+		private readonly IDbConnection _connection;
+
+		public TimeItemsRepository(IDbConnection connection) =>
+			_connection = connection;
 
 		public int Create(TimeItem item)
 		{
-			using (var db = OpenConnection())
-			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			_connection.Open();
+			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			try
 			{
-				try
-				{
-					var id = db.QuerySingle<int>(
-						sql: "[dbo].[sp_TimeItems_Create]",
-						param: new
-						{
-							date = item.Date,
-							beginDateTime = item.BeginDateTime,
-							endDateTime = item.EndDateTime,
-							resourceID = item.ResourceID
-						},
-						commandType: CommandType.StoredProcedure,
-						transaction: transaction
-					);
+				var id = _connection.QuerySingle<int>(
+					sql: "[dbo].[sp_TimeItems_Create]",
+					param: new
+					{
+						date = item.Date,
+						beginDateTime = item.BeginDateTime,
+						endDateTime = item.EndDateTime,
+						resourceID = item.ResourceID
+					},
+					commandType: CommandType.StoredProcedure,
+					transaction: transaction
+				);
 
-					transaction.Commit();
-					return id;
-				}
-				catch
-				{
-					transaction.Rollback();
-					throw;
-				}
+				transaction.Commit();
+				return id;
+			}
+			catch
+			{
+				transaction.Rollback();
+				throw;
+			}
+			finally
+			{
+				_connection.Close();
 			}
 		}
 
 		public TimeItem Get(int id)
 		{
-			using var db = OpenConnection();
-
 			var timeItems = new Dictionary<int, TimeItem>();
 
-			var items = db.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+			var items = _connection.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_Get]",
 				map: (timeItem, resource, employee, specialty, room, visitItem) =>
 				{
@@ -102,52 +104,43 @@ namespace MIS.Persistence.Repositories
 
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
-			using (var db = OpenConnection())
-			{
-				return db.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
-					sql: "[dbo].[sp_TimeItems_List]",
-					map: (timeItem, resource, employee, specialty, room, visitItem) =>
+			return _connection.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+				sql: "[dbo].[sp_TimeItems_List]",
+				map: (timeItem, resource, employee, specialty, room, visitItem) =>
+				{
+					timeItem.Resource = resource;
+					timeItem.Resource.Employee = employee;
+					timeItem.Resource.Employee.Specialty = specialty;
+					timeItem.Resource.Room = room;
+					if (visitItem != null)
 					{
-						timeItem.Resource = resource;
-						timeItem.Resource.Employee = employee;
-						timeItem.Resource.Employee.Specialty = specialty;
-						timeItem.Resource.Room = room;
-						if (visitItem != null)
-						{
-							timeItem.VisitItem = visitItem;
-							timeItem.VisitItem.TimeItem = timeItem;
-						}
+						timeItem.VisitItem = visitItem;
+						timeItem.VisitItem.TimeItem = timeItem;
+					}
 
-						return timeItem;
-					},
-					param: new { beginDate, endDate, resourceID },
-					commandType: CommandType.StoredProcedure
-				).AsList();
-			}
+					return timeItem;
+				},
+				param: new { beginDate, endDate, resourceID },
+				commandType: CommandType.StoredProcedure
+			).AsList();
 		}
 
 		public List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
-			using (var db = OpenConnection())
-			{
-				return db.Query<TimeItemTotal>(
-					sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
-					param: new { beginDate, endDate, specialtyID },
-					commandType: CommandType.StoredProcedure
-				).AsList();
-			}
+			return _connection.Query<TimeItemTotal>(
+				sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
+				param: new { beginDate, endDate, specialtyID },
+				commandType: CommandType.StoredProcedure
+			).AsList();
 		}
 
 		public List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
-			using (var db = OpenConnection())
-			{
-				return db.Query<TimeItemTotal>(
-					sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
-					param: new { beginDate, endDate },
-					commandType: CommandType.StoredProcedure
-				).AsList();
-			}
+			return _connection.Query<TimeItemTotal>(
+				sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
+				param: new { beginDate, endDate },
+				commandType: CommandType.StoredProcedure
+			).AsList();
 		}
 	}
 }

@@ -1,52 +1,54 @@
 ﻿using System;
 using System.Data;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories;
-public sealed class EmployeesRepository : RepositoryBase, IEmployeesRepository
+public sealed class EmployeesRepository : IEmployeesRepository
 {
-	public EmployeesRepository(IConfiguration configuration) : base(configuration) { }
+	private readonly IDbConnection _connection;
+
+	public EmployeesRepository(IDbConnection connection) =>
+		_connection = connection;
 
 	public int Create(Employee item)
 	{
-		using (var db = OpenConnection())
-		using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+		_connection.Open();
+		using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+		try
 		{
-			try
-			{
-				var id = db.QuerySingle<int>(
-					sql: "[dbo].[sp_Employees_Create]",
-					param: new
-					{
-						code = item.Code,
-						firstName = item.FirstName,
-						middleName = item.MiddleName,
-						lastName = item.LastName,
-						specialtyID = item.SpecialtyID
-					},
-					commandType: CommandType.StoredProcedure,
-					transaction: transaction
-				);
+			var id = _connection.QuerySingle<int>(
+				sql: "[dbo].[sp_Employees_Create]",
+				param: new
+				{
+					code = item.Code,
+					firstName = item.FirstName,
+					middleName = item.MiddleName,
+					lastName = item.LastName,
+					specialtyID = item.SpecialtyID
+				},
+				commandType: CommandType.StoredProcedure,
+				transaction: transaction
+			);
 
-				transaction.Commit();
-				return id;
-			}
-			catch
-			{
-				transaction.Rollback();
-				throw;
-			}
+			transaction.Commit();
+			return id;
+		}
+		catch
+		{
+			transaction.Rollback();
+			throw;
+		}
+		finally
+		{
+			_connection.Close();
 		}
 	}
 
 	public Employee Get(int id)
 	{
-		using var db = OpenConnection();
-
-		var items = db.Query<Employee, Specialty, Employee>(
+		var items = _connection.Query<Employee, Specialty, Employee>(
 			sql: "[dbo].[sp_Employees_Get]",
 			map: (employee, specialty) =>
 			{

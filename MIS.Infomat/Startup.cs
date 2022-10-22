@@ -15,6 +15,8 @@
 #endregion
 
 using System;
+using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
@@ -55,11 +57,7 @@ namespace MIS.Infomat
 				.ConfigureDebug();
 #elif RELEASE
 			services
-				.ConfigureRelease(options =>
-				{
-					options.ConnectionString = Configuration
-						.GetConnectionString("DefaultConnection");
-				});
+				.ConfigureRelease();
 #else
 			throw new Exception("Unknown project configuration!");
 #endif
@@ -76,14 +74,20 @@ namespace MIS.Infomat
 				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
 			services
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>()
-				.AddSingleton<IEmployeesRepository, Live.EmployeesRepository>()
-				.AddSingleton<IPatientsRepository, Live.PatientsRepository>()
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
-				.AddSingleton<IRoomsRepository, Live.RoomsRepository>()
-				.AddSingleton<ISpecialtiesRepository, Live.SpecialtiesRepository>()
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
+				.AddScoped<IDbConnection, SqlConnection>(sp =>
+				{
+					var configuration = sp.GetRequiredService<IConfiguration>();
+
+					return new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+				})
+				.AddScoped<IDispanserizationsRepository, Live.DispanserizationsRepository>()
+				.AddScoped<IEmployeesRepository, Live.EmployeesRepository>()
+				.AddScoped<IPatientsRepository, Live.PatientsRepository>()
+				.AddScoped<IResourcesRepository, Live.ResourcesRepository>()
+				.AddScoped<IRoomsRepository, Live.RoomsRepository>()
+				.AddScoped<ISpecialtiesRepository, Live.SpecialtiesRepository>()
+				.AddScoped<ITimeItemsRepository, Live.TimeItemsRepository>()
+				.AddScoped<IVisitItemsRepository, Live.VisitItemsRepository>();
 
 			return services;
 		}
@@ -94,14 +98,20 @@ namespace MIS.Infomat
 				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 12, 18)));
 
 			services
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>()
-				.AddSingleton<IEmployeesRepository, Live.EmployeesRepository>()
-				.AddSingleton<IPatientsRepository, Live.PatientsRepository>()
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
-				.AddSingleton<IRoomsRepository, Live.RoomsRepository>()
-				.AddSingleton<ISpecialtiesRepository, Live.SpecialtiesRepository>()
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
+				.AddScoped<IDbConnection, SqlConnection>(sp =>
+				{
+					var configuration = sp.GetRequiredService<IConfiguration>();
+
+					return new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+				})
+				.AddScoped<IDispanserizationsRepository, Live.DispanserizationsRepository>()
+				.AddScoped<IEmployeesRepository, Live.EmployeesRepository>()
+				.AddScoped<IPatientsRepository, Live.PatientsRepository>()
+				.AddScoped<IResourcesRepository, Live.ResourcesRepository>()
+				.AddScoped<IRoomsRepository, Live.RoomsRepository>()
+				.AddScoped<ISpecialtiesRepository, Live.SpecialtiesRepository>()
+				.AddScoped<ITimeItemsRepository, Live.TimeItemsRepository>()
+				.AddScoped<IVisitItemsRepository, Live.VisitItemsRepository>();
 
 			return services;
 		}

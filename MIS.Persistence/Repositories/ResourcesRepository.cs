@@ -18,52 +18,54 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class ResourcesRepository : RepositoryBase, IResourcesRepository
+	public class ResourcesRepository : IResourcesRepository
 	{
-		public ResourcesRepository(IConfiguration configuration) : base(configuration) { }
+		private readonly IDbConnection _connection;
+
+		public ResourcesRepository(IDbConnection connection) =>
+			_connection = connection;
 
 		public int Create(Resource item)
 		{
-			using (var db = OpenConnection())
-			using (var transaction = db.BeginTransaction(IsolationLevel.ReadUncommitted))
+			_connection.Open();
+			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			try
 			{
-				try
-				{
-					var resourceID = db.QuerySingle<int>(
-						sql: "[dbo].[sp_Resources_Create]",
-						param: new
-						{
-							name = item.Name,
-							type = item.Type,
-							employeeID = item.EmployeeID,
-							roomID = item.RoomID
-						},
-						commandType: CommandType.StoredProcedure,
-						transaction: transaction
-					);
+				var id = _connection.QuerySingle<int>(
+					sql: "[dbo].[sp_Resources_Create]",
+					param: new
+					{
+						name = item.Name,
+						type = item.Type,
+						employeeID = item.EmployeeID,
+						roomID = item.RoomID
+					},
+					commandType: CommandType.StoredProcedure,
+					transaction: transaction
+				);
 
-					transaction.Commit();
-					return resourceID;
-				}
-				catch
-				{
-					transaction.Rollback();
-					throw;
-				}
+				transaction.Commit();
+				return id;
+			}
+			catch
+			{
+				transaction.Rollback();
+				throw;
+			}
+			finally
+			{
+				_connection.Close();
 			}
 		}
 
 		public Resource Get(int id)
 		{
-			using var db = OpenConnection();
-
-			var items = db.Query<Resource, Employee, Specialty, Room, Resource>(
+			var items = _connection.Query<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_Get]",
 				map: (resource, employee, specialty, room) =>
 				{
@@ -87,40 +89,34 @@ namespace MIS.Persistence.Repositories
 
 		public List<Resource> ToList()
 		{
-			using (var db = OpenConnection())
-			{
-				return db.Query<Resource, Employee, Specialty, Room, Resource>(
-					sql: "[dbo].[sp_Resources_List]",
-					map: (resource, employee, specialty, room) =>
-					{
-						resource.Employee = employee;
-						resource.Employee.Specialty = specialty;
-						resource.Room = room;
+			return _connection.Query<Resource, Employee, Specialty, Room, Resource>(
+				sql: "[dbo].[sp_Resources_List]",
+				map: (resource, employee, specialty, room) =>
+				{
+					resource.Employee = employee;
+					resource.Employee.Specialty = specialty;
+					resource.Room = room;
 
-						return resource;
-					},
-					commandType: CommandType.StoredProcedure
-				).AsList();
-			}
+					return resource;
+				},
+				commandType: CommandType.StoredProcedure
+			).AsList();
 		}
 
 		public List<Resource> GetDispanserizations()
 		{
-			using (var db = OpenConnection())
-			{
-				return db.Query<Resource, Employee, Specialty, Room, Resource>(
-					sql: "[dbo].[sp_Resources_GetDispanserizations]",
-					map: (resource, employee, specialty, room) =>
-					{
-						resource.Employee = employee;
-						resource.Employee.Specialty = specialty;
-						resource.Room = room;
+			return _connection.Query<Resource, Employee, Specialty, Room, Resource>(
+				sql: "[dbo].[sp_Resources_GetDispanserizations]",
+				map: (resource, employee, specialty, room) =>
+				{
+					resource.Employee = employee;
+					resource.Employee.Specialty = specialty;
+					resource.Room = room;
 
-						return resource;
-					},
-					commandType: CommandType.StoredProcedure
-					).AsList();
-			}
+					return resource;
+				},
+				commandType: CommandType.StoredProcedure
+			).AsList();
 		}
 	}
 }
