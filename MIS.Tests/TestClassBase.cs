@@ -3,29 +3,47 @@ using System.Collections.Generic;
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MIS.Application.Configs;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
 using MIS.Domain.Repositories;
+using MIS.Mediator;
+using MIS.Persistence.Extensions;
 using Xunit;
 
 namespace MIS.Tests;
 
-public abstract class TestClassBase : IClassFixture<DatabaseFixture>, ITestApplicationFactoryFixture
+public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 {
 	private const string DispanserizationSpecialtyName = "Диспансеризация";
 
-	private readonly ITestApplicationFactoryFixture _fixture;
+	private readonly DatabaseFixture _fixture;
 
 	protected readonly Faker Faker = new Faker();
 
 	public TestClassBase(DatabaseFixture fixture) =>
 		_fixture = fixture;
 
-	public IHost CreateHost() =>
-		_fixture.CreateHost();
+	public IHost CreateHost() => CreateHost(_ => { });
 
 	public IHost CreateHost(Action<IServiceCollection> configuration) =>
-		_fixture.CreateHost(configuration);
+		Host
+			.CreateDefaultBuilder()
+			.ConfigureServices((context, services) =>
+			{
+				services
+					.Configure<SettingsConfig>(
+						context.Configuration.GetSection($"{nameof(SettingsConfig)}")
+					);
+
+				services
+					.AddLogging(l => l.ClearProviders().AddConsole())
+					.AddMediator(typeof(Application.AssemblyMarker))
+					.ConfigureRelease();
+			})
+			.ConfigureServices(configuration)
+			.Build();
 
 	internal int[] CreateDispanserizationResources()
 	{
@@ -114,5 +132,4 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>, ITestAppli
 
 		return timeItemIDs.ToArray();
 	}
-
 }

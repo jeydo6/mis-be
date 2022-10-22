@@ -2,7 +2,7 @@
 
 namespace MIS.Tests;
 
-public class DatabaseFixture : TestApplicationFactoryFixture
+public class DatabaseFixture
 {
 
 }
