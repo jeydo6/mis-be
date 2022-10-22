@@ -2,22 +2,40 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MIS.Application.Startups;
+using MIS.Application.Configs;
+using MIS.Mediator;
+using MIS.Persistence.Extensions;
 
 namespace MIS.Tests;
 
-internal sealed class TestApplicationFactory<TStartup>
-	where TStartup : StartupBase
+abstract class TestApplicationFactory
 {
-	public IHostBuilder CreateHostBuilder() => Host
+	public IHostBuilder WithHostBuilder(Action<IHostBuilder> configuration)
+	{
+		var builder = CreateHostBuilder();
+		configuration(builder);
+
+		return builder;
+	}
+
+	protected abstract IHostBuilder CreateHostBuilder();
+}
+
+
+internal sealed class TestApplicationReleaseFactory : TestApplicationFactory
+{
+	protected override IHostBuilder CreateHostBuilder() => Host
 		.CreateDefaultBuilder()
 		.ConfigureServices((context, services) =>
 		{
-			services.AddLogging(l => l.ClearProviders().AddConsole());
+			services
+				.Configure<SettingsConfig>(
+					context.Configuration.GetSection($"{nameof(SettingsConfig)}")
+				);
 
-			if (Activator.CreateInstance(typeof(TStartup), context.Configuration) is TStartup startup)
-			{
-				startup.ConfigureServices(services);
-			}
+			services
+				.AddLogging(l => l.ClearProviders().AddConsole())
+				.AddMediator()
+				.ConfigureRelease();
 		});
 }

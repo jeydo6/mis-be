@@ -1,17 +1,14 @@
-﻿using MIS.Application.Startups;
-using MIS.Infomat;
-using Xunit;
+﻿using Xunit;
 
 namespace MIS.Tests;
 
-public class DatabaseFixture<TStartup> : TestApplicationFactoryFixture<TStartup>
-	where TStartup : StartupBase
+public class DatabaseFixture : TestApplicationFactoryFixture
 {
 
 }
 
 [CollectionDefinition("Database collection")]
-public class DatabaseCollection : ICollectionFixture<DatabaseFixture<Startup>>
+public class DatabaseCollection : ICollectionFixture<DatabaseFixture>
 {
 
 }

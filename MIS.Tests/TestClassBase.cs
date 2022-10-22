@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MIS.Application.Startups;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
 using MIS.Domain.Repositories;
@@ -11,16 +10,15 @@ using Xunit;
 
 namespace MIS.Tests;
 
-public abstract class TestClassBase<TStartup> : IClassFixture<DatabaseFixture<TStartup>>, ITestApplicationFactoryFixture<TStartup>
-	where TStartup : StartupBase
+public abstract class TestClassBase : IClassFixture<DatabaseFixture>, ITestApplicationFactoryFixture
 {
 	private const string DispanserizationSpecialtyName = "Диспансеризация";
 
-	private readonly ITestApplicationFactoryFixture<TStartup> _fixture;
+	private readonly ITestApplicationFactoryFixture _fixture;
 
 	protected readonly Faker Faker = new Faker();
 
-	public TestClassBase(DatabaseFixture<TStartup> fixture) =>
+	public TestClassBase(DatabaseFixture fixture) =>
 		_fixture = fixture;
 
 	public IHost CreateHost() =>

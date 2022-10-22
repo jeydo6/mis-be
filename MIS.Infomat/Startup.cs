@@ -17,7 +17,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
-using MIS.Application.Startups;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
 using MIS.Mediator;
@@ -25,11 +24,14 @@ using MIS.Persistence.Extensions;
 
 namespace MIS.Infomat
 {
-	public sealed class Startup : StartupBase
+	internal sealed class Startup
 	{
-		public Startup(IConfiguration configuration) : base(configuration) { }
+		public Startup(IConfiguration configuration) =>
+			Configuration = configuration;
 
-		public override IServiceCollection ConfigureServices(IServiceCollection services)
+		public IConfiguration Configuration { get; }
+
+		public IServiceCollection ConfigureServices(IServiceCollection services)
 		{
 			services.Configure<SettingsConfig>(
 				Configuration.GetSection($"{nameof(SettingsConfig)}")

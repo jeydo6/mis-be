@@ -3,15 +3,14 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
-using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class SpecialtiesRepositoryTests : TestClassBase<Startup>
+public class SpecialtiesRepositoryTests : TestClassBase
 {
-	public SpecialtiesRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
+	public SpecialtiesRepositoryTests(DatabaseFixture fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()

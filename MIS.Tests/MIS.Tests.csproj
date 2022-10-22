@@ -19,6 +19,9 @@
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="34.0.2" />
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
@@ -29,7 +32,6 @@
 		<ProjectReference Include="..\MIS.Application\MIS.Application.csproj" />
 		<ProjectReference Include="..\MIS.Demo\MIS.Demo.csproj" />
 		<ProjectReference Include="..\MIS.Domain\MIS.Domain.csproj" />
-		<ProjectReference Include="..\MIS.Infomat\MIS.Infomat.csproj" />
 		<ProjectReference Include="..\MIS.Persistence\MIS.Persistence.csproj" />
 	</ItemGroup>
 

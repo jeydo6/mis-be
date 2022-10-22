@@ -4,15 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
 using MIS.Domain.Repositories;
-using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class PatientsRepositoryTests : TestClassBase<Startup>
+public class PatientsRepositoryTests : TestClassBase
 {
-	public PatientsRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
+	public PatientsRepositoryTests(DatabaseFixture fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()

@@ -1,26 +1,22 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MIS.Application.Startups;
 
 namespace MIS.Tests;
 
-internal interface ITestApplicationFactoryFixture<TStartup>
-	where TStartup : StartupBase
+internal interface ITestApplicationFactoryFixture
 {
 	IHost CreateHost() => CreateHost(_ => { });
 
 	IHost CreateHost(Action<IServiceCollection> configuration);
 }
 
-public class TestApplicationFactoryFixture<TStartup> : ITestApplicationFactoryFixture<TStartup>
-	where TStartup : StartupBase
+public class TestApplicationFactoryFixture : ITestApplicationFactoryFixture
 {
-	private readonly TestApplicationFactory<TStartup> _factory = new TestApplicationFactory<TStartup>();
+	private readonly TestApplicationFactory _factory = new TestApplicationReleaseFactory();
 
 	public IHost CreateHost(Action<IServiceCollection> configuration) =>
 		_factory
-			.CreateHostBuilder()
-			.ConfigureServices(configuration)
+			.WithHostBuilder(builder => builder.ConfigureServices(configuration))
 			.Build();
 }
