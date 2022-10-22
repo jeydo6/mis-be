@@ -22,7 +22,7 @@ using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class PatientsRepository : BaseRepository, IPatientsRepository
+	public class PatientsRepository : RepositoryBase, IPatientsRepository
 	{
 		public PatientsRepository(string connectionString) : base(connectionString) { }
 

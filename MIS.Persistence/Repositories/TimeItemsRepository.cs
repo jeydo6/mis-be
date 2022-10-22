@@ -23,7 +23,7 @@ using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class TimeItemsRepository : BaseRepository, ITimeItemsRepository
+	public class TimeItemsRepository : RepositoryBase, ITimeItemsRepository
 	{
 		public TimeItemsRepository(string connectionString) : base(connectionString) { }
 

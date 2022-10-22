@@ -23,7 +23,7 @@ using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class DispanserizationsRepository : BaseRepository, IDispanserizationsRepository
+	public class DispanserizationsRepository : RepositoryBase, IDispanserizationsRepository
 	{
 		public DispanserizationsRepository(string connectionString) : base(connectionString) { }
 

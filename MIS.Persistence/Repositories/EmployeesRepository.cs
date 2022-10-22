@@ -5,7 +5,7 @@ using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories;
-public sealed class EmployeesRepository : BaseRepository, IEmployeesRepository
+public sealed class EmployeesRepository : RepositoryBase, IEmployeesRepository
 {
 	public EmployeesRepository(string connectionString) : base(connectionString) { }
 

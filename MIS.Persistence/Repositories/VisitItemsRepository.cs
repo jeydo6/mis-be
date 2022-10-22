@@ -24,7 +24,7 @@ using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories
 {
-	public class VisitItemsRepository : BaseRepository, IVisitItemsRepository
+	public class VisitItemsRepository : RepositoryBase, IVisitItemsRepository
 	{
 		public VisitItemsRepository(string connectionString) : base(connectionString) { }
 

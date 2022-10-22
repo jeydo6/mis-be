@@ -5,7 +5,7 @@ using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories;
 
-public sealed class SpecialtiesRepository : BaseRepository, ISpecialtiesRepository
+public sealed class SpecialtiesRepository : RepositoryBase, ISpecialtiesRepository
 {
 	public SpecialtiesRepository(string connectionString) : base(connectionString) { }
 

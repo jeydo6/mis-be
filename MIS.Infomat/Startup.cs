@@ -15,6 +15,8 @@
 #endregion
 
 using System;
+using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
@@ -53,11 +55,7 @@ namespace MIS.Infomat
 				.ConfigureDemo();
 #elif DEBUG
 			services
-				.ConfigureDebug(options =>
-				{
-					options.ConnectionString = Configuration
-						.GetConnectionString("DefaultConnection");
-				});
+				.ConfigureDebug();
 #elif RELEASE
 			services
 				.ConfigureRelease(options =>
@@ -93,20 +91,17 @@ namespace MIS.Infomat
 			return services;
 		}
 
-		public static IServiceCollection ConfigureDebug(this IServiceCollection services, Action<LiveServicesOptions> configureOptions)
+		public static IServiceCollection ConfigureDebug(this IServiceCollection services)
 		{
-			var liveOptions = new LiveServicesOptions();
-			configureOptions?.Invoke(liveOptions);
-
 			services
 				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 12, 18)));
 
 			services
-				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(liveOptions.ConnectionString));
+				.AddSingleton<IPatientsRepository, Live.PatientsRepository>()
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>()
+				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>();
 
 			return services;
 		}

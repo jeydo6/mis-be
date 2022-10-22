@@ -6,7 +6,7 @@ using MIS.Domain.Repositories;
 
 namespace MIS.Persistence.Repositories;
 
-public sealed class RoomsRepository : BaseRepository, IRoomsRepository
+public sealed class RoomsRepository : RepositoryBase, IRoomsRepository
 {
 	public RoomsRepository(string connectionString) : base(connectionString) { }
 
