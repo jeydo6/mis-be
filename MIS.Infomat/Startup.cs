@@ -14,25 +14,17 @@
  */
 #endregion
 
-using System;
-using System.Data;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
 using MIS.Application.Startups;
-using MIS.Demo.DataContexts;
-using MIS.Domain.Providers;
-using MIS.Domain.Repositories;
 using MIS.Domain.Services;
 using MIS.Infomat.Services;
 using MIS.Mediator;
+using MIS.Persistence.Extensions;
 
 namespace MIS.Infomat
 {
-	using Demo = Demo.Repositories;
-	using Live = Persistence.Repositories;
-
 	public sealed class Startup : StartupBase
 	{
 		public Startup(IConfiguration configuration) : base(configuration) { }
@@ -61,75 +53,6 @@ namespace MIS.Infomat
 #else
 			throw new Exception("Unknown project configuration!");
 #endif
-
-			return services;
-		}
-	}
-
-	internal static class StartupExtension
-	{
-		public static IServiceCollection ConfigureRelease(this IServiceCollection services)
-		{
-			services
-				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
-
-			services
-				.AddScoped<IDbConnection, SqlConnection>(sp =>
-				{
-					var configuration = sp.GetRequiredService<IConfiguration>();
-
-					return new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
-				})
-				.AddScoped<IDispanserizationsRepository, Live.DispanserizationsRepository>()
-				.AddScoped<IEmployeesRepository, Live.EmployeesRepository>()
-				.AddScoped<IPatientsRepository, Live.PatientsRepository>()
-				.AddScoped<IResourcesRepository, Live.ResourcesRepository>()
-				.AddScoped<IRoomsRepository, Live.RoomsRepository>()
-				.AddScoped<ISpecialtiesRepository, Live.SpecialtiesRepository>()
-				.AddScoped<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddScoped<IVisitItemsRepository, Live.VisitItemsRepository>();
-
-			return services;
-		}
-
-		public static IServiceCollection ConfigureDebug(this IServiceCollection services)
-		{
-			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 12, 18)));
-
-			services
-				.AddScoped<IDbConnection, SqlConnection>(sp =>
-				{
-					var configuration = sp.GetRequiredService<IConfiguration>();
-
-					return new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
-				})
-				.AddScoped<IDispanserizationsRepository, Live.DispanserizationsRepository>()
-				.AddScoped<IEmployeesRepository, Live.EmployeesRepository>()
-				.AddScoped<IPatientsRepository, Live.PatientsRepository>()
-				.AddScoped<IResourcesRepository, Live.ResourcesRepository>()
-				.AddScoped<IRoomsRepository, Live.RoomsRepository>()
-				.AddScoped<ISpecialtiesRepository, Live.SpecialtiesRepository>()
-				.AddScoped<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddScoped<IVisitItemsRepository, Live.VisitItemsRepository>();
-
-			return services;
-		}
-
-		public static IServiceCollection ConfigureDemo(this IServiceCollection services)
-		{
-			services
-				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
-
-			services
-				.AddSingleton<DemoDataContext>();
-
-			services
-				.AddSingleton<IPatientsRepository, Demo.PatientsRepository>()
-				.AddSingleton<IResourcesRepository, Demo.ResourcesRepository>()
-				.AddSingleton<ITimeItemsRepository, Demo.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Demo.VisitItemsRepository>()
-				.AddSingleton<IDispanserizationsRepository, Demo.DispanserizationsRepository>();
 
 			return services;
 		}

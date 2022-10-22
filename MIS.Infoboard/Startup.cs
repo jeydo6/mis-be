@@ -14,20 +14,14 @@
  */
 #endregion
 
-using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
-using MIS.Demo.DataContexts;
-using MIS.Domain.Providers;
-using MIS.Domain.Repositories;
 using MIS.Mediator;
+using MIS.Persistence.Extensions;
 
 namespace MIS.Infoboard
 {
-	using Demo = Demo.Repositories;
-	using Live = Persistence.Repositories;
-
 	public class Startup
 	{
 		public Startup(IConfiguration configuration)
@@ -68,51 +62,6 @@ namespace MIS.Infoboard
 #else
 			throw new Exception("Unknown project configuration!");
 #endif
-
-			return services;
-		}
-	}
-
-	internal static class StartupExtension
-	{
-		public static IServiceCollection ConfigureRelease(this IServiceCollection services)
-		{
-			services
-				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
-
-			services
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
-
-			return services;
-		}
-
-		public static IServiceCollection ConfigureDebug(this IServiceCollection services)
-		{
-			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2022, 5, 10)));
-
-			services
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
-
-			return services;
-		}
-
-		public static IServiceCollection ConfigureDemo(this IServiceCollection services)
-		{
-			services
-				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
-
-			services
-				.AddSingleton<DemoDataContext>();
-
-			services
-				.AddSingleton<IResourcesRepository, Demo.ResourcesRepository>()
-				.AddSingleton<ITimeItemsRepository, Demo.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Demo.VisitItemsRepository>();
 
 			return services;
 		}
