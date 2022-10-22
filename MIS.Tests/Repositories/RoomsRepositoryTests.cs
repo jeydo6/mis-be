@@ -1,35 +1,32 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
-using MIS.Persistence.Repositories;
-using MIS.Tests.Fixtures.Live;
+using MIS.Domain.Repositories;
+using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class RoomsRepositoryTests : IClassFixture<DataFixture>
+public class RoomsRepositoryTests : TestClassBase<Startup>
 {
-	private readonly DataFixture _fixture;
-
-	public RoomsRepositoryTests(DataFixture fixture)
-	{
-		_fixture = fixture;
-	}
+	public RoomsRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act
-		var roomsRepository = new RoomsRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var roomsRepository = host.Services.GetRequiredService<IRoomsRepository>();
 
 		var id = roomsRepository.Create(new Room
 		{
 			Code = code,
-			Floor = _fixture.Faker.Random.Int(1, 10)
+			Floor = Faker.Random.Int(1, 10)
 		});
 
 		// Assert
@@ -45,16 +42,17 @@ public class RoomsRepositoryTests : IClassFixture<DataFixture>
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act/Assert
-		var roomsRepository = new RoomsRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var roomsRepository = host.Services.GetRequiredService<IRoomsRepository>();
 
 		FluentActions
 			.Invoking(() => roomsRepository.Create(new Room
 			{
 				Code = code,
-				Floor = _fixture.Faker.Random.Int(1, 10)
+				Floor = Faker.Random.Int(1, 10)
 			}))
 			.Should().NotThrow<Exception>();
 
@@ -62,7 +60,7 @@ public class RoomsRepositoryTests : IClassFixture<DataFixture>
 			.Invoking(() => roomsRepository.Create(new Room
 			{
 				Code = code,
-				Floor = _fixture.Faker.Random.Int(1, 10)
+				Floor = Faker.Random.Int(1, 10)
 			}))
 			.Should().Throw<Exception>();
 	}

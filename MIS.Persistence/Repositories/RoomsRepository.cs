@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
@@ -8,7 +9,7 @@ namespace MIS.Persistence.Repositories;
 
 public sealed class RoomsRepository : RepositoryBase, IRoomsRepository
 {
-	public RoomsRepository(string connectionString) : base(connectionString) { }
+	public RoomsRepository(IConfiguration configuration) : base(configuration) { }
 
 	public int Create(Room item)
 	{

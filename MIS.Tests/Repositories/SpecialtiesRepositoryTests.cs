@@ -1,35 +1,32 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
-using MIS.Persistence.Repositories;
-using MIS.Tests.Fixtures.Live;
+using MIS.Domain.Repositories;
+using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class SpecialtiesRepositoryTests : IClassFixture<DataFixture>
+public class SpecialtiesRepositoryTests : TestClassBase<Startup>
 {
-	private readonly DataFixture _fixture;
-
-	public SpecialtiesRepositoryTests(DataFixture fixture)
-	{
-		_fixture = fixture;
-	}
+	public SpecialtiesRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act
-		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		var id = specialtiesRepository.Create(new Specialty
 		{
 			Code = code,
-			Name = _fixture.Faker.Random.String2(10)
+			Name = Faker.Random.String2(10)
 		});
 
 		// Assert
@@ -45,16 +42,17 @@ public class SpecialtiesRepositoryTests : IClassFixture<DataFixture>
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act/Assert
-		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		FluentActions
 			.Invoking(() => specialtiesRepository.Create(new Specialty
 			{
 				Code = code,
-				Name = _fixture.Faker.Random.String2(10)
+				Name = Faker.Random.String2(10)
 			}))
 			.Should().NotThrow<Exception>();
 
@@ -62,7 +60,7 @@ public class SpecialtiesRepositoryTests : IClassFixture<DataFixture>
 			.Invoking(() => specialtiesRepository.Create(new Specialty
 			{
 				Code = code,
-				Name = _fixture.Faker.Random.String2(10)
+				Name = Faker.Random.String2(10)
 			}))
 			.Should().Throw<Exception>();
 	}

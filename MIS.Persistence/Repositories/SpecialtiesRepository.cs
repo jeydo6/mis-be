@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
@@ -7,7 +8,7 @@ namespace MIS.Persistence.Repositories;
 
 public sealed class SpecialtiesRepository : RepositoryBase, ISpecialtiesRepository
 {
-	public SpecialtiesRepository(string connectionString) : base(connectionString) { }
+	public SpecialtiesRepository(IConfiguration configuration) : base(configuration) { }
 
 	public int Create(Specialty item)
 	{

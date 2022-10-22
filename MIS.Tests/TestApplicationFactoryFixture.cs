@@ -20,6 +20,7 @@ public class TestApplicationFactoryFixture<TStartup> : ITestApplicationFactoryFi
 
 	public IHost CreateHost(Action<IServiceCollection> configuration) =>
 		_factory
-			.WithHostBuilder(builder => builder.ConfigureServices(configuration))
-			.CreateHost();
+			.CreateHostBuilder()
+			.ConfigureServices(configuration)
+			.Build();
 }

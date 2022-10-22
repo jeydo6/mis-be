@@ -1,44 +1,41 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
-using MIS.Persistence.Repositories;
-using MIS.Tests.Fixtures.Live;
+using MIS.Domain.Repositories;
+using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class EmployeesRepositoryTests : IClassFixture<DataFixture>
+public class EmployeesRepositoryTests : TestClassBase<Startup>
 {
-	private readonly DataFixture _fixture;
-
-	public EmployeesRepositoryTests(DataFixture fixture)
-	{
-		_fixture = fixture;
-	}
+	public EmployeesRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act
-		var employeesRepository = new EmployeesRepository(_fixture.ConnectionString);
-		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var employeesRepository = host.Services.GetRequiredService<IEmployeesRepository>();
+		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		var specialtyID = specialtiesRepository.Create(new Specialty
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			Name = _fixture.Faker.Random.String2(10)
+			Code = Faker.Random.String2(16),
+			Name = Faker.Random.String2(10)
 		});
 
 		var id = employeesRepository.Create(new Employee
 		{
 			Code = code,
-			FirstName = _fixture.Faker.Random.String2(10),
-			MiddleName = _fixture.Faker.Random.String2(10),
-			LastName = _fixture.Faker.Random.String2(10),
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
 			SpecialtyID = specialtyID
 		});
 
@@ -59,25 +56,26 @@ public class EmployeesRepositoryTests : IClassFixture<DataFixture>
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act/Assert
-		var employeesRepository = new EmployeesRepository(_fixture.ConnectionString);
-		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var employeesRepository = host.Services.GetRequiredService<IEmployeesRepository>();
+		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		var specialtyID = specialtiesRepository.Create(new Specialty
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			Name = _fixture.Faker.Random.String2(10)
+			Code = Faker.Random.String2(16),
+			Name = Faker.Random.String2(10)
 		});
 
 		FluentActions
 			.Invoking(() => employeesRepository.Create(new Employee
 			{
 				Code = code,
-				FirstName = _fixture.Faker.Random.String2(10),
-				MiddleName = _fixture.Faker.Random.String2(10),
-				LastName = _fixture.Faker.Random.String2(10),
+				FirstName = Faker.Random.String2(10),
+				MiddleName = Faker.Random.String2(10),
+				LastName = Faker.Random.String2(10),
 				SpecialtyID = specialtyID
 			}))
 			.Should().NotThrow<Exception>();
@@ -86,9 +84,9 @@ public class EmployeesRepositoryTests : IClassFixture<DataFixture>
 			.Invoking(() => employeesRepository.Create(new Employee
 			{
 				Code = code,
-				FirstName = _fixture.Faker.Random.String2(10),
-				MiddleName = _fixture.Faker.Random.String2(10),
-				LastName = _fixture.Faker.Random.String2(10),
+				FirstName = Faker.Random.String2(10),
+				MiddleName = Faker.Random.String2(10),
+				LastName = Faker.Random.String2(10),
 				SpecialtyID = specialtyID
 			}))
 			.Should().Throw<Exception>();
@@ -98,19 +96,20 @@ public class EmployeesRepositoryTests : IClassFixture<DataFixture>
 	public void WhenCreate_WithInvalidSpecialty_ThenThrowException()
 	{
 		// Arrange
-		var code = _fixture.Faker.Random.String2(16);
+		var code = Faker.Random.String2(16);
 
 		// Act/Assert
-		var employeesRepository = new EmployeesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var employeesRepository = host.Services.GetRequiredService<IEmployeesRepository>();
 
 		FluentActions
 			.Invoking(() => employeesRepository.Create(new Employee
 			{
 				Code = code,
-				FirstName = _fixture.Faker.Random.String2(10),
-				MiddleName = _fixture.Faker.Random.String2(10),
-				LastName = _fixture.Faker.Random.String2(10),
-				SpecialtyID = _fixture.Faker.Random.Int(1, 1_000_000)
+				FirstName = Faker.Random.String2(10),
+				MiddleName = Faker.Random.String2(10),
+				LastName = Faker.Random.String2(10),
+				SpecialtyID = Faker.Random.Int(1, 1_000_000)
 			}))
 			.Should().Throw<Exception>();
 	}

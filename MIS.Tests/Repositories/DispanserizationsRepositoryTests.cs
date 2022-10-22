@@ -1,52 +1,49 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
-using MIS.Persistence.Repositories;
-using MIS.Tests.Fixtures.Live;
+using MIS.Domain.Repositories;
+using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class DispanserizationsRepositoryTests : IClassFixture<DataFixture>
+public class DispanserizationsRepositoryTests : TestClassBase<Startup>
 {
-	private readonly DataFixture _fixture;
-
-	public DispanserizationsRepositoryTests(DataFixture fixture)
-	{
-		_fixture = fixture;
-	}
+	public DispanserizationsRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var beginDate = _fixture.Faker.Date.Soon().Date;
+		var beginDate = Faker.Date.Soon().Date;
 
 		// Act
-		var dispanserizationsRepository = new DispanserizationsRepository(_fixture.ConnectionString);
-		var patientsRepository = new PatientsRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var dispanserizationsRepository = host.Services.GetRequiredService<IDispanserizationsRepository>();
+		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
 
-		var dispanserizationResourcesIDs = _fixture.CreateDispanserizationResources();
-		_fixture.CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+		var dispanserizationResourcesIDs = CreateDispanserizationResources();
+		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
 
 		var patientID = patientsRepository.Create(new Patient
 		{
-			Code = _fixture.Faker.Random.String2(8),
-			BirthDate = _fixture.Faker.Date.Past(30).Date,
-			FirstName = _fixture.Faker.Random.String2(10),
-			MiddleName = _fixture.Faker.Random.String2(10),
-			LastName = _fixture.Faker.Random.String2(10),
-			Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
+			Code = Faker.Random.String2(8),
+			BirthDate = Faker.Date.Past(30).Date,
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
+			Gender = Faker.PickRandomWithout(Gender.Unknown)
 		});
 
 		var id = dispanserizationsRepository.Create(new Dispanserization
 		{
 			PatientID = patientID,
 			BeginDate = beginDate,
-			EndDate = _fixture.Faker.Date.Soon(refDate: beginDate),
-			IsClosed = _fixture.Faker.Random.Bool()
+			EndDate = Faker.Date.Soon(refDate: beginDate),
+			IsClosed = Faker.Random.Bool()
 		});
 
 		// Assert
@@ -61,23 +58,24 @@ public class DispanserizationsRepositoryTests : IClassFixture<DataFixture>
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var beginDate = _fixture.Faker.Date.Soon().Date;
+		var beginDate = Faker.Date.Soon().Date;
 
 		// Act/Assert
-		var dispanserizationsRepository = new DispanserizationsRepository(_fixture.ConnectionString);
-		var patientsRepository = new PatientsRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var dispanserizationsRepository = host.Services.GetRequiredService<IDispanserizationsRepository>();
+		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
 
-		var dispanserizationResourcesIDs = _fixture.CreateDispanserizationResources();
-		_fixture.CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+		var dispanserizationResourcesIDs = CreateDispanserizationResources();
+		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
 
 		var patientID = patientsRepository.Create(new Patient
 		{
-			Code = _fixture.Faker.Random.String2(8),
-			BirthDate = _fixture.Faker.Date.Past(30).Date,
-			FirstName = _fixture.Faker.Random.String2(10),
-			MiddleName = _fixture.Faker.Random.String2(10),
-			LastName = _fixture.Faker.Random.String2(10),
-			Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
+			Code = Faker.Random.String2(8),
+			BirthDate = Faker.Date.Past(30).Date,
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
+			Gender = Faker.PickRandomWithout(Gender.Unknown)
 		});
 
 		FluentActions
@@ -85,7 +83,7 @@ public class DispanserizationsRepositoryTests : IClassFixture<DataFixture>
 			{
 				PatientID = patientID,
 				BeginDate = beginDate,
-				EndDate = _fixture.Faker.Date.Soon(refDate: beginDate),
+				EndDate = Faker.Date.Soon(refDate: beginDate),
 				IsClosed = false
 			}))
 			.Should().NotThrow<Exception>();
@@ -95,8 +93,8 @@ public class DispanserizationsRepositoryTests : IClassFixture<DataFixture>
 			{
 				PatientID = patientID,
 				BeginDate = beginDate,
-				EndDate = _fixture.Faker.Date.Soon(refDate: beginDate),
-				IsClosed = _fixture.Faker.Random.Bool()
+				EndDate = Faker.Date.Soon(refDate: beginDate),
+				IsClosed = Faker.Random.Bool()
 			}))
 			.Should().Throw<Exception>();
 	}

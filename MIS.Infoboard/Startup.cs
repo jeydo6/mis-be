@@ -19,7 +19,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
 using MIS.Demo.DataContexts;
-using MIS.Domain.Options;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Mediator;
@@ -58,11 +57,7 @@ namespace MIS.Infoboard
 				.ConfigureDemo();
 #elif DEBUG
 			services
-				.ConfigureDebug(options =>
-				{
-					options.ConnectionString = Configuration
-						.GetConnectionString("DefaultConnection");
-				});
+				.ConfigureDebug();
 #elif RELEASE
 			services
 				.ConfigureRelease(options =>
@@ -80,34 +75,28 @@ namespace MIS.Infoboard
 
 	internal static class StartupExtension
 	{
-		public static IServiceCollection ConfigureRelease(this IServiceCollection services, Action<LiveServicesOptions> configureOptions)
+		public static IServiceCollection ConfigureRelease(this IServiceCollection services)
 		{
-			var liveOptions = new LiveServicesOptions();
-			configureOptions?.Invoke(liveOptions);
-
 			services
 				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
 			services
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(liveOptions.ConnectionString));
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
 
 			return services;
 		}
 
-		public static IServiceCollection ConfigureDebug(this IServiceCollection services, Action<LiveServicesOptions> configureOptions)
+		public static IServiceCollection ConfigureDebug(this IServiceCollection services)
 		{
-			var liveOptions = new LiveServicesOptions();
-			configureOptions?.Invoke(liveOptions);
+			services
+				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2022, 5, 10)));
 
 			services
-				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new System.DateTime(2022, 5, 10)));
-
-			services
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(liveOptions.ConnectionString));
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
 
 			return services;
 		}

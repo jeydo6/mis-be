@@ -10,9 +10,6 @@ public class RepositoryBase
 
 	private readonly string _connectionString;
 
-	public RepositoryBase(string connectionString) =>
-		_connectionString = connectionString;
-
 	public RepositoryBase(IConfiguration configuration) =>
 		_connectionString = configuration.GetConnectionString(DefaultConnection);
 

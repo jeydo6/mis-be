@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
@@ -25,7 +26,7 @@ namespace MIS.Persistence.Repositories
 {
 	public class TimeItemsRepository : RepositoryBase, ITimeItemsRepository
 	{
-		public TimeItemsRepository(string connectionString) : base(connectionString) { }
+		public TimeItemsRepository(IConfiguration configuration) : base(configuration) { }
 
 		public int Create(TimeItem item)
 		{

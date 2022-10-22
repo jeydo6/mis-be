@@ -9,18 +9,7 @@ namespace MIS.Tests;
 internal sealed class TestApplicationFactory<TStartup>
 	where TStartup : StartupBase
 {
-	private readonly IHostBuilder _builder = CreateHostBuilder();
-
-	public TestApplicationFactory<TStartup> WithHostBuilder(Action<IHostBuilder> configuration)
-	{
-		configuration(_builder);
-
-		return this;
-	}
-
-	public IHost CreateHost() => _builder.Build();
-
-	private static IHostBuilder CreateHostBuilder() => Host
+	public IHostBuilder CreateHostBuilder() => Host
 		.CreateDefaultBuilder()
 		.ConfigureServices((context, services) =>
 		{

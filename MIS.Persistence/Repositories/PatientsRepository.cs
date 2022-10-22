@@ -17,6 +17,7 @@
 using System;
 using System.Data;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
@@ -24,7 +25,7 @@ namespace MIS.Persistence.Repositories
 {
 	public class PatientsRepository : RepositoryBase, IPatientsRepository
 	{
-		public PatientsRepository(string connectionString) : base(connectionString) { }
+		public PatientsRepository(IConfiguration configuration) : base(configuration) { }
 
 		public int Create(Patient item)
 		{

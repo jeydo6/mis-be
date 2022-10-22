@@ -1,55 +1,52 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
-using MIS.Persistence.Repositories;
-using MIS.Tests.Fixtures.Live;
+using MIS.Domain.Repositories;
+using MIS.Infomat;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
 
 [Collection("Database collection")]
-public class TimeItemsRepositoryTests : IClassFixture<DataFixture>
+public class TimeItemsRepositoryTests : TestClassBase<Startup>
 {
-	private readonly DataFixture _fixture;
-
-	public TimeItemsRepositoryTests(DataFixture fixture)
-	{
-		_fixture = fixture;
-	}
+	public TimeItemsRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var beginDateTime = _fixture.Faker.Date.Soon();
+		var beginDateTime = Faker.Date.Soon();
 
 		// Act
-		var timeItemsRepository = new TimeItemsRepository(_fixture.ConnectionString);
-		var resourcesRepository = new ResourcesRepository(_fixture.ConnectionString);
-		var roomsRepository = new RoomsRepository(_fixture.ConnectionString);
-		var employeesRepository = new EmployeesRepository(_fixture.ConnectionString);
-		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var timeItemsRepository = host.Services.GetRequiredService<ITimeItemsRepository>();
+		var resourcesRepository = host.Services.GetRequiredService<IResourcesRepository>();
+		var roomsRepository = host.Services.GetRequiredService<IRoomsRepository>();
+		var employeesRepository = host.Services.GetRequiredService<IEmployeesRepository>();
+		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		var specialtyID = specialtiesRepository.Create(new Specialty
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			Name = _fixture.Faker.Random.String2(10)
+			Code = Faker.Random.String2(16),
+			Name = Faker.Random.String2(10)
 		});
 
 		var employeeID = employeesRepository.Create(new Employee
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			FirstName = _fixture.Faker.Random.String2(10),
-			MiddleName = _fixture.Faker.Random.String2(10),
-			LastName = _fixture.Faker.Random.String2(10),
+			Code = Faker.Random.String2(16),
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
 			SpecialtyID = specialtyID
 		});
 
 		var roomID = roomsRepository.Create(new Room
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			Floor = _fixture.Faker.Random.Int(1, 10)
+			Code = Faker.Random.String2(16),
+			Floor = Faker.Random.Int(1, 10)
 		});
 
 		var resourceID = resourcesRepository.Create(new Resource
@@ -57,7 +54,7 @@ public class TimeItemsRepositoryTests : IClassFixture<DataFixture>
 			EmployeeID = employeeID,
 			RoomID = roomID,
 			Type = ResourceType.Doctor,
-			Name = _fixture.Faker.Random.String2(10)
+			Name = Faker.Random.String2(10)
 		});
 
 		var id = timeItemsRepository.Create(new TimeItem
@@ -94,34 +91,35 @@ public class TimeItemsRepositoryTests : IClassFixture<DataFixture>
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var beginDateTime = _fixture.Faker.Date.Soon();
+		var beginDateTime = Faker.Date.Soon();
 
 		// Act/Assert
-		var timeItemsRepository = new TimeItemsRepository(_fixture.ConnectionString);
-		var resourcesRepository = new ResourcesRepository(_fixture.ConnectionString);
-		var roomsRepository = new RoomsRepository(_fixture.ConnectionString);
-		var employeesRepository = new EmployeesRepository(_fixture.ConnectionString);
-		var specialtiesRepository = new SpecialtiesRepository(_fixture.ConnectionString);
+		var host = CreateHost();
+		var timeItemsRepository = host.Services.GetRequiredService<ITimeItemsRepository>();
+		var resourcesRepository = host.Services.GetRequiredService<IResourcesRepository>();
+		var roomsRepository = host.Services.GetRequiredService<IRoomsRepository>();
+		var employeesRepository = host.Services.GetRequiredService<IEmployeesRepository>();
+		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		var specialtyID = specialtiesRepository.Create(new Specialty
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			Name = _fixture.Faker.Random.String2(10)
+			Code = Faker.Random.String2(16),
+			Name = Faker.Random.String2(10)
 		});
 
 		var employeeID = employeesRepository.Create(new Employee
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			FirstName = _fixture.Faker.Random.String2(10),
-			MiddleName = _fixture.Faker.Random.String2(10),
-			LastName = _fixture.Faker.Random.String2(10),
+			Code = Faker.Random.String2(16),
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
 			SpecialtyID = specialtyID
 		});
 
 		var roomID = roomsRepository.Create(new Room
 		{
-			Code = _fixture.Faker.Random.String2(16),
-			Floor = _fixture.Faker.Random.Int(1, 10)
+			Code = Faker.Random.String2(16),
+			Floor = Faker.Random.Int(1, 10)
 		});
 
 		var resourceID = resourcesRepository.Create(new Resource
@@ -129,7 +127,7 @@ public class TimeItemsRepositoryTests : IClassFixture<DataFixture>
 			EmployeeID = employeeID,
 			RoomID = roomID,
 			Type = ResourceType.Doctor,
-			Name = _fixture.Faker.Random.String2(10)
+			Name = Faker.Random.String2(10)
 		});
 
 		FluentActions

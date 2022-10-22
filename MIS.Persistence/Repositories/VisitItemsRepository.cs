@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
 
@@ -26,7 +27,7 @@ namespace MIS.Persistence.Repositories
 {
 	public class VisitItemsRepository : RepositoryBase, IVisitItemsRepository
 	{
-		public VisitItemsRepository(string connectionString) : base(connectionString) { }
+		public VisitItemsRepository(IConfiguration configuration) : base(configuration) { }
 
 		public int Create(VisitItem item)
 		{

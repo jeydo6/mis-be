@@ -15,14 +15,11 @@
 #endregion
 
 using System;
-using System.Data;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Configs;
 using MIS.Application.Startups;
 using MIS.Demo.DataContexts;
-using MIS.Domain.Options;
 using MIS.Domain.Providers;
 using MIS.Domain.Repositories;
 using MIS.Domain.Services;
@@ -73,20 +70,20 @@ namespace MIS.Infomat
 
 	internal static class StartupExtension
 	{
-		public static IServiceCollection ConfigureRelease(this IServiceCollection services, Action<LiveServicesOptions> configureOptions)
+		public static IServiceCollection ConfigureRelease(this IServiceCollection services)
 		{
-			var liveOptions = new LiveServicesOptions();
-			configureOptions?.Invoke(liveOptions);
-
 			services
 				.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
 			services
-				.AddSingleton<IPatientsRepository, Live.PatientsRepository>(sp => new Live.PatientsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>(sp => new Live.ResourcesRepository(liveOptions.ConnectionString))
-				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>(sp => new Live.TimeItemsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>(sp => new Live.VisitItemsRepository(liveOptions.ConnectionString))
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>(sp => new Live.DispanserizationsRepository(liveOptions.ConnectionString));
+				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>()
+				.AddSingleton<IEmployeesRepository, Live.EmployeesRepository>()
+				.AddSingleton<IPatientsRepository, Live.PatientsRepository>()
+				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
+				.AddSingleton<IRoomsRepository, Live.RoomsRepository>()
+				.AddSingleton<ISpecialtiesRepository, Live.SpecialtiesRepository>()
+				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
 
 			return services;
 		}
@@ -97,11 +94,14 @@ namespace MIS.Infomat
 				.AddSingleton<IDateTimeProvider, DefaultDateTimeProvider>(sp => new DefaultDateTimeProvider(new DateTime(2018, 12, 18)));
 
 			services
+				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>()
+				.AddSingleton<IEmployeesRepository, Live.EmployeesRepository>()
 				.AddSingleton<IPatientsRepository, Live.PatientsRepository>()
 				.AddSingleton<IResourcesRepository, Live.ResourcesRepository>()
+				.AddSingleton<IRoomsRepository, Live.RoomsRepository>()
+				.AddSingleton<ISpecialtiesRepository, Live.SpecialtiesRepository>()
 				.AddSingleton<ITimeItemsRepository, Live.TimeItemsRepository>()
-				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>()
-				.AddSingleton<IDispanserizationsRepository, Live.DispanserizationsRepository>();
+				.AddSingleton<IVisitItemsRepository, Live.VisitItemsRepository>();
 
 			return services;
 		}

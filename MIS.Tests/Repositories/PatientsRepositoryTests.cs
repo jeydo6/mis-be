@@ -1,122 +1,120 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
-using MIS.Persistence.Repositories;
-using MIS.Tests.Fixtures.Live;
+using MIS.Domain.Repositories;
+using MIS.Infomat;
 using Xunit;
 
-namespace MIS.Tests.Repositories
+namespace MIS.Tests.Repositories;
+
+[Collection("Database collection")]
+public class PatientsRepositoryTests : TestClassBase<Startup>
 {
-	[Collection("Database collection")]
-	public class PatientsRepositoryTests : IClassFixture<DataFixture>
+	public PatientsRepositoryTests(DatabaseFixture<Startup> fixture) : base(fixture) { }
+
+	[Fact]
+	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
-		private readonly DataFixture _fixture;
+		// Arrange
+		var code = Faker.Random.String2(8);
+		var birthDate = Faker.Date.Past(30).Date;
 
-		public PatientsRepositoryTests(DataFixture fixture)
+		// Act
+		var host = CreateHost();
+		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
+
+		var id = patientsRepository.Create(new Patient
 		{
-			_fixture = fixture;
-		}
+			Code = code,
+			BirthDate = birthDate,
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
+			Gender = Faker.PickRandomWithout(Gender.Unknown)
+		});
 
-		[Fact]
-		public void WhenCreate_WithGet_ThenReturnSuccess()
+		// Assert
+		var patient = patientsRepository.Get(id);
+
+		patient.Should().NotBeNull();
+		patient.ID.Should().Be(id);
+		patient.Code.Should().Be(code);
+		patient.BirthDate.Should().Be(birthDate);
+		patient.FirstName.Should().NotBeNullOrEmpty();
+		patient.MiddleName.Should().NotBeNullOrEmpty();
+		patient.LastName.Should().NotBeNullOrEmpty();
+		patient.Gender.Should().BeDefined();
+		patient.Gender.Should().NotBe(Gender.Unknown);
+	}
+
+	[Fact]
+	public void WhenCreate_WithFind_ThenReturnSuccess()
+	{
+		// Arrange
+		var code = Faker.Random.String2(8);
+		var birthDate = Faker.Date.Past(30).Date;
+
+		// Act
+		var host = CreateHost();
+		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
+
+		patientsRepository.Create(new Patient
 		{
-			// Arrange
-			var code = _fixture.Faker.Random.String2(8);
-			var birthDate = _fixture.Faker.Date.Past(30).Date;
+			Code = code,
+			BirthDate = birthDate,
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
+			Gender = Faker.PickRandomWithout(Gender.Unknown)
+		});
 
-			// Act
-			var patientsRepository = new PatientsRepository(_fixture.ConnectionString);
+		// Assert
+		var patient = patientsRepository.First(code, birthDate);
 
-			var id = patientsRepository.Create(new Patient
+		patient.Should().NotBeNull();
+		patient.Code.Should().Be(code);
+		patient.BirthDate.Should().Be(birthDate);
+		patient.FirstName.Should().NotBeNullOrEmpty();
+		patient.MiddleName.Should().NotBeNullOrEmpty();
+		patient.LastName.Should().NotBeNullOrEmpty();
+		patient.Gender.Should().BeDefined();
+		patient.Gender.Should().NotBe(Gender.Unknown);
+	}
+
+	[Fact]
+	public void WhenCreate_WithDuplicate_ThenThrowException()
+	{
+		// Arrange
+		var code = Faker.Random.String2(8);
+
+		// Act/Assert
+		var host = CreateHost();
+		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
+
+		FluentActions
+			.Invoking(() => patientsRepository.Create(new Patient
 			{
 				Code = code,
-				BirthDate = birthDate,
-				FirstName = _fixture.Faker.Random.String2(10),
-				MiddleName = _fixture.Faker.Random.String2(10),
-				LastName = _fixture.Faker.Random.String2(10),
-				Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
-			});
+				BirthDate = Faker.Date.Past(30).Date,
+				FirstName = Faker.Random.String2(10),
+				MiddleName = Faker.Random.String2(10),
+				LastName = Faker.Random.String2(10),
+				Gender = Faker.PickRandomWithout(Gender.Unknown)
+			}))
+			.Should().NotThrow<Exception>();
 
-			// Assert
-			var patient = patientsRepository.Get(id);
-
-			patient.Should().NotBeNull();
-			patient.ID.Should().Be(id);
-			patient.Code.Should().Be(code);
-			patient.BirthDate.Should().Be(birthDate);
-			patient.FirstName.Should().NotBeNullOrEmpty();
-			patient.MiddleName.Should().NotBeNullOrEmpty();
-			patient.LastName.Should().NotBeNullOrEmpty();
-			patient.Gender.Should().BeDefined();
-			patient.Gender.Should().NotBe(Gender.Unknown);
-		}
-
-		[Fact]
-		public void WhenCreate_WithFind_ThenReturnSuccess()
-		{
-			// Arrange
-			var code = _fixture.Faker.Random.String2(8);
-			var birthDate = _fixture.Faker.Date.Past(30).Date;
-
-			// Act
-			var patientsRepository = new PatientsRepository(_fixture.ConnectionString);
-
-			patientsRepository.Create(new Patient
+		FluentActions
+			.Invoking(() => patientsRepository.Create(new Patient
 			{
 				Code = code,
-				BirthDate = birthDate,
-				FirstName = _fixture.Faker.Random.String2(10),
-				MiddleName = _fixture.Faker.Random.String2(10),
-				LastName = _fixture.Faker.Random.String2(10),
-				Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
-			});
-
-			// Assert
-			var patient = patientsRepository.First(code, birthDate);
-
-			patient.Should().NotBeNull();
-			patient.Code.Should().Be(code);
-			patient.BirthDate.Should().Be(birthDate);
-			patient.FirstName.Should().NotBeNullOrEmpty();
-			patient.MiddleName.Should().NotBeNullOrEmpty();
-			patient.LastName.Should().NotBeNullOrEmpty();
-			patient.Gender.Should().BeDefined();
-			patient.Gender.Should().NotBe(Gender.Unknown);
-		}
-
-		[Fact]
-		public void WhenCreate_WithDuplicate_ThenThrowException()
-		{
-			// Arrange
-			var code = _fixture.Faker.Random.String2(8);
-
-			// Act/Assert
-			var patientsRepository = new PatientsRepository(_fixture.ConnectionString);
-
-			FluentActions
-				.Invoking(() => patientsRepository.Create(new Patient
-				{
-					Code = code,
-					BirthDate = _fixture.Faker.Date.Past(30).Date,
-					FirstName = _fixture.Faker.Random.String2(10),
-					MiddleName = _fixture.Faker.Random.String2(10),
-					LastName = _fixture.Faker.Random.String2(10),
-					Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
-				}))
-				.Should().NotThrow<Exception>();
-
-			FluentActions
-				.Invoking(() => patientsRepository.Create(new Patient
-				{
-					Code = code,
-					BirthDate = _fixture.Faker.Date.Past(30).Date,
-					FirstName = _fixture.Faker.Random.String2(10),
-					MiddleName = _fixture.Faker.Random.String2(10),
-					LastName = _fixture.Faker.Random.String2(10),
-					Gender = _fixture.Faker.PickRandomWithout(Gender.Unknown)
-				}))
-				.Should().Throw<Exception>();
-		}
+				BirthDate = Faker.Date.Past(30).Date,
+				FirstName = Faker.Random.String2(10),
+				MiddleName = Faker.Random.String2(10),
+				LastName = Faker.Random.String2(10),
+				Gender = Faker.PickRandomWithout(Gender.Unknown)
+			}))
+			.Should().Throw<Exception>();
 	}
 }
