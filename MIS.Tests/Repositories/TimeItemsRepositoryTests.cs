@@ -68,6 +68,7 @@ public class TimeItemsRepositoryTests : TestClassBase
 		var timeItem = timeItemsRepository.Get(id);
 
 		timeItem.Should().NotBeNull();
+		timeItem.ID.Should().Be(id);
 		timeItem.Date.Should().Be(beginDateTime.Date);
 		timeItem.BeginDateTime.Should().BeCloseTo(beginDateTime, TimeSpan.FromSeconds(1));
 		timeItem.EndDateTime.Should().BeAfter(beginDateTime);

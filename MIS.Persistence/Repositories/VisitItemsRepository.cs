@@ -64,10 +64,11 @@ namespace MIS.Persistence.Repositories
 
 		public VisitItem Get(int visitItemID)
 		{
-			return _connection.Query<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
+			return _connection.Query<VisitItem, Patient, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_Get]",
-				map: (visitItem, timeItem, resource, employee, specialty, room) =>
+				map: (visitItem, patient, timeItem, resource, employee, specialty, room) =>
 				{
+					visitItem.Patient = patient;
 					visitItem.TimeItem = timeItem;
 					visitItem.TimeItem.Resource = resource;
 					visitItem.TimeItem.Resource.Employee = employee;

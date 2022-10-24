@@ -29,6 +29,13 @@ BEGIN
 	SELECT
 		 v.[ID]
 		,v.[PatientID]
+		,p.[ID]
+		,p.[Code]
+		,p.[FirstName]
+		,p.[MiddleName]
+		,p.[LastName]
+		,p.[BirthDate]
+		,p.[Gender]
 		,v.[TimeItemID]
 		,t.[ID]
 		,t.[Date]
@@ -54,6 +61,7 @@ BEGIN
 		,rm.[Floor]
 	FROM
 		[dbo].[VisitItems] AS v INNER JOIN
+		[dbo].[Patients] AS p ON v.[PatientID] = p.[ID] INNER JOIN
 		[dbo].[TimeItems] AS t ON t.[ID] = v.[TimeItemID] INNER JOIN
 		[dbo].[Resources] AS r ON r.[ID] = t.[ResourceID] INNER JOIN
 		[dbo].[Employees] AS e ON e.[ID] = r.[EmployeeID] INNER JOIN
