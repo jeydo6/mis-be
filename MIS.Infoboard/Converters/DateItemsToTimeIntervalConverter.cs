@@ -49,7 +49,7 @@ namespace MIS.Infoboard.Converters
 				return "нет приёма";
 			}
 
-			var result = $"{date.BeginTime:H:mm} - {date.EndTime:H:mm}";
+			var result = $"{date.BeginDateTime:H:mm} - {date.EndDateTime:H:mm}";
 			if (string.IsNullOrEmpty(result))
 			{
 				return "нет приёма";

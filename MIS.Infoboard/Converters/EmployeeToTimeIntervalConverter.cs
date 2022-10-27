@@ -31,7 +31,7 @@ namespace MIS.Infoboard.Converters
 				return "нет приёма";
 			}
 
-			var result = $"{employee.BeginTime:H:mm} - {employee.EndTime:H:mm}";
+			var result = $"{employee.BeginDateTime:H:mm} - {employee.EndDateTime:H:mm}";
 			if (string.IsNullOrEmpty(result))
 			{
 				return "нет приёма";

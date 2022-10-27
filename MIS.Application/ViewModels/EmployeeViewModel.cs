@@ -24,9 +24,9 @@ namespace MIS.Application.ViewModels
 
 		public string PostName { get; set; }
 
-		public DateTime BeginTime { get; set; }
+		public DateTime BeginDateTime { get; set; }
 
-		public DateTime EndTime { get; set; }
+		public DateTime EndDateTime { get; set; }
 
 		public string PhoneNumber { get; set; }
 

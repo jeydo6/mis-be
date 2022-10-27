@@ -22,9 +22,9 @@ namespace MIS.Application.ViewModels
 	{
 		public DateTime Date { get; set; }
 
-		public DateTime BeginTime { get; set; }
+		public DateTime BeginDateTime { get; set; }
 
-		public DateTime EndTime { get; set; }
+		public DateTime EndDateTime { get; set; }
 
 		public int Count { get; set; }
 

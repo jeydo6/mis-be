@@ -45,8 +45,8 @@ namespace MIS.Application.Queries
 							.Select(e => new EmployeeViewModel
 							{
 								EmployeeName = e.EmployeeName,
-								BeginTime = e.BeginTime,
-								EndTime = e.EndTime,
+								BeginDateTime = e.BeginTime,
+								EndDateTime = e.EndTime,
 								PhoneNumber = e.PhoneNumber,
 								PostName = e.PostName,
 								RoomCode = e.RoomCode

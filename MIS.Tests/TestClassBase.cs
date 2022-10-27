@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +18,7 @@ namespace MIS.Tests;
 public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 {
 	private const string DispanserizationSpecialtyName = "Диспансеризация";
+	private const int DispanserizationResourcesCount = 2;
 
 	private readonly DatabaseFixture _fixture;
 
@@ -75,7 +77,7 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 					Name = DispanserizationSpecialtyName
 				});
 
-			for (var i = 0; i < 2; i++)
+			for (var i = 0; i < DispanserizationResourcesCount; i++)
 			{
 				var employeeID = employeesRepository.Create(new Employee
 				{
@@ -104,6 +106,8 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 			}
 		}
 
+		Thread.Sleep(millisecondsTimeout: 100);
+
 		return dispanserizationResourceIDs.ToArray();
 	}
 
@@ -129,6 +133,8 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 
 			timeItemIDs.Add(timeItemID);
 		}
+
+		Thread.Sleep(millisecondsTimeout: 100);
 
 		return timeItemIDs.ToArray();
 	}

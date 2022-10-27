@@ -54,6 +54,51 @@ public class DispanserizationsRepositoryTests : TestClassBase
 	}
 
 	[Fact]
+	public void WhenCreate_WithToList_ThenReturnSuccess()
+	{
+		// Arrange
+		var beginDate = Faker.Date.Soon().Date;
+
+		// Act
+		var host = CreateHost();
+		var dispanserizationsRepository = host.Services.GetRequiredService<IDispanserizationsRepository>();
+		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
+
+		var dispanserizationResourcesIDs = CreateDispanserizationResources();
+		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+
+		var patientID = patientsRepository.Create(new Patient
+		{
+			Code = Faker.Random.String2(8),
+			BirthDate = Faker.Date.Past(30).Date,
+			FirstName = Faker.Random.String2(10),
+			MiddleName = Faker.Random.String2(10),
+			LastName = Faker.Random.String2(10),
+			Gender = Faker.PickRandomWithout(Gender.Unknown)
+		});
+
+		var id = dispanserizationsRepository.Create(new Dispanserization
+		{
+			PatientID = patientID,
+			BeginDate = beginDate,
+			EndDate = Faker.Date.Soon(refDate: beginDate),
+			IsClosed = Faker.Random.Bool()
+		});
+
+		// Assert
+		var dispanserizations = dispanserizationsRepository.ToList(patientID);
+
+		dispanserizations.Should().NotBeNull();
+		dispanserizations.Should().HaveCount(1);
+		dispanserizations.Should().OnlyHaveUniqueItems();
+		dispanserizations.Should().OnlyContain(d =>
+			d.ID == id &&
+			d.PatientID == patientID &&
+			d.Researches.Count == dispanserizationResourcesIDs.Length
+		);
+	}
+
+	[Fact]
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange

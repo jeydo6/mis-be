@@ -31,6 +31,8 @@ BEGIN
 	SELECT
 		 t.[ResourceID]
 		,t.[Date]
+		,MIN(t.[BeginDateTime]) AS [BeginDateTime]
+		,MAX(t.[EndDateTime]) AS [EndDateTime]
 		,COUNT(t.[ID]) AS [TimesCount]
 		,COUNT(v.[ID]) AS [VisitsCount]
 	FROM
