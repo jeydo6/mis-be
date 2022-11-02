@@ -27,6 +27,8 @@ namespace MIS.Domain.Repositories
 
 		List<Resource> ToList();
 
+		int CreateDispanserization(Resource item);
+
 		List<Resource> GetDispanserizations();
 	}
 }

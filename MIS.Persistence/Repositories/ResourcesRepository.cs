@@ -42,6 +42,7 @@ namespace MIS.Persistence.Repositories
 					{
 						name = item.Name,
 						type = item.Type,
+						isDispanserization = false,
 						employeeID = item.EmployeeID,
 						roomID = item.RoomID
 					},
@@ -101,6 +102,40 @@ namespace MIS.Persistence.Repositories
 				},
 				commandType: CommandType.StoredProcedure
 			).AsList();
+		}
+
+		public int CreateDispanserization(Resource item)
+		{
+			_connection.Open();
+			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			try
+			{
+				var id = _connection.QuerySingle<int>(
+					sql: "[dbo].[sp_Resources_Create]",
+					param: new
+					{
+						name = item.Name,
+						type = item.Type,
+						isDispanserization = true,
+						employeeID = item.EmployeeID,
+						roomID = item.RoomID
+					},
+					commandType: CommandType.StoredProcedure,
+					transaction: transaction
+				);
+
+				transaction.Commit();
+				return id;
+			}
+			catch
+			{
+				transaction.Rollback();
+				throw;
+			}
+			finally
+			{
+				_connection.Close();
+			}
 		}
 
 		public List<Resource> GetDispanserizations()

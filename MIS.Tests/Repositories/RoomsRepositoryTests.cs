@@ -16,7 +16,9 @@ public class RoomsRepositoryTests : TestClassBase
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var code = Faker.Random.String2(16);
+		// TODO:
+		// var code = Faker.Random.String2(16);
+		var code = Faker.Random.String2(5);
 
 		// Act
 		var host = CreateHost();
@@ -41,7 +43,9 @@ public class RoomsRepositoryTests : TestClassBase
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var code = Faker.Random.String2(16);
+		// TODO:
+		// var code = Faker.Random.String2(16);
+		var code = Faker.Random.String2(5);
 
 		// Act/Assert
 		var host = CreateHost();

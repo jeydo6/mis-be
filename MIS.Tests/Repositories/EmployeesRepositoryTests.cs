@@ -46,8 +46,8 @@ public class EmployeesRepositoryTests : TestClassBase
 		employee.Code.Should().Be(code);
 		employee.SpecialtyID.Should().Be(specialtyID);
 		employee.Specialty.Should().NotBeNull();
-		employee.FirstName.Should().NotBeNullOrEmpty();
-		employee.MiddleName.Should().NotBeNullOrEmpty();
+		employee.FirstName.Should().NotBeNull();
+		employee.MiddleName.Should().NotBeNull();
 		employee.LastName.Should().NotBeNullOrEmpty();
 	}
 

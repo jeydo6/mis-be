@@ -66,7 +66,6 @@ BEGIN
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@resourceID = 0 OR r.[ID] = @resourceID)
 		AND r.[IsActive] = 1
-		AND r.[Type] = 1
 
 END
 GO

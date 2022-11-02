@@ -30,7 +30,6 @@ BEGIN
 		 r.[ID]
 		,r.[Name]
 		,r.[Type]
-		,r.[IsActive]
 		,r.[EmployeeID]
 		,r.[RoomID]
 		,e.[ID]
@@ -52,5 +51,6 @@ BEGIN
 		[dbo].[Rooms] AS room ON r.[RoomID] = room.[ID]
 	WHERE
 		r.[ID] = @id
+		AND r.[IsActive] = 1
 END
 GO

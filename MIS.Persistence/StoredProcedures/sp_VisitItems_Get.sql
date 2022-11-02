@@ -70,6 +70,5 @@ BEGIN
 	WHERE
 		v.[ID] = @visitItemID
 		AND r.[IsActive] = 1
-		AND r.[Type] = 1
 END
 GO

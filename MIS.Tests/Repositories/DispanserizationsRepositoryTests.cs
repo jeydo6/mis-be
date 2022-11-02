@@ -17,7 +17,7 @@ public class DispanserizationsRepositoryTests : TestClassBase
 	public void WhenCreate_WithGet_ThenReturnSuccess()
 	{
 		// Arrange
-		var beginDate = Faker.Date.Soon().Date;
+		var beginDateTime = Faker.Date.Soon();
 
 		// Act
 		var host = CreateHost();
@@ -25,7 +25,7 @@ public class DispanserizationsRepositoryTests : TestClassBase
 		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
 
 		var dispanserizationResourcesIDs = CreateDispanserizationResources();
-		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+		CreateTimeItems(dispanserizationResourcesIDs, beginDateTime);
 
 		var patientID = patientsRepository.Create(new Patient
 		{
@@ -40,8 +40,8 @@ public class DispanserizationsRepositoryTests : TestClassBase
 		var id = dispanserizationsRepository.Create(new Dispanserization
 		{
 			PatientID = patientID,
-			BeginDate = beginDate,
-			EndDate = Faker.Date.Soon(refDate: beginDate),
+			BeginDate = beginDateTime.Date,
+			EndDate = Faker.Date.Soon(refDate: beginDateTime.Date),
 			IsClosed = Faker.Random.Bool()
 		});
 
@@ -57,7 +57,7 @@ public class DispanserizationsRepositoryTests : TestClassBase
 	public void WhenCreate_WithToList_ThenReturnSuccess()
 	{
 		// Arrange
-		var beginDate = Faker.Date.Soon().Date;
+		var beginDateTime = Faker.Date.Soon();
 
 		// Act
 		var host = CreateHost();
@@ -65,7 +65,7 @@ public class DispanserizationsRepositoryTests : TestClassBase
 		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
 
 		var dispanserizationResourcesIDs = CreateDispanserizationResources();
-		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+		CreateTimeItems(dispanserizationResourcesIDs, beginDateTime);
 
 		var patientID = patientsRepository.Create(new Patient
 		{
@@ -80,8 +80,8 @@ public class DispanserizationsRepositoryTests : TestClassBase
 		var id = dispanserizationsRepository.Create(new Dispanserization
 		{
 			PatientID = patientID,
-			BeginDate = beginDate,
-			EndDate = Faker.Date.Soon(refDate: beginDate),
+			BeginDate = beginDateTime.Date,
+			EndDate = Faker.Date.Soon(refDate: beginDateTime.Date),
 			IsClosed = Faker.Random.Bool()
 		});
 
@@ -102,7 +102,7 @@ public class DispanserizationsRepositoryTests : TestClassBase
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange
-		var beginDate = Faker.Date.Soon().Date;
+		var beginDateTime = Faker.Date.Soon();
 
 		// Act/Assert
 		var host = CreateHost();
@@ -110,7 +110,7 @@ public class DispanserizationsRepositoryTests : TestClassBase
 		var patientsRepository = host.Services.GetRequiredService<IPatientsRepository>();
 
 		var dispanserizationResourcesIDs = CreateDispanserizationResources();
-		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+		CreateTimeItems(dispanserizationResourcesIDs, beginDateTime);
 
 		var patientID = patientsRepository.Create(new Patient
 		{
@@ -126,8 +126,8 @@ public class DispanserizationsRepositoryTests : TestClassBase
 			.Invoking(() => dispanserizationsRepository.Create(new Dispanserization
 			{
 				PatientID = patientID,
-				BeginDate = beginDate,
-				EndDate = Faker.Date.Soon(refDate: beginDate),
+				BeginDate = beginDateTime.Date,
+				EndDate = Faker.Date.Soon(refDate: beginDateTime.Date),
 				IsClosed = false
 			}))
 			.Should().NotThrow<Exception>();
@@ -136,8 +136,8 @@ public class DispanserizationsRepositoryTests : TestClassBase
 			.Invoking(() => dispanserizationsRepository.Create(new Dispanserization
 			{
 				PatientID = patientID,
-				BeginDate = beginDate,
-				EndDate = Faker.Date.Soon(refDate: beginDate),
+				BeginDate = beginDateTime.Date,
+				EndDate = Faker.Date.Soon(refDate: beginDateTime.Date),
 				IsClosed = Faker.Random.Bool()
 			}))
 			.Should().Throw<Exception>();

@@ -15,7 +15,7 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
--- Update date: <2022-10-16>
+-- Update date: <2022-11-02>
 -- =============================================
 
 IF OBJECT_ID('[dbo].[sp_Resources_GetDispanserizations]', 'P') IS NOT NULL
@@ -49,8 +49,8 @@ BEGIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID] INNER JOIN
 		[dbo].[Rooms] AS rm ON rm.[ID] = r.[RoomID]
 	WHERE
-		r.[IsActive] = 1
+		r.[IsDispanserization] = 1
+		AND r.[IsActive] = 1
 		AND r.[Type] = 2
-		AND s.[Name] = N'Диспансеризация'
 END
 GO

@@ -44,7 +44,8 @@ BEGIN
 		[dbo].[Specialties] AS s ON s.[ID] = e.[SpecialtyID]
 	WHERE
 		d.[ID] = @id
+		AND r.[IsDispanserization] = 1
+		AND r.[IsActive] = 1
 		AND r.[Type] = 2
-		AND s.[Name] = N'Диспансеризация'
 END
 GO

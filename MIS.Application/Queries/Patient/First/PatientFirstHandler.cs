@@ -45,7 +45,7 @@ namespace MIS.Application.Queries
 
 		public PatientViewModel Handle(PatientFirstQuery request)
 		{
-			var patient = _patients.First(request.Code, request.BirthDate);
+			var patient = _patients.Find(request.Code, request.BirthDate);
 
 			if (patient == null)
 			{

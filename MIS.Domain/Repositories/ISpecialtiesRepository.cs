@@ -7,6 +7,4 @@ public interface ISpecialtiesRepository
 	int Create(Specialty item);
 
 	Specialty Get(int id);
-
-	Specialty FindByName(string name);
 }

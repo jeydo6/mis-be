@@ -43,9 +43,9 @@ BEGIN
 		[dbo].[VisitItems] AS v ON v.[TimeItemID] = t.[ID]
 	WHERE
 		t.[Date] BETWEEN @beginDate AND @endDate
+		AND r.[IsDispanserization] = 1
 		AND r.[IsActive] = 1
 		AND r.[Type] = 2
-		AND s.[Name] = N'Диспансеризация'
 	GROUP BY
 		 t.[ResourceID]
 		,t.[Date]

@@ -38,31 +38,6 @@ public class SpecialtiesRepositoryTests : TestClassBase
 	}
 
 	[Fact]
-	public void WhenCreate_WithFindByName_ThenReturnSuccess()
-	{
-		// Arrange
-		var name = Faker.Random.String2(16);
-
-		// Act
-		var host = CreateHost();
-		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
-
-		var id = specialtiesRepository.Create(new Specialty
-		{
-			Code = Faker.Random.String2(16),
-			Name = name
-		});
-
-		// Assert
-		var specialty = specialtiesRepository.FindByName(name);
-
-		specialty.Should().NotBeNull();
-		specialty.ID.Should().Be(id);
-		specialty.Code.Should().NotBeNullOrEmpty();
-		specialty.Name.Should().Be(name);
-	}
-
-	[Fact]
 	public void WhenCreate_WithDuplicate_ThenThrowException()
 	{
 		// Arrange

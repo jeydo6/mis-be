@@ -92,8 +92,8 @@ public class VisitItemsRepositoryTests : TestClassBase
 		visitItem.Patient.ID.Should().Be(patientID);
 		visitItem.Patient.Code.Should().Be(code);
 		visitItem.Patient.BirthDate.Should().BeSameDateAs(birthDate);
-		visitItem.Patient.FirstName.Should().NotBeNullOrEmpty();
-		visitItem.Patient.MiddleName.Should().NotBeNullOrEmpty();
+		visitItem.Patient.FirstName.Should().NotBeNull();
+		visitItem.Patient.MiddleName.Should().NotBeNull();
 		visitItem.Patient.LastName.Should().NotBeNullOrEmpty();
 		visitItem.Patient.Gender.Should().BeDefined();
 		visitItem.Patient.Gender.Should().NotBe(Gender.Unknown);
@@ -220,7 +220,6 @@ public class VisitItemsRepositoryTests : TestClassBase
 			vi.TimeItem.Resource.Type > ResourceType.Unknown
 		);
 	}
-
 
 	[Fact]
 	public void WhenCreate_WithDuplicate_ThenThrowException()

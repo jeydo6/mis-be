@@ -54,6 +54,11 @@ namespace MIS.Demo.Repositories
 			return result;
 		}
 
+		public int CreateDispanserization(Resource item)
+		{
+			throw new System.NotImplementedException();
+		}
+
 		public List<Resource> GetDispanserizations()
 		{
 			var result = _dataContext.Resources

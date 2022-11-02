@@ -64,10 +64,10 @@ namespace MIS.Persistence.Repositories
 			}
 		}
 
-		public Patient First(string code, DateTime birthDate)
+		public Patient Find(string code, DateTime birthDate)
 		{
 			return _connection.QueryFirstOrDefault<Patient>(
-				sql: "[dbo].[sp_Patients_First]",
+				sql: "[dbo].[sp_Patients_Find]",
 				param: new { code, birthDate },
 				commandType: CommandType.StoredProcedure
 			);

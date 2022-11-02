@@ -41,7 +41,7 @@ namespace MIS.Demo.Repositories
 			return item.ID;
 		}
 
-		public Patient First(string code, DateTime birthDate)
+		public Patient Find(string code, DateTime birthDate)
 		{
 			var result = _dataContext.Patients
 				.FirstOrDefault(s => s.Code == code && s.BirthDate == birthDate);

@@ -27,6 +27,7 @@ CREATE TABLE [dbo].[Resources]
 	[ID] INT IDENTITY NOT NULL PRIMARY KEY,
 	[Name] NVARCHAR(128) NOT NULL,
 	[Type] INT NOT NULL,
+	[IsDispanserization] BIT NOT NULL,
 	[IsActive] BIT NOT NULL,
 	[EmployeeID] INT NOT NULL,
 	[RoomID] INT NOT NULL

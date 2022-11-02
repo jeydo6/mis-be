@@ -45,8 +45,8 @@ BEGIN
 		t.[Date] BETWEEN @beginDate AND @endDate
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@specialtyID = 0 OR s.[ID] = @specialtyID)
+		AND r.[IsDispanserization] = 0
 		AND r.[IsActive] = 1
-		AND r.[Type] = 1
 	GROUP BY
 		 t.[ResourceID]
 		,t.[Date]

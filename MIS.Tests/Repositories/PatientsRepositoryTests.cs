@@ -41,8 +41,8 @@ public class PatientsRepositoryTests : TestClassBase
 		patient.ID.Should().Be(id);
 		patient.Code.Should().Be(code);
 		patient.BirthDate.Should().Be(birthDate);
-		patient.FirstName.Should().NotBeNullOrEmpty();
-		patient.MiddleName.Should().NotBeNullOrEmpty();
+		patient.FirstName.Should().NotBeNull();
+		patient.MiddleName.Should().NotBeNull();
 		patient.LastName.Should().NotBeNullOrEmpty();
 		patient.Gender.Should().BeDefined();
 		patient.Gender.Should().NotBe(Gender.Unknown);
@@ -70,13 +70,13 @@ public class PatientsRepositoryTests : TestClassBase
 		});
 
 		// Assert
-		var patient = patientsRepository.First(code, birthDate);
+		var patient = patientsRepository.Find(code, birthDate);
 
 		patient.Should().NotBeNull();
 		patient.Code.Should().Be(code);
 		patient.BirthDate.Should().Be(birthDate);
-		patient.FirstName.Should().NotBeNullOrEmpty();
-		patient.MiddleName.Should().NotBeNullOrEmpty();
+		patient.FirstName.Should().NotBeNull();
+		patient.MiddleName.Should().NotBeNull();
 		patient.LastName.Should().NotBeNullOrEmpty();
 		patient.Gender.Should().BeDefined();
 		patient.Gender.Should().NotBe(Gender.Unknown);

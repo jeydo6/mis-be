@@ -66,6 +66,5 @@ BEGIN
 		AND t.[BeginDateTime] >= @beginDate
 		AND (@patientID = 0 OR v.[PatientID] = @patientID)
 		AND r.[IsActive] = 1
-		AND r.[Type] = 1
 END
 GO

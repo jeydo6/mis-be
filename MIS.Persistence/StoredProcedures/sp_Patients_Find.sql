@@ -14,25 +14,31 @@
  
 -- =============================================
 -- Author:		<Vladimir Deryagin>
--- Create date: <2020-11-06>
+-- Create date: <2020-10-19>
 -- Update date: <2022-10-16>
 -- =============================================
 
-IF OBJECT_ID('[dbo].[sp_Specialties_FindByName]', 'P') IS NOT NULL
-	DROP PROCEDURE [dbo].[sp_Specialties_FindByName]
+IF OBJECT_ID('[dbo].[sp_Patients_Find]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Patients_Find]
 GO
 
-CREATE PROCEDURE [dbo].[sp_Specialties_FindByName]
-	@name NVARCHAR(128)
+CREATE PROCEDURE [dbo].[sp_Patients_Find]
+	@code NVARCHAR(8),
+	@birthDate DATE
 AS
 BEGIN
 	SELECT TOP (1)
-		 s.[ID]
-		,s.[Code]
-		,s.[Name]
+		 p.[ID]
+		,p.[Code]
+		,p.[FirstName]
+		,p.[MiddleName]
+		,p.[LastName]
+		,p.[BirthDate]
+		,p.[Gender]
 	FROM
-		[dbo].[Specialties] AS s
+		[dbo].[Patients] AS p
 	WHERE
-		s.[Name] = @name
+		p.[Code] = @code
+		AND YEAR(p.[BirthDate]) = YEAR(@birthDate)
 END
 GO

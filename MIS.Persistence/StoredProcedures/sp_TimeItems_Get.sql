@@ -62,6 +62,5 @@ BEGIN
 	WHERE
 		t.[ID] = @id
 		AND r.[IsActive] = 1
-		AND r.[Type] = 1
 END
 GO

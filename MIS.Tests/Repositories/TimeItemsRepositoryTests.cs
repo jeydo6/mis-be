@@ -250,7 +250,7 @@ public class TimeItemsRepositoryTests : TestClassBase
 		var specialtiesRepository = host.Services.GetRequiredService<ISpecialtiesRepository>();
 
 		var dispanserizationResourcesIDs = CreateDispanserizationResources();
-		CreateDispanserizationTimeItems(dispanserizationResourcesIDs);
+		CreateTimeItems(dispanserizationResourcesIDs, beginDateTime);
 
 		// Assert
 		var timeItemTotals = timeItemsRepository.GetDispanserizationTotals(beginDateTime.Date, beginDateTime.Date);

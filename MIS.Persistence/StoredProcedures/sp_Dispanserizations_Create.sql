@@ -83,9 +83,9 @@ BEGIN
 					[dbo].[VisitItems] AS v ON v.[TimeItemID] = t.[ID]
 				WHERE
 					t.[Date] = @beginDate
+					AND r.[IsDispanserization] = 1
 					AND r.[IsActive] = 1
 					AND r.[Type] = 2
-					AND s.[Name] = N'Диспансеризация'
 					AND v.[ID] IS NULL
 				GROUP BY
 					 t.[ResourceID]

@@ -23,7 +23,7 @@ namespace MIS.Domain.Repositories
 	{
 		int Create(Patient item);
 
-		Patient First(string code, DateTime birthDate);
+		Patient Find(string code, DateTime birthDate);
 
 		Patient Get(int id);
 	}

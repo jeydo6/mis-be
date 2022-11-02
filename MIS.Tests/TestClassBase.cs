@@ -17,7 +17,6 @@ namespace MIS.Tests;
 
 public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 {
-	private const string DispanserizationSpecialtyName = "Диспансеризация";
 	private const int DispanserizationResourcesCount = 2;
 
 	private readonly DatabaseFixture _fixture;
@@ -68,14 +67,11 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 		}
 		else
 		{
-			var specialty = specialtiesRepository.FindByName(DispanserizationSpecialtyName);
-			var specialtyID = specialty != null ?
-				specialty.ID :
-				specialtiesRepository.Create(new Specialty
-				{
-					Code = Faker.Random.String2(16),
-					Name = DispanserizationSpecialtyName
-				});
+			var specialtyID = specialtiesRepository.Create(new Specialty
+			{
+				Code = Faker.Random.String2(16),
+				Name = Faker.Random.String2(10)
+			});
 
 			for (var i = 0; i < DispanserizationResourcesCount; i++)
 			{
@@ -94,7 +90,7 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 					Floor = Faker.Random.Int(1, 10)
 				});
 
-				var resourceID = resourcesRepository.Create(new Resource
+				var resourceID = resourcesRepository.CreateDispanserization(new Resource
 				{
 					EmployeeID = employeeID,
 					RoomID = roomID,
@@ -106,12 +102,10 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 			}
 		}
 
-		Thread.Sleep(millisecondsTimeout: 100);
-
 		return dispanserizationResourceIDs.ToArray();
 	}
 
-	internal int[] CreateDispanserizationTimeItems(int[] dispanserizationResourceIDs)
+	internal int[] CreateTimeItems(int[] resourceIDs, DateTime beginDateTime)
 	{
 		var host = CreateHost();
 
@@ -119,10 +113,8 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 
 		var timeItemIDs = new List<int>();
 
-		foreach (var resourceID in dispanserizationResourceIDs)
+		foreach (var resourceID in resourceIDs)
 		{
-			var beginDateTime = Faker.Date.Soon();
-
 			var timeItemID = timeItemsRepository.Create(new TimeItem
 			{
 				ResourceID = resourceID,
@@ -133,8 +125,6 @@ public abstract class TestClassBase : IClassFixture<DatabaseFixture>
 
 			timeItemIDs.Add(timeItemID);
 		}
-
-		Thread.Sleep(millisecondsTimeout: 100);
 
 		return timeItemIDs.ToArray();
 	}
