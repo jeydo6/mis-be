@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
 using MIS.Domain.Repositories;
+using MIS.Tests.Factories;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
@@ -12,7 +13,7 @@ namespace MIS.Tests.Repositories;
 [Collection("Database collection")]
 public class ResourcesRepositoryTests : TestClassBase
 {
-	public ResourcesRepositoryTests(DatabaseFixture fixture) : base(fixture) { }
+	public ResourcesRepositoryTests(TestApplicationFactory factory) : base(factory) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()

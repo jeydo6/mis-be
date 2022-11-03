@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Tests.Factories;
 using Xunit;
 
 namespace MIS.Tests.Repositories;
@@ -10,7 +11,7 @@ namespace MIS.Tests.Repositories;
 [Collection("Database collection")]
 public class EmployeesRepositoryTests : TestClassBase
 {
-	public EmployeesRepositoryTests(DatabaseFixture fixture) : base(fixture) { }
+	public EmployeesRepositoryTests(TestApplicationFactory factory) : base(factory) { }
 
 	[Fact]
 	public void WhenCreate_WithGet_ThenReturnSuccess()

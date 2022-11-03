@@ -1,50 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using MIS.Application.Configs;
 using MIS.Domain.Entities;
 using MIS.Domain.Enums;
 using MIS.Domain.Repositories;
-using MIS.Mediator;
-using MIS.Persistence.Extensions;
-using Xunit;
+using MIS.Tests.Factories;
 
 namespace MIS.Tests;
 
-public abstract class TestClassBase : IClassFixture<DatabaseFixture>
+public abstract class TestClassBase : IApplicationFactory
 {
 	private const int DispanserizationResourcesCount = 2;
 
-	private readonly DatabaseFixture _fixture;
+	private readonly IApplicationFactory _factory;
 
 	protected readonly Faker Faker = new Faker();
 
-	public TestClassBase(DatabaseFixture fixture) =>
-		_fixture = fixture;
+	public TestClassBase(TestApplicationFactory factory) =>
+		_factory = factory;
 
-	public IHost CreateHost() => CreateHost(_ => { });
+	public IHost CreateHost() =>
+		_factory.CreateHost();
 
 	public IHost CreateHost(Action<IServiceCollection> configuration) =>
-		Host
-			.CreateDefaultBuilder()
-			.ConfigureServices((context, services) =>
-			{
-				services
-					.Configure<SettingsConfig>(
-						context.Configuration.GetSection($"{nameof(SettingsConfig)}")
-					);
-
-				services
-					.AddLogging(l => l.ClearProviders().AddConsole())
-					.AddMediator(typeof(Application.AssemblyMarker))
-					.ConfigureRelease();
-			})
-			.ConfigureServices(configuration)
-			.Build();
+		_factory.CreateHost(configuration);
 
 	internal int[] CreateDispanserizationResources()
 	{
