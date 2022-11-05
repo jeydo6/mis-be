@@ -2,8 +2,8 @@
 
 namespace MIS.Persistence.Migrations;
 
-[Migration(0001)]
-public class Migration_0001 : Migration
+[Migration(0002)]
+public class Migration_0002 : Migration
 {
 	public override void Up()
 	{
