@@ -14,22 +14,10 @@
  
 -- =============================================
 -- Author:		<Vladimir Deryagin>
--- Create date: <2020-10-26>
--- Update date: <2022-04-26>
+-- Create date: <2020-11-06>
+-- Update date: <2022-10-16>
 -- =============================================
 
-IF OBJECT_ID('[dbo].[Dispanserizations]', 'U') IS NOT NULL
-	DROP TABLE [dbo].[Dispanserizations]
-GO
-
-CREATE TABLE [dbo].[Dispanserizations]
-(
-	[ID] INT IDENTITY  NOT NULL PRIMARY KEY, 
-	[BeginDate] DATETIME NOT NULL,
-	[EndDate] DATETIME NOT NULL, 
-	[IsClosed] BIT NOT NULL,
-	[PatientID] INT NOT NULL, 
-
-	CONSTRAINT [FK_Dispanserizations_Patients] FOREIGN KEY ([PatientID]) REFERENCES [Patients]([ID])
-)
+IF OBJECT_ID('[dbo].[sp_Resources_Get]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Resources_Get]
 GO

@@ -15,17 +15,9 @@
 -- =============================================
 -- Author:		<Vladimir Deryagin>
 -- Create date: <2020-10-26>
--- Update date: <2022-04-26>
+-- Update date: <2022-11-04>
 -- =============================================
 
-IF OBJECT_ID('[dbo].[Rooms]', 'U') IS NOT NULL
-	DROP TABLE [dbo].[Rooms]
-GO
-
-CREATE TABLE [dbo].[Rooms]
-(
-	[ID] INT IDENTITY NOT NULL PRIMARY KEY,
-	[Code] NVARCHAR(16) NOT NULL,
-	[Floor] INT NOT NULL
-)
+IF OBJECT_ID('[dbo].[Resources]', 'U') IS NOT NULL
+	DROP TABLE [dbo].[Resources]
 GO

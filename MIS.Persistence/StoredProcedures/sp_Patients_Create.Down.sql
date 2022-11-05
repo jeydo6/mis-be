@@ -14,23 +14,10 @@
  
 -- =============================================
 -- Author:		<Vladimir Deryagin>
--- Create date: <2020-10-26>
--- Update date: <2022-04-26>
+-- Create date: <2020-11-06>
+-- Update date: <2022-10-16>
 -- =============================================
 
-IF OBJECT_ID('[dbo].[Employees]', 'U') IS NOT NULL
-	DROP TABLE [dbo].[Employees]
-GO
-
-CREATE TABLE [dbo].[Employees]
-(
-	[ID] INT IDENTITY NOT NULL PRIMARY KEY,
-	[Code] NVARCHAR(16) NOT NULL,
-	[FirstName] NVARCHAR(128) NOT NULL,
-	[MiddleName] NVARCHAR(128) NOT NULL,
-	[LastName] NVARCHAR(128) NOT NULL,
-	[SpecialtyID] INT NOT NULL,
-
-	CONSTRAINT [FK_Employees_Specialties] FOREIGN KEY ([SpecialtyID]) REFERENCES [Specialties]([ID])
-)
+IF OBJECT_ID('[dbo].[sp_Patients_Create]', 'P') IS NOT NULL
+	DROP PROCEDURE [dbo].[sp_Patients_Create]
 GO

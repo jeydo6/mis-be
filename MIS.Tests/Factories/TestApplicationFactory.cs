@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MIS.Application.Configs;
 using MIS.Mediator;
+using MIS.Migrator.Factories;
 using MIS.Persistence.Extensions;
 
 namespace MIS.Tests.Factories;
@@ -11,6 +12,16 @@ namespace MIS.Tests.Factories;
 public class TestApplicationFactory : IApplicationFactory
 {
 	private IHost _host;
+
+	public TestApplicationFactory()
+	{
+		var migrationRunner = MigrationRunnerFactory.CreateMigrationRunner();
+		if (migrationRunner.HasMigrationsToApplyDown(0))
+			migrationRunner.MigrateDown(0);
+
+		if (migrationRunner.HasMigrationsToApplyUp())
+			migrationRunner.MigrateUp();
+	}
 
 	public IHost CreateHost() => CreateHost(_ => { });
 
