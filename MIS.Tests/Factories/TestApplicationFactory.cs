@@ -16,8 +16,8 @@ public class TestApplicationFactory : IApplicationFactory
 	public TestApplicationFactory()
 	{
 		var migrationRunner = MigrationRunnerFactory.CreateMigrationRunner();
-		if (migrationRunner.HasMigrationsToApplyDown(0))
-			migrationRunner.MigrateDown(0);
+		//if (migrationRunner.HasMigrationsToApplyDown(0))
+		//	migrationRunner.MigrateDown(0);
 
 		if (migrationRunner.HasMigrationsToApplyUp())
 			migrationRunner.MigrateUp();
