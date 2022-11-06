@@ -9,7 +9,7 @@ using MIS.Persistence.Extensions;
 
 namespace MIS.Tests.Factories;
 
-public class TestApplicationFactory : IApplicationFactory
+public class TestApplicationFactory : IApplicationFactory, IDisposable
 {
 	private IHost _host;
 
@@ -42,4 +42,6 @@ public class TestApplicationFactory : IApplicationFactory
 			})
 			.ConfigureServices(configuration)
 			.Build();
+
+	public void Dispose() => _host?.Dispose();
 }
