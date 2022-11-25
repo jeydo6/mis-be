@@ -21,62 +21,63 @@ using MIS.Application.ViewModels;
 
 namespace MIS.Application.Extensions
 {
-	public static class PagesExtension
+	public static class GroupingExtension
 	{
-		public static IEnumerable<PageViewModel> GetPages<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, int maxHeight, int itemHeight, int headerHeight = 0)
+		public static IEnumerable<IEnumerable<DepartmentViewModel>> GroupBy(
+			this DepartmentViewModel[] items, int maxHeight, int itemHeight, int headerHeight = 0)
 		{
-			return groups
-				.GroupBy(maxHeight, itemHeight, headerHeight)
-				.Select(p => new PageViewModel
+			var template = items
+				.Select(i => i.Employees.Length)
+				.GetTemplate(maxHeight, itemHeight, headerHeight)
+				.ToArray();
+
+			return items
+				.SelectMany(key => key.Employees.Select(element => (key, element)))
+				.GroupBy(template.SelectMany(t => t))
+				.GroupBy(template)
+				.Select(groups => groups.Select(g => new DepartmentViewModel
 				{
-					Objects = p.Select(g => g switch
-					{
-						IGrouping<DepartmentViewModel, EmployeeViewModel> d => new DepartmentViewModel
-						{
-							DepartmentName = d.Key.DepartmentName,
-							Employees = d.ToArray()
-						},
-						IGrouping<SpecialtyViewModel, ResourceViewModel> s => new SpecialtyViewModel
-						{
-							SpecialtyID = s.Key.SpecialtyID,
-							SpecialtyName = s.Key.SpecialtyName,
-							IsEnabled = s.Key.IsEnabled,
-							Count = s.Key.Count,
-							Resources = s.ToArray()
-						},
-						_ => default(object)
-					})
-				})
+					DepartmentName = g.Key.DepartmentName,
+					Employees = g.ToArray()
+				}))
 				.ToArray();
 		}
 
-		private static IEnumerable<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, int maxHeight, int itemHeight, int headerHeight = 0)
+		public static IEnumerable<IEnumerable<SpecialtyViewModel>> GroupBy(
+			this SpecialtyViewModel[] items, int maxHeight, int itemHeight, int headerHeight = 0)
 		{
-			var template = groups
-				.Select(g => g.Count())
-				.GetTemplate(maxHeight, itemHeight, headerHeight);
+			var template = items
+				.Select(i => i.Resources.Length)
+				.GetTemplate(maxHeight, itemHeight, headerHeight)
+				.ToArray();
 
-			return groups
+			return items
+				.SelectMany(key => key.Resources.Select(element => (key, element)))
 				.GroupBy(template.SelectMany(t => t))
-				.GroupBy(template);
+				.GroupBy(template)
+				.Select(groups => groups.Select(g => new SpecialtyViewModel
+				{
+					SpecialtyID = g.Key.SpecialtyID,
+					SpecialtyName = g.Key.SpecialtyName,
+					IsEnabled = g.Key.IsEnabled,
+					Count = g.Key.Count,
+					Resources = g.ToArray()
+				}))
+				.ToArray();
 		}
 
-		private static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, IEnumerable<int> template)
+		private static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TKey, TElement>(
+			this IEnumerable<(TKey Key, TElement Element)> items, IEnumerable<int> template)
 		{
 			var result = new List<IGrouping<TKey, TElement>>();
 
-			var items = groups
-				.SelectMany(g => g.Select(item => (g.Key, Item: item)))
-				.ToArray();
-
 			var offset = 0;
+			var itemsArray = items.ToArray();
 			foreach (var length in template)
 			{
 				result.AddRange(
-					items
-						.Skip(offset)
-						.Take(length)
-						.GroupBy(t => t.Key, t => t.Item)
+					itemsArray[offset..(offset + length)]
+						.GroupBy(t => t.Key, t => t.Element)
 				);
 
 				offset += length;
@@ -85,17 +86,17 @@ namespace MIS.Application.Extensions
 			return result.ToArray();
 		}
 
-		private static IEnumerable<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups, IEnumerable<IEnumerable<int>> template)
+		private static IEnumerable<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TKey, TElement>(
+			this IEnumerable<IGrouping<TKey, TElement>> items, IEnumerable<IEnumerable<int>> template)
 		{
 			var result = new List<IEnumerable<IGrouping<TKey, TElement>>>();
 
 			var offset = 0;
+			var itemsArray = items.ToArray();
 			foreach (var length in template.Select(t => t.Count()))
 			{
 				result.Add(
-					groups
-						.Skip(offset)
-						.Take(length)
+					itemsArray[offset..(offset + length)]
 				);
 
 				offset += length;
@@ -104,7 +105,8 @@ namespace MIS.Application.Extensions
 			return result.ToArray();
 		}
 
-		private static IEnumerable<IEnumerable<int>> GetTemplate(this IEnumerable<int> counts, int maxHeight, int itemHeight, int headerHeight = 0)
+		private static IEnumerable<IEnumerable<int>> GetTemplate(
+			this IEnumerable<int> counts, int maxHeight, int itemHeight, int headerHeight = 0)
 		{
 			var result = new List<IEnumerable<int>>();
 
@@ -146,7 +148,5 @@ namespace MIS.Application.Extensions
 
 			return result.ToArray();
 		}
-
-
 	}
 }

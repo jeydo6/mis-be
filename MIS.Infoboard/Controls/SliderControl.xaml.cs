@@ -21,6 +21,7 @@ using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.Extensions;
 using MIS.Application.Queries;
+using MIS.Application.ViewModels;
 using MIS.Mediator;
 
 namespace MIS.Infoboard.Controls
@@ -89,7 +90,11 @@ namespace MIS.Infoboard.Controls
 
 			pages.Content = "Расписание приёма врачей";
 			pages.Items = specialties
-				.GetPages(actualHeight, itemHeight, headerHeight)
+				.GroupBy(actualHeight, itemHeight, headerHeight)
+				.Select(items => new PageViewModel
+				{
+					Objects = items
+				})
 				.ToArray();
 		}
 
@@ -105,7 +110,11 @@ namespace MIS.Infoboard.Controls
 
 			pages.Content = "Контакты";
 			pages.Items = departments
-				.GetPages(actualHeight, itemHeight, headerHeight)
+				.GroupBy(actualHeight, itemHeight, headerHeight)
+				.Select(items => new PageViewModel
+				{
+					Objects = items
+				})
 				.ToArray();
 		}
 	}
