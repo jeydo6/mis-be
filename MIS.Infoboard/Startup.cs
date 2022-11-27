@@ -31,10 +31,8 @@ namespace MIS.Infoboard
 
 		private IConfiguration Configuration { get; }
 
-		public IServiceCollection ConfigureServices()
+		public IServiceCollection ConfigureServices(IServiceCollection services)
 		{
-			IServiceCollection services = new ServiceCollection();
-
 			services.Configure<SettingsConfig>(
 				Configuration.GetSection($"{nameof(SettingsConfig)}")
 			);

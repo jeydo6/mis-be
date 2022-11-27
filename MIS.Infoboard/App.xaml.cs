@@ -16,8 +16,9 @@
 
 using System;
 using System.Windows.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MIS.Infoboard.Windows;
-using Serilog;
 
 namespace MIS.Infoboard
 {
@@ -28,18 +29,22 @@ namespace MIS.Infoboard
 	{
 		public App()
 		{
-			ServiceProvider = Program.Run();
-			if (ServiceProvider == null)
+			var host = Program.CreateHost();
+			if (host is null || host.Services is null)
 			{
 				Shutdown();
 			}
+
+			ServiceProvider = host.Services;
 		}
 
 		public IServiceProvider ServiceProvider { get; }
 
 		private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
 		{
-			Log.Error(e.Exception, $"Unhandled exception of type '{e.Exception.GetType()}' was thrown.");
+			var logger = ServiceProvider.GetRequiredService<ILogger<App>>();
+
+			logger.LogError(e.Exception, "Unhandled exception of type '{type}' was thrown.", e.Exception.GetType());
 			e.Handled = true;
 
 			MainWindow mainWindow = Current.MainWindow as MainWindow;
