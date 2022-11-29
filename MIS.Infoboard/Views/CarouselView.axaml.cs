@@ -10,42 +10,42 @@ using MIS.Application.Queries;
 using MIS.Infoboard.ViewModels;
 using MIS.Mediator;
 
-namespace MIS.Infoboard.UserControls;
+namespace MIS.Infoboard.Views;
 
-public partial class CarouselControl : UserControl
+public partial class CarouselView : UserControl
 {
     private readonly IMediator _mediator;
     
     private readonly DispatcherTimer _timer;
-    private readonly Func<BaseCarouselItemControlViewModel[]>[] _actions;
+    private readonly Func<BaseCarouselItemViewModel[]>[] _actions;
 
-    private BaseCarouselItemControlViewModel[] _items;
+    private BaseCarouselItemViewModel[] _items;
 
     private int _actionIndex;
     private int _itemIndex;
 
-    public CarouselControl()
+    public CarouselView()
     {
         var serviceProvider = Avalonia.Application.Current.GetServiceProvider();
         _mediator = serviceProvider.GetRequiredService<IMediator>();
 
-        ViewModel = new CarouselControlViewModel();
+        ViewModel = new CarouselViewModel();
         DataContext = ViewModel;
 
         _timer = new DispatcherTimer(TimeSpan.Zero, DispatcherPriority.Normal, Timer_OnTick);
-        _actions = new Func<BaseCarouselItemControlViewModel[]>[]
+        _actions = new Func<BaseCarouselItemViewModel[]>[]
         {
             GetDepartments,
             GetSpecialties
         };
-        _items = Array.Empty<BaseCarouselItemControlViewModel>();
+        _items = Array.Empty<BaseCarouselItemViewModel>();
 
         InitializeComponent();
 
         _timer.Start();
     }
 
-    private CarouselControlViewModel ViewModel { get; }
+    private CarouselViewModel ViewModel { get; }
     
     private void UserControl_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
@@ -78,14 +78,14 @@ public partial class CarouselControl : UserControl
         _timer.Interval = ViewModel.Current.Interval;
     }
     
-    private BaseCarouselItemControlViewModel[] GetDepartments()
+    private BaseCarouselItemViewModel[] GetDepartments()
     {
         var departments = _mediator.Send(
             new DepartmentListItemsQuery()
         );
 
         if (departments.Length == 0)
-            return Array.Empty<BaseCarouselItemControlViewModel>();
+            return Array.Empty<BaseCarouselItemViewModel>();
         
         var maxHeight = (int)Bounds.Height;
         const int itemHeight = 120;
@@ -93,15 +93,15 @@ public partial class CarouselControl : UserControl
         
         var items = departments
             .GroupBy(maxHeight, itemHeight, headerHeight)
-            .Select(g => new DepartmentsCarouselControlItemViewModel
+            .Select(g => new DepartmentsCarouselItemViewModel
             {
                 Interval = TimeSpan.FromSeconds(12),
                 Values = g.ToArray()
             })
             .ToArray();
 
-        var result = new BaseCarouselItemControlViewModel[items.Length + 1];
-        result[0] = new StringCarouselControlItemViewModel
+        var result = new BaseCarouselItemViewModel[items.Length + 1];
+        result[0] = new StringCarouselItemViewModel
         {
             Interval = TimeSpan.FromSeconds(3),
             Value = "Контакты"
@@ -112,14 +112,14 @@ public partial class CarouselControl : UserControl
         return result;
     }
 
-    private BaseCarouselItemControlViewModel[] GetSpecialties()
+    private BaseCarouselItemViewModel[] GetSpecialties()
     {
         var specialties = _mediator.Send(
             new SpecialtyListItemsQuery(patient: null)
         );
 
         if (specialties.Length == 0)
-            return Array.Empty<BaseCarouselItemControlViewModel>();
+            return Array.Empty<BaseCarouselItemViewModel>();
         
         var maxHeight = (int)Bounds.Height;
         const int itemHeight = 80;
@@ -127,15 +127,15 @@ public partial class CarouselControl : UserControl
         
         var items = specialties
             .GroupBy(maxHeight, itemHeight, headerHeight)
-            .Select(g => new SpecialtiesCarouselControlItemViewModel
+            .Select(g => new SpecialtiesCarouselItemViewModel
             {
                 Interval = TimeSpan.FromSeconds(12),
                 Values = g.ToArray()
             })
             .ToArray();
 
-        var result = new BaseCarouselItemControlViewModel[items.Length + 1];
-        result[0] = new StringCarouselControlItemViewModel
+        var result = new BaseCarouselItemViewModel[items.Length + 1];
+        result[0] = new StringCarouselItemViewModel
         {
             Interval = TimeSpan.FromSeconds(3),
             Value = "Расписание приёма врачей"

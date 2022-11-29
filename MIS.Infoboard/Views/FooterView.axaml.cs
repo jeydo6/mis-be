@@ -4,13 +4,13 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using MIS.Infoboard.ViewModels;
 
-namespace MIS.Infoboard.UserControls;
+namespace MIS.Infoboard.Views;
 
-public partial class FooterControl : UserControl
+public partial class FooterView : UserControl
 {
-    public FooterControl()
+    public FooterView()
     {
-        ViewModel = new FooterControlControlViewModel();
+        ViewModel = new FooterViewModel();
         DataContext = ViewModel;
         
         InitializeComponent();
@@ -18,14 +18,14 @@ public partial class FooterControl : UserControl
         new DispatcherTimer(TimeSpan.FromSeconds(15), DispatcherPriority.Normal, Timer_OnTick).Start();
     }
     
-    private FooterControlControlViewModel ViewModel { get; }
+    private FooterViewModel ViewModel { get; }
 
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
 
-    private void FooterControl_OnInitialized(object? sender, EventArgs e)
+    private void UserControl_OnInitialized(object? sender, EventArgs e)
     {
         ViewModel.DateTime = DateTime.Now;
     }

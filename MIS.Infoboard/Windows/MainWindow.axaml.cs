@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using MIS.Infoboard.UserControls;
+using MIS.Infoboard.Views;
 
 namespace MIS.Infoboard.Windows
 {

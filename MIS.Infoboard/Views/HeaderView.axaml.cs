@@ -4,13 +4,13 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using MIS.Infoboard.ViewModels;
 
-namespace MIS.Infoboard.UserControls;
+namespace MIS.Infoboard.Views;
 
-public partial class HeaderControl : UserControl
+public partial class HeaderView : UserControl
 {
-    public HeaderControl()
+    public HeaderView()
     {
-        ViewModel = new HeaderControlControlViewModel();
+        ViewModel = new HeaderViewModel();
         DataContext = ViewModel;
 
         InitializeComponent();
@@ -18,14 +18,14 @@ public partial class HeaderControl : UserControl
         new DispatcherTimer(TimeSpan.FromSeconds(15), DispatcherPriority.Normal, Timer_OnTick).Start();
     }
 
-    private HeaderControlControlViewModel ViewModel { get; }
+    private HeaderViewModel ViewModel { get; }
     
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
 
-    private void HeaderControl_OnInitialized(object? sender, EventArgs e)
+    private void UserControl_OnInitialized(object? sender, EventArgs e)
     {
         ViewModel.OrganizationName = "Поликлиника";
         ViewModel.DateTime = DateTime.Now;

@@ -2,7 +2,7 @@
 
 namespace MIS.Infoboard.ViewModels;
 
-internal sealed class FooterControlControlViewModel : BaseControlViewModel
+internal sealed class FooterViewModel : BaseViewModel
 {
     private DateTime? _dateTime;
     

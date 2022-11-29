@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="using:MIS.Infoboard.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="75"
-             x:Class="MIS.Infoboard.UserControls.HeaderControl"
-             x:DataType="viewModels:HeaderControlControlViewModel"
+             x:Class="MIS.Infoboard.Views.HeaderView"
+             x:DataType="viewModels:HeaderViewModel"
              x:CompileBindings="True"
-             Initialized="HeaderControl_OnInitialized">
+             Initialized="UserControl_OnInitialized">
 	<Border Background="#AAFFFFFF" BorderBrush="#24000000" BorderThickness="1" CornerRadius="8">
 		<DockPanel>
 			<Image DockPanel.Dock="Left" Source="/Assets/logo.png" Margin="10,5" VerticalAlignment="Center" />

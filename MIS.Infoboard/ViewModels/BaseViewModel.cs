@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MIS.Infoboard.ViewModels;
 
-internal abstract class BaseControlViewModel : INotifyPropertyChanged
+internal abstract class BaseViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
     

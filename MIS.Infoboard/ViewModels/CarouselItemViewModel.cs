@@ -3,12 +3,12 @@ using MIS.Application.ViewModels;
 
 namespace MIS.Infoboard.ViewModels;
 
-internal abstract class BaseCarouselItemControlViewModel : BaseControlViewModel
+internal abstract class BaseCarouselItemViewModel : BaseViewModel
 {
     public TimeSpan Interval { get; set; }
 }
 
-internal class StringCarouselControlItemViewModel : BaseCarouselItemControlViewModel
+internal class StringCarouselItemViewModel : BaseCarouselItemViewModel
 {
     private string _value = string.Empty;
 
@@ -19,7 +19,7 @@ internal class StringCarouselControlItemViewModel : BaseCarouselItemControlViewM
     }
 }
 
-internal class DepartmentsCarouselControlItemViewModel : BaseCarouselItemControlViewModel
+internal class DepartmentsCarouselItemViewModel : BaseCarouselItemViewModel
 {
     private DepartmentViewModel[] _values = Array.Empty<DepartmentViewModel>();
     
@@ -30,7 +30,7 @@ internal class DepartmentsCarouselControlItemViewModel : BaseCarouselItemControl
     }
 }
 
-internal class SpecialtiesCarouselControlItemViewModel : BaseCarouselItemControlViewModel
+internal class SpecialtiesCarouselItemViewModel : BaseCarouselItemViewModel
 {
     private SpecialtyViewModel[] _values = Array.Empty<SpecialtyViewModel>();
     

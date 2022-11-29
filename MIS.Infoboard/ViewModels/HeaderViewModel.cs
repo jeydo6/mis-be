@@ -2,7 +2,7 @@
 
 namespace MIS.Infoboard.ViewModels;
 
-internal sealed class HeaderControlControlViewModel : BaseControlViewModel
+internal sealed class HeaderViewModel : BaseViewModel
 {
     private string? _organizationName;
     private DateTime? _dateTime;

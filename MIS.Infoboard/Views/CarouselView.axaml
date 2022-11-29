@@ -6,18 +6,18 @@
              xmlns:models="using:MIS.Application.ViewModels"
              xmlns:properties="using:MIS.Infoboard.Properties"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="930"
-             x:Class="MIS.Infoboard.UserControls.CarouselControl"
-             x:DataType="viewModels:CarouselControlViewModel"
+             x:Class="MIS.Infoboard.Views.CarouselView"
+             x:DataType="viewModels:CarouselViewModel"
              x:CompileBindings="True"
              PointerReleased="UserControl_OnPointerReleased">
 	<UserControl.DataTemplates>
-		<DataTemplate DataType="{x:Type viewModels:StringCarouselControlItemViewModel}">
+		<DataTemplate DataType="{x:Type viewModels:StringCarouselItemViewModel}">
 			<TextBlock Text="{Binding Value}" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</DataTemplate>
-		<DataTemplate DataType="{x:Type viewModels:DepartmentsCarouselControlItemViewModel}">
+		<DataTemplate DataType="{x:Type viewModels:DepartmentsCarouselItemViewModel}">
 			<ItemsControl Items="{Binding Values}" />
 		</DataTemplate>
-		<DataTemplate DataType="{x:Type viewModels:SpecialtiesCarouselControlItemViewModel}">
+		<DataTemplate DataType="{x:Type viewModels:SpecialtiesCarouselItemViewModel}">
 			<ItemsControl Items="{Binding Values}" />
 		</DataTemplate>
 

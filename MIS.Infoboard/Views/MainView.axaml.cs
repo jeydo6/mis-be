@@ -1,12 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace MIS.Infoboard.UserControls;
+namespace MIS.Infoboard.Views;
 
-public partial class MainControl : UserControl
+public partial class MainView : UserControl
 {
-    public MainControl()
+    public MainView()
     {
         InitializeComponent();
     }
