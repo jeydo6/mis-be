@@ -1,48 +1,18 @@
-﻿#region Copyright © 2018-2022 Vladimir Deryagin. All rights reserved
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
 using MIS.Application.ViewModels;
 
-namespace MIS.Infoboard.Converters
+namespace MIS.Infoboard.Converters;
+
+public class EmployeeToTimeIntervalConverter : IValueConverter
 {
-	internal class EmployeeToTimeIntervalConverter : IValueConverter
-	{
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value is not EmployeeViewModel employee || employee == null)
-			{
-				return "нет приёма";
-			}
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        value is EmployeeViewModel employee ?
+            $"{employee.BeginDateTime:H:mm} - {employee.EndDateTime:H:mm}" :
+            "нет приёма";
 
-			var result = $"{employee.BeginDateTime:H:mm} - {employee.EndDateTime:H:mm}";
-			if (string.IsNullOrEmpty(result))
-			{
-				return "нет приёма";
-			}
-
-			return result;
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return DependencyProperty.UnsetValue;
-		}
-	}
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        BindingNotification.UnsetValue;
 }

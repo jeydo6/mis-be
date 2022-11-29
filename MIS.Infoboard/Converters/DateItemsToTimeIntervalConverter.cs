@@ -1,66 +1,38 @@
-﻿#region Copyright © 2018-2022 Vladimir Deryagin. All rights reserved
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
-using System.Windows.Data;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Application.ViewModels;
 using MIS.Domain.Providers;
 
-namespace MIS.Infoboard.Converters
+namespace MIS.Infoboard.Converters;
+
+public class DateItemsToTimeIntervalConverter : IValueConverter
 {
-	internal class DateItemsToTimeIntervalConverter : IValueConverter
-	{
-		private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IDateTimeProvider _dateTimeProvider;
+    
+    public DateItemsToTimeIntervalConverter()
+    {
+        var serviceProvider = Avalonia.Application.Current.GetServiceProvider();
 
-		public DateItemsToTimeIntervalConverter()
-		{
-			var app = System.Windows.Application.Current as App;
+        _dateTimeProvider = serviceProvider.GetRequiredService<IDateTimeProvider>();
+    }
+    
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is not DateItemViewModel[] dates)
+        {
+            return "нет приёма";
+        }
 
-			_dateTimeProvider = app.ServiceProvider.GetService<IDateTimeProvider>();
-		}
+        var date = dates.FirstOrDefault(di => di.Date.Date == _dateTimeProvider.Now.Date);
+        return date is not null ?
+            $"{date.BeginDateTime:H:mm} - {date.EndDateTime:H:mm}" :
+            "нет приёма";
+    }
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value is not DateItemViewModel[] dates)
-			{
-				return "нет приёма";
-			}
-
-			var date = dates.FirstOrDefault(di => di.Date.Date == _dateTimeProvider.Now.Date);
-			if (date == null)
-			{
-				return "нет приёма";
-			}
-
-			var result = $"{date.BeginDateTime:H:mm} - {date.EndDateTime:H:mm}";
-			if (string.IsNullOrEmpty(result))
-			{
-				return "нет приёма";
-			}
-
-			return result;
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return DependencyProperty.UnsetValue;
-		}
-	}
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        BindingNotification.UnsetValue;
 }

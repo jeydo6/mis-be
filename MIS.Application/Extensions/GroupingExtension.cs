@@ -119,18 +119,16 @@ namespace MIS.Application.Extensions
 			while (stack.Count > 0)
 			{
 				var maxLength = (maxHeight - headerHeight - currentHeight) / itemHeight;
-				if (maxLength == 0)
-				{
-					return Array.Empty<IEnumerable<int>>();
-				}
 
 				var length = stack.Pop();
 				if (length > maxLength)
 				{
-					current.Add(maxLength);
-					result.Add(current);
+					if (maxLength > 0)
+						current.Add(maxLength);
+					
 					stack.Push(length - maxLength);
 
+					result.Add(current);
 					current = new List<int>();
 					currentHeight = 0;
 				}
