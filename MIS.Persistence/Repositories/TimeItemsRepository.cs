@@ -4,23 +4,26 @@ using System.Data;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Persistence.Factories;
 
 namespace MIS.Persistence.Repositories
 {
 	public class TimeItemsRepository : ITimeItemsRepository
 	{
-		private readonly IDbConnection _connection;
+		private readonly IDbConnectionFactory _connectionFactory;
 
-		public TimeItemsRepository(IDbConnection connection) =>
-			_connection = connection;
+		public TimeItemsRepository(IDbConnectionFactory connectionFactory) =>
+			_connectionFactory = connectionFactory;
 
 		public int Create(TimeItem item)
 		{
-			_connection.Open();
-			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			using var connection = _connectionFactory.CreateConnection();
+			connection.Open();
+			
+			using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 			try
 			{
-				var id = _connection.QuerySingle<int>(
+				var id = connection.QuerySingle<int>(
 					sql: "[dbo].[sp_TimeItems_Create]",
 					param: new
 					{
@@ -41,17 +44,15 @@ namespace MIS.Persistence.Repositories
 				transaction.Rollback();
 				throw;
 			}
-			finally
-			{
-				_connection.Close();
-			}
 		}
 
 		public TimeItem Get(int id)
 		{
+			using var connection = _connectionFactory.CreateConnection();
+			
 			var timeItems = new Dictionary<int, TimeItem>();
 
-			var items = _connection.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+			var items = connection.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_Get]",
 				map: (timeItem, resource, employee, specialty, room, visitItem) =>
 				{
@@ -88,7 +89,9 @@ namespace MIS.Persistence.Repositories
 
 		public List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0)
 		{
-			return _connection.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
+			using var connection = _connectionFactory.CreateConnection();
+			
+			return connection.Query<TimeItem, Resource, Employee, Specialty, Room, VisitItem, TimeItem>(
 				sql: "[dbo].[sp_TimeItems_List]",
 				map: (timeItem, resource, employee, specialty, room, visitItem) =>
 				{
@@ -111,7 +114,9 @@ namespace MIS.Persistence.Repositories
 
 		public List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0)
 		{
-			return _connection.Query<TimeItemTotal>(
+			using var connection = _connectionFactory.CreateConnection();
+			
+			return connection.Query<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetResourceTotals]",
 				param: new { beginDate, endDate, specialtyID },
 				commandType: CommandType.StoredProcedure
@@ -120,7 +125,9 @@ namespace MIS.Persistence.Repositories
 
 		public List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate)
 		{
-			return _connection.Query<TimeItemTotal>(
+			using var connection = _connectionFactory.CreateConnection();
+			
+			return connection.Query<TimeItemTotal>(
 				sql: "[dbo].[sp_TimeItems_GetDispanserizationTotals]",
 				param: new { beginDate, endDate },
 				commandType: CommandType.StoredProcedure

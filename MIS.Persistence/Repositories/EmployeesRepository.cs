@@ -3,22 +3,25 @@ using System.Data;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Persistence.Factories;
 
 namespace MIS.Persistence.Repositories;
 public sealed class EmployeesRepository : IEmployeesRepository
 {
-	private readonly IDbConnection _connection;
+	private readonly IDbConnectionFactory _connectionFactory;
 
-	public EmployeesRepository(IDbConnection connection) =>
-		_connection = connection;
+	public EmployeesRepository(IDbConnectionFactory connectionFactory) =>
+		_connectionFactory = connectionFactory;
 
 	public int Create(Employee item)
 	{
-		_connection.Open();
-		using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+		using var connection = _connectionFactory.CreateConnection();
+		connection.Open();
+		
+		using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 		try
 		{
-			var id = _connection.QuerySingle<int>(
+			var id = connection.QuerySingle<int>(
 				sql: "[dbo].[sp_Employees_Create]",
 				param: new
 				{
@@ -40,15 +43,12 @@ public sealed class EmployeesRepository : IEmployeesRepository
 			transaction.Rollback();
 			throw;
 		}
-		finally
-		{
-			_connection.Close();
-		}
 	}
 
 	public Employee Get(int id)
 	{
-		var items = _connection.Query<Employee, Specialty, Employee>(
+		using var connection = _connectionFactory.CreateConnection();
+		var items = connection.Query<Employee, Specialty, Employee>(
 			sql: "[dbo].[sp_Employees_Get]",
 			map: (employee, specialty) =>
 			{

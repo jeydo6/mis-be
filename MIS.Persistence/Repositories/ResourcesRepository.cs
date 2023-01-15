@@ -4,23 +4,26 @@ using System.Data;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Persistence.Factories;
 
 namespace MIS.Persistence.Repositories
 {
 	public class ResourcesRepository : IResourcesRepository
 	{
-		private readonly IDbConnection _connection;
+		private readonly IDbConnectionFactory _connectionFactory;
 
-		public ResourcesRepository(IDbConnection connection) =>
-			_connection = connection;
+		public ResourcesRepository(IDbConnectionFactory connectionFactory) =>
+			_connectionFactory = connectionFactory;
 
 		public int Create(Resource item)
 		{
-			_connection.Open();
-			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			using var connection = _connectionFactory.CreateConnection();
+			connection.Open();
+			
+			using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 			try
 			{
-				var id = _connection.QuerySingle<int>(
+				var id = connection.QuerySingle<int>(
 					sql: "[dbo].[sp_Resources_Create]",
 					param: new
 					{
@@ -44,13 +47,15 @@ namespace MIS.Persistence.Repositories
 			}
 			finally
 			{
-				_connection.Close();
+				connection.Close();
 			}
 		}
 
 		public Resource Get(int id)
 		{
-			var items = _connection.Query<Resource, Employee, Specialty, Room, Resource>(
+			using var connection = _connectionFactory.CreateConnection();
+
+			var items = connection.Query<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_Get]",
 				map: (resource, employee, specialty, room) =>
 				{
@@ -74,7 +79,9 @@ namespace MIS.Persistence.Repositories
 
 		public List<Resource> ToList()
 		{
-			return _connection.Query<Resource, Employee, Specialty, Room, Resource>(
+			using var connection = _connectionFactory.CreateConnection();
+			
+			return connection.Query<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_List]",
 				map: (resource, employee, specialty, room) =>
 				{
@@ -90,11 +97,13 @@ namespace MIS.Persistence.Repositories
 
 		public int CreateDispanserization(Resource item)
 		{
-			_connection.Open();
-			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			using var connection = _connectionFactory.CreateConnection();
+			connection.Open();
+			
+			using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 			try
 			{
-				var id = _connection.QuerySingle<int>(
+				var id = connection.QuerySingle<int>(
 					sql: "[dbo].[sp_Resources_Create]",
 					param: new
 					{
@@ -116,15 +125,13 @@ namespace MIS.Persistence.Repositories
 				transaction.Rollback();
 				throw;
 			}
-			finally
-			{
-				_connection.Close();
-			}
 		}
 
 		public List<Resource> GetDispanserizations()
 		{
-			return _connection.Query<Resource, Employee, Specialty, Room, Resource>(
+			using var connection = _connectionFactory.CreateConnection();
+			
+			return connection.Query<Resource, Employee, Specialty, Room, Resource>(
 				sql: "[dbo].[sp_Resources_GetDispanserizations]",
 				map: (resource, employee, specialty, room) =>
 				{

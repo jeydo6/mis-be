@@ -4,23 +4,26 @@ using System.Data;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Persistence.Factories;
 
 namespace MIS.Persistence.Repositories
 {
 	public sealed class DispanserizationsRepository : IDispanserizationsRepository
 	{
-		private readonly IDbConnection _connection;
+		private readonly IDbConnectionFactory _connectionFactory;
 
-		public DispanserizationsRepository(IDbConnection connection) =>
-			_connection = connection;
+		public DispanserizationsRepository(IDbConnectionFactory connectionFactory) =>
+			_connectionFactory = connectionFactory;
 
 		public int Create(Dispanserization item)
 		{
-			_connection.Open();
-			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			using var connection = _connectionFactory.CreateConnection();
+			connection.Open();
+			
+			using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 			try
 			{
-				var id = _connection.QuerySingle<int>(
+				var id = connection.QuerySingle<int>(
 					sql: "[dbo].[sp_Dispanserizations_Create]",
 					param: new
 					{
@@ -40,17 +43,15 @@ namespace MIS.Persistence.Repositories
 				transaction.Rollback();
 				throw;
 			}
-			finally
-			{
-				_connection.Close();
-			}
 		}
 
 		public Dispanserization Get(int id)
 		{
+			using var connection = _connectionFactory.CreateConnection();
+			
 			var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var items = _connection.Query<Dispanserization, Research, Dispanserization>(
+			var items = connection.Query<Dispanserization, Research, Dispanserization>(
 				sql: "[dbo].[sp_Dispanserizations_Get]",
 				map: (dispanserization, research) =>
 				{
@@ -78,9 +79,11 @@ namespace MIS.Persistence.Repositories
 
 		public List<Dispanserization> ToList(int patientID)
 		{
+			using var connection = _connectionFactory.CreateConnection();
+			
 			var dispanserizations = new Dictionary<int, Dispanserization>();
 
-			var items = _connection.Query<Dispanserization, Research, Dispanserization>(
+			var items = connection.Query<Dispanserization, Research, Dispanserization>(
 					sql: "[dbo].[sp_Dispanserizations_List]",
 					map: (dispanserization, research) =>
 					{

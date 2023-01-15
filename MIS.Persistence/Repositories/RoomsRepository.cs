@@ -3,23 +3,26 @@ using System.Data;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Persistence.Factories;
 
 namespace MIS.Persistence.Repositories;
 
 public sealed class RoomsRepository : IRoomsRepository
 {
-	private readonly IDbConnection _connection;
+	private readonly IDbConnectionFactory _connectionFactory;
 
-	public RoomsRepository(IDbConnection connection) =>
-		_connection = connection;
+	public RoomsRepository(IDbConnectionFactory connectionFactory) =>
+		_connectionFactory = connectionFactory;
 
 	public int Create(Room item)
 	{
-		_connection.Open();
-		using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+		using var connection = _connectionFactory.CreateConnection();
+		connection.Open();
+		
+		using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 		try
 		{
-			var id = _connection.QuerySingle<int>(
+			var id = connection.QuerySingle<int>(
 				sql: "[dbo].[sp_Rooms_Create]",
 				param: new
 				{
@@ -38,15 +41,13 @@ public sealed class RoomsRepository : IRoomsRepository
 			transaction.Rollback();
 			throw;
 		}
-		finally
-		{
-			_connection.Close();
-		}
 	}
 
 	public Room Get(int id)
 	{
-		var item = _connection.QueryFirstOrDefault<Room>(
+		using var connection = _connectionFactory.CreateConnection();
+		
+		var item = connection.QueryFirstOrDefault<Room>(
 			sql: "[dbo].[sp_Rooms_Get]",
 			param: new { id },
 			commandType: CommandType.StoredProcedure

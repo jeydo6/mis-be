@@ -5,23 +5,26 @@ using System.Linq;
 using Dapper;
 using MIS.Domain.Entities;
 using MIS.Domain.Repositories;
+using MIS.Persistence.Factories;
 
 namespace MIS.Persistence.Repositories
 {
 	public class VisitItemsRepository : IVisitItemsRepository
 	{
-		private readonly IDbConnection _connection;
+		private readonly IDbConnectionFactory _connectionFactory;
 
-		public VisitItemsRepository(IDbConnection connection) =>
-			_connection = connection;
+		public VisitItemsRepository(IDbConnectionFactory connectionFactory) =>
+			_connectionFactory = connectionFactory;
 
 		public int Create(VisitItem item)
 		{
-			_connection.Open();
-			using var transaction = _connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+			using var connection = _connectionFactory.CreateConnection();
+			connection.Open();
+			
+			using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
 			try
 			{
-				var id = _connection.QuerySingle<int>(
+				var id = connection.QuerySingle<int>(
 					sql: "[dbo].[sp_VisitItems_Create]",
 					param: new
 					{
@@ -40,15 +43,12 @@ namespace MIS.Persistence.Repositories
 				transaction.Rollback();
 				throw;
 			}
-			finally
-			{
-				_connection.Close();
-			}
 		}
 
 		public VisitItem Get(int visitItemID)
 		{
-			return _connection.Query<VisitItem, Patient, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
+			using var connection = _connectionFactory.CreateConnection();
+			return connection.Query<VisitItem, Patient, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_Get]",
 				map: (visitItem, patient, timeItem, resource, employee, specialty, room) =>
 				{
@@ -69,7 +69,8 @@ namespace MIS.Persistence.Repositories
 
 		public List<VisitItem> ToList(DateTime beginDate, DateTime endDate, int patientID = 0)
 		{
-			return _connection.Query<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
+			using var connection = _connectionFactory.CreateConnection();
+			return connection.Query<VisitItem, TimeItem, Resource, Employee, Specialty, Room, VisitItem>(
 				sql: "[dbo].[sp_VisitItems_List]",
 				map: (visitItem, timeItem, resource, employee, specialty, room) =>
 				{
