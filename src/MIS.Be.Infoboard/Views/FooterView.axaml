@@ -1,0 +1,14 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="using:MIS.Be.Infoboard.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="35"
+             x:Class="MIS.Be.Infoboard.Views.FooterView"
+             x:DataType="viewModels:FooterViewModel"
+             x:CompileBindings="True"
+             Initialized="UserControl_OnInitialized">
+	<TextBlock Text="{CompiledBinding DateTime, Mode=OneWay, StringFormat='&#x00A9; 2018-\{0:yyyy\} Дерягин В.'}"
+	           Foreground="#24000000" FontSize="30"
+	           HorizontalAlignment="Center" VerticalAlignment="Center" />
+</UserControl>

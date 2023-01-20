@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="using:MIS.Be.Infoboard.Views"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        x:Class="MIS.Be.Infoboard.Windows.MainWindow"
+        Icon="/Assets/logo.ico"
+        Title="Главное окно"
+        Background="#FFE8DED8"
+        FontFamily="/Assets/Fonts#Cambria"
+        Cursor="None"
+        WindowState="FullScreen"
+        WindowStartupLocation="CenterScreen"
+        KeyUp="Window_OnKeyUp">
+	<Viewbox>
+		<Panel Name="Workspace" Width="1920" Height="1080">
+			<views:MainView />
+		</Panel>
+	</Viewbox>
+</Window>
