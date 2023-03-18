@@ -13,7 +13,7 @@ namespace MIS.Be.Infomat
 		public Startup(IConfiguration configuration) =>
 			Configuration = configuration;
 
-		public IConfiguration Configuration { get; }
+		private IConfiguration Configuration { get; }
 
 		public IServiceCollection ConfigureServices(IServiceCollection services)
 		{
@@ -27,10 +27,7 @@ namespace MIS.Be.Infomat
 			services
 				.AddSingleton<IPrintService, XPSPrintService>();
 
-#if DEMO
-			services
-				.ConfigureDemo();
-#elif DEBUG
+#if DEBUG
 			services
 				.ConfigureDebug();
 #elif RELEASE

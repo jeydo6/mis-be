@@ -5,7 +5,8 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<StartupObject>MIS.Be.Infomat.App</StartupObject>
-		<Configurations>Debug;Release;Demo</Configurations>
+		<Configurations>Debug;Release</Configurations>
+		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup Label="About">
@@ -39,7 +40,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\MIS.Be.Application\MIS.Be.Application.csproj" />
-		<ProjectReference Include="..\MIS.Be.Demo\MIS.Be.Demo.csproj" />
 		<ProjectReference Include="..\MIS.Be.Domain\MIS.Be.Domain.csproj" />
 		<ProjectReference Include="..\MIS.Be.Persistence\MIS.Be.Persistence.csproj" />
 	</ItemGroup>
