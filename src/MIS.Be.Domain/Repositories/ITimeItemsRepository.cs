@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using MIS.Be.Domain.Entities;
 
-namespace MIS.Be.Domain.Repositories
+namespace MIS.Be.Domain.Repositories;
+
+public interface ITimeItemsRepository
 {
-	public interface ITimeItemsRepository
-	{
-		int Create(TimeItem item);
-
-		TimeItem Get(int id);
-
-		List<TimeItem> ToList(DateTime beginDate, DateTime endDate, int resourceID = 0);
-
-		List<TimeItemTotal> GetResourceTotals(DateTime beginDate, DateTime endDate, int specialtyID = 0);
-
-		List<TimeItemTotal> GetDispanserizationTotals(DateTime beginDate, DateTime endDate);
-	}
+	Task<int> Create(TimeItem item, CancellationToken cancellationToken = default);
+	Task<TimeItem> Get(int id, CancellationToken cancellationToken = default);
+	Task<TimeItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, int? resourceId = default, CancellationToken cancellationToken = default);
 }

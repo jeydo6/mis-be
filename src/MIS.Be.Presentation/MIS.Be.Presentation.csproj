@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MIS.Be.Application\MIS.Be.Application.csproj" />
+	  <ProjectReference Include="..\MIS.Be.Infrastructure\MIS.Be.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

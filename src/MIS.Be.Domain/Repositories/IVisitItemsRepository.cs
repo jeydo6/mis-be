@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using MIS.Be.Domain.Entities;
 
-namespace MIS.Be.Domain.Repositories
+namespace MIS.Be.Domain.Repositories;
+
+public interface IVisitItemsRepository
 {
-	public interface IVisitItemsRepository
-	{
-		int Create(VisitItem item);
-
-		VisitItem Get(int visitItemID);
-
-		List<VisitItem> ToList(DateTime beginDate, DateTime endDate, int patientID = 0);
-	}
+	Task<int> Create(VisitItem item, CancellationToken cancellationToken = default);
+	Task<VisitItem> Get(int id, CancellationToken cancellationToken = default);
+	Task<VisitItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, int? resourceId = default, int? patientId = default, CancellationToken cancellationToken = default);
 }

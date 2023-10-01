@@ -1,14 +1,2 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Configurations>Debug;Release</Configurations>
-		<Platforms>AnyCPU</Platforms>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<Optimize>true</Optimize>
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
 </Project>

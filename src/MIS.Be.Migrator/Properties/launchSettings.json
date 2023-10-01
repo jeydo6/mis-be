@@ -1,8 +1,0 @@
-{
-	"profiles": {
-		"MIS.Migrator": {
-			"commandName": "Project",
-			"commandLineArgs": "migrate"
-		}
-	}
-}

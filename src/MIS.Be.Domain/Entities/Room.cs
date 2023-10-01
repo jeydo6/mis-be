@@ -1,11 +1,7 @@
-﻿namespace MIS.Be.Domain.Entities
+﻿namespace MIS.Be.Domain.Entities;
+
+public sealed class Room : BaseEntity
 {
-	public class Room
-	{
-		public int ID { get; set; }
-
-		public string Code { get; set; }
-
-		public int Floor { get; set; }
-	}
+	public string Code { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 }

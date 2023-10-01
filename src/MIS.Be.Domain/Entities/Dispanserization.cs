@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace MIS.Be.Domain.Entities
+namespace MIS.Be.Domain.Entities;
+
+public sealed class Dispanserization : BaseEntity
 {
-	public class Dispanserization
-	{
-		public int ID { get; set; }
-
-		public DateTime BeginDate { get; set; }
-
-		public DateTime EndDate { get; set; }
-
-		public bool IsClosed { get; set; }
-
-		public int PatientID { get; set; }
-
-		public ICollection<Research> Researches { get; set; } = new List<Research>();
-	}
+	public DateOnly From { get; set; }
+	public DateOnly To { get; set; }
+	public int PatientId { get; set; }
 }

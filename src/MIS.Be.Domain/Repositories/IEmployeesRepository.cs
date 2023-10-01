@@ -1,10 +1,11 @@
-﻿using MIS.Be.Domain.Entities;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MIS.Be.Domain.Entities;
 
 namespace MIS.Be.Domain.Repositories;
 
 public interface IEmployeesRepository
 {
-	int Create(Employee item);
-
-	Employee Get(int id);
+	Task<int> Create(Employee item, CancellationToken cancellationToken = default);
+	Task<Employee> Get(int id, CancellationToken cancellationToken = default);
 }

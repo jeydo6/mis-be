@@ -1,8 +1,0 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:MIS.Be.Infoboard.Converters">
-	<converters:EmployeeToTimeIntervalConverter x:Key="EmployeeToTimeIntervalConverter" />
-	<converters:DateItemsToTimeIntervalConverter x:Key="DateItemsToTimeIntervalConverter" />
-	<converters:SpecialtyViewModelStyleConverter x:Key="SpecialtyViewModelStyleConverter" />
-	<converters:ResourceViewModelStyleConverter x:Key="ResourceViewModelStyleConverter" />
-</ResourceDictionary>

@@ -1,7 +1,5 @@
-﻿namespace MIS.Be.Application
+﻿namespace MIS.Be.Application;
+
+public sealed class AssemblyMarker
 {
-	public class AssemblyMarker
-	{
-		//
-	}
 }

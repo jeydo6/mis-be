@@ -1,18 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MIS.Be.Domain.Entities;
 
-namespace MIS.Be.Domain.Repositories
+namespace MIS.Be.Domain.Repositories;
+
+public interface IResourcesRepository
 {
-	public interface IResourcesRepository
-	{
-		int Create(Resource item);
-
-		Resource Get(int id);
-
-		List<Resource> ToList();
-
-		int CreateDispanserization(Resource item);
-
-		List<Resource> GetDispanserizations();
-	}
+	Task<int> Create(Resource item, CancellationToken cancellationToken = default);
+	Task<Resource> Get(int id, CancellationToken cancellationToken = default);
+	Task<Resource[]> GetAll(CancellationToken cancellationToken = default);
 }

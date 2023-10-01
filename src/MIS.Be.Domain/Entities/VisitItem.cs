@@ -1,16 +1,8 @@
 ﻿
-namespace MIS.Be.Domain.Entities
+namespace MIS.Be.Domain.Entities;
+
+public sealed class VisitItem : BaseEntity
 {
-	public class VisitItem
-	{
-		public int ID { get; set; }
-
-		public int PatientID { get; set; }
-
-		public Patient Patient { get; set; }
-
-		public int TimeItemID { get; set; }
-
-		public TimeItem TimeItem { get; set; }
-	}
+	public int PatientId { get; set; }
+	public int TimeItemId { get; set; }
 }

@@ -1,21 +1,13 @@
 ﻿using MIS.Be.Domain.Enums;
 
-namespace MIS.Be.Domain.Entities
+namespace MIS.Be.Domain.Entities;
+
+public sealed class Resource : BaseEntity
 {
-	public class Resource
-	{
-		public int ID { get; set; }
-
-		public string Name { get; set; }
-
-		public ResourceType Type { get; set; }
-
-		public int EmployeeID { get; set; }
-
-		public Employee Employee { get; set; }
-
-		public int RoomID { get; set; }
-
-		public Room Room { get; set; }
-	}
+	public string Name { get; set; } = string.Empty;
+	public ResourceType Type { get; set; }
+	public bool IsDispanserization { get; set; }
+	public int EmployeeId { get; set; }
+	public int RoomId { get; set; }
+	public int SpecialtyId { get; set; }
 }

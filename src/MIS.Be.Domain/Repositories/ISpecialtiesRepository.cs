@@ -1,10 +1,12 @@
-﻿using MIS.Be.Domain.Entities;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MIS.Be.Domain.Entities;
 
 namespace MIS.Be.Domain.Repositories;
 
 public interface ISpecialtiesRepository
 {
-	int Create(Specialty item);
-
-	Specialty Get(int id);
+	Task<int> Create(Specialty item, CancellationToken cancellationToken = default);
+	Task<Specialty> Get(int id, CancellationToken cancellationToken = default);
+	Task<Specialty[]> GetAll(CancellationToken cancellationToken = default);
 }

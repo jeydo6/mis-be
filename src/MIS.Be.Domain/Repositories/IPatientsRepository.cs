@@ -1,14 +1,12 @@
-﻿using System;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MIS.Be.Domain.Entities;
 
-namespace MIS.Be.Domain.Repositories
+namespace MIS.Be.Domain.Repositories;
+
+public interface IPatientsRepository
 {
-	public interface IPatientsRepository
-	{
-		int Create(Patient item);
-
-		Patient Find(string code, DateTime birthDate);
-
-		Patient Get(int id);
-	}
+	Task<int> Create(Patient item, CancellationToken cancellationToken = default);
+	Task<Patient> Get(int id, CancellationToken cancellationToken = default);
+	Task<Patient?> Find(string code, int birthYear, CancellationToken cancellationToken = default);
 }
