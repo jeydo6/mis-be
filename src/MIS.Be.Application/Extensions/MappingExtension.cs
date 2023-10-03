@@ -1,4 +1,4 @@
-﻿using MIS.Be.Domain.Extensions;
+using MIS.Be.Domain.Extensions;
 
 namespace MIS.Be.Application.Extensions;
 
@@ -24,7 +24,6 @@ internal static class MappingExtension
             source.Id,
             source.Name,
             source.Type,
-            source.IsActive,
             source.IsDispanserization,
             source.EmployeeId,
             source.RoomId,
@@ -35,8 +34,7 @@ internal static class MappingExtension
         => new Models.Specialty(
             source.Id,
             source.Code,
-            source.Name,
-            source.IsActive
+            source.Name
         );
 
     public static Models.TimeItem Map(this Domain.Entities.TimeItem source)
@@ -45,5 +43,12 @@ internal static class MappingExtension
             source.From,
             source.To,
             source.ResourceId
+        );
+
+    public static Models.VisitItem Map(this Domain.Entities.VisitItem source)
+        => new Models.VisitItem(
+            source.Id,
+            source.PatientId,
+            source.TimeItemId
         );
 }

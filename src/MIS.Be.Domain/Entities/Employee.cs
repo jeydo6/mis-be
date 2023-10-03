@@ -1,4 +1,4 @@
-﻿namespace MIS.Be.Domain.Entities;
+namespace MIS.Be.Domain.Entities;
 
 public sealed class Employee : Person
 {

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MIS.Be.Application.Models;
 
 namespace MIS.Be.Application.Queries;

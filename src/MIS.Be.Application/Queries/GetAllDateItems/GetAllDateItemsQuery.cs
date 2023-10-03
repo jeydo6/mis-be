@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using MediatR;
 using MIS.Be.Application.Models;
 

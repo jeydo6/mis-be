@@ -1,7 +1,8 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MIS.Be.Application.Commands;
 using MIS.Be.Application.Models;
 using MIS.Be.Application.Queries;
 
@@ -18,5 +19,9 @@ public class DispanserizationsController
 
     [HttpGet]
     public Task<Dispanserization[]> GetAllDispanserizations([FromQuery] GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
+
+    [HttpPost]
+    public Task CreateDispanserization([FromBody] CreateDispanserizationCommand request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

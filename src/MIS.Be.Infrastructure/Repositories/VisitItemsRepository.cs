@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,26 +11,26 @@ namespace MIS.Be.Infrastructure.Repositories;
 
 internal sealed class VisitItemsRepository : IVisitItemsRepository
 {
-	private readonly DbContext _db;
+    private readonly DbContext _db;
 
-	public VisitItemsRepository(DbContext db) => _db = db;
+    public VisitItemsRepository(DbContext db) => _db = db;
 
-	public Task<int> Create(VisitItem item, CancellationToken cancellationToken = default)
-		=> _db.InsertWithInt32IdentityAsync(item, token: cancellationToken);
+    public Task<int> Create(VisitItem item, CancellationToken cancellationToken = default)
+        => _db.InsertWithInt32IdentityAsync(item, token: cancellationToken);
 
-	public async Task<VisitItem> Get(int id, CancellationToken cancellationToken = default)
-	{
-		var query =
-			from vi in _db.VisitItems
-			where vi.Id == id &&
+    public async Task<VisitItem> Get(int id, CancellationToken cancellationToken = default)
+    {
+        var query =
+            from vi in _db.VisitItems
+            where vi.Id == id &&
                   vi.IsActive
-			select vi;
+            select vi;
 
-		var result = await query.FirstOrDefaultAsync(token: cancellationToken);
-		ArgumentNullException.ThrowIfNull(result);
+        var result = await query.FirstOrDefaultAsync(token: cancellationToken);
+        ArgumentNullException.ThrowIfNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
     public Task<VisitItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, int? resourceId = default, int? patientId = default, CancellationToken cancellationToken = default)
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,34 +11,34 @@ namespace MIS.Be.Infrastructure.Repositories;
 
 internal sealed class RoomsRepository : IRoomsRepository
 {
-	private readonly DbContext _db;
+    private readonly DbContext _db;
 
-	public RoomsRepository(DbContext db) => _db = db;
+    public RoomsRepository(DbContext db) => _db = db;
 
-	public Task<int> Create(Room item, CancellationToken cancellationToken = default)
-		=> _db.InsertWithInt32IdentityAsync(item, token: cancellationToken);
+    public Task<int> Create(Room item, CancellationToken cancellationToken = default)
+        => _db.InsertWithInt32IdentityAsync(item, token: cancellationToken);
 
-	public async Task<Room> Get(int id, CancellationToken cancellationToken = default)
-	{
-		var query =
-			from r in _db.Rooms
-			where r.Id == id &&
+    public async Task<Room> Get(int id, CancellationToken cancellationToken = default)
+    {
+        var query =
+            from r in _db.Rooms
+            where r.Id == id &&
                   r.IsActive
-			select r;
+            select r;
 
-		var result = await query.FirstOrDefaultAsync(token: cancellationToken);
-		ArgumentNullException.ThrowIfNull(result);
+        var result = await query.FirstOrDefaultAsync(token: cancellationToken);
+        ArgumentNullException.ThrowIfNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Task<Room[]> GetAll(CancellationToken cancellationToken = default)
-	{
-		var query =
-			from r in _db.Rooms
+    public Task<Room[]> GetAll(CancellationToken cancellationToken = default)
+    {
+        var query =
+            from r in _db.Rooms
             where r.IsActive
-			select r;
+            select r;
 
-		return query.ToArrayAsync(token: cancellationToken);
-	}
+        return query.ToArrayAsync(token: cancellationToken);
+    }
 }

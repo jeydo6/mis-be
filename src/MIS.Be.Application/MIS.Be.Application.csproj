@@ -6,10 +6,5 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\MIS.Be.Domain\MIS.Be.Domain.csproj" />
-
 	</ItemGroup>
-
-
-
-
 </Project>
