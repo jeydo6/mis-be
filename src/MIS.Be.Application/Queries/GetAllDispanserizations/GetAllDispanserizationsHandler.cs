@@ -20,6 +20,7 @@ internal sealed class GetAllDispanserizationsHandler : IRequestHandler<GetAllDis
         var dispanserizations = await _repository.GetAll(request.PatientId, cancellationToken);
         return dispanserizations
             .Select(MappingExtension.Map)
+            .OrderBy(d => d.Id)
             .ToArray();
     }
 }

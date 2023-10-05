@@ -17,11 +17,11 @@ public class DispanserizationsController
     public DispanserizationsController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet]
-    public Task<Dispanserization[]> GetAllDispanserizations([FromQuery] GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
-
     [HttpPost]
     public Task CreateDispanserization([FromBody] CreateDispanserizationCommand request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
+
+    [HttpGet]
+    public Task<Dispanserization[]> GetAllDispanserizations([FromQuery] GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

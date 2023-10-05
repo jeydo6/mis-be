@@ -15,14 +15,14 @@ public sealed class InitialMigration : Migration
             .WithColumn(nameof(Patient.FirstName)).AsString().NotNullable()
             .WithColumn(nameof(Patient.MiddleName)).AsString().NotNullable()
             .WithColumn(nameof(Patient.LastName)).AsString().NotNullable()
-            .WithColumn(nameof(Patient.BirthDate)).AsDate().NotNullable()
+            .WithColumn(nameof(Patient.BirthDate)).AsDateTimeOffset().NotNullable()
             .WithColumn(nameof(Patient.Gender)).AsInt32().NotNullable();
 
         Create.Table(nameof(Dispanserization))
             .WithColumn(nameof(Dispanserization.Id)).AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn(nameof(Dispanserization.IsActive)).AsBoolean().NotNullable()
-            .WithColumn(nameof(Dispanserization.From)).AsDate().NotNullable()
-            .WithColumn(nameof(Dispanserization.To)).AsDate().NotNullable()
+            .WithColumn(nameof(Dispanserization.From)).AsDateTimeOffset().NotNullable()
+            .WithColumn(nameof(Dispanserization.To)).AsDateTimeOffset().NotNullable()
             .WithColumn(nameof(Dispanserization.PatientId)).AsInt32().NotNullable().ForeignKey(nameof(Patient), nameof(Patient.Id));
 
         Create.Table(nameof(Employee))

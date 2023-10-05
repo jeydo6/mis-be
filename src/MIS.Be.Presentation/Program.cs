@@ -6,6 +6,7 @@ using MIS.Be.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,6 +27,10 @@ if (app.Environment.IsProduction())
     app.UseHttpsRedirection();
 }
 
+app.UseCors(b => b
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 app.UseAuthorization();
 app.MapControllers();
 

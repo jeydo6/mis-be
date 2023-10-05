@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using MIS.Be.Domain.Entities;
-using MIS.Be.Domain.Extensions;
 using MIS.Be.Domain.Repositories;
 using MIS.Be.Domain.Transactions;
 
@@ -12,8 +11,8 @@ namespace MIS.Be.Application.Commands;
 
 internal sealed class CreateDispanserizationHandler : IRequestHandler<CreateDispanserizationCommand>
 {
-    private static readonly TimeOnly _timeFrom = new TimeOnly(0, 0, 0);
-    private static readonly TimeOnly _timeTo = new TimeOnly(23, 59, 59);
+    private static readonly TimeSpan _timeFrom = new TimeSpan(0, 0, 0);
+    private static readonly TimeSpan _timeTo = new TimeSpan(23, 59, 59);
 
     private readonly ITransactionControl _transactionControl;
     private readonly IDispanserizationsRepository _dispanserizationsRepository;
@@ -41,8 +40,8 @@ internal sealed class CreateDispanserizationHandler : IRequestHandler<CreateDisp
         if (dispanserizations.Any(d => d.From.Year == request.From.Year))
             throw new ApplicationException($"У пациента с идентификатором '{request.PatientId}' уже существует диспансеризация в '{request.From.Year}' году");
 
-        var from = request.From.ToDateTimeOffset(_timeFrom);
-        var to = request.From.ToDateTimeOffset(_timeTo);
+        var from = request.From.Add(_timeFrom - request.From.TimeOfDay);
+        var to = request.From.Add(_timeTo - request.From.TimeOfDay);
         var visitItems = await _visitItemsRepository.GetAll(from, to, cancellationToken: cancellationToken);
         var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToHashSet();
 
@@ -73,7 +72,7 @@ internal sealed class CreateDispanserizationHandler : IRequestHandler<CreateDisp
             await _dispanserizationsRepository.Create(new Dispanserization
             {
                 From = request.From,
-                To = new DateOnly(request.From.Year, 12, 31),
+                To = new DateTimeOffset(request.From.Year, 12, 31, 23, 59, 59, TimeSpan.Zero),
                 PatientId = request.PatientId
             }, cancellationToken);
 

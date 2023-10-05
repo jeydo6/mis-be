@@ -20,6 +20,7 @@ internal sealed class GetAllResourcesHandler : IRequestHandler<GetAllResourcesQu
         var resources = await _repository.GetAll(cancellationToken);
         return resources
             .Select(MappingExtension.Map)
+            .OrderBy(r => r.Id)
             .ToArray();
     }
 }

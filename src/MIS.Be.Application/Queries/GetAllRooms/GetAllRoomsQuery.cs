@@ -3,4 +3,4 @@ using MIS.Be.Application.Models;
 
 namespace MIS.Be.Application.Queries;
 
-public sealed record GetAllSpecialtiesQuery : IRequest<Specialty[]>;
+public sealed record GetAllRoomsQuery : IRequest<Room[]>;

@@ -32,10 +32,11 @@ internal sealed class GetAllDateItemsHandler : IRequestHandler<GetAllDateItemsQu
             .Select(g => new DateItem(
                 g.Select(ti => ti.From).Min(),
                 g.Select(ti => ti.To).Max(),
-                g.Key.ResourceId,
-                g.Count(ti => !timeItemIds.Contains(ti.Id))
+                g.Count(ti => !timeItemIds.Contains(ti.Id)),
+                g.Key.ResourceId
             ))
-            .OrderBy(di => di.From)
+            .OrderBy(di => di.ResourceId)
+            .ThenBy(di => di.From)
             .ToArray();
     }
 }

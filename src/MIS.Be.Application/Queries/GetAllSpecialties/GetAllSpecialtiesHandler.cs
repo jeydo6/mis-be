@@ -20,6 +20,7 @@ internal sealed class GetAllSpecialtiesHandler : IRequestHandler<GetAllSpecialti
         var specialties = await _repository.GetAll(cancellationToken);
         return specialties
             .Select(MappingExtension.Map)
+            .OrderBy(s => s.Id)
             .ToArray();
     }
 }

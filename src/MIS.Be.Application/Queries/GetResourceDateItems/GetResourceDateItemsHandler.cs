@@ -33,10 +33,11 @@ internal sealed class GetResourceDateItemsHandler : IRequestHandler<GetResourceD
             .Select(g => new DateItem(
                 g.Select(ti => ti.From).Min(),
                 g.Select(ti => ti.To).Max(),
-                request.ResourceId,
-                g.Count(ti => !timeItemIds.Contains(ti.Id))
+                g.Count(ti => !timeItemIds.Contains(ti.Id)),
+                request.ResourceId
             ))
-            .OrderBy(di => di.From)
+            .OrderBy(di => di.ResourceId)
+            .ThenBy(di => di.From)
             .ToArray();
     }
 }

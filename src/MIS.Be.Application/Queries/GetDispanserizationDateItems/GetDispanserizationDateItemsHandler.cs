@@ -42,8 +42,8 @@ internal sealed class GetDispanserizationDateItemsHandler : IRequestHandler<GetD
             .Select(g => new DateItem(
                 g.Select(ti => ti.From).Min(),
                 g.Select(ti => ti.To).Max(),
-                g.Key.ResourceId,
-                g.Count(ti => !timeItemIds.Contains(ti.Id))
+                g.Count(ti => !timeItemIds.Contains(ti.Id)),
+                g.Key.ResourceId
             ))
             .GroupBy(di => di.From.Date)
             .Where(g =>
@@ -52,7 +52,8 @@ internal sealed class GetDispanserizationDateItemsHandler : IRequestHandler<GetD
                 return resourceIds.All(resourceId => groupResourceIds.Contains(resourceId));
             })
             .SelectMany(g => g)
-            .OrderBy(di => di.From)
+            .OrderBy(di => di.ResourceId)
+            .ThenBy(di => di.From)
             .ToArray();
     }
 }

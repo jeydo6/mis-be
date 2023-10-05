@@ -7,10 +7,17 @@ internal static class MappingExtension
     public static Models.Dispanserization Map(this Domain.Entities.Dispanserization source)
         => new Models.Dispanserization(
             source.Id,
+            source.IsActive,
             source.From,
             source.To,
-            source.IsActive,
             source.PatientId);
+
+    public static Models.Employee Map(this Domain.Entities.Employee source)
+        => new Models.Employee(
+            source.Id,
+            source.Code,
+            source.GetName()
+        );
 
     public static Models.Patient Map(this Domain.Entities.Patient source)
         => new Models.Patient(
@@ -28,6 +35,13 @@ internal static class MappingExtension
             source.EmployeeId,
             source.RoomId,
             source.SpecialtyId
+        );
+
+    public static Models.Room Map(this Domain.Entities.Room source)
+        => new Models.Room(
+            source.Id,
+            source.Code,
+            source.Description
         );
 
     public static Models.Specialty Map(this Domain.Entities.Specialty source)

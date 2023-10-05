@@ -31,4 +31,14 @@ internal sealed class EmployeesRepository : IEmployeesRepository
 
         return result;
     }
+
+    public Task<Employee[]> GetAll(CancellationToken cancellationToken = default)
+    {
+        var query =
+            from e in _db.Employees
+            where e.IsActive
+            select e;
+
+        return query.ToArrayAsync(token: cancellationToken);
+    }
 }

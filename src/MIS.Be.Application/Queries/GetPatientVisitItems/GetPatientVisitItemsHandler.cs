@@ -25,7 +25,7 @@ internal sealed class GetPatientVisitItemsHandler : IRequestHandler<GetPatientVi
 
         return visitItems
             .Select(MappingExtension.Map)
-            .OrderByDescending(vi => vi.Id)
+            .OrderBy(vi => vi.Id)
             .ToArray();
     }
 }

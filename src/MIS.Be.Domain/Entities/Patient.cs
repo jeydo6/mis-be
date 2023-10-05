@@ -5,6 +5,6 @@ namespace MIS.Be.Domain.Entities;
 
 public sealed class Patient : Person
 {
-    public DateOnly BirthDate { get; set; }
+    public DateTimeOffset BirthDate { get; set; }
     public Gender Gender { get; set; }
 }
