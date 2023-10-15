@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LinqToDB;
 using MIS.Be.Domain.Entities;
+using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 using MIS.Be.Infrastructure.DataContexts;
 
@@ -43,13 +44,21 @@ internal sealed class TimeItemsRepository : ITimeItemsRepository
         return query.ToArrayAsync(token: cancellationToken);
     }
 
-    public Task<TimeItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, int? resourceId = default, CancellationToken cancellationToken = default)
+    public Task<TimeItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, GetAllTimeItemsFilter? filter = default, CancellationToken cancellationToken = default)
     {
+        var specialtyId = filter?.SpecialtyId;
+        var resourceId = filter?.ResourceId;
+        var isDispanserization = filter?.IsDispanserization;
+
         var query =
             from ti in _db.TimeItems
+            join r in _db.Resources on ti.ResourceId equals r.Id
             where ti.From >= @from && ti.From <= to &&
+                  r.IsActive &&
                   ti.IsActive &&
-                  (!resourceId.HasValue || ti.ResourceId == resourceId.Value)
+                  (!resourceId.HasValue || ti.ResourceId == resourceId.Value) &&
+                  (!specialtyId.HasValue || r.SpecialtyId == specialtyId.Value) &&
+                  (!isDispanserization.HasValue || r.IsDispanserization == isDispanserization.Value)
             select ti;
 
         return query.ToArrayAsync(token: cancellationToken);

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using MIS.Be.Application.Extensions;
 using MIS.Be.Application.Models;
+using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 
 namespace MIS.Be.Application.Queries;
@@ -20,7 +21,7 @@ internal sealed class GetPatientVisitItemsHandler : IRequestHandler<GetPatientVi
     public async Task<VisitItem[]> Handle(GetPatientVisitItemsQuery request, CancellationToken cancellationToken)
     {
         var visitItems = await _visitItemsRepository.GetAll(request.From, request.To,
-            patientId: request.PatientId,
+            filter: new GetAllVisitItemsFilter(PatientId: request.PatientId),
             cancellationToken: cancellationToken);
 
         return visitItems

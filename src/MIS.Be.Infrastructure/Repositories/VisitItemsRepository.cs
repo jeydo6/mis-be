@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LinqToDB;
 using MIS.Be.Domain.Entities;
+using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 using MIS.Be.Infrastructure.DataContexts;
 
@@ -32,16 +33,23 @@ internal sealed class VisitItemsRepository : IVisitItemsRepository
         return result;
     }
 
-    public Task<VisitItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, int? resourceId = default, int? patientId = default, CancellationToken cancellationToken = default)
+    public Task<VisitItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, GetAllVisitItemsFilter? filter = default, CancellationToken cancellationToken = default)
     {
+        var specialtyId = filter?.SpecialtyId;
+        var resourceId = filter?.ResourceId;
+        var patientId = filter?.PatientId;
+
         var query =
             from vi in _db.VisitItems
             join ti in _db.TimeItems on vi.TimeItemId equals ti.Id
+            join r in _db.Resources on ti.ResourceId equals r.Id
             where ti.From >= @from && ti.From <= to &&
+                  r.IsActive &&
                   ti.IsActive &&
                   vi.IsActive &&
+                  (!patientId.HasValue || vi.PatientId == patientId.Value) &&
                   (!resourceId.HasValue || ti.ResourceId == resourceId.Value) &&
-                  (!patientId.HasValue || vi.PatientId == patientId.Value)
+                  (!specialtyId.HasValue || r.SpecialtyId == specialtyId.Value)
             select vi;
 
         return query.ToArrayAsync(token: cancellationToken);

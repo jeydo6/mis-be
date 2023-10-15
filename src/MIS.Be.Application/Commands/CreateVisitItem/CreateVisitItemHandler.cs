@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using MIS.Be.Domain.Entities;
+using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 
 namespace MIS.Be.Application.Commands;
@@ -27,7 +28,7 @@ internal sealed class CreateVisitItemHandler : IRequestHandler<CreateVisitItemCo
     public async Task Handle(CreateVisitItemCommand request, CancellationToken cancellationToken)
     {
         var visitItems = await _visitItemsRepository.GetAll(DateTimeOffset.UtcNow, DateTimeOffset.MaxValue,
-            patientId: request.PatientId,
+            filter: new GetAllVisitItemsFilter(PatientId: request.PatientId),
             cancellationToken: cancellationToken);
 
         var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToArray();

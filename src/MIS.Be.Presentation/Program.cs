@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MIS.Be.Application;
 using MIS.Be.Infrastructure.Extensions;
+using MIS.Be.Presentation.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,8 @@ if (app.Environment.IsProduction())
     app.UseHttpsRedirection();
 }
 
+app.UseMiddleware<ExceptionHandler>();
+app.UseRouting(); // ?
 app.UseCors(b => b
     .AllowAnyOrigin()
     .AllowAnyMethod()
