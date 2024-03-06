@@ -29,7 +29,7 @@ if (app.Environment.IsProduction())
 }
 
 app.UseMiddleware<ExceptionHandler>();
-app.UseRouting(); // ?
+app.UseRouting();
 app.UseCors(b => b
     .AllowAnyOrigin()
     .AllowAnyMethod()
