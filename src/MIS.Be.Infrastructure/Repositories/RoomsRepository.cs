@@ -32,6 +32,20 @@ internal sealed class RoomsRepository : IRoomsRepository
         return result;
     }
 
+    public async Task<Room[]> Get(int[] ids, CancellationToken cancellationToken = default)
+    {
+        var query =
+            from r in _db.Rooms
+            where ids.Contains(r.Id) &&
+                  r.IsActive
+            select r;
+
+        var result = await query.ToArrayAsync(token: cancellationToken);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(result.Length, ids.Length);
+
+        return result;
+    }
+
     public Task<Room[]> GetAll(CancellationToken cancellationToken = default)
     {
         var query =

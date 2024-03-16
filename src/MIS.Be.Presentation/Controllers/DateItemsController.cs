@@ -16,7 +16,7 @@ public class DateItemsController
     public DateItemsController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet]
+    [HttpGet("all")]
     public Task<DateItem[]> GetAllDateItems([FromQuery] GetAllDateItemsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 

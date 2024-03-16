@@ -16,11 +16,11 @@ public sealed class ResourcesController
     public ResourcesController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet("{id:int}")]
-    public Task<Resource> GetResource(int id, CancellationToken cancellationToken)
-        => _mediator.Send(new GetResourceQuery(id), cancellationToken);
-
     [HttpGet]
+    public Task<Resource[]> GetResources([FromQuery] GetResourcesQuery request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
+
+    [HttpGet("all")]
     public Task<Resource[]> GetAllResources([FromQuery] GetAllResourcesQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 

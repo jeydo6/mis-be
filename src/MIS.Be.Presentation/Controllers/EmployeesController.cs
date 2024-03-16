@@ -17,6 +17,10 @@ public class EmployeesController
         => _mediator = mediator;
 
     [HttpGet]
+    public Task<Employee[]> GetEmployees([FromQuery] GetEmployeesQuery request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
+
+    [HttpGet("all")]
     public Task<Employee[]> GetAllEmployees([FromQuery] GetAllEmployeesQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

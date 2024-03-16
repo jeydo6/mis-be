@@ -33,7 +33,7 @@ internal sealed class TimeItemsRepository : ITimeItemsRepository
         return result;
     }
 
-    public Task<TimeItem[]> Get(int[] ids, CancellationToken cancellationToken = default)
+    public async Task<TimeItem[]> Get(int[] ids, CancellationToken cancellationToken = default)
     {
         var query =
             from ti in _db.TimeItems
@@ -41,7 +41,10 @@ internal sealed class TimeItemsRepository : ITimeItemsRepository
                   ti.IsActive
             select ti;
 
-        return query.ToArrayAsync(token: cancellationToken);
+        var result = await query.ToArrayAsync(token: cancellationToken);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(result.Length, ids.Length);
+
+        return result;
     }
 
     public Task<TimeItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, GetAllTimeItemsFilter? filter = default, CancellationToken cancellationToken = default)

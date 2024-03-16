@@ -32,6 +32,20 @@ internal sealed class EmployeesRepository : IEmployeesRepository
         return result;
     }
 
+    public async Task<Employee[]> Get(int[] ids, CancellationToken cancellationToken = default)
+    {
+        var query =
+            from e in _db.Employees
+            where ids.Contains(e.Id) &&
+                  e.IsActive
+            select e;
+
+        var result = await query.ToArrayAsync(token: cancellationToken);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(result.Length, ids.Length);
+
+        return result;
+    }
+
     public Task<Employee[]> GetAll(CancellationToken cancellationToken = default)
     {
         var query =

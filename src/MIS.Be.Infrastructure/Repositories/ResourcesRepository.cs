@@ -19,16 +19,16 @@ internal sealed class ResourcesRepository : IResourcesRepository
     public Task<int> Create(Resource item, CancellationToken cancellationToken = default)
         => _db.InsertWithInt32IdentityAsync(item, token: cancellationToken);
 
-    public async Task<Resource> Get(int id, CancellationToken cancellationToken = default)
+    public async Task<Resource[]> Get(int[] ids, CancellationToken cancellationToken = default)
     {
         var query =
             from r in _db.Resources
-            where r.Id == id &&
+            where ids.Contains(r.Id) &&
                   r.IsActive
             select r;
 
-        var result = await query.FirstOrDefaultAsync(token: cancellationToken);
-        ArgumentNullException.ThrowIfNull(result);
+        var result = await query.ToArrayAsync(token: cancellationToken);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(result.Length, ids.Length);
 
         return result;
     }

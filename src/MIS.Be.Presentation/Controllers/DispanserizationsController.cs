@@ -21,7 +21,7 @@ public class DispanserizationsController
     public Task CreateDispanserization([FromBody] CreateDispanserizationCommand request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 
-    [HttpGet]
+    [HttpGet("all")]
     public Task<Dispanserization[]> GetAllDispanserizations([FromQuery] GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

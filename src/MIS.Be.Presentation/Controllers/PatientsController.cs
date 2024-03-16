@@ -16,7 +16,7 @@ public class PatientsController
     public PatientsController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet]
+    [HttpGet("find")]
     public Task<Patient?> FindPatient([FromQuery] FindPatientQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

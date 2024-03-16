@@ -8,5 +8,6 @@ public interface IRoomsRepository
 {
     Task<int> Create(Room item, CancellationToken cancellationToken = default);
     Task<Room> Get(int id, CancellationToken cancellationToken = default);
+    Task<Room[]> Get(int[] ids, CancellationToken cancellationToken = default);
     Task<Room[]> GetAll(CancellationToken cancellationToken = default);
 }
