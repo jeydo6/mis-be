@@ -17,7 +17,7 @@ internal sealed class GetAllResourcesHandler : IRequestHandler<GetAllResourcesQu
 
     public async Task<Resource[]> Handle(GetAllResourcesQuery request, CancellationToken cancellationToken)
     {
-        var resources = await _repository.GetAll(cancellationToken);
+        var resources = await _repository.GetAll(cancellationToken: cancellationToken);
         return resources
             .Select(MappingExtension.Map)
             .OrderBy(r => r.Id)

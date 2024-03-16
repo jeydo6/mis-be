@@ -1,15 +1,18 @@
 using LinqToDB;
 using LinqToDB.Data;
+using LinqToDB.DataProvider;
 using LinqToDB.Mapping;
 using MIS.Be.Domain.Entities;
+using MIS.Be.Infrastructure.Factories;
 
 namespace MIS.Be.Infrastructure.DataContexts;
 
 internal sealed class DbContext : DataConnection
 {
-    private static readonly MappingSchema _mappingSchema = CreateMappingSchema();
+    private static readonly MappingSchema Schema = CreateMappingSchema();
 
-    public DbContext(string connectionString) : base(CreateDataOptions(connectionString))
+    public DbContext(IDataProvider dataProvider, IDbConnectionFactory dbConnectionFactory)
+        : base(dataProvider, dbConnectionFactory.Create(), Schema)
     {
     }
 
@@ -77,9 +80,4 @@ internal sealed class DbContext : DataConnection
 
         return mappingSchema;
     }
-
-    private static DataOptions CreateDataOptions(string connectionString)
-        => new DataOptions()
-            .UsePostgreSQL(connectionString)
-            .UseMappingSchema(_mappingSchema);
 }

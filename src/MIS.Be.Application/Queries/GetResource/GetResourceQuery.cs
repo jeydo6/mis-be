@@ -3,4 +3,4 @@ using MIS.Be.Application.Models;
 
 namespace MIS.Be.Application.Queries;
 
-public sealed record GetAllResourcesQuery : IRequest<Resource[]>;
+public sealed record GetResourceQuery(int Id) : IRequest<Resource>;

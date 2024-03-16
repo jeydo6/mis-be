@@ -33,7 +33,7 @@ internal sealed class CreateVisitItemHandler : IRequestHandler<CreateVisitItemCo
 
         var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToArray();
         var timeItems = await _timeItemsRepository.Get(timeItemIds, cancellationToken);
-        var resources = await _resourcesRepository.GetAll(cancellationToken);
+        var resources = await _resourcesRepository.GetAll(cancellationToken: cancellationToken);
 
         var resourceIds = timeItems.Select(ti => ti.ResourceId).ToHashSet();
         var specialtyIds = resources

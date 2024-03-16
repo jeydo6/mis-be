@@ -1,10 +1,13 @@
 using System;
 using FluentMigrator.Runner;
+using LinqToDB.DataProvider;
+using LinqToDB.DataProvider.PostgreSQL;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MIS.Be.Domain.Repositories;
 using MIS.Be.Domain.Transactions;
 using MIS.Be.Infrastructure.DataContexts;
+using MIS.Be.Infrastructure.Factories;
 using MIS.Be.Infrastructure.Repositories;
 using MIS.Be.Infrastructure.Transactions;
 
@@ -28,8 +31,12 @@ public static class ServiceCollectionExtension
                 .ScanIn(typeof(DbContext).Assembly).For.Migrations());
 
         services
-            .AddScoped<DbContext>(_ => new DbContext(connectionString))
-            .AddScoped<ITransactionControl, TransactionControl<DbContext>>()
+            .AddSingleton<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(connectionString))
+            .AddScoped<IDataProvider>(_ => PostgreSQLTools.GetDataProvider(PostgreSQLVersion.v15))
+            .AddScoped<DbContext>()
+            .AddScoped<ITransactionControl, TransactionControl<DbContext>>();
+
+        services
             .AddScoped<IDispanserizationsRepository, DispanserizationsRepository>()
             .AddScoped<IEmployeesRepository, EmployeesRepository>()
             .AddScoped<IPatientsRepository, PatientsRepository>()

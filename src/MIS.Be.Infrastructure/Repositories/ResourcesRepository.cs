@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LinqToDB;
 using MIS.Be.Domain.Entities;
+using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 using MIS.Be.Infrastructure.DataContexts;
 
@@ -32,11 +33,14 @@ internal sealed class ResourcesRepository : IResourcesRepository
         return result;
     }
 
-    public Task<Resource[]> GetAll(CancellationToken cancellationToken = default)
+    public Task<Resource[]> GetAll(GetAllResourcesFilter? filter = default, CancellationToken cancellationToken = default)
     {
+        var specialtyId = filter?.SpecialtyId;
+
         var query =
             from r in _db.Resources
-            where r.IsActive
+            where r.IsActive &&
+                (!specialtyId.HasValue || r.SpecialtyId == specialtyId.Value)
             select r;
 
         return query.ToArrayAsync(token: cancellationToken);
