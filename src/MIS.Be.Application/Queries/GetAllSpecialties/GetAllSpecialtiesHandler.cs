@@ -18,6 +18,7 @@ internal sealed class GetAllSpecialtiesHandler : IRequestHandler<GetAllSpecialti
     public async Task<Specialty[]> Handle(GetAllSpecialtiesQuery request, CancellationToken cancellationToken)
     {
         var specialties = await _repository.GetAll(cancellationToken);
+
         return specialties
             .Select(MappingExtension.Map)
             .OrderBy(s => s.Id)

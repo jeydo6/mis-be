@@ -26,6 +26,7 @@ internal sealed class GetAllDateItemsHandler : IRequestHandler<GetAllDateItemsQu
         var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToHashSet();
 
         var timeItems = await _timeItemsRepository.GetAll(request.From, request.To, cancellationToken: cancellationToken);
+
         return timeItems
             .GroupBy(ti => (ti.ResourceId, ti.From.Date))
             .Where(g => g.Any())

@@ -31,6 +31,7 @@ internal sealed class GetSpecialtyDateItemsHandler : IRequestHandler<GetSpecialt
         var timeItems = await _timeItemsRepository.GetAll(request.From, request.To,
             filter: new GetAllTimeItemsFilter(SpecialtyId: request.SpecialtyId, IsDispanserization: false),
             cancellationToken: cancellationToken);
+
         return timeItems
             .GroupBy(ti => (ti.ResourceId, ti.From.Date))
             .Where(g => g.Any())

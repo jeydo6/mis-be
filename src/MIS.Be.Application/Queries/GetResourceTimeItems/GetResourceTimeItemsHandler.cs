@@ -32,6 +32,7 @@ internal sealed class GetResourceTimeItemsHandler : IRequestHandler<GetResourceT
         var timeItems = await _timeItemsRepository.GetAll(request.From, request.To,
             filter: new GetAllTimeItemsFilter(ResourceId: request.ResourceId, IsDispanserization: false),
             cancellationToken: cancellationToken);
+
         return timeItems
             .Where(ti => !timeItemIds.Contains(ti.Id) && ti.ResourceId == request.ResourceId)
             .Select(MappingExtension.Map)

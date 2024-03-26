@@ -18,6 +18,7 @@ internal sealed class GetEmployeesHandler : IRequestHandler<GetEmployeesQuery, E
     public async Task<Employee[]> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var employees = await _repository.Get(request.Ids, cancellationToken);
+
         return employees
             .Select(MappingExtension.Map)
             .OrderBy(s => s.Id)

@@ -17,6 +17,7 @@ internal sealed class FindPatientHandler : IRequestHandler<FindPatientQuery, Pat
     public async Task<Patient?> Handle(FindPatientQuery request, CancellationToken cancellationToken)
     {
         var patient = await _repository.Find(request.Code, request.BirthYear, cancellationToken);
+
         return patient?.Map();
     }
 }

@@ -18,6 +18,7 @@ internal sealed class GetAllRoomsHandler : IRequestHandler<GetAllRoomsQuery, Roo
     public async Task<Room[]> Handle(GetAllRoomsQuery request, CancellationToken cancellationToken)
     {
         var rooms = await _repository.GetAll(cancellationToken);
+
         return rooms
             .Select(MappingExtension.Map)
             .OrderBy(s => s.Id)

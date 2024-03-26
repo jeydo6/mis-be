@@ -35,6 +35,7 @@ internal sealed class GetDispanserizationDateItemsHandler : IRequestHandler<GetD
             .ToHashSet();
 
         var timeItems = await _timeItemsRepository.GetAll(request.From, request.To, cancellationToken: cancellationToken);
+
         return timeItems
             .Where(ti => resourceIds.Contains(ti.ResourceId))
             .GroupBy(ti => (ti.ResourceId, ti.From.Date))

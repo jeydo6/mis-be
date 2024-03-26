@@ -18,6 +18,7 @@ internal sealed class GetTimeItemsHandler : IRequestHandler<GetTimeItemsQuery, T
     public async Task<TimeItem[]> Handle(GetTimeItemsQuery request, CancellationToken cancellationToken)
     {
         var timeItems = await _timeItemsRepository.Get(request.Ids, cancellationToken);
+
         return timeItems
             .Select(MappingExtension.Map)
             .OrderBy(s => s.Id)

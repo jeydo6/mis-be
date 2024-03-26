@@ -17,6 +17,7 @@ internal sealed class GetPatientHandler : IRequestHandler<GetPatientQuery, Patie
     public async Task<Patient> Handle(GetPatientQuery request, CancellationToken cancellationToken)
     {
         var patient = await _repository.Get(request.Id, cancellationToken);
+
         return patient.Map();
     }
 }

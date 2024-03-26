@@ -18,6 +18,7 @@ internal sealed class GetAllDispanserizationsHandler : IRequestHandler<GetAllDis
     public async Task<Dispanserization[]> Handle(GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
     {
         var dispanserizations = await _repository.GetAll(request.PatientId, cancellationToken);
+
         return dispanserizations
             .Select(MappingExtension.Map)
             .OrderBy(d => d.Id)

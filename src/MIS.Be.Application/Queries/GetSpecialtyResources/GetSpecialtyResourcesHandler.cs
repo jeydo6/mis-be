@@ -21,6 +21,7 @@ internal sealed class GetSpecialtyResourcesHandler : IRequestHandler<GetSpecialt
         var resources = await _repository.GetAll(
             filter: new GetAllResourcesFilter(SpecialtyId: request.SpecialtyId),
             cancellationToken: cancellationToken);
+
         return resources
             .Select(MappingExtension.Map)
             .OrderBy(r => r.Id)

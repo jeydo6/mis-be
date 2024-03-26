@@ -18,6 +18,7 @@ internal sealed class GetResourcesHandler : IRequestHandler<GetResourcesQuery, R
     public async Task<Resource[]> Handle(GetResourcesQuery request, CancellationToken cancellationToken)
     {
         var resources = await _repository.Get(request.Ids, cancellationToken);
+
         return resources
             .Select(MappingExtension.Map)
             .OrderBy(s => s.Id)
