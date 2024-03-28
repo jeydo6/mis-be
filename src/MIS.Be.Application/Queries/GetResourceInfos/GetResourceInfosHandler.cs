@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -31,7 +30,7 @@ internal sealed class GetResourceInfosHandler : IRequestHandler<GetResourceInfos
         }
 
         var result = new List<ResourceInfo>();
-        foreach (var resourceId in request.ResourceIds.OrderBy(id => id))
+        foreach (var resourceId in request.ResourceIds)
         {
             if (!timeItemsCounts.TryGetValue(resourceId, out var timeItemsCount))
                 continue;

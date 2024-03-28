@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MIS.Be.Domain.Entities;
-using MIS.Be.Domain.Filters;
 
 namespace MIS.Be.Domain.Repositories;
 

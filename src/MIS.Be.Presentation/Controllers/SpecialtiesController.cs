@@ -16,6 +16,10 @@ public sealed class SpecialtiesController
     public SpecialtiesController(IMediator mediator)
         => _mediator = mediator;
 
+    [HttpGet]
+    public Task<Specialty[]> GetSpecialties([FromQuery] GetSpecialtiesQuery request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
+
     [HttpGet("all")]
     public Task<Specialty[]> GetAllSpecialties([FromQuery] GetAllSpecialtiesQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);

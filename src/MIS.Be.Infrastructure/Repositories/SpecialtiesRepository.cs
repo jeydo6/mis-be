@@ -22,12 +22,28 @@ internal sealed class SpecialtiesRepository : ISpecialtiesRepository
     {
         var query =
             from s in _db.Specialties
-            where s.Id == id &&
-                  s.IsActive
+            where
+                s.IsActive &&
+                s.Id == id
             select s;
 
         var result = await query.FirstOrDefaultAsync(token: cancellationToken);
         ArgumentNullException.ThrowIfNull(result);
+
+        return result;
+    }
+
+    public async Task<Specialty[]> Get(int[] ids, CancellationToken cancellationToken = default)
+    {
+        var query =
+            from s in _db.Specialties
+            where
+                s.IsActive &&
+                ids.Contains(s.Id)
+            select s;
+
+        var result = await query.ToArrayAsync(token: cancellationToken);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(result.Length, ids.Length);
 
         return result;
     }

@@ -8,5 +8,6 @@ public interface ISpecialtiesRepository
 {
     Task<int> Create(Specialty item, CancellationToken cancellationToken = default);
     Task<Specialty> Get(int id, CancellationToken cancellationToken = default);
+    Task<Specialty[]> Get(int[] ids, CancellationToken cancellationToken = default);
     Task<Specialty[]> GetAll(CancellationToken cancellationToken = default);
 }
