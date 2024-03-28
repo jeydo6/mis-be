@@ -19,8 +19,4 @@ public sealed class RoomsController
     [HttpGet]
     public Task<Room[]> GetRooms([FromQuery] GetRoomsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
-
-    [HttpGet("all")]
-    public Task<Room[]> GetAllRooms([FromQuery] GetAllRoomsQuery request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
 }

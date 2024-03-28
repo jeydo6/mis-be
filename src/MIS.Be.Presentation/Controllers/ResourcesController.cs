@@ -24,6 +24,10 @@ public sealed class ResourcesController
     public Task<Resource[]> GetAllResources([FromQuery] GetAllResourcesQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 
+    [HttpGet("specialty")]
+    public Task<Resource[]> GetSpecialtyResources([FromQuery] GetSpecialtyResourcesQuery request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
+
     [HttpGet("infos")]
     public Task<ResourceInfo[]> GetResourceInfos([FromQuery] GetResourceInfosQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
