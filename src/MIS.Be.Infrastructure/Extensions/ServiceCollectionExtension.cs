@@ -37,6 +37,7 @@ public static class ServiceCollectionExtension
             .AddScoped<ITransactionControl, TransactionControl<DbContext>>();
 
         services
+            .AddScoped<IDateItemsRepository, DateItemsRepository>()
             .AddScoped<IDispanserizationsRepository, DispanserizationsRepository>()
             .AddScoped<IEmployeesRepository, EmployeesRepository>()
             .AddScoped<IPatientsRepository, PatientsRepository>()

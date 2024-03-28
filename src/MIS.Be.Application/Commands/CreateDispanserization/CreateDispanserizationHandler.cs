@@ -11,8 +11,8 @@ namespace MIS.Be.Application.Commands;
 
 internal sealed class CreateDispanserizationHandler : IRequestHandler<CreateDispanserizationCommand>
 {
-    private static readonly TimeSpan _timeFrom = new TimeSpan(0, 0, 0);
-    private static readonly TimeSpan _timeTo = new TimeSpan(23, 59, 59);
+    private static readonly TimeSpan TimeFrom = new TimeSpan(0, 0, 0);
+    private static readonly TimeSpan TimeTo = new TimeSpan(23, 59, 59);
 
     private readonly ITransactionControl _transactionControl;
     private readonly IDispanserizationsRepository _dispanserizationsRepository;
@@ -40,10 +40,8 @@ internal sealed class CreateDispanserizationHandler : IRequestHandler<CreateDisp
         if (dispanserizations.Any(d => d.From.Year == request.From.Year))
             throw new ApplicationException($"У пациента с идентификатором '{request.PatientId}' уже существует диспансеризация в '{request.From.Year}' году");
 
-        var from = request.From.Add(_timeFrom - request.From.TimeOfDay);
-        var to = request.From.Add(_timeTo - request.From.TimeOfDay);
-        var visitItems = await _visitItemsRepository.GetAll(from, to, cancellationToken: cancellationToken);
-        var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToHashSet();
+        var from = request.From.Add(TimeFrom - request.From.TimeOfDay);
+        var to = request.From.Add(TimeTo - request.From.TimeOfDay);
 
         var researches = await _researchesRepository.GetAll(cancellationToken);
         var resourceIds = researches
@@ -51,9 +49,9 @@ internal sealed class CreateDispanserizationHandler : IRequestHandler<CreateDisp
             .Select(r => r.ResourceId)
             .ToHashSet();
 
-        var timeItems = await _timeItemsRepository.GetAll(from, to, cancellationToken: cancellationToken);
+        var timeItems = await _timeItemsRepository.GetAll(resourceIds.ToArray(), from, to, cancellationToken: cancellationToken);
         var resourceTimeItemIds = timeItems
-            .Where(ti => !timeItemIds.Contains(ti.Id) && resourceIds.Contains(ti.ResourceId))
+            .OrderBy(ti => ti.From)
             .GroupBy(ti => ti.ResourceId)
             .ToDictionary(
                 g => g.Key,

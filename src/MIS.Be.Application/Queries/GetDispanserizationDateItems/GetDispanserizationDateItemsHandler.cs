@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using MIS.Be.Application.Extensions;
 using MIS.Be.Application.Models;
 using MIS.Be.Domain.Repositories;
 
@@ -10,42 +11,29 @@ namespace MIS.Be.Application.Queries;
 internal sealed class GetDispanserizationDateItemsHandler : IRequestHandler<GetDispanserizationDateItemsQuery, DateItem[]>
 {
     private readonly IResearchesRepository _researchesRepository;
-    private readonly ITimeItemsRepository _timeItemsRepository;
-    private readonly IVisitItemsRepository _visitItemsRepository;
+    private readonly IDateItemsRepository _dateItemsRepository;
 
     public GetDispanserizationDateItemsHandler(
         IResearchesRepository researchesRepository,
-        ITimeItemsRepository timeItemsRepository,
-        IVisitItemsRepository visitItemsRepository)
+        IDateItemsRepository dateItemsRepository
+    )
     {
+        _dateItemsRepository = dateItemsRepository;
         _researchesRepository = researchesRepository;
-        _timeItemsRepository = timeItemsRepository;
-        _visitItemsRepository = visitItemsRepository;
     }
 
     public async Task<DateItem[]> Handle(GetDispanserizationDateItemsQuery request, CancellationToken cancellationToken)
     {
-        var visitItems = await _visitItemsRepository.GetAll(request.From, request.To, cancellationToken: cancellationToken);
-        var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToHashSet();
-
         var researches = await _researchesRepository.GetAll(cancellationToken);
         var resourceIds = researches
             .Where(r => r.IsDispanserization)
             .Select(r => r.ResourceId)
             .ToHashSet();
 
-        var timeItems = await _timeItemsRepository.GetAll(request.From, request.To, cancellationToken: cancellationToken);
+        var dateItems = await _dateItemsRepository.GetAll(resourceIds.ToArray(), request.From, request.To, cancellationToken: cancellationToken);
 
-        return timeItems
-            .Where(ti => resourceIds.Contains(ti.ResourceId))
-            .GroupBy(ti => (ti.ResourceId, ti.From.Date))
-            .Where(g => g.Any())
-            .Select(g => new DateItem(
-                g.Select(ti => ti.From).Min(),
-                g.Select(ti => ti.To).Max(),
-                g.Count(ti => !timeItemIds.Contains(ti.Id)),
-                g.Key.ResourceId
-            ))
+        return dateItems
+            .Select(MappingExtension.Map)
             .GroupBy(di => di.From.Date)
             .Where(g =>
             {

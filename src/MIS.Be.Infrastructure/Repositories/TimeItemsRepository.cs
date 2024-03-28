@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using LinqToDB;
 using MIS.Be.Domain.Entities;
-using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 using MIS.Be.Infrastructure.DataContexts;
 
@@ -23,8 +22,10 @@ internal sealed class TimeItemsRepository : ITimeItemsRepository
     {
         var query =
             from ti in _db.TimeItems
-            where ti.Id == id &&
-                  ti.IsActive
+            where
+                ti.IsActive &&
+                ti.Id == id
+
             select ti;
 
         var result = await query.FirstOrDefaultAsync(token: cancellationToken);
@@ -37,8 +38,10 @@ internal sealed class TimeItemsRepository : ITimeItemsRepository
     {
         var query =
             from ti in _db.TimeItems
-            where ids.Contains(ti.Id) &&
-                  ti.IsActive
+            where
+                ti.IsActive &&
+                ids.Contains(ti.Id)
+
             select ti;
 
         var result = await query.ToArrayAsync(token: cancellationToken);
@@ -47,23 +50,27 @@ internal sealed class TimeItemsRepository : ITimeItemsRepository
         return result;
     }
 
-    public Task<TimeItem[]> GetAll(DateTimeOffset from, DateTimeOffset to, GetAllTimeItemsFilter? filter = default, CancellationToken cancellationToken = default)
+    public Task<TimeItem[]> GetAll(int[] resourceIds, DateTimeOffset from, DateTimeOffset to, CancellationToken cancellationToken = default)
     {
-        var specialtyId = filter?.SpecialtyId;
-        var resourceId = filter?.ResourceId;
-        var isDispanserization = filter?.IsDispanserization;
+        const string sql =
+"""
+SELECT
+    ti."Id",
+    ti."IsActive",
+    ti."From",
+    ti."To",
+    ti."ResourceId"
+FROM
+    "TimeItem" AS ti
+    LEFT OUTER JOIN "VisitItem" AS vi ON ti."Id" = vi."TimeItemId" AND vi."IsActive"
+WHERE
+    ti."IsActive"
+    AND ti."From" BETWEEN {0} AND {1}
+    AND ti."ResourceId" = ANY({2})
+""";
 
-        var query =
-            from ti in _db.TimeItems
-            join r in _db.Resources on ti.ResourceId equals r.Id
-            where ti.From >= @from && ti.From <= to &&
-                  r.IsActive &&
-                  ti.IsActive &&
-                  (!resourceId.HasValue || ti.ResourceId == resourceId.Value) &&
-                  (!specialtyId.HasValue || r.SpecialtyId == specialtyId.Value) &&
-                  (!isDispanserization.HasValue || r.IsDispanserization == isDispanserization.Value)
-            select ti;
+        var query = _db.FromSql<TimeItem>(sql, from, to, resourceIds);
 
-        return query.ToArrayAsync(token: cancellationToken);
+        return query.ToArrayAsync(cancellationToken);
     }
 }

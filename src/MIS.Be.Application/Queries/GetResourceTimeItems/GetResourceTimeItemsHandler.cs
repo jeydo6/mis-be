@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MediatR;
 using MIS.Be.Application.Extensions;
 using MIS.Be.Application.Models;
-using MIS.Be.Domain.Filters;
 using MIS.Be.Domain.Repositories;
 
 namespace MIS.Be.Application.Queries;
@@ -12,29 +11,18 @@ namespace MIS.Be.Application.Queries;
 internal sealed class GetResourceTimeItemsHandler : IRequestHandler<GetResourceTimeItemsQuery, TimeItem[]>
 {
     private readonly ITimeItemsRepository _timeItemsRepository;
-    private readonly IVisitItemsRepository _visitItemsRepository;
 
-    public GetResourceTimeItemsHandler(
-        ITimeItemsRepository timeItemsRepository,
-        IVisitItemsRepository visitItemsRepository)
-    {
-        _timeItemsRepository = timeItemsRepository;
-        _visitItemsRepository = visitItemsRepository;
-    }
+    public GetResourceTimeItemsHandler(ITimeItemsRepository timeItemsRepository)
+        => _timeItemsRepository = timeItemsRepository;
 
     public async Task<TimeItem[]> Handle(GetResourceTimeItemsQuery request, CancellationToken cancellationToken)
     {
-        var visitItems = await _visitItemsRepository.GetAll(request.From, request.To,
-            filter: new GetAllVisitItemsFilter(ResourceId: request.ResourceId),
-            cancellationToken: cancellationToken);
-        var timeItemIds = visitItems.Select(vi => vi.TimeItemId).ToHashSet();
-
-        var timeItems = await _timeItemsRepository.GetAll(request.From, request.To,
-            filter: new GetAllTimeItemsFilter(ResourceId: request.ResourceId, IsDispanserization: false),
+        var timeItems = await _timeItemsRepository.GetAll(
+            new int[] { request.ResourceId },
+            request.From, request.To,
             cancellationToken: cancellationToken);
 
         return timeItems
-            .Where(ti => !timeItemIds.Contains(ti.Id) && ti.ResourceId == request.ResourceId)
             .Select(MappingExtension.Map)
             .OrderBy(di => di.From)
             .ToArray();

@@ -16,19 +16,7 @@ public class DateItemsController
     public DateItemsController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet("all")]
-    public Task<DateItem[]> GetAllDateItems([FromQuery] GetAllDateItemsQuery request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
-
     [HttpGet("dispanserization")]
     public Task<DateItem[]> GetDispanserizationDateItems([FromQuery] GetDispanserizationDateItemsQuery request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
-
-    [HttpGet("resource")]
-    public Task<DateItem[]> GetResourceDateItems([FromQuery] GetResourceDateItemsQuery request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
-
-    [HttpGet("specialty")]
-    public Task<DateItem[]> GetSpecialtyDateItems([FromQuery] GetSpecialtyDateItemsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

@@ -23,8 +23,9 @@ internal sealed class ResourcesRepository : IResourcesRepository
     {
         var query =
             from r in _db.Resources
-            where ids.Contains(r.Id) &&
-                  r.IsActive
+            where
+                r.IsActive &&
+                ids.Contains(r.Id)
             select r;
 
         var result = await query.ToArrayAsync(token: cancellationToken);
@@ -33,13 +34,12 @@ internal sealed class ResourcesRepository : IResourcesRepository
         return result;
     }
 
-    public Task<Resource[]> GetAll(GetAllResourcesFilter? filter = default, CancellationToken cancellationToken = default)
+    public Task<Resource[]> GetAll(int? specialtyId = default, CancellationToken cancellationToken = default)
     {
-        var specialtyId = filter?.SpecialtyId;
-
         var query =
             from r in _db.Resources
-            where r.IsActive &&
+            where
+                r.IsActive &&
                 (!specialtyId.HasValue || r.SpecialtyId == specialtyId.Value)
             select r;
 

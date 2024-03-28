@@ -19,8 +19,4 @@ public class TimeItemsController
     [HttpGet]
     public Task<TimeItem[]> GetTimeItems([FromQuery] GetTimeItemsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
-
-    [HttpGet("resource")]
-    public Task<TimeItem[]> GetResourceTimeItems([FromQuery] GetResourceTimeItemsQuery request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
 }

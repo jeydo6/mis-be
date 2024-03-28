@@ -2,6 +2,5 @@
 
 public sealed record GetAllTimeItemsFilter(
     int? SpecialtyId = default,
-    int? ResourceId = default,
-    bool? IsDispanserization = default
+    int? ResourceId = default
 );

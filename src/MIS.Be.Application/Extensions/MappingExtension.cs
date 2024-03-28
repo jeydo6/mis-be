@@ -51,6 +51,14 @@ internal static class MappingExtension
             source.Name
         );
 
+    public static Models.DateItem Map(this Domain.Entities.DateItem source)
+        => new Models.DateItem(
+            source.From,
+            source.To,
+            source.TimeItemsCount - source.VisitItemsCount,
+            source.ResourceId
+        );
+
     public static Models.TimeItem Map(this Domain.Entities.TimeItem source)
         => new Models.TimeItem(
             source.Id,

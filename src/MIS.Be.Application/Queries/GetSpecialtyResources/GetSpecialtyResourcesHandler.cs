@@ -19,7 +19,7 @@ internal sealed class GetSpecialtyResourcesHandler : IRequestHandler<GetSpecialt
     public async Task<Resource[]> Handle(GetSpecialtyResourcesQuery request, CancellationToken cancellationToken)
     {
         var resources = await _repository.GetAll(
-            filter: new GetAllResourcesFilter(SpecialtyId: request.SpecialtyId),
+            request.SpecialtyId,
             cancellationToken: cancellationToken);
 
         return resources
