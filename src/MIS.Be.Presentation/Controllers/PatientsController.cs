@@ -27,4 +27,8 @@ public class PatientsController
     [HttpGet("visitItems")]
     public Task<VisitItem[]> GetPatientVisitItems([FromQuery] GetPatientVisitItemsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
+
+    [HttpGet("dispanserizations")]
+    public Task<Dispanserization[]> GetPatientDispanserizations([FromQuery] GetPatientDispanserizationsQuery request, CancellationToken cancellationToken)
+        => _mediator.Send(request, cancellationToken);
 }

@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MIS.Be.Application.Commands;
-using MIS.Be.Application.Models;
-using MIS.Be.Application.Queries;
 
 namespace MIS.Be.Presentation.Controllers;
 
@@ -19,9 +17,5 @@ public class DispanserizationsController
 
     [HttpPost]
     public Task CreateDispanserization([FromBody] CreateDispanserizationCommand request, CancellationToken cancellationToken)
-        => _mediator.Send(request, cancellationToken);
-
-    [HttpGet("all")]
-    public Task<Dispanserization[]> GetAllDispanserizations([FromQuery] GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }

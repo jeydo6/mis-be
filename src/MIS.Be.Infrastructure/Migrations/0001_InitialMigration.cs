@@ -21,6 +21,7 @@ public sealed class InitialMigration : Migration
         Create.Table(nameof(Dispanserization))
             .WithColumn(nameof(Dispanserization.Id)).AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn(nameof(Dispanserization.IsActive)).AsBoolean().NotNullable()
+            .WithColumn(nameof(Dispanserization.IsCompleted)).AsBoolean().NotNullable()
             .WithColumn(nameof(Dispanserization.From)).AsDateTimeOffset().NotNullable()
             .WithColumn(nameof(Dispanserization.To)).AsDateTimeOffset().NotNullable()
             .WithColumn(nameof(Dispanserization.PatientId)).AsInt32().NotNullable().ForeignKey(nameof(Patient), nameof(Patient.Id));
@@ -58,7 +59,7 @@ public sealed class InitialMigration : Migration
         Create.Table(nameof(Research))
             .WithColumn(nameof(Research.Id)).AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn(nameof(Research.IsActive)).AsBoolean().NotNullable()
-            .WithColumn(nameof(Research.Description)).AsString().NotNullable()
+            .WithColumn(nameof(Research.Name)).AsString().NotNullable()
             .WithColumn(nameof(Research.IsDispanserization)).AsBoolean().NotNullable()
             .WithColumn(nameof(Research.ResourceId)).AsInt32().NotNullable().ForeignKey(nameof(Resource), nameof(Resource.Id));
 

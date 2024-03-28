@@ -7,7 +7,7 @@ internal static class MappingExtension
     public static Models.Dispanserization Map(this Domain.Entities.Dispanserization source)
         => new Models.Dispanserization(
             source.Id,
-            source.IsActive,
+            source.IsCompleted,
             source.From,
             source.To,
             source.PatientId);
@@ -24,6 +24,14 @@ internal static class MappingExtension
             source.Id,
             source.Code,
             source.GetName()
+        );
+
+    public static Models.Research Map(this Domain.Entities.Research source)
+        => new Models.Research(
+            source.Id,
+            source.Name,
+            source.IsDispanserization,
+            source.ResourceId
         );
 
     public static Models.Resource Map(this Domain.Entities.Resource source)

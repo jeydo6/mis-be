@@ -8,14 +8,14 @@ using MIS.Be.Domain.Repositories;
 
 namespace MIS.Be.Application.Queries;
 
-internal sealed class GetAllDispanserizationsHandler : IRequestHandler<GetAllDispanserizationsQuery, Dispanserization[]>
+internal sealed class GetPatientDispanserizationsHandler : IRequestHandler<GetPatientDispanserizationsQuery, Dispanserization[]>
 {
     private readonly IDispanserizationsRepository _repository;
 
-    public GetAllDispanserizationsHandler(IDispanserizationsRepository repository)
+    public GetPatientDispanserizationsHandler(IDispanserizationsRepository repository)
         => _repository = repository;
 
-    public async Task<Dispanserization[]> Handle(GetAllDispanserizationsQuery request, CancellationToken cancellationToken)
+    public async Task<Dispanserization[]> Handle(GetPatientDispanserizationsQuery request, CancellationToken cancellationToken)
     {
         var dispanserizations = await _repository.GetAll(request.PatientId, cancellationToken);
 

@@ -8,15 +8,15 @@ using MIS.Be.Application.Queries;
 namespace MIS.Be.Presentation.Controllers;
 
 [ApiController]
-[Route("dateItems")]
-public class DateItemsController
+[Route("researches")]
+public sealed class ResearchesController
 {
     private readonly IMediator _mediator;
 
-    public DateItemsController(IMediator mediator)
+    public ResearchesController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet("dispanserization")]
-    public Task<DateItem[]> GetDispanserizationDateItems([FromQuery] GetDispanserizationDateItemsQuery request, CancellationToken cancellationToken)
+    [HttpGet("all")]
+    public Task<Research[]> GetAllResearches([FromQuery] GetAllResearchesQuery request, CancellationToken cancellationToken)
         => _mediator.Send(request, cancellationToken);
 }
